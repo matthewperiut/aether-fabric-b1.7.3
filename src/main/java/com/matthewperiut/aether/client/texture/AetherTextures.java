@@ -2,6 +2,9 @@ package com.matthewperiut.aether.client.texture;
 
 import com.matthewperiut.aether.block.*;
 import com.matthewperiut.aether.item.AetherItems;
+import com.matthewperiut.aether.item.misc.ItemDart;
+import com.matthewperiut.aether.item.misc.ItemDartShooter;
+import com.matthewperiut.aether.item.misc.ItemSkyrootBucket;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.modificationstation.stationapi.api.client.event.texture.TextureRegisterEvent;
 import net.modificationstation.stationapi.api.client.texture.atlas.Atlases;
@@ -71,6 +74,48 @@ public class AetherTextures {
     }
 
     private void setItemTextures() {
+        ExpandableAtlas items = Atlases.getGuiItems();
         AetherItems.AmbrosiumShard.setTexture(of(MOD_ID, "item/AmbrosiumShard"));
+        AetherItems.VictoryMedal.setTexture(of(MOD_ID, "item/VictoryMedal"));
+        AetherItems.Key.setTexture(of(MOD_ID, "item/Key"));
+        AetherItems.MoaEgg.setTexture(of(MOD_ID, "item/MoaEgg"));
+        AetherItems.AechorPetal.setTexture(of(MOD_ID, "item/AechorPetal"));
+        AetherItems.GoldenAmber.setTexture(of(MOD_ID, "item/GoldenAmber"));
+        AetherItems.Stick.setTexture(of(MOD_ID, "item/Stick"));
+        ItemDart.sprGolden = items.addTexture(of(MOD_ID, "item/DartGolden")).index;
+        ItemDart.sprEnchanted = items.addTexture(of(MOD_ID, "item/DartEnchanted")).index;
+        ItemDart.sprPoison = items.addTexture(of(MOD_ID, "item/DartPoison")).index;
+        ItemDartShooter.sprNormal = items.addTexture(of(MOD_ID, "item/DartShooter")).index;
+        ItemDartShooter.sprEnchanted = items.addTexture(of(MOD_ID, "item/DartShooterPoison")).index;
+        ItemDartShooter.sprPoison = items.addTexture(of(MOD_ID, "item/DartShooterEnchanted")).index;
+        AetherItems.HealingStone.setTexture(of(MOD_ID, "item/HealingStone"));
+        AetherItems.Zanite.setTexture(of(MOD_ID, "item/Zanite"));
+        AetherItems.BlueMusicDisk.setTexture(of(MOD_ID, "item/BlueMusicDisk"));
+        ItemSkyrootBucket.sprEmpty = items.addTexture(of(MOD_ID, "item/Bucket")).index;
+        ItemSkyrootBucket.sprWater = items.addTexture(of(MOD_ID, "item/BucketWater")).index;
+        ItemSkyrootBucket.sprMilk = items.addTexture(of(MOD_ID, "item/BucketMilk")).index;
+        ItemSkyrootBucket.sprPoison = items.addTexture(of(MOD_ID, "item/BucketPoison")).index;
+        ItemSkyrootBucket.sprRemedy = items.addTexture(of(MOD_ID, "item/BucketRemedy")).index;
+        AetherItems.BlueMusicDisk.setTexture(of(MOD_ID, "item/BlueMusicDisk"));
+        AetherItems.SwordSkyroot.setTexture(of(MOD_ID, "item/SwordSkyroot"));
+        AetherItems.PickSkyroot.setTexture(of(MOD_ID, "item/PickSkyroot"));
+        AetherItems.AxeSkyroot.setTexture(of(MOD_ID, "item/AxeSkyroot"));
+        AetherItems.ShovelSkyroot.setTexture(of(MOD_ID, "item/ShovelSkyroot"));
+        AetherItems.SwordHolystone.setTexture(of(MOD_ID, "item/SwordHolystone"));
+        AetherItems.PickHolystone.setTexture(of(MOD_ID, "item/PickHolystone"));
+        AetherItems.AxeHolystone.setTexture(of(MOD_ID, "item/AxeHolystone"));
+        AetherItems.ShovelHolystone.setTexture(of(MOD_ID, "item/ShovelHolystone"));
+        AetherItems.SwordZanite.setTexture(of(MOD_ID, "item/SwordZanite"));
+        AetherItems.PickZanite.setTexture(of(MOD_ID, "item/PickZanite"));
+        AetherItems.AxeZanite.setTexture(of(MOD_ID, "item/AxeZanite"));
+        AetherItems.ShovelZanite.setTexture(of(MOD_ID, "item/ShovelZanite"));
+        AetherItems.SwordGravitite.setTexture(of(MOD_ID, "item/SwordGravitite"));
+        AetherItems.PickGravitite.setTexture(of(MOD_ID, "item/PickGravitite"));
+        AetherItems.AxeGravitite.setTexture(of(MOD_ID, "item/AxeGravitite"));
+        AetherItems.ShovelGravitite.setTexture(of(MOD_ID, "item/ShovelGravitite"));
+        AetherItems.PickValkyrie.setTexture(of(MOD_ID, "item/ValkyriePickaxe"));
+        AetherItems.AxeValkyrie.setTexture(of(MOD_ID, "item/ValkyrieAxe"));
+        AetherItems.ShovelValkyrie.setTexture(of(MOD_ID, "item/ValkyrieShovel"));
+
     }
 }

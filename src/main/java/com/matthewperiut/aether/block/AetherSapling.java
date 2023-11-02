@@ -1,7 +1,7 @@
 package com.matthewperiut.aether.block;
 
-import com.matthewperiut.aether.gen.GenGoldenOak;
-import com.matthewperiut.aether.gen.GenSkyroot;
+import com.matthewperiut.aether.gen.feature.GenGoldenOak;
+import com.matthewperiut.aether.gen.feature.GenSkyroot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

@@ -21,4 +21,10 @@ public class Quicksoil extends TemplateBlockBase {
 
         this.drop(world, i, j, k, l);
     }
+
+    @Override
+    public void onBlockPlaced(World arg, int i, int j, int k) {
+        super.onBlockPlaced(arg, i, j, k);
+        arg.setBlockMeta(i, j, k, 1);
+    }
 }

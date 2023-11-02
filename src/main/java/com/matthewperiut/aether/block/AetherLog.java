@@ -13,10 +13,10 @@ import net.modificationstation.stationapi.api.template.block.TemplateBlockBase;
 import java.util.Random;
 
 public class AetherLog extends TemplateBlockBase implements MetaNamedBlockItemProvider {
+    private static final Random rand = new Random();
     public static int sprTop;// = ModLoader.addOverride("/terrain.png", "/aether/blocks/SkyrootLogTop.png");
     public static int sprSide;// = ModLoader.addOverride("/terrain.png", "/aether/blocks/SkyrootLogSide.png");
     public static int sprGoldenSide;// = ModLoader.addOverride("/terrain.png", "/aether/blocks/GoldenOak.png");
-    private static final Random rand = new Random();
 
     public AetherLog(Identifier identifier) {
         super(identifier, sprSide, Material.WOOD);
@@ -51,6 +51,11 @@ public class AetherLog extends TemplateBlockBase implements MetaNamedBlockItemPr
             }
 
         }*/
+    }
+
+    @Override
+    public void onBlockPlaced(World arg, int i, int j, int k) {
+        arg.setBlockMeta(i, j, k, 1);
     }
 
     public int[] getValidMetas() {

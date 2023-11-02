@@ -1,17 +1,26 @@
 package com.matthewperiut.aether.item;
 
+import com.matthewperiut.aether.item.misc.*;
+import com.matthewperiut.aether.item.tool.*;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.minecraft.item.Item;
+import net.minecraft.item.ToolMaterial;
 import net.modificationstation.stationapi.api.event.registry.ItemRegistryEvent;
 import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
 import net.modificationstation.stationapi.api.registry.Identifier;
 import net.modificationstation.stationapi.api.registry.ModID;
+import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
+import net.modificationstation.stationapi.api.template.item.tool.TemplateHatchet;
+import net.modificationstation.stationapi.api.template.item.tool.TemplatePickaxe;
+import net.modificationstation.stationapi.api.template.item.tool.TemplateShovel;
+import net.modificationstation.stationapi.api.template.item.tool.TemplateSword;
 import net.modificationstation.stationapi.api.util.Null;
 
 public class AetherItems {
     public static final String dir = "/aether/items/";
     @Entrypoint.ModID
     private static final ModID MOD_ID = Null.get();
+    private static final int ticks = 0;
     public static double motionOffset = 0.05;
     public static double ybuff = 0.3;
     public static Item VictoryMedal;
@@ -111,7 +120,6 @@ public class AetherItems {
     public static Item IceRing;
     public static Item IcePendant;
     public static Item Aercloud;
-    private static final int ticks = 0;
     private static boolean jumpBoosted;
 
     //public static int ElementalSwordIcon = ModLoader.addOverride("/gui/items.png", "/aether/items/ElementalSword.png");
@@ -120,6 +128,49 @@ public class AetherItems {
     //public static int neptuneArmour = ModLoader.AddArmor("Neptune");
     @EventListener
     public void registerItems(ItemRegistryEvent event) {
+        VictoryMedal = (new TemplateItemBase(Identifier.of(MOD_ID, "victory_medal"))).setMaxStackSize(10).setTranslationKey(MOD_ID, "victory_medal");
+        Key = (new ItemAetherKey(Identifier.of(MOD_ID, "aether_key"))).setTranslationKey(MOD_ID, "aether_key");
+        LoreBook = (new ItemLoreBook(Identifier.of(MOD_ID, "lore_book"))).setTexturePosition(59).setTranslationKey(MOD_ID, "lore_book");
+        MoaEgg = (new ItemMoaEgg(Identifier.of(MOD_ID, "moa_egg"))).setTranslationKey(MOD_ID, "moa_egg");
+        AechorPetal = (new TemplateItemBase(Identifier.of(MOD_ID, "aechor_petal"))).setTranslationKey(MOD_ID, "aechor_petal");
+        GoldenAmber = (new TemplateItemBase(Identifier.of(MOD_ID, "golden_amber"))).setTranslationKey(MOD_ID, "golden_amber");
+        Stick = (new TemplateItemBase(Identifier.of(MOD_ID, "skyroot_stick"))).setTranslationKey("skyroot_stick");
+        Dart = (new ItemDart(Identifier.of(MOD_ID, "dart"))).setHasSubItems(true).setTranslationKey("dart");
+        DartShooter = (new ItemDartShooter(Identifier.of("dart_shooter"))).setTranslationKey("dart_shooter");
         AmbrosiumShard = (new Ambrosium(Identifier.of(MOD_ID, "ambrosium"), 1)).setTranslationKey(MOD_ID, "ambrosium");
+        HealingStone = (new Ambrosium(Identifier.of(MOD_ID, "healing_stone"), 4)).setTranslationKey(MOD_ID, "healing_stone");
+        Zanite = (new TemplateItemBase(Identifier.of(MOD_ID, "zanite"))).setTranslationKey(MOD_ID, "zanite");
+        BlueMusicDisk = (new ItemAetherRecord(Identifier.of(MOD_ID, "blue_music_disc"), "AetherTune")).setTranslationKey(MOD_ID, "blue_music_disc");
+        Bucket = (new ItemSkyrootBucket(Identifier.of(MOD_ID, "skyroot_bucket"))).setTranslationKey(MOD_ID, "skyroot_bucket");
+
+        ToolMaterial mat = ToolMaterial.WOOD;
+        SwordSkyroot = (new TemplateSword(Identifier.of(MOD_ID, "skyroot_sword"), mat)).setTranslationKey(MOD_ID, "skyroot_sword");
+        PickSkyroot = (new TemplatePickaxe(Identifier.of(MOD_ID, "skyroot_pickaxe"), mat)).setTranslationKey(MOD_ID, "skyroot_pickaxe");
+        AxeSkyroot = (new TemplateHatchet(Identifier.of(MOD_ID, "skyroot_axe"), mat)).setTranslationKey(MOD_ID, "skyroot_axe");
+        ShovelSkyroot = (new TemplateShovel(Identifier.of(MOD_ID, "skyroot_shovel"), mat)).setTranslationKey(MOD_ID, "skyroot_shovel");
+
+        mat = ToolMaterial.STONE;
+        SwordHolystone = (new ItemSwordHolystone(Identifier.of(MOD_ID, "holystone_sword"), mat)).setTranslationKey(MOD_ID, "holystone_sword");
+        PickHolystone = (new ItemHolystonePickaxe(Identifier.of(MOD_ID, "holystone_pickaxe"), mat)).setTranslationKey(MOD_ID, "holystone_pickaxe");
+        AxeHolystone = (new ItemHolystoneAxe(Identifier.of(MOD_ID, "holystone_axe"), mat)).setTranslationKey(MOD_ID, "holystone_axe");
+        ShovelHolystone = (new ItemHolystoneShovel(Identifier.of(MOD_ID, "holystone_shovel"), mat)).setTranslationKey(MOD_ID, "holystone_shovel");
+
+        mat = ToolMaterial.IRON;
+        SwordZanite = (new ItemZaniteSword(Identifier.of(MOD_ID, "zanite_sword"), mat)).setTranslationKey(MOD_ID, "SwordZanite");
+        PickZanite = (new ItemZanitePickaxe(Identifier.of(MOD_ID, "zanite_pickaxe"), mat)).setTranslationKey(MOD_ID, "PickZanite");
+        AxeZanite = (new ItemZaniteAxe(Identifier.of(MOD_ID, "zanite_axe"), mat)).setTranslationKey(MOD_ID, "AxeZanite");
+        ShovelZanite = (new ItemZaniteShovel(Identifier.of(MOD_ID, "zanite_shovel"), mat)).setTranslationKey(MOD_ID, "ShovelZanite");
+
+        mat = ToolMaterial.DIAMOND;
+        SwordGravitite = (new ItemSwordGravitite(Identifier.of(MOD_ID, "gravitite_sword"), mat)).setTranslationKey(MOD_ID, "SwordGravitite");
+        PickGravitite = (new ItemGravititePickaxe(Identifier.of(MOD_ID, "gravitite_pickaxe"), mat)).setTranslationKey(MOD_ID, "PickGravitite");
+        AxeGravitite = (new ItemGravititeAxe(Identifier.of(MOD_ID, "gravitite_axe"), mat)).setTranslationKey(MOD_ID, "AxeGravitite");
+        ShovelGravitite = (new ItemGravititeShovel(Identifier.of(MOD_ID, "gravitite_shovel"), mat)).setTranslationKey(MOD_ID, "ShovelGravitite");
+
+        PickValkyrie = (new ItemValkyriePickaxe(Identifier.of("valkyrie_pickaxe"), mat)).setTranslationKey(MOD_ID, "valkyrie_pickaxe");
+        AxeValkyrie = (new ItemValkyrieAxe(Identifier.of("valkyrie_axe"), mat)).setTranslationKey(MOD_ID, "valkyrie_axe");
+        ShovelValkyrie = (new ItemValkyrieSpade(Identifier.of("valkyrie_shovel"), mat)).setTranslationKey(MOD_ID, "valkyrie_shovel");
+
+
     }
 }

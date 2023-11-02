@@ -7,5 +7,6 @@ public class Aether {
 
     @EventListener
     private static void init(InitEvent initEvent) {
+
     }
 }

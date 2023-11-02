@@ -73,7 +73,7 @@ public class Incubator extends TemplateBlockBase { // todo: tileentity extends T
             return true;
         } else {
             // todo: tileentity TileEntityIncubator tileentityIncubator = (TileEntityIncubator)world.getBlockEntity(i, j, k);
-            // ModLoader.OpenGUI(entityplayer, new GuiIncubator(entityplayer.inventory, tileentityIncubator));
+            // todo: gui ModLoader.OpenGUI(entityplayer, new GuiIncubator(entityplayer.inventory, tileentityIncubator));
             return true;
         }
     }

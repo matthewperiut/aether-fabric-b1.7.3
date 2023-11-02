@@ -55,7 +55,9 @@ public class AetherGrass extends TemplateBlockBase {
                 int i1 = j + random.nextInt(5) - 3;
                 int j1 = k + random.nextInt(3) - 1;
                 if (world.getBlockId(l, i1, j1) == AetherBlocks.Dirt.id && world.placeBlock(l, i1 + 1, j1) >= 4 && !world.getMaterial(l, i1 + 1, j1).canBlockGrass()) {
+                    int meta = world.getBlockMeta(l, i1, j1);
                     world.setBlock(l, i1, j1, AetherBlocks.Grass.id);
+                    world.setBlockMeta(l, i1, j1, meta);
                 }
             }
 
@@ -68,7 +70,7 @@ public class AetherGrass extends TemplateBlockBase {
 
     public void afterBreak(World world, PlayerEntity entityplayer, int i, int j, int k, int l) {
         entityplayer.increaseStat(Stats.mineBlock[this.id], 1);
-        if (UtilSkyroot.shovel(entityplayer)) {
+        if (UtilSkyroot.shovel(entityplayer) && l == 0) {
             this.drop(world, i, j, k, l);
         }
 
@@ -121,5 +123,11 @@ public class AetherGrass extends TemplateBlockBase {
                 return true;
             }
         }
+    }
+
+    @Override
+    public void onBlockPlaced(World arg, int i, int j, int k) {
+        super.onBlockPlaced(arg, i, j, k);
+        arg.setBlockMeta(i, j, k, 1);
     }
 }

@@ -88,7 +88,7 @@ public class Freezer extends TemplateBlockBase { // todo: tileentity extends Tem
             return true;
         } else {
             // todo: tileentity TileEntityFreezer tileentityFreezer = (TileEntityFreezer)world.getBlockEntity(i, j, k);
-            // ModLoader.OpenGUI(entityplayer, new GuiFreezer(entityplayer.inventory, tileentityFreezer));
+            // todo: gui ModLoader.OpenGUI(entityplayer, new GuiFreezer(entityplayer.inventory, tileentityFreezer));
             return true;
         }
     }

@@ -75,7 +75,7 @@ public class TreasureChest extends TemplateBlockBase { // todo: tileentity exten
             int meta = world.getBlockMeta(i, j, k);
             ChestBlockEntity chest = (ChestBlockEntity)world.getBlockEntity(i, j, k);
             if (meta % 2 == 1) {
-                ModLoader.OpenGUI(entityplayer, new GuiTreasureChest(entityplayer.inventory, chest, meta));
+                // todo: gui ModLoader.OpenGUI(entityplayer, new GuiTreasureChest(entityplayer.inventory, chest, meta));
                 return true;
             } else {
                 ItemStack itemstack = entityplayer.inventory.getHeldItem();

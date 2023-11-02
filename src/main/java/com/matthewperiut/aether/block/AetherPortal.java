@@ -1,13 +1,18 @@
 package com.matthewperiut.aether.block;
 
+import com.matthewperiut.aether.gen.dim.AetherDimensions;
+import com.matthewperiut.aether.gen.dim.AetherTravelAgent;
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.NetherTeleporter;
 import net.minecraft.world.World;
+import net.modificationstation.stationapi.api.block.CustomPortal;
 import net.modificationstation.stationapi.api.registry.Identifier;
 import net.modificationstation.stationapi.api.template.block.TemplatePortal;
 
 import java.util.Random;
 
-public class AetherPortal extends TemplatePortal {
+public class AetherPortal extends TemplatePortal implements CustomPortal {
     public static int spr;
 
     public AetherPortal(Identifier identifier) {
@@ -134,7 +139,12 @@ public class AetherPortal extends TemplatePortal {
 
     }
 
-    public int getDimNumber() {
-        return 3;
+    @Override
+    public Identifier getDimension(PlayerEntity player) {
+        return AetherDimensions.THE_AETHER;
+    }
+
+    public NetherTeleporter getTravelAgent(PlayerEntity player) {
+        return new AetherTravelAgent();
     }
 }

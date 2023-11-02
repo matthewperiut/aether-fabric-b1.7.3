@@ -17,7 +17,10 @@
     "stationapi:event_bus": [
       "com.matthewperiut.aether.Aether",
       "com.matthewperiut.aether.block.AetherBlocks",
-      "com.matthewperiut.aether.item.AetherItems"
+      "com.matthewperiut.aether.item.AetherItems",
+      "com.matthewperiut.aether.gen.biome.AetherBiomes",
+      "com.matthewperiut.aether.gen.dim.AetherDimensions",
+      "com.matthewperiut.aether.gen.portal.AetherPortalListener"
     ],
     "stationapi:event_bus_client": [
       "com.matthewperiut.aether.client.texture.AetherTextures"
