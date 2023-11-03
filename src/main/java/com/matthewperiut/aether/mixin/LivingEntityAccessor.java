@@ -8,4 +8,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface LivingEntityAccessor {
     @Invoker("setSize")
     void invokeSetSize(float f, float g);
+
+    @Invoker("getDrops")
+    void getDrops();
 }

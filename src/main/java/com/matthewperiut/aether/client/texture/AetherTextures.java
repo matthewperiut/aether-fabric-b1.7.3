@@ -5,6 +5,7 @@ import com.matthewperiut.aether.item.AetherItems;
 import com.matthewperiut.aether.item.misc.ItemDart;
 import com.matthewperiut.aether.item.misc.ItemDartShooter;
 import com.matthewperiut.aether.item.misc.ItemSkyrootBucket;
+import com.matthewperiut.aether.item.misc.ItemSwordElemental;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.modificationstation.stationapi.api.client.event.texture.TextureRegisterEvent;
 import net.modificationstation.stationapi.api.client.texture.atlas.Atlases;
@@ -116,6 +117,47 @@ public class AetherTextures {
         AetherItems.PickValkyrie.setTexture(of(MOD_ID, "item/ValkyriePickaxe"));
         AetherItems.AxeValkyrie.setTexture(of(MOD_ID, "item/ValkyrieAxe"));
         AetherItems.ShovelValkyrie.setTexture(of(MOD_ID, "item/ValkyrieShovel"));
+        AetherItems.IronBubble.setTexture(of(MOD_ID, "item/IronBubble"));
+        AetherItems.PigSlayer.setTexture(of(MOD_ID, "item/PigSlayer"));
+        AetherItems.VampireBlade.setTexture(of(MOD_ID, "item/VampireBlade"));
+        AetherItems.NatureStaff.setTexture(of(MOD_ID, "item/NatureStaff"));
+        ItemSwordElemental.textureId = items.addTexture(of(MOD_ID, "item/ElementalSword")).index;
+        AetherItems.LightningKnife.setTexture(of(MOD_ID, "item/LightningKnife"));
+        AetherItems.GummieSwet.setTexture(of(MOD_ID, "item/GummieSwet"));
+        AetherItems.HammerNotch.setTexture(of(MOD_ID, "item/HammerNotch"));
+        AetherItems.CloudStaff.setTexture(of(MOD_ID, "item/CloudStaff"));
+        AetherItems.PhoenixBow.setTexture(of(MOD_ID, "item/PhoenixBow"));
+        AetherItems.LifeShard.setTexture(of(MOD_ID, "item/LifeShard"));
+        AetherItems.GoldenFeather.setTexture(of(MOD_ID, "item/GoldenFeather"));
+        AetherItems.Lance.setTexture(of(MOD_ID, "item/Lance"));
+        AetherItems.RepShield.setTexture(of(MOD_ID, "item/RepulsionShield"));
+        Ring = items.addTexture(of(MOD_ID, "item/Ring")).index;
+        Pendant = items.addTexture(of(MOD_ID, "item/Pendant")).index;
+        CapeTexture = items.addTexture(of(MOD_ID, "item/Cape")).index;
+        Glove = items.addTexture(of(MOD_ID, "item/Glove")).index;
+        GloveChain = items.addTexture(of(MOD_ID, "item/GloveChain")).index;
+        AetherItems.IronRing.setTexturePosition(Ring);
+        AetherItems.GoldRing.setTexturePosition(Ring);
+        AetherItems.ZaniteRing.setTexturePosition(Ring);
+        AetherItems.IceRing.setTexturePosition(Ring);
+        AetherItems.IronPendant.setTexturePosition(Pendant);
+        AetherItems.GoldPendant.setTexturePosition(Pendant);
+        AetherItems.ZanitePendant.setTexturePosition(Pendant);
+        AetherItems.IcePendant.setTexturePosition(Pendant);
+        AetherItems.RegenerationStone.setTexture(of(MOD_ID, "item/RegenerationStone"));
+        AetherItems.AetherCape.setTexture(of(MOD_ID, "item/AetherCape"));
+        AetherItems.InvisibilityCloak.setTexture(of(MOD_ID, "item/InvisibilityCloak"));
+        AetherItems.AgilityCape.setTexture(of(MOD_ID, "item/AgilityCape"));
+        AetherItems.WhiteCape.setTexturePosition(CapeTexture);
+        AetherItems.RedCape.setTexturePosition(CapeTexture);
+        AetherItems.YellowCape.setTexturePosition(CapeTexture);
+        AetherItems.BlueCape.setTexturePosition(CapeTexture);
 
     }
+
+    public static int Ring;
+    public static int Pendant;
+    public static int CapeTexture;
+    public static int Glove;
+    public static int GloveChain;
 }

@@ -1,8 +1,9 @@
 package com.matthewperiut.aether.item.accessory;
 
-import net.minecraft.item.Item;
+import net.modificationstation.stationapi.api.registry.Identifier;
+import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
 
-public class ItemMoreArmor extends Item {
+public class ItemMoreArmor extends TemplateItemBase {
     private static final int[] damageReduceAmountArray = new int[]{3, 8, 6, 3, 0, 1, 0, 0, 0, 0, 2, 0};
     private static final int[] maxDamageArray = new int[]{11, 16, 15, 13, 10, 10, 8, 10, 10, 10, 10, 10};
     public final int armorLevel;
@@ -13,7 +14,7 @@ public class ItemMoreArmor extends Item {
     public String texture;
     public boolean colouriseRender;
 
-    public ItemMoreArmor(int i, int j, int k, int l, int col) {
+    public ItemMoreArmor(Identifier i, int j, int k, int l, int col) {
         super(i);
         this.armorLevel = j;
         this.armorType = l;
@@ -25,21 +26,21 @@ public class ItemMoreArmor extends Item {
         this.colouriseRender = true;
     }
 
-    public ItemMoreArmor(int i, int j, int k, int l) {
+    public ItemMoreArmor(Identifier i, int j, int k, int l) {
         this(i, j, k, l, 16777215);
     }
 
-    public ItemMoreArmor(int i, int j, String path, int l) {
+    public ItemMoreArmor(Identifier i, int j, String path, int l) {
         this(i, j, 0, l);
         this.texture = path;
     }
 
-    public ItemMoreArmor(int i, int j, String path, int l, int m) {
+    public ItemMoreArmor(Identifier i, int j, String path, int l, int m) {
         this(i, j, 0, l, m);
         this.texture = path;
     }
 
-    public ItemMoreArmor(int i, int j, String path, int l, int m, boolean flag) {
+    public ItemMoreArmor(Identifier i, int j, String path, int l, int m, boolean flag) {
         this(i, j, path, l, m);
         this.colouriseRender = flag;
     }
