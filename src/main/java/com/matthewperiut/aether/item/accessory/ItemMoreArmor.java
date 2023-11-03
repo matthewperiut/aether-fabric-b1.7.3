@@ -1,9 +1,11 @@
 package com.matthewperiut.aether.item.accessory;
 
+import com.matthewperiut.accessoryapi.api.Accessory;
+import net.minecraft.item.ItemStack;
 import net.modificationstation.stationapi.api.registry.Identifier;
 import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
 
-public class ItemMoreArmor extends TemplateItemBase {
+public class ItemMoreArmor extends TemplateItemBase implements Accessory {
     private static final int[] damageReduceAmountArray = new int[]{3, 8, 6, 3, 0, 1, 0, 0, 0, 0, 2, 0};
     private static final int[] maxDamageArray = new int[]{11, 16, 15, 13, 10, 10, 8, 10, 10, 10, 10, 10};
     public final int armorLevel;
@@ -65,5 +67,25 @@ public class ItemMoreArmor extends TemplateItemBase {
 
     public int getNameColor(int i) {
         return this.colour;
+    }
+
+    @Override
+    public String[] getAccessoryTypes(ItemStack item) {
+        switch (armorType) {
+            case 4:
+                return new String[]{"pendant"};
+            case 5:
+                return new String[]{"cape"};
+            case 6:
+                return new String[]{"shield"};
+            case 7:
+                return new String[]{"misc"};
+            case 8:
+                return new String[]{"ring"};
+            case 10:
+                return new String[]{"gloves"};
+            default:
+                return new String[0];
+        }
     }
 }

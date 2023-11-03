@@ -10,5 +10,5 @@ public interface LivingEntityAccessor {
     void invokeSetSize(float f, float g);
 
     @Invoker("getDrops")
-    void getDrops();
+    void invokeGetDrops();
 }

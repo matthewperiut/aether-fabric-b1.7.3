@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "aether",
   "version": "${version}",
-
   "name": "Aether",
   "description": "Hostile Paradise",
   "authors": [
@@ -11,13 +10,13 @@
   ],
   "license": "CC0-1.0",
   "icon": "assets/aether/icon.png",
-
   "environment": "*",
   "entrypoints": {
     "stationapi:event_bus": [
       "com.matthewperiut.aether.Aether",
       "com.matthewperiut.aether.block.AetherBlocks",
       "com.matthewperiut.aether.item.AetherItems",
+      "com.matthewperiut.aether.recipe.AetherRecipes",
       "com.matthewperiut.aether.gen.biome.AetherBiomes",
       "com.matthewperiut.aether.gen.dim.AetherDimensions",
       "com.matthewperiut.aether.gen.portal.AetherPortalListener"
@@ -31,7 +30,6 @@
   "mixins": [
     "examplemod.mixins.json"
   ],
-
   "depends": {
     "minecraft": "1.0.0-beta.7.3"
   }

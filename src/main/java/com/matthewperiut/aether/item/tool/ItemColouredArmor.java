@@ -7,13 +7,11 @@ import net.modificationstation.stationapi.api.template.item.armour.TemplateArmou
 
 import static com.matthewperiut.aether.item.AetherItems.MOD_ID;
 
-public class ItemColouredArmor extends TemplateArmour implements ArmourTextureProvider
-{
+public class ItemColouredArmor extends TemplateArmour implements ArmourTextureProvider {
     private int colour;
     private String name;
 
-    public ItemColouredArmor(final Identifier i, final int j, final String s, final int l, final int col)
-    {
+    public ItemColouredArmor(final Identifier i, final int j, final String s, final int l, final int col) {
         super(i, j, 0, l);
         this.name = s;
         this.colour = col;

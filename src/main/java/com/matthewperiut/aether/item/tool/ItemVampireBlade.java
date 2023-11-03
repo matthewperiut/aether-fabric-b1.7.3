@@ -1,21 +1,20 @@
 package com.matthewperiut.aether.item.tool;
 
-import java.util.Random;
-
 import com.matthewperiut.accessoryapi.api.PlayerExtraHP;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.modificationstation.stationapi.api.registry.Identifier;
 import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
 
+import java.util.Random;
+
 public class ItemVampireBlade extends TemplateItemBase {
-    private int weaponDamage;
     private static Random random = new Random();
+    private int weaponDamage;
 
     public ItemVampireBlade(Identifier i) {
         super(i);
@@ -29,8 +28,8 @@ public class ItemVampireBlade extends TemplateItemBase {
     }
 
     public boolean postHit(ItemStack itemstack, LivingEntity entityliving, LivingEntity entityliving1) {
-        PlayerEntity player = (PlayerEntity)entityliving1;
-        if (player.health < 20 + ((PlayerExtraHP)player).getExtraHP()) {
+        PlayerEntity player = (PlayerEntity) entityliving1;
+        if (player.health < 20 + ((PlayerExtraHP) player).getExtraHP()) {
             ++player.health;
         }
 

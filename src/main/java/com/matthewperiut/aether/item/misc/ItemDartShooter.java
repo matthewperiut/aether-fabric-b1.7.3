@@ -20,19 +20,17 @@ public class ItemDartShooter extends TemplateItemBase {
     }
 
     public int getTexturePosition(int damage) {
-        if (damage == 1)
+        if (damage == 0) {
+            return sprNormal;
+        } else if (damage == 1) {
             return sprPoison;
-        if (damage == 2)
-            return sprEnchanted;
-        return sprNormal;
+        } else {
+            return damage == 2 ? sprEnchanted : sprNormal;
+        }
     }
 
     public String getTranslationKey(ItemStack stack) {
         int i = stack.getMeta();
-        if (i > 2) {
-            i = 2;
-        }
-
         return this.getTranslationKey() + i;
     }
 

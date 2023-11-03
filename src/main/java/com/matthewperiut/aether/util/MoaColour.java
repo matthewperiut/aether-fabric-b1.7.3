@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Random;
 
 public class MoaColour {
+    private static final Random random = new Random();
     public static List<MoaColour> colours = new ArrayList();
     private static int totalChance;
-    private static final Random random = new Random();
 
     static {
         new MoaColour(0, 7829503, 3, 100, "Blue");

@@ -15,11 +15,13 @@ public class ItemDart extends TemplateItemBase {
     }
 
     public int getTexturePosition(int damage) {
-        if (damage == 1)
+        if (damage == 0) {
+            return sprGolden;
+        } else if (damage == 1) {
             return sprPoison;
-        if (damage == 2)
-            return sprEnchanted;
-        return sprGolden;
+        } else {
+            return damage == 2 ? sprEnchanted : sprGolden;
+        }
     }
 
     public String getTranslationKey(ItemStack stack) {

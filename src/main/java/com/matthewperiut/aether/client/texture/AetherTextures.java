@@ -2,10 +2,7 @@ package com.matthewperiut.aether.client.texture;
 
 import com.matthewperiut.aether.block.*;
 import com.matthewperiut.aether.item.AetherItems;
-import com.matthewperiut.aether.item.misc.ItemDart;
-import com.matthewperiut.aether.item.misc.ItemDartShooter;
-import com.matthewperiut.aether.item.misc.ItemSkyrootBucket;
-import com.matthewperiut.aether.item.misc.ItemSwordElemental;
+import com.matthewperiut.aether.item.misc.*;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.modificationstation.stationapi.api.client.event.texture.TextureRegisterEvent;
 import net.modificationstation.stationapi.api.client.texture.atlas.Atlases;
@@ -19,6 +16,11 @@ import static net.modificationstation.stationapi.api.registry.Identifier.of;
 public class AetherTextures {
     @Entrypoint.ModID
     private static final ModID MOD_ID = Null.get();
+    public static int Ring;
+    public static int Pendant;
+    public static int CapeTexture;
+    public static int Glove;
+    public static int GloveChain;
 
     @EventListener
     public void registerTextures(TextureRegisterEvent event) {
@@ -87,8 +89,8 @@ public class AetherTextures {
         ItemDart.sprEnchanted = items.addTexture(of(MOD_ID, "item/DartEnchanted")).index;
         ItemDart.sprPoison = items.addTexture(of(MOD_ID, "item/DartPoison")).index;
         ItemDartShooter.sprNormal = items.addTexture(of(MOD_ID, "item/DartShooter")).index;
-        ItemDartShooter.sprEnchanted = items.addTexture(of(MOD_ID, "item/DartShooterPoison")).index;
-        ItemDartShooter.sprPoison = items.addTexture(of(MOD_ID, "item/DartShooterEnchanted")).index;
+        ItemDartShooter.sprEnchanted = items.addTexture(of(MOD_ID, "item/DartShooterEnchanted")).index;
+        ItemDartShooter.sprPoison = items.addTexture(of(MOD_ID, "item/DartShooterPoison")).index;
         AetherItems.HealingStone.setTexture(of(MOD_ID, "item/HealingStone"));
         AetherItems.Zanite.setTexture(of(MOD_ID, "item/Zanite"));
         AetherItems.BlueMusicDisk.setTexture(of(MOD_ID, "item/BlueMusicDisk"));
@@ -152,12 +154,15 @@ public class AetherTextures {
         AetherItems.RedCape.setTexturePosition(CapeTexture);
         AetherItems.YellowCape.setTexturePosition(CapeTexture);
         AetherItems.BlueCape.setTexturePosition(CapeTexture);
-
+        AetherItems.LeatherGlove.setTexturePosition(Glove);
+        AetherItems.IronGlove.setTexturePosition(Glove);
+        AetherItems.GoldGlove.setTexturePosition(Glove);
+        AetherItems.DiamondGlove.setTexturePosition(Glove);
+        AetherItems.ZaniteGlove.setTexturePosition(Glove);
+        AetherItems.GravititeGlove.setTexturePosition(Glove);
+        AetherItems.PhoenixGlove.setTexturePosition(GloveChain);
+        AetherItems.ObsidianGlove.setTexturePosition(Glove);
+        AetherItems.NeptuneGlove.setTexturePosition(GloveChain);
+        ItemCloudParachute.tex = items.addTexture(of(MOD_ID, "item/CloudParachute")).index;
     }
-
-    public static int Ring;
-    public static int Pendant;
-    public static int CapeTexture;
-    public static int Glove;
-    public static int GloveChain;
 }

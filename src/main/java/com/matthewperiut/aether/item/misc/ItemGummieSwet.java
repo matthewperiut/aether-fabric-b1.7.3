@@ -1,7 +1,6 @@
 package com.matthewperiut.aether.item.misc;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.registry.Identifier;

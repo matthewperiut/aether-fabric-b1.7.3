@@ -12,6 +12,7 @@ import java.util.Random;
 
 public class ItemPigSlayer extends TemplateSword {
     Random rand = new Random();
+
     public ItemPigSlayer(Identifier i) {
         super(i, ToolMaterial.IRON);
         this.setDurability(0);
@@ -27,15 +28,15 @@ public class ItemPigSlayer extends TemplateSword {
                     entityliving.damage(entityliving1, 9999);
                 }
 
-                for(int j = 0; j < 20; ++j) {
+                for (int j = 0; j < 20; ++j) {
                     double d = rand.nextGaussian() * 0.02;
                     double d1 = rand.nextGaussian() * 0.02;
                     double d2 = rand.nextGaussian() * 0.02;
                     double d3 = 5.0;
-                    entityliving.world.addParticle("flame", entityliving.x + rand.nextFloat() * entityliving.width * 2.0F - (double)entityliving.width - d * d3, entityliving.y + (rand.nextFloat() * entityliving.height) - d1 * d3, entityliving.z + (double)(rand.nextFloat() * entityliving.width * 2.0F) - (double)entityliving.width - d2 * d3, d, d1, d2);
+                    entityliving.world.addParticle("flame", entityliving.x + rand.nextFloat() * entityliving.width * 2.0F - (double) entityliving.width - d * d3, entityliving.y + (rand.nextFloat() * entityliving.height) - d1 * d3, entityliving.z + (double) (rand.nextFloat() * entityliving.width * 2.0F) - (double) entityliving.width - d2 * d3, d, d1, d2);
                 }
 
-                ((LivingEntityAccessor) entityliving).getDrops();
+                ((LivingEntityAccessor) entityliving).invokeGetDrops();
                 entityliving.removed = true;
             }
 

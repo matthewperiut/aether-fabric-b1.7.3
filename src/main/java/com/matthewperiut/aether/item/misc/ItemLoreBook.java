@@ -33,6 +33,6 @@ public class ItemLoreBook extends TemplateItemBase {
             i = 2;
         }
 
-        return super.getTranslationKey() + "." + i;
+        return super.getTranslationKey() + i;
     }
 }

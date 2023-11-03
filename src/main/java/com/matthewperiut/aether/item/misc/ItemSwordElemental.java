@@ -17,6 +17,13 @@ import java.util.Iterator;
 public class ItemSwordElemental extends TemplateSword {
     public static ArrayList<Class<? extends LivingEntity>> undead = new ArrayList();
     public static int textureId;
+
+    static {
+        undead.add(ZombieEntity.class);
+        undead.add(SkeletonEntity.class);
+        undead.add(ZombiePigmanEntity.class);
+    }
+
     private int weaponDamage;
     private int holyDamage;
     private EnumElement element;
@@ -37,7 +44,7 @@ public class ItemSwordElemental extends TemplateSword {
         return textureId;
     }
 
-        public float getStrengthOnBlock(ItemStack itemstack, Block block) {
+    public float getStrengthOnBlock(ItemStack itemstack, Block block) {
         return 1.5F;
     }
 
@@ -50,8 +57,8 @@ public class ItemSwordElemental extends TemplateSword {
         if (this.element == EnumElement.Fire) {
             entityliving.fireTicks = 600;
         } else if (this.element == EnumElement.Lightning) {
-            double var10004 = (double)((int)entityliving.x);
-            double var10005 = (double)((int)entityliving.y);
+            double var10004 = (double) ((int) entityliving.x);
+            double var10005 = (double) ((int) entityliving.y);
             // todo: entity ModLoader.getMinecraftInstance().world.spawnEntity(new EntityAetherLightning(ModLoader.getMinecraftInstance().world, var10004, var10005, (double)((int)entityliving.z)));
         }
 
@@ -61,11 +68,11 @@ public class ItemSwordElemental extends TemplateSword {
 
     public int getAttackDamage(Entity entity) {
         if (this.element == EnumElement.Holy && entity instanceof LivingEntity) {
-            LivingEntity living = (LivingEntity)entity;
+            LivingEntity living = (LivingEntity) entity;
             Iterator i$ = undead.iterator();
 
-            while(i$.hasNext()) {
-                Class<? extends LivingEntity> cls = (Class)i$.next();
+            while (i$.hasNext()) {
+                Class<? extends LivingEntity> cls = (Class) i$.next();
                 if (living.getClass().isAssignableFrom(cls)) {
                     return this.holyDamage;
                 }
@@ -81,11 +88,5 @@ public class ItemSwordElemental extends TemplateSword {
 
     public boolean isRendered3d() {
         return true;
-    }
-
-    static {
-        undead.add(ZombieEntity.class);
-        undead.add(SkeletonEntity.class);
-        undead.add(ZombiePigmanEntity.class);
     }
 }
