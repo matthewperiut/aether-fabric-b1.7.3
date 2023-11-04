@@ -12,7 +12,7 @@ public class ItemMoreArmor extends TemplateItemBase implements Accessory {
     public final int armorType;
     public final int damageReduceAmount;
     public final int renderIndex;
-    private final int colour;
+    protected final int colour;
     public String texture;
     public boolean colouriseRender;
 

@@ -116,6 +116,7 @@ public class AetherTextures {
         AetherItems.PickGravitite.setTexture(of(MOD_ID, "item/PickGravitite"));
         AetherItems.AxeGravitite.setTexture(of(MOD_ID, "item/AxeGravitite"));
         AetherItems.ShovelGravitite.setTexture(of(MOD_ID, "item/ShovelGravitite"));
+        AetherItems.Lance.setTexture(of(MOD_ID, "item/Lance"));
         AetherItems.PickValkyrie.setTexture(of(MOD_ID, "item/ValkyriePickaxe"));
         AetherItems.AxeValkyrie.setTexture(of(MOD_ID, "item/ValkyrieAxe"));
         AetherItems.ShovelValkyrie.setTexture(of(MOD_ID, "item/ValkyrieShovel"));
@@ -131,7 +132,6 @@ public class AetherTextures {
         AetherItems.PhoenixBow.setTexture(of(MOD_ID, "item/PhoenixBow"));
         AetherItems.LifeShard.setTexture(of(MOD_ID, "item/LifeShard"));
         AetherItems.GoldenFeather.setTexture(of(MOD_ID, "item/GoldenFeather"));
-        AetherItems.Lance.setTexture(of(MOD_ID, "item/Lance"));
         AetherItems.RepShield.setTexture(of(MOD_ID, "item/RepulsionShield"));
         Ring = items.addTexture(of(MOD_ID, "item/Ring")).index;
         Pendant = items.addTexture(of(MOD_ID, "item/Pendant")).index;

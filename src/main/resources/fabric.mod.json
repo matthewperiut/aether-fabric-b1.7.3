@@ -28,7 +28,7 @@
     ]
   },
   "mixins": [
-    "examplemod.mixins.json"
+    "aether.mixins.json"
   ],
   "depends": {
     "minecraft": "1.0.0-beta.7.3"
