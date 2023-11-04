@@ -4,9 +4,9 @@
   "package": "com.matthewperiut.aether.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "EntityAccessor",
-    "LivingEntityAccessor",
-    "PlayerEntityAccessor"
+    "access.EntityAccessor",
+    "access.LivingEntityAccessor",
+    "access.PlayerEntityAccessor"
   ],
   "server": [
   ],

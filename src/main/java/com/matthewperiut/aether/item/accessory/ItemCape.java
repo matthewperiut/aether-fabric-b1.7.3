@@ -11,6 +11,8 @@ import java.util.Optional;
 
 public class ItemCape extends ItemMoreArmor implements HasCustomRenderer {
 
+    private ConfigurableRenderer renderer;
+
     public ItemCape(Identifier i, int j, String path, int l) {
         super(i, j, path, l);
     }
@@ -19,16 +21,13 @@ public class ItemCape extends ItemMoreArmor implements HasCustomRenderer {
         super(i, j, path, l, m);
     }
 
-    private ConfigurableRenderer renderer;
     @Override
-    public Optional<AccessoryRenderer> getRenderer()
-    {
+    public Optional<AccessoryRenderer> getRenderer() {
         return Optional.ofNullable(renderer);
     }
 
     @Override
-    public void constructRenderer()
-    {
+    public void constructRenderer() {
         renderer = new CapeRenderer(texture).withColor(new Color(colour));
     }
 }

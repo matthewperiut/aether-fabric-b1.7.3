@@ -8,21 +8,20 @@ import net.modificationstation.stationapi.api.registry.Identifier;
 import java.awt.*;
 import java.util.Optional;
 
-public class IcePendant extends IceAccessory implements HasCustomRenderer {
-    public IcePendant(Identifier i, int j, String path, int l, int m) {
+public class ItemIcePendant extends ItemIceAccessory implements HasCustomRenderer {
+    AccessoryRenderer renderer;
+
+    public ItemIcePendant(Identifier i, int j, String path, int l, int m) {
         super(i, j, path, l, m);
     }
 
-    AccessoryRenderer renderer;
     @Override
-    public Optional<AccessoryRenderer> getRenderer()
-    {
+    public Optional<AccessoryRenderer> getRenderer() {
         return Optional.ofNullable(renderer);
     }
 
     @Override
-    public void constructRenderer()
-    {
+    public void constructRenderer() {
         renderer = new NecklaceRenderer(texture).withColor(new Color(colour));
     }
 }

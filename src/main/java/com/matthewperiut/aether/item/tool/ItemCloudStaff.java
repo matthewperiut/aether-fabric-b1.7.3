@@ -22,7 +22,7 @@ public class ItemCloudStaff extends TemplateItemBase {
             // todo: entity EntityMiniCloud c2 = new EntityMiniCloud(world, entityplayer, true);
             // todo: entity world.spawnEntity(c1);
             // todo: entity world.spawnEntity(c2);
-            itemstack.applyDamage(1, (Entity) null);
+            itemstack.applyDamage(1, null);
         }
 
         return itemstack;

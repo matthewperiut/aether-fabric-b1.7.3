@@ -142,8 +142,8 @@ public class AetherItems {
         Stick = (new TemplateItemBase(Identifier.of(MOD_ID, "skyroot_stick"))).setTranslationKey(MOD_ID, "skyroot_stick");
         Dart = (new ItemDart(Identifier.of(MOD_ID, "dart"))).setHasSubItems(true).setTranslationKey(MOD_ID, "dart");
         DartShooter = (new ItemDartShooter(Identifier.of("dart_shooter"))).setTranslationKey(MOD_ID, "dart_shooter");
-        AmbrosiumShard = (new Ambrosium(Identifier.of(MOD_ID, "ambrosium"), 1)).setTranslationKey(MOD_ID, "ambrosium");
-        HealingStone = (new Ambrosium(Identifier.of(MOD_ID, "healing_stone"), 4)).setTranslationKey(MOD_ID, "healing_stone");
+        AmbrosiumShard = (new ItemAmbrosium(Identifier.of(MOD_ID, "ambrosium"), 1)).setTranslationKey(MOD_ID, "ambrosium");
+        HealingStone = (new ItemAmbrosium(Identifier.of(MOD_ID, "healing_stone"), 4)).setTranslationKey(MOD_ID, "healing_stone");
         Zanite = (new TemplateItemBase(Identifier.of(MOD_ID, "zanite"))).setTranslationKey(MOD_ID, "zanite");
         BlueMusicDisk = (new ItemAetherRecord(Identifier.of(MOD_ID, "blue_music_disc"), "aether:aethertune", "Noisestorm - Aethertune")).setTranslationKey(MOD_ID, "blue_music_disc");
         Bucket = (new ItemSkyrootBucket(Identifier.of(MOD_ID, "skyroot_bucket"))).setTranslationKey(MOD_ID, "skyroot_bucket");
@@ -177,7 +177,6 @@ public class AetherItems {
         AxeValkyrie = (new ItemValkyrieAxe(Identifier.of("valkyrie_axe"), mat)).setTranslationKey(MOD_ID, "valkyrie_axe");
         ShovelValkyrie = (new ItemValkyrieSpade(Identifier.of("valkyrie_shovel"), mat)).setTranslationKey(MOD_ID, "valkyrie_shovel");
 
-        IronBubble = (new ItemMoreArmor(Identifier.of(MOD_ID, "iron_bubble"), 0, 0, 7)).setTranslationKey(MOD_ID, "iron_bubble");
         PigSlayer = (new ItemPigSlayer(Identifier.of(MOD_ID, "pig_slayer"))).setTranslationKey(MOD_ID, "pig_slayer");
         VampireBlade = (new ItemVampireBlade(Identifier.of(MOD_ID, "vampire_blade"))).setTranslationKey(MOD_ID, "vampire_blade");
         NatureStaff = (new TemplateItemBase(Identifier.of(MOD_ID, "nature_staff"))).setMaxStackSize(1).setTranslationKey(MOD_ID, "nature_staff");
@@ -210,20 +209,21 @@ public class AetherItems {
         NeptuneLeggings = new ItemColouredArmor(Identifier.of(MOD_ID, "item_neptune_legs"), 3, "Neptune", 2, 2512127).setTexturePosition(33).setTranslationKey(MOD_ID, "item_neptune_legs");
         NeptuneBoots = new ItemColouredArmor(Identifier.of(MOD_ID, "item_neptune_boots"), 3, "Neptune", 3, 2512127).setTexturePosition(49).setTranslationKey(MOD_ID, "item_neptune_boots");
         LifeShard = (new ItemLifeShard(Identifier.of(MOD_ID, "life_shard"))).setTranslationKey(MOD_ID, "life_shard");
-        GoldenFeather = (new ItemMoreArmor(Identifier.of(MOD_ID, "golden_feather"), 0, 0, 7)).setTranslationKey(MOD_ID, "golden_feather");
+        GoldenFeather = (new ItemGoldenFeather(Identifier.of(MOD_ID, "golden_feather"), 0, 0, 7)).setTranslationKey(MOD_ID, "golden_feather");
+        IronBubble = (new ItemIronBubble(Identifier.of(MOD_ID, "iron_bubble"), 0, 0, 7)).setTranslationKey(MOD_ID, "iron_bubble");
+        RegenerationStone = (new ItemRegenerationStone(Identifier.of(MOD_ID, "regeneration_stone"), 0, 0, 7)).setTranslationKey(MOD_ID, "regeneration_stone");
         RepShield = (new ItemRepShield(Identifier.of(MOD_ID, "repulsion_shield"), 0, 0, 6, 16777215)).setTranslationKey(MOD_ID, "repulsion_shield").setDurability(512);
         IronRing = (new ItemMoreArmor(Identifier.of(MOD_ID, "iron_ring"), 0, "aether:stationapi/textures/armour/Accessories.png", 8, 16777215)).setTranslationKey(MOD_ID, "iron_ring");
         GoldRing = (new ItemMoreArmor(Identifier.of(MOD_ID, "gold_ring"), 0, "aether:stationapi/textures/armour/Accessories.png", 8, 16776994)).setTranslationKey(MOD_ID, "gold_ring");
         ZaniteRing = (new ItemMoreArmor(Identifier.of(MOD_ID, "zanite_ring"), 0, "aether:stationapi/textures/armour/Accessories.png", 8, 7412456)).setTranslationKey(MOD_ID, "zanite_ring");
-        IceRing = (new IceAccessory(Identifier.of(MOD_ID, "ice_ring"), 0, "aether:stationapi/textures/armour/Accessories.png", 8, 9823975)).setTranslationKey(MOD_ID, "ice_ring");
+        IceRing = (new ItemIceAccessory(Identifier.of(MOD_ID, "ice_ring"), 0, "aether:stationapi/textures/armour/Accessories.png", 8, 9823975)).setTranslationKey(MOD_ID, "ice_ring");
         IronPendant = (new ItemPendant(Identifier.of(MOD_ID, "iron_pendant"), 0, "aether:stationapi/textures/armour/Accessories.png", 4, 16777215)).setTranslationKey(MOD_ID, "iron_pendant");
         GoldPendant = (new ItemPendant(Identifier.of(MOD_ID, "gold_pendant"), 0, "aether:stationapi/textures/armour/Accessories.png", 4, 16776994)).setTranslationKey(MOD_ID, "gold_pendant");
         ZanitePendant = (new ItemPendant(Identifier.of(MOD_ID, "zanite_pendant"), 0, "aether:stationapi/textures/armour/Accessories.png", 4, 7412456)).setTranslationKey(MOD_ID, "zanite_pendant");
-        IcePendant = (new IcePendant(Identifier.of(MOD_ID, "ice_pendant"), 0, "aether:stationapi/textures/armour/Accessories.png", 4, 9823975)).setTranslationKey(MOD_ID, "ice_pendant");
-        RegenerationStone = (new ItemMoreArmor(Identifier.of(MOD_ID, "regeneration_stone"), 0, 0, 7)).setTranslationKey(MOD_ID, "regeneration_stone");
+        IcePendant = (new ItemIcePendant(Identifier.of(MOD_ID, "ice_pendant"), 0, "aether:stationapi/textures/armour/Accessories.png", 4, 9823975)).setTranslationKey(MOD_ID, "ice_pendant");
         AetherCape = (new ItemCape(Identifier.of(MOD_ID, "aether_cape"), 0, "aether:stationapi/textures/other/AetherCape.png", 5)).setTranslationKey(MOD_ID, "aether_cape");
-        InvisibilityCloak = (new ItemMoreArmor(Identifier.of(MOD_ID, "invisibility_cloak"), 0, 0, 5)).setTranslationKey(MOD_ID, "invisibility_cloak");
-        AgilityCape = (new ItemCape(Identifier.of(MOD_ID, "agility_cape"), 0, "aether:stationapi/textures/other/AgilityCape.png", 5)).setTranslationKey(MOD_ID, "agility_cape");
+        InvisibilityCloak = (new ItemInvisibilityCloak(Identifier.of(MOD_ID, "invisibility_cloak"), 0, 0, 5)).setTranslationKey(MOD_ID, "invisibility_cloak");
+        AgilityCape = (new ItemAgilityCape(Identifier.of(MOD_ID, "agility_cape"), 0, "aether:stationapi/textures/other/AgilityCape.png", 5)).setTranslationKey(MOD_ID, "agility_cape");
         WhiteCape = (new ItemCape(Identifier.of(MOD_ID, "white_cape"), 0, "aether:stationapi/textures/other/WhiteCape.png", 5)).setTranslationKey(MOD_ID, "white_cape");
         RedCape = (new ItemCape(Identifier.of(MOD_ID, "red_cape"), 0, "aether:stationapi/textures/other/RedCape.png", 5, 15208721)).setTranslationKey(MOD_ID, "red_cape");
         YellowCape = (new ItemCape(Identifier.of(MOD_ID, "yellow_cape"), 0, "aether:stationapi/textures/other/YellowCape.png", 5, 13486862)).setTranslationKey(MOD_ID, "yellow_cape");

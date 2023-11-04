@@ -1,7 +1,7 @@
 package com.matthewperiut.aether.block;
 
-import com.matthewperiut.aether.mixin.LivingEntityAccessor;
-import com.matthewperiut.aether.mixin.PlayerEntityAccessor;
+import com.matthewperiut.aether.mixin.access.LivingEntityAccessor;
+import com.matthewperiut.aether.mixin.access.PlayerEntityAccessor;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

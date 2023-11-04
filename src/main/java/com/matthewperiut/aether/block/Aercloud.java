@@ -1,7 +1,7 @@
 package com.matthewperiut.aether.block;
 
 import com.matthewperiut.aether.achievement.AetherAchievements;
-import com.matthewperiut.aether.mixin.EntityAccessor;
+import com.matthewperiut.aether.mixin.access.EntityAccessor;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;

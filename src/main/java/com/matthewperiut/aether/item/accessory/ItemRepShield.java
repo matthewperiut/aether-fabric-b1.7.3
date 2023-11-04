@@ -3,10 +3,8 @@ package com.matthewperiut.aether.item.accessory;
 import com.matthewperiut.accessoryapi.api.render.AccessoryRenderer;
 import com.matthewperiut.accessoryapi.api.render.HasCustomRenderer;
 import com.matthewperiut.accessoryapi.impl.mixin.client.LivingEntityRendererAccessor;
-import com.matthewperiut.aether.mixin.LivingEntityAccessor;
+import com.matthewperiut.aether.mixin.access.LivingEntityAccessor;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.block.Block;
-import net.minecraft.block.PumpkinBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.entity.PlayerRenderer;
@@ -20,8 +18,10 @@ import net.minecraft.inventory.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.registry.Identifier;
+import net.modificationstation.stationapi.api.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -141,6 +141,7 @@ public class ItemRepShield extends ItemMoreArmor implements HasCustomRenderer {
     }
 
     private static class EnergyShieldRenderer implements AccessoryRenderer {
+        static HashMap<PlayerEntity, ShouldRender> prevPos = new HashMap<>();
         BipedEntityModel modelEnergyShield = new BipedEntityModel(1.25F);
 
         public void renderThirdPerson(PlayerEntity player, PlayerRenderer renderer, ItemStack ItemStack, double x, double y, double z, float h, float v) {
@@ -226,21 +227,53 @@ public class ItemRepShield extends ItemMoreArmor implements HasCustomRenderer {
 
         protected boolean setEnergyShieldBrightness(final PlayerEntity player, PlayerRenderer playerRenderer, final int i, final float f) {
             if (i != 0) return false;
-            if ((player.onGround || (player.vehicle != null && player.vehicle.onGround)) && ((LivingEntityAccessor) player).get1029() == 0.0f && ((LivingEntityAccessor) player).get1060() == 0.0f) {
-                ((Minecraft) FabricLoader.getInstance().getGameInstance()).textureManager.bindTexture(
-                        ((Minecraft) FabricLoader.getInstance().getGameInstance()).textureManager.getTextureId("aether:stationapi/textures/mobs/energyGlow.png"));
-                GL11.glEnable(2977);
-                GL11.glEnable(3042);
-                GL11.glBlendFunc(770, 771);
-                GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+            if (prevPos.containsKey(player)) {
+                ShouldRender prev = prevPos.get(player);
+
+                if (System.currentTimeMillis() - prev.time > 100) {
+                    Vec3d current = new Vec3d(player.x, player.y, player.z);
+                    prev.shouldRender = prev.pos.distanceTo(current) < 0.05;
+                    prevPos.replace(player, new ShouldRender(current, prev.shouldRender));
+                }
+
+                if (prev.shouldRender) {
+                    ((Minecraft) FabricLoader.getInstance().getGameInstance()).textureManager.bindTexture(
+                            ((Minecraft) FabricLoader.getInstance().getGameInstance()).textureManager.getTextureId("aether:stationapi/textures/mobs/energyGlow.png"));
+                    GL11.glEnable(2977);
+                    GL11.glEnable(3042);
+                    GL11.glBlendFunc(770, 771);
+                    GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+                } else {
+                    GL11.glEnable(2977);
+                    GL11.glEnable(3042);
+                    GL11.glBlendFunc(770, 771);
+                    ((Minecraft) FabricLoader.getInstance().getGameInstance()).textureManager.bindTexture(
+                            ((Minecraft) FabricLoader.getInstance().getGameInstance()).textureManager.getTextureId("aether:stationapi/textures/mobs/energyNotGlow.png"));
+                }
+                return true;
             } else {
-                GL11.glEnable(2977);
-                GL11.glEnable(3042);
-                GL11.glBlendFunc(770, 771);
-                ((Minecraft) FabricLoader.getInstance().getGameInstance()).textureManager.bindTexture(
-                        ((Minecraft) FabricLoader.getInstance().getGameInstance()).textureManager.getTextureId("aether:stationapi/textures/mobs/energyNotGlow.png"));
+                prevPos.put(player, new ShouldRender(new Vec3d(player.x, player.y, player.z)));
             }
-            return true;
+
+            return false;
+        }
+
+        static class ShouldRender {
+            Vec3d pos;
+            long time;
+            boolean shouldRender = true;
+
+            ShouldRender(Vec3d pos) {
+                this.pos = pos;
+                this.time = System.currentTimeMillis();
+            }
+
+            ShouldRender(Vec3d pos, boolean prevShouldRender) {
+                this.pos = pos;
+                this.time = System.currentTimeMillis();
+                this.shouldRender = prevShouldRender;
+            }
         }
     }
 }

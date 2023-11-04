@@ -120,7 +120,6 @@ public class AetherTextures {
         AetherItems.PickValkyrie.setTexture(of(MOD_ID, "item/ValkyriePickaxe"));
         AetherItems.AxeValkyrie.setTexture(of(MOD_ID, "item/ValkyrieAxe"));
         AetherItems.ShovelValkyrie.setTexture(of(MOD_ID, "item/ValkyrieShovel"));
-        AetherItems.IronBubble.setTexture(of(MOD_ID, "item/IronBubble"));
         AetherItems.PigSlayer.setTexture(of(MOD_ID, "item/PigSlayer"));
         AetherItems.VampireBlade.setTexture(of(MOD_ID, "item/VampireBlade"));
         AetherItems.NatureStaff.setTexture(of(MOD_ID, "item/NatureStaff"));
@@ -147,6 +146,7 @@ public class AetherTextures {
         AetherItems.ZanitePendant.setTexturePosition(Pendant);
         AetherItems.IcePendant.setTexturePosition(Pendant);
         AetherItems.RegenerationStone.setTexture(of(MOD_ID, "item/RegenerationStone"));
+        AetherItems.IronBubble.setTexture(of(MOD_ID, "item/IronBubble"));
         AetherItems.AetherCape.setTexture(of(MOD_ID, "item/AetherCape"));
         AetherItems.InvisibilityCloak.setTexture(of(MOD_ID, "item/InvisibilityCloak"));
         AetherItems.AgilityCape.setTexture(of(MOD_ID, "item/AgilityCape"));

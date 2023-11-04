@@ -5,6 +5,6 @@ public enum EnumElement {
     Lightning,
     Holy;
 
-    private EnumElement() {
+    EnumElement() {
     }
 }

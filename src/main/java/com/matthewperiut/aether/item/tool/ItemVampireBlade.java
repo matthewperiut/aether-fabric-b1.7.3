@@ -13,8 +13,8 @@ import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
 import java.util.Random;
 
 public class ItemVampireBlade extends TemplateItemBase {
-    private static Random random = new Random();
-    private int weaponDamage;
+    private static final Random random = new Random();
+    private final int weaponDamage;
 
     public ItemVampireBlade(Identifier i) {
         super(i);

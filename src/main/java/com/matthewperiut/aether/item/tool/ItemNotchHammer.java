@@ -11,7 +11,7 @@ import net.modificationstation.stationapi.api.registry.Identifier;
 import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
 
 public class ItemNotchHammer extends TemplateItemBase {
-    private int weaponDamage;
+    private final int weaponDamage;
 
     public ItemNotchHammer(Identifier i) {
         super(i);

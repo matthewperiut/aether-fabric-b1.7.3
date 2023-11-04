@@ -1,6 +1,6 @@
 package com.matthewperiut.aether.item.tool;
 
-import com.matthewperiut.aether.mixin.LivingEntityAccessor;
+import com.matthewperiut.aether.mixin.access.LivingEntityAccessor;
 import net.minecraft.entity.EntityRegistry;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;

@@ -7,9 +7,9 @@ import net.modificationstation.stationapi.api.registry.Identifier;
 import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
 
 public class ItemGummieSwet extends TemplateItemBase {
-    private int healAmount;
-    private boolean damZero;
-    private boolean damOne;
+    private final int healAmount;
+    private final boolean damZero;
+    private final boolean damOne;
 
     public ItemGummieSwet(Identifier i) {
         super(i);

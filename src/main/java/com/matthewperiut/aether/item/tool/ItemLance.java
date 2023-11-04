@@ -13,7 +13,7 @@ import net.modificationstation.stationapi.api.registry.Identifier;
 import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
 
 public class ItemLance extends TemplateItemBase implements CustomReachProvider {
-    private int weaponDamage;
+    private final int weaponDamage;
 
     public ItemLance(Identifier i, ToolMaterial enumtoolmaterial) {
         super(i);

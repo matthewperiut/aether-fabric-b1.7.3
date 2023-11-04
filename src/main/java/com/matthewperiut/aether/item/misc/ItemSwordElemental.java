@@ -24,10 +24,10 @@ public class ItemSwordElemental extends TemplateSword {
         undead.add(ZombiePigmanEntity.class);
     }
 
-    private int weaponDamage;
-    private int holyDamage;
-    private EnumElement element;
-    private int colour;
+    private final int weaponDamage;
+    private final int holyDamage;
+    private final EnumElement element;
+    private final int colour;
 
     public ItemSwordElemental(Identifier i, EnumElement element, int colour) {
         super(i, ToolMaterial.DIAMOND);
@@ -57,8 +57,8 @@ public class ItemSwordElemental extends TemplateSword {
         if (this.element == EnumElement.Fire) {
             entityliving.fireTicks = 600;
         } else if (this.element == EnumElement.Lightning) {
-            double var10004 = (double) ((int) entityliving.x);
-            double var10005 = (double) ((int) entityliving.y);
+            double var10004 = (int) entityliving.x;
+            double var10005 = (int) entityliving.y;
             // todo: entity ModLoader.getMinecraftInstance().world.spawnEntity(new EntityAetherLightning(ModLoader.getMinecraftInstance().world, var10004, var10005, (double)((int)entityliving.z)));
         }
 
@@ -67,8 +67,7 @@ public class ItemSwordElemental extends TemplateSword {
     }
 
     public int getAttackDamage(Entity entity) {
-        if (this.element == EnumElement.Holy && entity instanceof LivingEntity) {
-            LivingEntity living = (LivingEntity) entity;
+        if (this.element == EnumElement.Holy && entity instanceof LivingEntity living) {
             Iterator i$ = undead.iterator();
 
             while (i$.hasNext()) {
