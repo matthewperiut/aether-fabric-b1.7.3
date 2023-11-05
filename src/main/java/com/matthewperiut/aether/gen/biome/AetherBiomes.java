@@ -13,6 +13,8 @@ public class AetherBiomes {
     public void registerBiomes(BiomeRegisterEvent event) {
         AETHER = BiomeBuilder.start("aether")
                 .grassAndLeavesColor(353825)
+                .precipitation(false)
+                .snow(false)
                 .build();
     }
 }

@@ -12,6 +12,7 @@
   "server": [
   ],
   "client": [
+    "BiomeMixin",
     "ClientPlayHandlerMixin"
   ],
   "injectors": {
