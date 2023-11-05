@@ -1,9 +1,22 @@
 package com.matthewperiut.aether.achievement;
 
+import com.matthewperiut.aether.block.AetherBlocks;
+import com.matthewperiut.aether.item.AetherItems;
+import net.mine_diver.unsafeevents.listener.EventListener;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.stat.achievement.Achievement;
+import net.modificationstation.stationapi.api.client.gui.screen.menu.AchievementPage;
+import net.modificationstation.stationapi.api.event.achievement.AchievementRegisterEvent;
+import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
+import net.modificationstation.stationapi.api.registry.ModID;
+import net.modificationstation.stationapi.api.util.Null;
 
 public class AetherAchievements {
+    @Entrypoint.ModID
+    public static final ModID MOD_ID = Null.get();
     public static final int acOff = 800;
     public static Achievement enterAether;
     public static Achievement defeatBronze;
@@ -17,36 +30,35 @@ public class AetherAchievements {
     public static Achievement lore;
     public static Achievement loreception;
 
-    public AetherAchievements() {
-        /*
-        enterAether = (new Achievement(800, "enterAether", 0, 0, Block.GLOWSTONE, (Achievement)null)).register();
-        defeatBronze = (new Achievement(801, "defeatBronze", -2, 3, new ItemStack(AetherItems.Key, 1, 0), enterAether)).register();
-        defeatSilver = (new Achievement(802, "defeatSilver", 0, 4, new ItemStack(AetherItems.Key, 1, 1), enterAether)).register();
-        defeatGold = (new Achievement(803, "defeatGold", 2, 3, new ItemStack(AetherItems.Key, 1, 2), enterAether)).register();
-        enchanter = (new Achievement(804, "enchanter", 2, 1, AetherBlocks.Enchanter, enterAether)).register();
-        incubator = (new Achievement(805, "incubator", 2, -1, AetherBlocks.Incubator, enterAether)).register();
-        blueCloud = (new Achievement(806, "blueCloud", -2, -1, new ItemStack(AetherBlocks.Aercloud, 1, 1), enterAether)).register();
-        flyingPig = (new Achievement(807, "flyingPig", -2, 1, Item.SADDLE, enterAether)).register();
-        gravTools = (new Achievement(808, "gravTools", -1, -3, AetherItems.PickGravitite, enterAether)).register();
-        lore = (new Achievement(809, "lore", 1, -3, Item.BOOK, enterAether)).register();
-        loreception = (new Achievement(810, "loreception", 1, -5, Item.BOOK, lore)).register();
-        ModLoader.AddAchievementDesc(enterAether, "Hostile Paradise", "Ascend to the Aether");
-        ModLoader.AddAchievementDesc(defeatBronze, "Like a Bossaru!", "Defeat the bronze boss");
-        ModLoader.AddAchievementDesc(defeatSilver, "Dethroned", "Defeat the silver boss");
-        ModLoader.AddAchievementDesc(defeatGold, "Extinguished", "Defeat the gold boss");
-        ModLoader.AddAchievementDesc(enchanter, "Do you believe in magic?", "Craft an enchanter");
-        ModLoader.AddAchievementDesc(incubator, "Now you're family", "Incubate a moa");
-        ModLoader.AddAchievementDesc(blueCloud, "To infinity and beyond!", "Bounce on a blue cloud");
-        ModLoader.AddAchievementDesc(flyingPig, "When phygs fly!", "Fly on a phyg");
-        ModLoader.AddAchievementDesc(gravTools, "Pink is the new blue", "Craft a gravitite tool");
-        ModLoader.AddAchievementDesc(lore, "The more you know!", "Read a book of lore");
-        ModLoader.AddAchievementDesc(loreception, "Lore-ception", "It's a book in a book in a book in...");
-        AchievementPage page = new AetherACPage();
-        page.addAchievements(new Achievement[]{enterAether, defeatBronze, defeatSilver, defeatGold, enchanter, incubator, gravTools, blueCloud, flyingPig, lore, loreception});
-    */
+    public static void giveAchievement(Achievement achievement, PlayerEntity player) {
+        player.incrementStat(achievement);
     }
 
-    public static void giveAchievement(Achievement achievement, PlayerEntity player) {
-
+    @EventListener
+    private void registerAchievements(AchievementRegisterEvent event) {
+        enterAether = (new Achievement(acOff, "aether:enterAether", 0, 0, Block.GLOWSTONE, (Achievement) null)).register();
+        defeatBronze = (new Achievement(acOff + 1, "aether:defeatBronze", -2, 3, new ItemStack(AetherItems.Key, 1, 0), enterAether)).register();
+        defeatSilver = (new Achievement(acOff + 2, "aether:defeatSilver", 0, 4, new ItemStack(AetherItems.Key, 1, 1), enterAether)).register();
+        defeatGold = (new Achievement(acOff + 3, "aether:defeatGold", 2, 3, new ItemStack(AetherItems.Key, 1, 2), enterAether)).register();
+        enchanter = (new Achievement(acOff + 4, "aether:enchanter", 2, 1, AetherBlocks.Enchanter, enterAether)).register();
+        incubator = (new Achievement(acOff + 5, "aether:incubator", 2, -1, AetherBlocks.Incubator, enterAether)).register();
+        blueCloud = (new Achievement(acOff + 6, "aether:blueCloud", -2, -1, new ItemStack(AetherBlocks.Aercloud, 1, 1), enterAether)).register();
+        flyingPig = (new Achievement(acOff + 7, "aether:flyingPig", -2, 1, Item.SADDLE, enterAether)).register();
+        gravTools = (new Achievement(acOff + 8, "aether:gravTools", -1, -3, AetherItems.PickGravitite, enterAether)).register();
+        lore = (new Achievement(acOff + 9, "aether:lore", 1, -3, Item.BOOK, enterAether)).register();
+        loreception = (new Achievement(acOff + 10, "aether:loreception", 1, -5, Item.BOOK, lore)).register();
+        event.achievements.add(AetherAchievements.enterAether);/*, "Hostile Paradise", "Ascend to the Aether");*/
+        event.achievements.add(AetherAchievements.defeatBronze);/*, "Like a Bossaru!", "Defeat the bronze boss");*/
+        event.achievements.add(AetherAchievements.defeatSilver);/*, "Dethroned", "Defeat the silver boss");*/
+        event.achievements.add(AetherAchievements.defeatGold);/*, "Extinguished", "Defeat the gold boss");*/
+        event.achievements.add(AetherAchievements.enchanter);/*, "Do you believe in magic?", "Craft an enchanter");*/
+        event.achievements.add(AetherAchievements.incubator);/*, "Now you're family", "Incubate a moa");*/
+        event.achievements.add(AetherAchievements.blueCloud);/*, "To infinity and beyond!", "Bounce on a blue cloud");*/
+        event.achievements.add(AetherAchievements.flyingPig);/*, "When phygs fly!", "Fly on a phyg");*/
+        event.achievements.add(AetherAchievements.gravTools);/*, "Pink is the new blue", "Craft a gravitite tool");*/
+        event.achievements.add(AetherAchievements.lore);/*, "The more you know!", "Read a book of lore");*/
+        event.achievements.add(AetherAchievements.loreception);/*, "Lore-ception", "It's a book in a book in a book in...");*/
+        final AchievementPage page = new AetherACPage();
+        page.addAchievements(new Achievement[]{enterAether, defeatBronze, defeatSilver, defeatGold, enchanter, incubator, gravTools, blueCloud, flyingPig, lore, loreception});
     }
 }

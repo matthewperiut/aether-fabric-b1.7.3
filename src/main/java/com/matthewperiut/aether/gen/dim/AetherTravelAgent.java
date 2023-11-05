@@ -1,9 +1,11 @@
 package com.matthewperiut.aether.gen.dim;
 
 
+import com.matthewperiut.aether.achievement.AetherAchievements;
 import com.matthewperiut.aether.block.AetherBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.NetherTeleporter;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -20,6 +22,9 @@ public class AetherTravelAgent extends NetherTeleporter {
         if (!this.tryTeleport(world, entity)) {
             this.placeNetherPortal(world, entity);
             this.tryTeleport(world, entity);
+        }
+        if (entity instanceof PlayerEntity player) {
+            AetherAchievements.giveAchievement(AetherAchievements.enterAether, player);
         }
     }
 

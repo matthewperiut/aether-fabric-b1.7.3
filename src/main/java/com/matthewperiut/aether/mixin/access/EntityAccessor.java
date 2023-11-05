@@ -15,4 +15,7 @@ public interface EntityAccessor {
 
     @Invoker("isFlagSet")
     boolean invokeIsFlagSet(int i);
+
+    @Accessor("immuneToFire")
+    void setImmuneToFire(boolean immune);
 }

@@ -16,7 +16,7 @@ public class ItemIronBubble extends ItemMoreArmor {
             playerBase.air = 20;
             if (playerBase.field_1645 % 80 == 0) {
                 itemInstance.applyDamage(1, playerBase);
-                if (itemInstance.getDamage() < 1) {
+                if (itemInstance.getDamage() > itemInstance.getDurability() - 2) {
                     itemInstance = null;
                 }
             }

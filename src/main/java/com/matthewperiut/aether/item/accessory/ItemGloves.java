@@ -28,13 +28,16 @@ public class ItemGloves extends ItemMoreArmor implements HasCustomRenderer, Cust
 
     @Override
     public void constructRenderer() {
-        renderer = new GloveRenderer(texture).withColor(new Color(colour));
+        if (colouriseRender)
+            renderer = new GloveRenderer(texture).withColor(new Color(colour));
+        else
+            renderer = new GloveRenderer(texture);
     }
 
     @Override
     public double modifyDamageDealt(PlayerEntity playerEntity, int armourSlot, int initialDamage, double currentAdjustedDamage) {
         playerEntity.inventory.armor[armourSlot].applyDamage(1, playerEntity);
-        if (playerEntity.inventory.armor[armourSlot].getDamage() < 1) {
+        if (playerEntity.inventory.armor[armourSlot].getDamage() > playerEntity.inventory.armor[armourSlot].getDurability() - 2) {
             playerEntity.inventory.armor[armourSlot] = null;
         }
 

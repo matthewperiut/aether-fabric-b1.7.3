@@ -16,7 +16,7 @@ public class ItemGoldenFeather extends ItemMoreArmor {
                 player.yVelocity *= 0.9;
             else player.yVelocity *= 0.6;
 
-            ((EntityAccessor) (player)).setFallDistance(0.0f);
+            ((EntityAccessor) (player)).setFallDistance(-1.0F);
         }
     }
 
@@ -26,7 +26,7 @@ public class ItemGoldenFeather extends ItemMoreArmor {
             slowFall(playerBase);
             if (playerBase.field_1645 % 120 == 0) {
                 itemStack.applyDamage(1, playerBase);
-                if (itemStack.getDamage() < 1) {
+                if (itemStack.getDamage() > itemStack.getDurability() - 2) {
                     itemStack = null;
                 }
             }

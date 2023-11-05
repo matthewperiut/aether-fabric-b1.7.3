@@ -19,7 +19,8 @@
       "com.matthewperiut.aether.recipe.AetherRecipes",
       "com.matthewperiut.aether.gen.biome.AetherBiomes",
       "com.matthewperiut.aether.gen.dim.AetherDimensions",
-      "com.matthewperiut.aether.gen.portal.AetherPortalListener"
+      "com.matthewperiut.aether.gen.portal.AetherPortalListener",
+      "com.matthewperiut.aether.achievement.AetherAchievements"
     ],
     "stationapi:event_bus_client": [
       "com.matthewperiut.aether.client.texture.AetherTextures"

@@ -4,6 +4,7 @@
   "package": "com.matthewperiut.aether.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "CraftingResultSlotMixin",
     "access.EntityAccessor",
     "access.LivingEntityAccessor",
     "access.PlayerEntityAccessor"
@@ -11,6 +12,7 @@
   "server": [
   ],
   "client": [
+    "ClientPlayHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
