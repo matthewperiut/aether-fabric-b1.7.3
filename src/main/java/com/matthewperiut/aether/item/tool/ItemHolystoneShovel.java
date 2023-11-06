@@ -9,16 +9,20 @@ import net.modificationstation.stationapi.api.template.item.tool.TemplateShovel;
 
 import java.util.Random;
 
-public class ItemHolystoneShovel extends TemplateShovel {
+public class ItemHolystoneShovel extends TemplateShovel
+{
     Random random = new Random();
 
-    public ItemHolystoneShovel(Identifier identifier, ToolMaterial material) {
+    public ItemHolystoneShovel(Identifier identifier, ToolMaterial material)
+    {
         super(identifier, material);
     }
 
     @Override
-    public boolean postMine(ItemStack arg, int i, int j, int k, int l, LivingEntity arg2) {
-        if (random.nextInt(50) == 0) {
+    public boolean postMine(ItemStack arg, int i, int j, int k, int l, LivingEntity arg2)
+    {
+        if (random.nextInt(50) == 0)
+        {
             arg2.dropItem(AetherItems.AmbrosiumShard.id, 1, 0.0F);
         }
         return super.postMine(arg, i, j, k, l, arg2);

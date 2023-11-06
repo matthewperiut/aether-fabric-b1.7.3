@@ -9,25 +9,30 @@ import net.modificationstation.stationapi.api.registry.Identifier;
 import java.awt.*;
 import java.util.Optional;
 
-public class ItemCape extends ItemMoreArmor implements HasCustomRenderer {
+public class ItemCape extends ItemMoreArmor implements HasCustomRenderer
+{
 
     private ConfigurableRenderer renderer;
 
-    public ItemCape(Identifier i, int j, String path, int l) {
+    public ItemCape(Identifier i, int j, String path, int l)
+    {
         super(i, j, path, l);
     }
 
-    public ItemCape(Identifier i, int j, String path, int l, int m) {
+    public ItemCape(Identifier i, int j, String path, int l, int m)
+    {
         super(i, j, path, l, m);
     }
 
     @Override
-    public Optional<AccessoryRenderer> getRenderer() {
+    public Optional<AccessoryRenderer> getRenderer()
+    {
         return Optional.ofNullable(renderer);
     }
 
     @Override
-    public void constructRenderer() {
+    public void constructRenderer()
+    {
         renderer = new CapeRenderer(texture).withColor(new Color(colour));
     }
 }

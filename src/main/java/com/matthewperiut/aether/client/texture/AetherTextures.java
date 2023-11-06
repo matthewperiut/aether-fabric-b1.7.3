@@ -13,7 +13,8 @@ import net.modificationstation.stationapi.api.util.Null;
 
 import static net.modificationstation.stationapi.api.registry.Identifier.of;
 
-public class AetherTextures {
+public class AetherTextures
+{
     @Entrypoint.ModID
     private static final ModID MOD_ID = Null.get();
     public static int Ring;
@@ -23,12 +24,14 @@ public class AetherTextures {
     public static int GloveChain;
 
     @EventListener
-    public void registerTextures(TextureRegisterEvent event) {
+    public void registerTextures(TextureRegisterEvent event)
+    {
         setBlockTextures();
         setItemTextures();
     }
 
-    private void setBlockTextures() {
+    private void setBlockTextures()
+    {
         ExpandableAtlas terrain = Atlases.getTerrain();
 
         AetherBlocks.Aercloud.texture = terrain.addTexture(of(MOD_ID, "block/Aercloud")).index;
@@ -50,6 +53,7 @@ public class AetherTextures {
         AetherSapling.sprGoldenOak = terrain.addTexture(of(MOD_ID, "block/GoldenOakSapling")).index;
         AetherBlocks.AmbrosiumOre.texture = terrain.addTexture(of(MOD_ID, "block/AmbrosiumOre")).index;
         AetherBlocks.AmbrosiumTorch.texture = terrain.addTexture(of(MOD_ID, "block/AmbrosiumTorch")).index;
+        AetherBlocks.BurntTorch.texture = terrain.addTexture(of(MOD_ID, "block/BurntTorch")).index;
         AetherBlocks.GravititeOre.texture = terrain.addTexture(of(MOD_ID, "block/GravititeOre")).index;
         AetherBlocks.ZaniteOre.texture = terrain.addTexture(of(MOD_ID, "block/ZaniteOre")).index;
         DungeonBlock.sprBronzeLit = terrain.addTexture(of(MOD_ID, "block/LightCarvedStone")).index;
@@ -76,7 +80,8 @@ public class AetherTextures {
         AetherBlocks.QuicksoilGlass.texture = terrain.addTexture(of(MOD_ID, "block/QuicksoilGlass")).index;
     }
 
-    private void setItemTextures() {
+    private void setItemTextures()
+    {
         ExpandableAtlas items = Atlases.getGuiItems();
         AetherItems.AmbrosiumShard.setTexture(of(MOD_ID, "item/AmbrosiumShard"));
         AetherItems.VictoryMedal.setTexture(of(MOD_ID, "item/VictoryMedal"));

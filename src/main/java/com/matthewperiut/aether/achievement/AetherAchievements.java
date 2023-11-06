@@ -14,7 +14,8 @@ import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
 import net.modificationstation.stationapi.api.registry.ModID;
 import net.modificationstation.stationapi.api.util.Null;
 
-public class AetherAchievements {
+public class AetherAchievements
+{
     @Entrypoint.ModID
     public static final ModID MOD_ID = Null.get();
     public static final int acOff = 800;
@@ -30,12 +31,14 @@ public class AetherAchievements {
     public static Achievement lore;
     public static Achievement loreception;
 
-    public static void giveAchievement(Achievement achievement, PlayerEntity player) {
+    public static void giveAchievement(Achievement achievement, PlayerEntity player)
+    {
         player.incrementStat(achievement);
     }
 
     @EventListener
-    private void registerAchievements(AchievementRegisterEvent event) {
+    private void registerAchievements(AchievementRegisterEvent event)
+    {
         enterAether = (new Achievement(acOff, "aether:enterAether", 0, 0, Block.GLOWSTONE, (Achievement) null)).register();
         defeatBronze = (new Achievement(acOff + 1, "aether:defeatBronze", -2, 3, new ItemStack(AetherItems.Key, 1, 0), enterAether)).register();
         defeatSilver = (new Achievement(acOff + 2, "aether:defeatSilver", 0, 4, new ItemStack(AetherItems.Key, 1, 1), enterAether)).register();

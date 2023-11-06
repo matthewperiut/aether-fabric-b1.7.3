@@ -11,25 +11,35 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(AbstractClientPlayerEntity.class)
-public class ClientPlayHandlerMixin {
+public class ClientPlayHandlerMixin
+{
     @Shadow
     protected Minecraft client;
 
     @Redirect(method = "increaseStat", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/AchievementWidget;setAchievementGet(Lnet/minecraft/stat/achievement/Achievement;)V"))
-    public void onIncreaseStat(AchievementWidget instance, Achievement achievement) {
+    public void onIncreaseStat(AchievementWidget instance, Achievement achievement)
+    {
         System.out.println(achievement.id);
         int achievementId = achievement.id - 5242880;
-        if (achievementId >= AetherAchievements.acOff && achievementId <= AetherAchievements.acOff + 10) {
-            if (achievementId == AetherAchievements.acOff + 1) {
+        if (achievementId >= AetherAchievements.acOff && achievementId <= AetherAchievements.acOff + 10)
+        {
+            if (achievementId == AetherAchievements.acOff + 1)
+            {
                 // bronze
                 client.soundHelper.playSound("aether:other.achievement.achievementbronze", 1.0F, 1.0F);
-            } else if (achievementId == AetherAchievements.acOff + 2) {
+            }
+            else if (achievementId == AetherAchievements.acOff + 2)
+            {
                 // silver
                 client.soundHelper.playSound("aether:other.achievement.achievementsilver", 1.0F, 1.0F);
-            } else if (achievementId == AetherAchievements.acOff + 3) {
+            }
+            else if (achievementId == AetherAchievements.acOff + 3)
+            {
                 // gold
                 client.soundHelper.playSound("aether:other.achievement.achievementgold", 1.0F, 1.0F);
-            } else {
+            }
+            else
+            {
                 client.soundHelper.playSound("aether:other.achievement.achievementgen", 1.0F, 1.0F);
             }
         }

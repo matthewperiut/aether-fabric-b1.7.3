@@ -8,20 +8,24 @@ import net.modificationstation.stationapi.api.registry.Identifier;
 import java.awt.*;
 import java.util.Optional;
 
-public class ItemPendant extends ItemMoreArmor implements HasCustomRenderer {
+public class ItemPendant extends ItemMoreArmor implements HasCustomRenderer
+{
     AccessoryRenderer renderer;
 
-    public ItemPendant(Identifier i, int j, String path, int l, int m) {
+    public ItemPendant(Identifier i, int j, String path, int l, int m)
+    {
         super(i, j, path, l, m);
     }
 
     @Override
-    public Optional<AccessoryRenderer> getRenderer() {
+    public Optional<AccessoryRenderer> getRenderer()
+    {
         return Optional.ofNullable(renderer);
     }
 
     @Override
-    public void constructRenderer() {
+    public void constructRenderer()
+    {
         renderer = new NecklaceRenderer(texture).withColor(new Color(colour));
     }
 }

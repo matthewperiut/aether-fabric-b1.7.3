@@ -8,9 +8,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Biome.class)
-public class BiomeMixin {
+public class BiomeMixin
+{
     @Inject(method = "getSkyColor", at = @At("HEAD"), cancellable = true)
-    public void getSkyColor(float par1, CallbackInfoReturnable<Integer> cir) {
+    public void getSkyColor(float par1, CallbackInfoReturnable<Integer> cir)
+    {
         if (((Biome) (Object) this).equals(AetherBiomes.AETHER))
             cir.setReturnValue(0xc0c0ff);
     }

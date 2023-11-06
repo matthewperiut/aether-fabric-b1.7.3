@@ -14,41 +14,54 @@ import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.registry.Identifier;
 import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
 
-public class ItemSkyrootBucket extends TemplateItemBase {
+public class ItemSkyrootBucket extends TemplateItemBase
+{
     public static int sprEmpty;// = ModLoader.addOverride("/gui/items.png", "/aether/items/Bucket.png");
     public static int sprWater;// = ModLoader.addOverride("/gui/items.png", "/aether/items/BucketWater.png");
     public static int sprMilk;// = ModLoader.addOverride("/gui/items.png", "/aether/items/BucketMilk.png");
     public static int sprPoison;// = ModLoader.addOverride("/gui/items.png", "/aether/items/BucketPoison.png");
     public static int sprRemedy;// = ModLoader.addOverride("/gui/items.png", "/aether/items/BucketRemedy.png");
 
-    public ItemSkyrootBucket(Identifier i) {
+    public ItemSkyrootBucket(Identifier i)
+    {
         super(i);
         this.setHasSubItems(true);
         this.maxStackSize = 1;
     }
 
-    public int getTexturePosition(int damage) {
-        if (damage == 3) {
+    public int getTexturePosition(int damage)
+    {
+        if (damage == 3)
+        {
             return sprRemedy;
-        } else if (damage == 2) {
+        }
+        else if (damage == 2)
+        {
             return sprPoison;
-        } else if (damage == 1) {
+        }
+        else if (damage == 1)
+        {
             return sprMilk;
-        } else {
+        }
+        else
+        {
             return damage == Block.FLOWING_WATER.id ? sprWater : sprEmpty;
         }
     }
 
-    public String getTranslationKey(ItemStack stack) {
+    public String getTranslationKey(ItemStack stack)
+    {
         int i = stack.getMeta();
-        if (i > 3 && i != Block.FLOWING_WATER.id) {
+        if (i > 3 && i != Block.FLOWING_WATER.id)
+        {
             i = 0;
         }
 
         return this.getTranslationKey() + i;
     }
 
-    public ItemStack use(ItemStack itemstack, World world, PlayerEntity entityplayer) {
+    public ItemStack use(ItemStack itemstack, World world, PlayerEntity entityplayer)
+    {
         if (world.isClient)
             return itemstack;
         float f = 1.0F;
@@ -78,62 +91,83 @@ public class ItemSkyrootBucket extends TemplateItemBase {
             return itemstack;
         }*/
 
-        if (movingobjectposition == null || movingobjectposition.type != HitType.field_789 || itemstack.getMeta() != 0 && itemstack.getMeta() != Block.FLOWING_WATER.id) {
-            if (itemstack.getMeta() == 0 && movingobjectposition != null && movingobjectposition.field_1989 != null && (movingobjectposition.field_1989 instanceof CowEntity)) {// todo: entity || movingobjectposition.field_1989 instanceof EntityFlyingCow)) {
+        if (movingobjectposition == null || movingobjectposition.type != HitType.field_789 || itemstack.getMeta() != 0 && itemstack.getMeta() != Block.FLOWING_WATER.id)
+        {
+            if (itemstack.getMeta() == 0 && movingobjectposition != null && movingobjectposition.field_1989 != null && (movingobjectposition.field_1989 instanceof CowEntity))
+            {// todo: entity || movingobjectposition.field_1989 instanceof EntityFlyingCow)) {
                 itemstack.setMeta(1);
                 return itemstack;
             }
-        } else {
+        }
+        else
+        {
             int i = movingobjectposition.x;
             int j = movingobjectposition.y;
             int k = movingobjectposition.z;
-            if (!world.method_171(entityplayer, i, j, k)) {
+            if (!world.method_171(entityplayer, i, j, k))
+            {
                 return itemstack;
             }
 
-            if (itemstack.getMeta() == 0) {
-                if (world.getMaterial(i, j, k) == Material.WATER && world.getBlockMeta(i, j, k) == 0) {
+            if (itemstack.getMeta() == 0)
+            {
+                if (world.getMaterial(i, j, k) == Material.WATER && world.getBlockMeta(i, j, k) == 0)
+                {
                     world.setBlock(i, j, k, 0);
                     itemstack.setMeta(Block.FLOWING_WATER.id);
                     return itemstack;
                 }
-            } else {
-                if (itemstack.getMeta() <= 3 && itemstack.getMeta() != 0) {
+            }
+            else
+            {
+                if (itemstack.getMeta() <= 3 && itemstack.getMeta() != 0)
+                {
                     return new ItemStack(AetherItems.Bucket);
                 }
 
-                if (movingobjectposition.field_1987 == 0) {
+                if (movingobjectposition.field_1987 == 0)
+                {
                     --j;
                 }
 
-                if (movingobjectposition.field_1987 == 1) {
+                if (movingobjectposition.field_1987 == 1)
+                {
                     ++j;
                 }
 
-                if (movingobjectposition.field_1987 == 2) {
+                if (movingobjectposition.field_1987 == 2)
+                {
                     --k;
                 }
 
-                if (movingobjectposition.field_1987 == 3) {
+                if (movingobjectposition.field_1987 == 3)
+                {
                     ++k;
                 }
 
-                if (movingobjectposition.field_1987 == 4) {
+                if (movingobjectposition.field_1987 == 4)
+                {
                     --i;
                 }
 
-                if (movingobjectposition.field_1987 == 5) {
+                if (movingobjectposition.field_1987 == 5)
+                {
                     ++i;
                 }
 
-                if (world.isAir(i, j, k) || !world.getMaterial(i, j, k).isSolid()) {
-                    if (world.dimension.evaporatesWater && itemstack.getMeta() == Block.FLOWING_WATER.id) {
+                if (world.isAir(i, j, k) || !world.getMaterial(i, j, k).isSolid())
+                {
+                    if (world.dimension.evaporatesWater && itemstack.getMeta() == Block.FLOWING_WATER.id)
+                    {
                         world.playSound(d + 0.5, d1 + 0.5, d2 + 0.5, "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 
-                        for (int l = 0; l < 8; ++l) {
+                        for (int l = 0; l < 8; ++l)
+                        {
                             world.addParticle("largesmoke", (double) i + Math.random(), (double) j + Math.random(), (double) k + Math.random(), 0.0, 0.0, 0.0);
                         }
-                    } else {
+                    }
+                    else
+                    {
                         world.placeBlockWithMetaData(i, j, k, itemstack.getMeta(), 0);
                     }
 

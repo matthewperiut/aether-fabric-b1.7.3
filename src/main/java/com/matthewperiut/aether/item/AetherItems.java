@@ -18,7 +18,8 @@ import net.modificationstation.stationapi.api.template.item.tool.TemplateShovel;
 import net.modificationstation.stationapi.api.template.item.tool.TemplateSword;
 import net.modificationstation.stationapi.api.util.Null;
 
-public class AetherItems {
+public class AetherItems
+{
     @Entrypoint.ModID
     public static final ModID MOD_ID = Null.get();
     private static final int ticks = 0;
@@ -123,7 +124,8 @@ public class AetherItems {
     private static boolean jumpBoosted;
 
     @EventListener
-    public void registerItems(ItemRegistryEvent event) {
+    public void registerItems(ItemRegistryEvent event)
+    {
         AccessoryRegister.add("pendant");
         AccessoryRegister.add("cape");
         AccessoryRegister.add("shield");

@@ -1,10 +1,12 @@
 package com.matthewperiut.aether.item.misc;
 
-public enum EnumElement {
+public enum EnumElement
+{
     Fire,
     Lightning,
     Holy;
 
-    EnumElement() {
+    EnumElement()
+    {
     }
 }

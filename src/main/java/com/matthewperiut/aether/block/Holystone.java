@@ -10,29 +10,35 @@ import net.modificationstation.stationapi.api.block.MetaNamedBlockItemProvider;
 import net.modificationstation.stationapi.api.registry.Identifier;
 import net.modificationstation.stationapi.api.template.block.TemplateBlockBase;
 
-public class Holystone extends TemplateBlockBase implements MetaNamedBlockItemProvider {
+public class Holystone extends TemplateBlockBase implements MetaNamedBlockItemProvider
+{
     public static int sprNormal;
     public static int sprMossy;
 
-    protected Holystone(Identifier blockID) {
+    protected Holystone(Identifier blockID)
+    {
         super(blockID, sprNormal, Material.STONE);
     }
 
-    public void afterBreak(World world, PlayerEntity entityplayer, int x, int y, int z, int meta) {
+    public void afterBreak(World world, PlayerEntity entityplayer, int x, int y, int z, int meta)
+    {
         entityplayer.increaseStat(Stats.mineBlock[this.id], 1);
         ItemStack stack = new ItemStack(this.id, 1, meta <= 1 ? 1 : 3);
-        if (UtilSkyroot.pickaxe(entityplayer) && (meta == 0 || meta == 2)) {
+        if (UtilSkyroot.pickaxe(entityplayer) && (meta == 0 || meta == 2))
+        {
             stack.count *= 2;
         }
 
         world.spawnEntity(new ItemEntity(world, x, y, z, stack));
     }
 
-    public int getTextureForSide(int i, int j) {
+    public int getTextureForSide(int i, int j)
+    {
         return j > 1 ? sprMossy : sprNormal;
     }
 
-    public int[] getValidMetas() {
+    public int[] getValidMetas()
+    {
         return new int[]{1, 3};
     }
 }

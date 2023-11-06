@@ -12,7 +12,8 @@ import net.modificationstation.stationapi.api.util.Null;
 
 import java.util.Map;
 
-public class AetherBlocks {
+public class AetherBlocks
+{
     @Entrypoint.ModID
     private static final ModID MOD_ID = Null.get();
     public static Block Portal;
@@ -31,6 +32,7 @@ public class AetherBlocks {
     public static Block GoldenOakSapling;
     public static Block AmbrosiumOre;
     public static Block AmbrosiumTorch;
+    public static Block BurntTorch;
     public static Block ZaniteOre;
     public static Block GravititeOre;
     public static Block EnchantedGravitite;
@@ -51,21 +53,25 @@ public class AetherBlocks {
     public static Block PurpleFlower;
     public static Block Bed;
 
-    public static void AddRenderer(Map map) {
+    public static void AddRenderer(Map map)
+    {
         //map.put(EntityFloatingBlock.class, new RenderFloatingBlock());
         //map.put(EntityMimic.class, new RenderMimic());
     }
 
-    public static boolean isGood(int id, int meta) {
+    public static boolean isGood(int id, int meta)
+    {
         return id == 0 || id == Aercloud.id;
     }
 
-    public static boolean isEarth(int id, int meta) {
+    public static boolean isEarth(int id, int meta)
+    {
         return id == Dirt.id || id == Grass.id || id == Holystone.id && meta <= 1;
     }
 
     @EventListener
-    public void registerBlocks(BlockRegistryEvent event) {
+    public void registerBlocks(BlockRegistryEvent event)
+    {
         Portal = (new AetherPortal(Identifier.of(MOD_ID, "aether_portal"))).setHardness(-1.0F).setBlastResistance(6000000.0F).setTranslationKey(MOD_ID, "aether_portal");
         Dirt = (new AetherDirt(Identifier.of(MOD_ID, "aether_dirt"))).setHardness(0.2F).setSounds(Block.GRAVEL_SOUNDS).setTranslationKey(MOD_ID, "aether_dirt");
         Grass = (new AetherGrass(Identifier.of(MOD_ID, "aether_grass"))).setHardness(0.2F).setSounds(Block.GRASS_SOUNDS).setTranslationKey(MOD_ID, "aether_grass");
@@ -78,13 +84,14 @@ public class AetherBlocks {
         Aercloud = (new Aercloud(Identifier.of(MOD_ID, "aercloud"))).setHardness(0.2F).setLightOpacity(3).setSounds(Block.WOOL_SOUNDS).setTranslationKey(MOD_ID, "aercloud");
         Aerogel = (new Aerogel(Identifier.of(MOD_ID, "aerogel"))).setHardness(1.0F).setBlastResistance(2000.0F).setLightOpacity(3).setSounds(Block.PISTON_SOUNDS).setTranslationKey(MOD_ID, "aerogel");
         Log = (new AetherLog(Identifier.of(MOD_ID, "skyroot_log"))).setHardness(2.0F).setSounds(Block.WOOD_SOUNDS).setTranslationKey(MOD_ID, "skyroot_log");
-        Plank = (new TemplateBlockBase(Identifier.of(MOD_ID, "skyroot_plank"), Material.WOOD)).setHardness(2.0F).setBlastResistance(5.0F).setSounds(Block.WOOD_SOUNDS).setTranslationKey(MOD_ID, "skyroot_plank");
+        Plank = (new TemplateBlockBase(Identifier.of(MOD_ID, "skyroot_planks"), Material.WOOD)).setHardness(2.0F).setBlastResistance(5.0F).setSounds(Block.WOOD_SOUNDS).setTranslationKey(MOD_ID, "skyroot_planks");
         SkyrootLeaves = (new AetherLeaves(Identifier.of(MOD_ID, "skyroot_leaves"), false)).setHardness(0.2F).setLightOpacity(1).setSounds(Block.GRASS_SOUNDS).setTranslationKey(MOD_ID, "skyroot_leaves");
         GoldenOakLeaves = (new AetherLeaves(Identifier.of(MOD_ID, "golden_leaves"), true)).setHardness(0.2F).setLightOpacity(1).setSounds(Block.GRASS_SOUNDS).setTranslationKey(MOD_ID, "golden_leaves");
         SkyrootSapling = (new AetherSapling(Identifier.of(MOD_ID, "skyroot_sapling"), false)).setTranslationKey(MOD_ID, "skyroot_sapling").setHardness(0.0F).setSounds(Block.GRASS_SOUNDS);
         GoldenOakSapling = (new AetherSapling(Identifier.of(MOD_ID, "golden_oak_sapling"), true)).setTranslationKey(MOD_ID, "golden_oak_sapling").setHardness(0.0F).setSounds(Block.GRASS_SOUNDS);
         AmbrosiumOre = (new AmbrosiumOre(Identifier.of(MOD_ID, "ambrosium_ore"))).setHardness(3.0F).setBlastResistance(5.0F).setSounds(Block.PISTON_SOUNDS).setTranslationKey(MOD_ID, "ambrosium_ore");
         AmbrosiumTorch = (new AmbrosiumTorch(Identifier.of(MOD_ID, "ambrosium_torch"))).setLightEmittance(0.9375F).setSounds(Block.WOOD_SOUNDS).setTranslationKey(MOD_ID, "ambrosium_torch");
+        BurntTorch = (new BurntTorch(Identifier.of(MOD_ID, "burnt_torch"))).setSounds(Block.WOOD_SOUNDS).setTranslationKey(MOD_ID, "burnt_torch");
         ZaniteOre = (new ZaniteOre(Identifier.of(MOD_ID, "zanite_ore"))).setHardness(3.0F).setSounds(Block.PISTON_SOUNDS).setTranslationKey(MOD_ID, "zanite_ore");
         ZaniteBlock = (new ZaniteBlock(Identifier.of(MOD_ID, "zanite_block"), Block.IRON_BLOCK.texture)).setHardness(3.0F).setSounds(Block.PISTON_SOUNDS).setTranslationKey(MOD_ID, "zanite_block");
         GravititeOre = (new BlockFloating(Identifier.of(MOD_ID, "gravitite_ore"), false)).setHardness(5.0F).setSounds(Block.PISTON_SOUNDS).setTranslationKey(MOD_ID, "gravitite_ore");
@@ -128,18 +135,21 @@ public class AetherBlocks {
          */
     }
 
-    public void RegisterBlocks(Block... blocks) {
+    public void RegisterBlocks(Block... blocks)
+    {
         Block[] arr$ = blocks;
         int len$ = blocks.length;
 
-        for (int i$ = 0; i$ < len$; ++i$) {
+        for (int i$ = 0; i$ < len$; ++i$)
+        {
             Block block = arr$[i$];
             //ModLoader.RegisterBlock(block);
         }
 
     }
 
-    public int override(String path) {
+    public int override(String path)
+    {
         return 0;
     }
 }

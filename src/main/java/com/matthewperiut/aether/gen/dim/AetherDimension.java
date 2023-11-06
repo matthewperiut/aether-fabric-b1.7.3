@@ -15,29 +15,34 @@ import net.modificationstation.stationapi.api.registry.Identifier;
 import static com.matthewperiut.aether.gen.dim.AetherDimensions.MOD_ID;
 
 @EnvironmentInterface(value = EnvType.CLIENT, itf = TravelMessageProvider.class)
-public class AetherDimension extends Dimension implements TravelMessageProvider {
+public class AetherDimension extends Dimension implements TravelMessageProvider
+{
     public static final String
             ENTERING_MESSAGE = "gui." + Identifier.of(MOD_ID, "ascending"),
             LEAVING_MESSAGE = "gui." + Identifier.of(MOD_ID, "descending");
 
     private final float[] colours = new float[4];
 
-    public AetherDimension(int serialId) {
+    public AetherDimension(int serialId)
+    {
         id = serialId;
     }
 
     @Override
-    protected void initBiomeSource() {
+    protected void initBiomeSource()
+    {
         biomeSource = new AetherBiomeSource(1);
     }
 
     @Override
-    public WorldSource createWorldSource() {
-        return new AetherWorldSource(world, world.getSeed());
+    public WorldSource createWorldSource()
+    {
+        return new ChunkProviderAether(world, world.getSeed());
     }
 
     @Override
-    public float getSunPosition(long time, float delta) {
+    public float getSunPosition(long time, float delta)
+    {
 //        boolean hasKilledGold = ModLoader.getMinecraftInstance().statFileWriter.hasAchievementUnlocked(AetherAchievements.defeatGold);
 //        if(hasKilledGold)
 //        {
@@ -67,11 +72,13 @@ public class AetherDimension extends Dimension implements TravelMessageProvider 
     }
 
     @Override
-    public float[] getSunHorizonColor(float time, float delta) {
+    public float[] getSunHorizonColor(float time, float delta)
+    {
         float f2 = 0.4F;
         float f3 = MathHelper.cos(time * 3.141593F * 2.0F) - 0.0F;
         float f4 = -0F;
-        if (f3 >= f4 - f2 && f3 <= f4 + f2) {
+        if (f3 >= f4 - f2 && f3 <= f4 + f2)
+        {
             float f5 = ((f3 - f4) / f2) * 0.5F + 0.5F;
             float f6 = 1.0F - (1.0F - MathHelper.sin(f5 * 3.141593F)) * 0.99F;
             f6 *= f6;
@@ -80,12 +87,14 @@ public class AetherDimension extends Dimension implements TravelMessageProvider 
             colours[2] = f5 * f5 * 0.7F + 0.2F;
             colours[3] = f6;
             return colours;
-        } else
+        }
+        else
             return null;
     }
 
     @Override
-    public Vec3d getSkyColor(float time, float delta) {
+    public Vec3d getSkyColor(float time, float delta)
+    {
         int i = 0x8080a0;
         float f2 = MathHelper.cos(time * 3.141593F * 2.0F) * 2.0F + 0.5F;
         if (f2 < 0.0F)
@@ -102,35 +111,41 @@ public class AetherDimension extends Dimension implements TravelMessageProvider 
     }
 
     @Override
-    public boolean hasPaleSky() {
+    public boolean hasPaleSky()
+    {
         return false;
     }
 
     @Override
-    public float getCloudHeight() {
+    public float getCloudHeight()
+    {
         return 8;
     }
 
     @Override
-    public boolean canSpawnOn(int x, int y) {
+    public boolean canSpawnOn(int x, int y)
+    {
         int var3 = this.world.getSurfaceBlockId(x, y);
         return var3 != 0 && Block.BY_ID[var3].material.blocksMovement();
     }
 
     @Override
-    public boolean canPlayerSleep() {
+    public boolean canPlayerSleep()
+    {
         return false;
     }
 
     @Environment(EnvType.CLIENT)
     @Override
-    public String getEnteringTranslationKey() {
+    public String getEnteringTranslationKey()
+    {
         return ENTERING_MESSAGE;
     }
 
     @Environment(EnvType.CLIENT)
     @Override
-    public String getLeavingTranslationKey() {
+    public String getLeavingTranslationKey()
+    {
         return LEAVING_MESSAGE;
     }
 }

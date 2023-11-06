@@ -6,22 +6,26 @@ import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.registry.Identifier;
 import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
 
-public class ItemAmbrosium extends TemplateItemBase {
+public class ItemAmbrosium extends TemplateItemBase
+{
     private final int healAmount;
 
-    public ItemAmbrosium(Identifier identifier, int healAmount) {
+    public ItemAmbrosium(Identifier identifier, int healAmount)
+    {
         super(identifier);
         this.healAmount = healAmount;
         this.maxStackSize = 64;
     }
 
-    public ItemStack use(ItemStack itemstack, World world, PlayerEntity entityplayer) {
+    public ItemStack use(ItemStack itemstack, World world, PlayerEntity entityplayer)
+    {
         --itemstack.count;
         entityplayer.addHealth(this.healAmount);
         return itemstack;
     }
 
-    public int getHealAmount() {
+    public int getHealAmount()
+    {
         return this.healAmount;
     }
 }

@@ -5,7 +5,8 @@ import net.modificationstation.stationapi.api.block.MetaNamedBlockItemProvider;
 import net.modificationstation.stationapi.api.registry.Identifier;
 import net.modificationstation.stationapi.api.template.block.TemplateBlockBase;
 
-public class DungeonBlock extends TemplateBlockBase implements MetaNamedBlockItemProvider {
+public class DungeonBlock extends TemplateBlockBase implements MetaNamedBlockItemProvider
+{
     public static int sprBronze;
     public static int sprSilver;
     public static int sprGold;
@@ -13,37 +14,49 @@ public class DungeonBlock extends TemplateBlockBase implements MetaNamedBlockIte
     public static int sprSilverLit;
     public static int sprGoldLit;
 
-    protected DungeonBlock(Identifier identifier) {
+    protected DungeonBlock(Identifier identifier)
+    {
         super(identifier, Material.STONE);
     }
 
-    public static int func_21034_c(int i) {
+    public static int func_21034_c(int i)
+    {
         return ~i & 15;
     }
 
-    public static int func_21035_d(int i) {
+    public static int func_21035_d(int i)
+    {
         return ~i & 15;
     }
 
-    public int getTextureForSide(int i, int j) {
-        if (j == 2) {
+    public int getTextureForSide(int i, int j)
+    {
+        if (j == 2)
+        {
             return this.isLit() ? sprGoldLit : sprGold;
-        } else if (j == 1) {
+        }
+        else if (j == 1)
+        {
             return this.isLit() ? sprSilverLit : sprSilver;
-        } else {
+        }
+        else
+        {
             return this.isLit() ? sprBronzeLit : sprBronze;
         }
     }
 
-    private boolean isLit() {
+    private boolean isLit()
+    {
         return this.id == AetherBlocks.LightDungeonStone.id || this.id == AetherBlocks.LockedLightDungeonStone.id;
     }
 
-    protected int droppedMeta(int i) {
+    protected int droppedMeta(int i)
+    {
         return i;
     }
 
-    public int[] getValidMetas() {
+    public int[] getValidMetas()
+    {
         return new int[]{0, 1, 2};
     }
 }

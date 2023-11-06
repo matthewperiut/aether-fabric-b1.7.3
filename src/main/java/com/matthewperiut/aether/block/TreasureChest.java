@@ -1,108 +1,351 @@
 package com.matthewperiut.aether.block;
 
+import com.matthewperiut.aether.blockentity.block.BlockEntityTreasureChest;
+import com.matthewperiut.aether.blockentity.container.ContainerTreasureChest;
+import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.BlockEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.modificationstation.stationapi.api.gui.screen.container.GuiHelper;
 import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.block.TemplateBlockBase;
+import net.modificationstation.stationapi.api.template.block.TemplateChest;
 
 import java.util.Random;
 
-public class TreasureChest extends TemplateBlockBase { // todo: tileentity extends TemplateBlockWithEntity {
+import static com.matthewperiut.aether.blockentity.AetherBlockEntities.MOD_ID;
+
+public class TreasureChest extends TemplateChest
+{
     public static int sideTexture;
-    private final Random random = new Random();
 
-    protected TreasureChest(Identifier i) {
-        super(i, Material.STONE);
+    public TreasureChest(Identifier identifier)
+    {
+        super(identifier);
     }
 
-    public int getDropCount(Random random) {
-        return 0;
+    public static void PlaceTreasureChest(World world, int x, int y, int z, int rarity)
+    {
+        world.setBlockWithMetadata(x, y, z, AetherBlocks.TreasureChest.id, 1 + rarity);
     }
 
-    public int getTextureForSide(BlockView iblockaccess, int i, int j, int k, int l) {
-        if (l == 1) {
+    @Override
+    public int getTextureForSide(final BlockView tileView, final int x, final int y, final int z, final int meta)
+    {
+        if (meta == 1)
+        {
             return 62;
-        } else if (l == 0) {
+        }
+        if (meta == 0)
+        {
             return 62;
-        } else {
-            int i1 = iblockaccess.getBlockId(i, j, k - 1);
-            int j1 = iblockaccess.getBlockId(i, j, k + 1);
-            int k1 = iblockaccess.getBlockId(i - 1, j, k);
-            int l1 = iblockaccess.getBlockId(i + 1, j, k);
-            byte byte0 = 3;
-            if (Block.FULL_OPAQUE[i1] && !Block.FULL_OPAQUE[j1]) {
-                byte0 = 3;
-            }
+        }
+        final int i1 = tileView.getBlockId(x, y, z - 1);
+        final int j1 = tileView.getBlockId(x, y, z + 1);
+        final int k1 = tileView.getBlockId(x - 1, y, z);
+        final int l1 = tileView.getBlockId(x + 1, y, z);
+        byte byte0 = 3;
+        if (Block.FULL_OPAQUE[i1] && !Block.FULL_OPAQUE[j1])
+        {
+            byte0 = 3;
+        }
+        if (Block.FULL_OPAQUE[j1] && !Block.FULL_OPAQUE[i1])
+        {
+            byte0 = 2;
+        }
+        if (Block.FULL_OPAQUE[k1] && !Block.FULL_OPAQUE[l1])
+        {
+            byte0 = 5;
+        }
+        if (Block.FULL_OPAQUE[l1] && !Block.FULL_OPAQUE[k1])
+        {
+            byte0 = 4;
+        }
+        return (meta != byte0) ? sideTexture : texture;
+    }
 
-            if (Block.FULL_OPAQUE[j1] && !Block.FULL_OPAQUE[i1]) {
-                byte0 = 2;
-            }
+    @Override
+    public int getTextureForSide(final int side)
+    {
+        if (side == 1)
+        {
+            return 62;
+        }
+        if (side == 0)
+        {
+            return 62;
+        }
+        if (side == 3)
+        {
+            return texture;
+        }
+        return sideTexture;
+    }
 
-            if (Block.FULL_OPAQUE[k1] && !Block.FULL_OPAQUE[l1]) {
-                byte0 = 5;
-            }
+    @Override
+    public void onBlockRemoved(World arg, int i, int j, int k)
+    {
+        if (arg.getBlockMeta(i, j, k) == 0) super.onBlockRemoved(arg, i, j, k);
+    }
 
-            if (Block.FULL_OPAQUE[l1] && !Block.FULL_OPAQUE[k1]) {
-                byte0 = 4;
+    private ItemStack getGoldLoot(final Random random)
+    {
+        final int item = random.nextInt(8);
+        switch (item)
+        {
+            case 0:
+            {
+                return new ItemStack(AetherItems.IronBubble);
             }
+            case 1:
+            {
+                return new ItemStack(AetherItems.VampireBlade);
+            }
+            case 2:
+            {
+                return new ItemStack(AetherItems.PigSlayer);
+            }
+            case 3:
+            {
+                if (random.nextBoolean())
+                {
+                    return new ItemStack(AetherItems.PhoenixHelm);
+                }
+                if (random.nextBoolean())
+                {
+                    return new ItemStack(AetherItems.PhoenixLegs);
+                }
+                if (random.nextBoolean())
+                {
+                    return new ItemStack(AetherItems.PhoenixBody);
+                }
+                break;
+            }
+            case 4:
+            {
+                if (random.nextBoolean())
+                {
+                    return new ItemStack(AetherItems.PhoenixBoots);
+                }
+                return new ItemStack(AetherItems.PhoenixGlove);
+            }
+            case 5:
+            {
+                return new ItemStack(AetherItems.LifeShard);
+            }
+            case 6:
+            {
+                if (random.nextBoolean())
+                {
+                    return new ItemStack(AetherItems.GravititeHelmet);
+                }
+                if (random.nextBoolean())
+                {
+                    return new ItemStack(AetherItems.GravititePlatelegs);
+                }
+                if (random.nextBoolean())
+                {
+                    return new ItemStack(AetherItems.GravititeBodyplate);
+                }
+                break;
+            }
+            case 7:
+            {
+                if (random.nextBoolean())
+                {
+                    return new ItemStack(AetherItems.GravititeBoots);
+                }
+                return new ItemStack(AetherItems.GravititeGlove);
+            }
+        }
+        //return null;
+        return new ItemStack(AetherItems.ObsidianBody);
+    }
 
-            return l != byte0 ? sideTexture : this.texture;
+    private ItemStack getSilverLoot(final Random random)
+    {
+        final int item = random.nextInt(9);
+        switch (item)
+        {
+            case 0:
+            {
+                return new ItemStack(AetherItems.GummieSwet, random.nextInt(16));
+            }
+            case 1:
+            {
+                return new ItemStack(AetherItems.SwordLightning);
+            }
+            case 2:
+            {
+                if (random.nextBoolean())
+                {
+                    return new ItemStack(AetherItems.AxeValkyrie);
+                }
+                if (random.nextBoolean())
+                {
+                    return new ItemStack(AetherItems.ShovelValkyrie);
+                }
+                if (random.nextBoolean())
+                {
+                    return new ItemStack(AetherItems.PickValkyrie);
+                }
+                break;
+            }
+            case 3:
+            {
+                return new ItemStack(AetherItems.SwordHoly);
+            }
+            case 4:
+            {
+                return new ItemStack(AetherItems.GoldenFeather);
+            }
+            case 5:
+            {
+                return new ItemStack(AetherItems.RegenerationStone);
+            }
+            case 6:
+            {
+                if (random.nextBoolean())
+                {
+                    return new ItemStack(AetherItems.NeptuneHelmet);
+                }
+                if (random.nextBoolean())
+                {
+                    return new ItemStack(AetherItems.NeptuneLeggings);
+                }
+                if (random.nextBoolean())
+                {
+                    return new ItemStack(AetherItems.NeptuneChestplate);
+                }
+                break;
+            }
+            case 7:
+            {
+                if (random.nextBoolean())
+                {
+                    return new ItemStack(AetherItems.NeptuneBoots);
+                }
+                return new ItemStack(AetherItems.NeptuneGlove);
+            }
+            case 8:
+            {
+                return new ItemStack(AetherItems.InvisibilityCloak);
+            }
+        }
+        return new ItemStack(AetherItems.ZanitePendant);
+    }
+
+    private ItemStack getBronzeLoot(final Random random)
+    {
+        final int item = random.nextInt(7);
+        switch (item)
+        {
+            case 0:
+            {
+                return new ItemStack(AetherItems.GummieSwet, random.nextInt(8), random.nextInt(2));
+            }
+            case 1:
+            {
+                return new ItemStack(AetherItems.PhoenixBow);
+            }
+            case 2:
+            {
+                return new ItemStack(AetherItems.SwordFire);
+            }
+            case 3:
+            {
+                return new ItemStack(AetherItems.HammerNotch);
+            }
+            case 4:
+            {
+                return new ItemStack(AetherItems.LightningKnife, random.nextInt(16));
+            }
+            case 5:
+            {
+                return new ItemStack(AetherItems.Lance);
+            }
+            case 6:
+            {
+                return new ItemStack(AetherItems.AgilityCape);
+            }
+            default:
+            {
+                return new ItemStack(AetherItems.Stick);
+            }
         }
     }
 
-    public int getTextureForSide(int i) {
-        if (i == 1) {
-            return 62;
-        } else if (i == 0) {
-            return 62;
-        } else {
-            return i == 3 ? this.texture : sideTexture;
-        }
-    }
-
-    public boolean canPlaceAt(World world, int i, int j, int k) {
-        return false;
-    }
-
-    /* todo: tileentity
-    public boolean canUse(World world, int i, int j, int k, PlayerEntity entityplayer) {
-        if (world.isClient) {
-            return true;
-        } else {
-            int meta = world.getBlockMeta(i, j, k);
-            ChestBlockEntity chest = (ChestBlockEntity)world.getBlockEntity(i, j, k);
-            if (meta % 2 == 1) {
-                // todo: gui ModLoader.OpenGUI(entityplayer, new GuiTreasureChest(entityplayer.inventory, chest, meta));
+    @Override
+    public boolean canUse(final World level, final int x, final int y, final int z, final PlayerEntity player)
+    {
+        final int meta = level.getBlockMeta(x, y, z);
+        BlockEntity tileEntity = level.getBlockEntity(x, y, z);
+        if (tileEntity instanceof BlockEntityTreasureChest treasureChest)
+        {
+            if (meta == 5)
+            {
+                GuiHelper.openGUI(player, MOD_ID.id("treasure_chest"), treasureChest, new ContainerTreasureChest(player.inventory, treasureChest));
                 return true;
-            } else {
-                ItemStack itemstack = entityplayer.inventory.getHeldItem();
-                if (itemstack != null && itemstack.itemId == AetherItems.Key.id && itemstack.getMeta() == 0 && meta == 0) {
-                    entityplayer.inventory.takeInventoryItem(entityplayer.inventory.selectedHotBarSlot, 1);
-                    world.method_223(i, j, k, meta + 1);
-                    world.setBlockEntity(i, j, k, chest);
-                    return true;
-                } else if (itemstack != null && itemstack.itemId == AetherItems.Key.id && itemstack.getMeta() == 1 && meta == 2) {
-                    entityplayer.inventory.takeInventoryItem(entityplayer.inventory.selectedHotBarSlot, 1);
-                    world.method_223(i, j, k, meta + 1);
-                    world.setBlockEntity(i, j, k, chest);
-                    return true;
-                } else if (itemstack != null && itemstack.itemId == AetherItems.Key.id && itemstack.getMeta() == 2 && meta == 4) {
-                    entityplayer.inventory.takeInventoryItem(entityplayer.inventory.selectedHotBarSlot, 1);
-                    world.method_223(i, j, k, meta + 1);
-                    world.setBlockEntity(i, j, k, chest);
-                    return true;
-                } else {
-                    return false;
+            }
+            if (meta > 1)
+            {
+                ((BlockEntityTreasureChest) tileEntity).setRarity(meta - 1);
+                level.setBlockMeta(x, y, z, 1);
+            }
+            if (meta == 0)
+            {
+                GuiHelper.openGUI(player, MOD_ID.id("treasure_chest"), treasureChest, new ContainerTreasureChest(player.inventory, treasureChest));
+                return true;
+            }
+            if (level.isClient)
+            {
+                return true;
+            }
+            final ItemStack itemstack = player.inventory.getHeldItem();
+            if (itemstack != null && meta == 1)
+            {
+                if (itemstack.itemId == AetherItems.Key.id && itemstack.getDamage() + 1 == treasureChest.rarity)
+                {
+                    player.inventory.takeInventoryItem(player.inventory.selectedHotBarSlot, 1);
+                    level.setBlockMeta(x, y, z, 0);
+                    Random rand = new Random();
+                    switch (treasureChest.rarity)
+                    {
+                        case 0:
+                            break;
+                        case 1:
+                            for (int p = 0; p < 3 + rand.nextInt(3); ++p)
+                            {
+                                final ItemStack item = this.getBronzeLoot(rand);
+                                treasureChest.setInventoryItem(rand.nextInt(treasureChest.getInventorySize()), item);
+                            }
+                            break;
+                        case 2:
+                            for (int p = 0; p < 3 + rand.nextInt(3); ++p)
+                            {
+                                final ItemStack item = this.getSilverLoot(rand);
+                                treasureChest.setInventoryItem(rand.nextInt(treasureChest.getInventorySize()), item);
+                            }
+                            break;
+                        case 3:
+                            for (int p = 0; p < 3 + rand.nextInt(3); ++p)
+                            {
+                                final ItemStack item = this.getGoldLoot(rand);
+                                treasureChest.setInventoryItem(rand.nextInt(treasureChest.getInventorySize()), item);
+                            }
+                            break;
+                    }
                 }
             }
         }
-    }*/
+        return false;
+    }
 
-    protected BlockEntity createBlockEntity() {
-        // todo: tileentity return new ChestBlockEntity();
-        return null;
+    @Override
+    protected BlockEntity createBlockEntity()
+    {
+        return new BlockEntityTreasureChest();
     }
 }

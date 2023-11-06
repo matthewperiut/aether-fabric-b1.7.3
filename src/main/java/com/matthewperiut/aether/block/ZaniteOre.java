@@ -7,12 +7,15 @@ import net.modificationstation.stationapi.api.template.block.TemplateBlockBase;
 
 import java.util.Random;
 
-public class ZaniteOre extends TemplateBlockBase {
-    protected ZaniteOre(Identifier blockID) {
+public class ZaniteOre extends TemplateBlockBase
+{
+    protected ZaniteOre(Identifier blockID)
+    {
         super(blockID, Material.STONE);
     }
 
-    public int getDropId(int i, Random random) {
+    public int getDropId(int i, Random random)
+    {
         return AetherItems.Zanite.id;
     }
 }

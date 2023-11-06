@@ -8,33 +8,43 @@ import net.modificationstation.stationapi.api.template.block.TemplateTranslucent
 
 import java.util.Random;
 
-public class Trap extends TemplateTranslucentBlock {
-    public Trap(Identifier blockID) {
+public class Trap extends TemplateTranslucentBlock
+{
+    public Trap(Identifier blockID)
+    {
         super(blockID, DungeonBlock.sprBronze, Material.STONE, false);
         this.setTicksRandomly(true);
     }
 
-    public boolean isFullOpaque() {
+    public boolean isFullOpaque()
+    {
         return true;
     }
 
-    public int getRenderPass() {
+    public int getRenderPass()
+    {
         return 1;
     }
 
-    public int getTextureForSide(int i, int j) {
-        if (j == 2) {
+    public int getTextureForSide(int i, int j)
+    {
+        if (j == 2)
+        {
             return DungeonBlock.sprGold;
-        } else {
+        }
+        else
+        {
             return j == 1 ? DungeonBlock.sprSilver : DungeonBlock.sprBronze;
         }
     }
 
-    public int getDropCount(Random random) {
+    public int getDropCount(Random random)
+    {
         return 1;
     }
 
-    public void onSteppedOn(World world, int i, int j, int k, Entity entity) {
+    public void onSteppedOn(World world, int i, int j, int k, Entity entity)
+    {
         /* todo: entity
         if (entity instanceof PlayerEntity) {
             world.playSound((double)((float)i + 0.5F), (double)((float)j + 0.5F), (double)((float)k + 0.5F), "aether.sound.other.dungeontrap.activateTrap", 1.0F, 1.0F);
@@ -58,7 +68,8 @@ public class Trap extends TemplateTranslucentBlock {
 */
     }
 
-    protected int droppedMeta(int i) {
+    protected int droppedMeta(int i)
+    {
         return i;
     }
 }
