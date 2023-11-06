@@ -19,57 +19,47 @@ import java.util.Random;
 
 import static com.matthewperiut.aether.blockentity.AetherBlockEntities.MOD_ID;
 
-public class Freezer extends TemplateBlockWithEntity
-{
+public class Freezer extends TemplateBlockWithEntity {
     public static int sideTexture;
     private final Random FrozenRand;
 
-    protected Freezer(Identifier blockID)
-    {
+    protected Freezer(Identifier blockID) {
         super(blockID, Material.STONE);
         this.FrozenRand = new Random();
     }
 
-    public static void updateFreezerBlockState(boolean flag, World world, int i, int j, int k)
-    {
+    public static void updateFreezerBlockState(boolean flag, World world, int i, int j, int k) {
         int l = world.getBlockMeta(i, j, k);
         BlockEntity tileentity = world.getBlockEntity(i, j, k);
         world.setBlockMeta(i, j, k, l);
         world.setBlockEntity(i, j, k, tileentity);
     }
 
-    public void onBlockPlaced(World world, int i, int j, int k)
-    {
+    public void onBlockPlaced(World world, int i, int j, int k) {
         super.onBlockPlaced(world, i, j, k);
         this.setDefaultDirection(world, i, j, k);
     }
 
-    private void setDefaultDirection(World world, int i, int j, int k)
-    {
-        if (!world.isClient)
-        {
+    private void setDefaultDirection(World world, int i, int j, int k) {
+        if (!world.isClient) {
             int l = world.getBlockId(i, j, k - 1);
             int i1 = world.getBlockId(i, j, k + 1);
             int j1 = world.getBlockId(i - 1, j, k);
             int k1 = world.getBlockId(i + 1, j, k);
             byte byte0 = 3;
-            if (Block.FULL_OPAQUE[l] && !Block.FULL_OPAQUE[i1])
-            {
+            if (Block.FULL_OPAQUE[l] && !Block.FULL_OPAQUE[i1]) {
                 byte0 = 3;
             }
 
-            if (Block.FULL_OPAQUE[i1] && !Block.FULL_OPAQUE[l])
-            {
+            if (Block.FULL_OPAQUE[i1] && !Block.FULL_OPAQUE[l]) {
                 byte0 = 2;
             }
 
-            if (Block.FULL_OPAQUE[j1] && !Block.FULL_OPAQUE[k1])
-            {
+            if (Block.FULL_OPAQUE[j1] && !Block.FULL_OPAQUE[k1]) {
                 byte0 = 5;
             }
 
-            if (Block.FULL_OPAQUE[k1] && !Block.FULL_OPAQUE[j1])
-            {
+            if (Block.FULL_OPAQUE[k1] && !Block.FULL_OPAQUE[j1]) {
                 byte0 = 4;
             }
 
@@ -77,11 +67,9 @@ public class Freezer extends TemplateBlockWithEntity
         }
     }
 
-    public void randomDisplayTick(World world, int i, int j, int k, Random random)
-    {
+    public void randomDisplayTick(World world, int i, int j, int k, Random random) {
         BlockEntityFreezer tileentity = (BlockEntityFreezer) world.getBlockEntity(i, j, k);
-        if (tileentity.isBurning())
-        {
+        if (tileentity.isBurning()) {
             float f = (float) i + 0.5F;
             float f1 = (float) j + 1.0F + random.nextFloat() * 6.0F / 16.0F;
             float f2 = (float) k + 0.5F;
@@ -93,89 +81,70 @@ public class Freezer extends TemplateBlockWithEntity
 
     }
 
-    public int getTextureForSide(int i)
-    {
-        if (i == 1)
-        {
+    public int getTextureForSide(int i) {
+        if (i == 1) {
             return this.texture;
-        }
-        else
-        {
+        } else {
             return i == 0 ? this.texture : sideTexture;
         }
     }
 
-    public boolean canUse(World world, int i, int j, int k, PlayerEntity player)
-    {
-        if (world.isClient)
-        {
+    public boolean canUse(World world, int i, int j, int k, PlayerEntity player) {
+        if (world.isClient) {
             return true;
-        }
-        else
-        {
+        } else {
             BlockEntityFreezer tileentityFreezer = (BlockEntityFreezer) world.getBlockEntity(i, j, k);
             GuiHelper.openGUI(player, MOD_ID.id("freezer"), tileentityFreezer, new ContainerFreezer(player.inventory, tileentityFreezer));
             return true;
         }
     }
 
-    protected BlockEntity createBlockEntity()
-    {
+    protected BlockEntity createBlockEntity() {
         return new BlockEntityFreezer();
     }
 
-    public void afterPlaced(World world, int i, int j, int k, LivingEntity entityliving)
-    {
+    public void afterPlaced(World world, int i, int j, int k, LivingEntity entityliving) {
         int l = MathHelper.floor((double) (entityliving.yaw * 4.0F / 360.0F) + 0.5) & 3;
-        if (l == 0)
-        {
+        if (l == 0) {
             world.setBlockMeta(i, j, k, 2);
         }
 
-        if (l == 1)
-        {
+        if (l == 1) {
             world.setBlockMeta(i, j, k, 5);
         }
 
-        if (l == 2)
-        {
+        if (l == 2) {
             world.setBlockMeta(i, j, k, 3);
         }
 
-        if (l == 3)
-        {
+        if (l == 3) {
             world.setBlockMeta(i, j, k, 4);
         }
 
     }
 
-    public void onBlockRemoved(World world, int i, int j, int k)
-    {
+    public void onBlockRemoved(World world, int i, int j, int k) {
         BlockEntityFreezer tileentityFreezer = (BlockEntityFreezer) world.getBlockEntity(i, j, k);
 
-        for (int l = 0; l < tileentityFreezer.getInventorySize(); ++l)
-        {
+        for (int l = 0; l < tileentityFreezer.getInventorySize(); ++l) {
             ItemStack itemstack = tileentityFreezer.getInventoryItem(l);
-            if (itemstack != null)
-            {
+            if (itemstack != null) {
                 float f = this.FrozenRand.nextFloat() * 0.8F + 0.1F;
                 float f1 = this.FrozenRand.nextFloat() * 0.8F + 0.1F;
                 float f2 = this.FrozenRand.nextFloat() * 0.8F + 0.1F;
 
-                while (itemstack.count > 0)
-                {
+                while (itemstack.count > 0) {
                     int i1 = this.FrozenRand.nextInt(21) + 10;
-                    if (i1 > itemstack.count)
-                    {
+                    if (i1 > itemstack.count) {
                         i1 = itemstack.count;
                     }
 
                     itemstack.count -= i1;
-                    ItemEntity entityitem = new ItemEntity(world, (double) ((float) i + f), (double) ((float) j + f1), (double) ((float) k + f2), new ItemStack(itemstack.itemId, i1, itemstack.getMeta()));
+                    ItemEntity entityitem = new ItemEntity(world, (float) i + f, (float) j + f1, (float) k + f2, new ItemStack(itemstack.itemId, i1, itemstack.getMeta()));
                     float f3 = 0.05F;
-                    entityitem.xVelocity = (double) ((float) this.FrozenRand.nextGaussian() * f3);
-                    entityitem.yVelocity = (double) ((float) this.FrozenRand.nextGaussian() * f3 + 0.2F);
-                    entityitem.zVelocity = (double) ((float) this.FrozenRand.nextGaussian() * f3);
+                    entityitem.xVelocity = (float) this.FrozenRand.nextGaussian() * f3;
+                    entityitem.yVelocity = (float) this.FrozenRand.nextGaussian() * f3 + 0.2F;
+                    entityitem.zVelocity = (float) this.FrozenRand.nextGaussian() * f3;
                     world.spawnEntity(entityitem);
                 }
             }

@@ -7,12 +7,10 @@ import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.registry.Identifier;
 import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
 
-public class ItemCloudParachute extends TemplateItemBase
-{
+public class ItemCloudParachute extends TemplateItemBase {
     public static int tex;// = ModLoader.addOverride("/gui/items.png", "/aether/items/CloudParachute.png");
 
-    public ItemCloudParachute(Identifier i, boolean golden)
-    {
+    public ItemCloudParachute(Identifier i, boolean golden) {
         super(i);
         this.setTexturePosition(tex);
         this.maxStackSize = 1;
@@ -20,13 +18,11 @@ public class ItemCloudParachute extends TemplateItemBase
     }
 
     @Override
-    public int getTexturePosition(int i)
-    {
+    public int getTexturePosition(int i) {
         return tex;
     }
 
-    public ItemStack use(ItemStack itemstack, World world, PlayerEntity entityplayer)
-    {
+    public ItemStack use(ItemStack itemstack, World world, PlayerEntity entityplayer) {
         /* todo: entity
         if (EntityCloudParachute.entityHasRoomForCloud(world, entityplayer)) {
             for(int i = 0; i < 32; ++i) {
@@ -48,8 +44,7 @@ public class ItemCloudParachute extends TemplateItemBase
         return itemstack;
     }
 
-    public int getNameColor(int i)
-    {
+    public int getNameColor(int i) {
         return this.id == AetherItems.CloudParachuteGold.id ? 16777087 : 16777215;
     }
 }

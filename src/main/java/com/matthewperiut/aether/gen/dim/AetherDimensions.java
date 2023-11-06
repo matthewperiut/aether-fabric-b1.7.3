@@ -12,15 +12,13 @@ import net.modificationstation.stationapi.api.registry.ModID;
 import net.modificationstation.stationapi.api.util.Null;
 
 @Entrypoint(eventBus = @EventBusPolicy(registerInstance = false))
-public class AetherDimensions
-{
+public class AetherDimensions {
     @Entrypoint.ModID
     public static final ModID MOD_ID = Null.get();
     public static Identifier THE_AETHER;
 
     @EventListener
-    private static void registerDimensions(DimensionRegistryEvent event)
-    {
+    private static void registerDimensions(DimensionRegistryEvent event) {
         DimensionRegistry r = event.registry;
         r.register(THE_AETHER = Identifier.of(MOD_ID, "the_aether"), new DimensionContainer<Dimension>(AetherDimension::new));
     }

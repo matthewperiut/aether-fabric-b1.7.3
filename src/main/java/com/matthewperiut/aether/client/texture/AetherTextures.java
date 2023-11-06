@@ -13,8 +13,7 @@ import net.modificationstation.stationapi.api.util.Null;
 
 import static net.modificationstation.stationapi.api.registry.Identifier.of;
 
-public class AetherTextures
-{
+public class AetherTextures {
     @Entrypoint.ModID
     private static final ModID MOD_ID = Null.get();
     public static int Ring;
@@ -24,14 +23,12 @@ public class AetherTextures
     public static int GloveChain;
 
     @EventListener
-    public void registerTextures(TextureRegisterEvent event)
-    {
+    public void registerTextures(TextureRegisterEvent event) {
         setBlockTextures();
         setItemTextures();
     }
 
-    private void setBlockTextures()
-    {
+    private void setBlockTextures() {
         ExpandableAtlas terrain = Atlases.getTerrain();
 
         AetherBlocks.Aercloud.texture = terrain.addTexture(of(MOD_ID, "block/Aercloud")).index;
@@ -80,8 +77,7 @@ public class AetherTextures
         AetherBlocks.QuicksoilGlass.texture = terrain.addTexture(of(MOD_ID, "block/QuicksoilGlass")).index;
     }
 
-    private void setItemTextures()
-    {
+    private void setItemTextures() {
         ExpandableAtlas items = Atlases.getGuiItems();
         AetherItems.AmbrosiumShard.setTexture(of(MOD_ID, "item/AmbrosiumShard"));
         AetherItems.VictoryMedal.setTexture(of(MOD_ID, "item/VictoryMedal"));

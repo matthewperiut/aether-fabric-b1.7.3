@@ -10,29 +10,24 @@ import net.modificationstation.stationapi.api.registry.Identifier;
 import java.awt.*;
 import java.util.Optional;
 
-public class ItemGloves extends ItemMoreArmor implements HasCustomRenderer, CustomArmourValue
-{
+public class ItemGloves extends ItemMoreArmor implements HasCustomRenderer, CustomArmourValue {
     AccessoryRenderer renderer;
 
-    public ItemGloves(Identifier i, int j, String path, int l, int m)
-    {
+    public ItemGloves(Identifier i, int j, String path, int l, int m) {
         super(i, j, path, l, m);
     }
 
-    public ItemGloves(Identifier i, int j, String path, int l, int m, boolean flag)
-    {
+    public ItemGloves(Identifier i, int j, String path, int l, int m, boolean flag) {
         super(i, j, path, l, m, flag);
     }
 
     @Override
-    public Optional<AccessoryRenderer> getRenderer()
-    {
+    public Optional<AccessoryRenderer> getRenderer() {
         return Optional.ofNullable(renderer);
     }
 
     @Override
-    public void constructRenderer()
-    {
+    public void constructRenderer() {
         if (colouriseRender)
             renderer = new GloveRenderer(texture).withColor(new Color(colour));
         else
@@ -40,11 +35,9 @@ public class ItemGloves extends ItemMoreArmor implements HasCustomRenderer, Cust
     }
 
     @Override
-    public double modifyDamageDealt(PlayerEntity playerEntity, int armourSlot, int initialDamage, double currentAdjustedDamage)
-    {
+    public double modifyDamageDealt(PlayerEntity playerEntity, int armourSlot, int initialDamage, double currentAdjustedDamage) {
         playerEntity.inventory.armor[armourSlot].applyDamage(1, playerEntity);
-        if (playerEntity.inventory.armor[armourSlot].getDamage() > playerEntity.inventory.armor[armourSlot].getDurability() - 2)
-        {
+        if (playerEntity.inventory.armor[armourSlot].getDamage() > playerEntity.inventory.armor[armourSlot].getDurability() - 2) {
             playerEntity.inventory.armor[armourSlot] = null;
         }
 

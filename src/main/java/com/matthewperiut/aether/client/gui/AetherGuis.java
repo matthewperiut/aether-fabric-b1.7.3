@@ -18,15 +18,13 @@ import net.modificationstation.stationapi.api.registry.ModID;
 import net.modificationstation.stationapi.api.util.Null;
 import uk.co.benjiweber.expressions.tuple.BiTuple;
 
-public class AetherGuis
-{
+public class AetherGuis {
     @Entrypoint.ModID
     private static final ModID MOD_ID = Null.get();
 
     @Environment(EnvType.CLIENT)
     @EventListener
-    public void registerGuiHandlers(GuiHandlerRegistryEvent event)
-    {
+    public void registerGuiHandlers(GuiHandlerRegistryEvent event) {
         GuiHandlerRegistry registry = event.registry;
         registry.registerValueNoMessage(Identifier.of(MOD_ID, "treasure_chest"), BiTuple.of(this::openTreasureChest, BlockEntityTreasureChest::new));
         registry.registerValueNoMessage(Identifier.of(MOD_ID, "freezer"), BiTuple.of(this::openFreezer, BlockEntityFreezer::new));
@@ -35,26 +33,22 @@ public class AetherGuis
     }
 
     @Environment(EnvType.CLIENT)
-    public ContainerScreen openTreasureChest(PlayerEntity player, Inventory inventoryBase)
-    {
+    public ContainerScreen openTreasureChest(PlayerEntity player, Inventory inventoryBase) {
         return new GuiTreasureChest(player.inventory, (BlockEntityTreasureChest) inventoryBase);
     }
 
     @Environment(EnvType.CLIENT)
-    public ContainerScreen openFreezer(PlayerEntity player, Inventory inventoryBase)
-    {
+    public ContainerScreen openFreezer(PlayerEntity player, Inventory inventoryBase) {
         return new GuiFreezer(player.inventory, (BlockEntityFreezer) inventoryBase);
     }
 
     @Environment(EnvType.CLIENT)
-    public ContainerScreen openEnchanter(PlayerEntity player, Inventory inventoryBase)
-    {
+    public ContainerScreen openEnchanter(PlayerEntity player, Inventory inventoryBase) {
         return new GuiEnchanter(player.inventory, (BlockEntityEnchanter) inventoryBase);
     }
 
     @Environment(EnvType.CLIENT)
-    public ContainerScreen openIncubator(PlayerEntity player, Inventory inventoryBase)
-    {
+    public ContainerScreen openIncubator(PlayerEntity player, Inventory inventoryBase) {
         return new GuiIncubator(player.inventory, (BlockEntityIncubator) inventoryBase);
     }
 }

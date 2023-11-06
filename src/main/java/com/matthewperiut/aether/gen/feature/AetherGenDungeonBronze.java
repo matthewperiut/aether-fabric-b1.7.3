@@ -11,23 +11,21 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class AetherGenDungeonBronze extends AetherGenBuildings
-{
-    private int corridorMeta1;
-    private int corridorMeta2;
-    private int lockedBlockID1;
-    private int lockedBlockID2;
-    private int wallBlockID1;
-    private int wallBlockID2;
-    private int corridorBlockID1;
-    private int corridorBlockID2;
-    private int numRooms;
+public class AetherGenDungeonBronze extends AetherGenBuildings {
+    private final int corridorMeta1;
+    private final int corridorMeta2;
+    private final int lockedBlockID1;
+    private final int lockedBlockID2;
+    private final int wallBlockID1;
+    private final int wallBlockID2;
+    private final int corridorBlockID1;
+    private final int corridorBlockID2;
+    private final int numRooms;
+    private final boolean flat;
     private int n;
     private boolean finished;
-    private boolean flat;
 
-    public AetherGenDungeonBronze(int i, int j, int k, int l, int m, int m1, int o, int o1, int p, boolean flag)
-    {
+    public AetherGenDungeonBronze(int i, int j, int k, int l, int m, int m1, int o, int o1, int p, boolean flag) {
         this.lockedBlockID1 = i;
         this.lockedBlockID2 = j;
         this.wallBlockID1 = k;
@@ -41,13 +39,11 @@ public class AetherGenDungeonBronze extends AetherGenBuildings
         this.finished = false;
     }
 
-    public boolean generate(World world, Random random, int i, int j, int k)
-    {
+    public boolean generate(World world, Random random, int i, int j, int k) {
         this.replaceAir = true;
         this.replaceSolid = true;
         this.n = 0;
-        if (this.isBoxSolid(world, i, j, k, 16, 12, 16) && this.isBoxSolid(world, i + 20, j, k + 2, 12, 12, 12))
-        {
+        if (this.isBoxSolid(world, i, j, k, 16, 12, 16) && this.isBoxSolid(world, i + 20, j, k + 2, 12, 12, 12)) {
             this.setBlocks(this.lockedBlockID1, this.lockedBlockID2, 20);
             this.addHollowBox(world, random, i, j, k, 16, 12, 16);
             this.addHollowBox(world, random, i + 6, j - 2, k + 6, 4, 4, 4);
@@ -63,22 +59,17 @@ public class AetherGenDungeonBronze extends AetherGenBuildings
 
             x = i + 20;
             z = k + 2;
-            if (!this.isBoxSolid(world, x, j, z, 12, 12, 12))
-            {
+            if (!this.isBoxSolid(world, x, j, z, 12, 12, 12)) {
                 return true;
-            }
-            else
-            {
+            } else {
                 this.setBlocks(this.wallBlockID1, this.wallBlockID2, 20);
                 this.addHollowBox(world, random, x, j, z, 12, 12, 12);
                 this.setBlocks(this.corridorBlockID2, this.corridorBlockID1, 5);
                 this.setMetadata(this.corridorMeta2, this.corridorMeta1);
                 this.addSquareTube(world, random, x - 5, j, z + 3, 6, 6, 6, 0);
 
-                for (p = x + 2; p < x + 10; p += 3)
-                {
-                    for (int q = z + 2; q < z + 10; q += 3)
-                    {
+                for (p = x + 2; p < x + 10; p += 3) {
+                    for (int q = z + 2; q < z + 10; q += 3) {
                         world.setBlockWithMetadata(p, j, q, AetherBlocks.Trap.id, 0);
                     }
                 }
@@ -86,87 +77,67 @@ public class AetherGenDungeonBronze extends AetherGenBuildings
                 ++this.n;
                 this.generateNextRoom(world, random, x, j, z);
                 this.generateNextRoom(world, random, x, j, z);
-                if (this.n > this.numRooms || !this.finished)
-                {
+                if (this.n > this.numRooms || !this.finished) {
                     this.endCorridor(world, random, x, j, z);
                 }
 
                 return true;
             }
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 
-    public boolean generateNextRoom(World world, Random random, int i, int j, int k)
-    {
-        if (this.n > this.numRooms && !this.finished)
-        {
+    public boolean generateNextRoom(World world, Random random, int i, int j, int k) {
+        if (this.n > this.numRooms && !this.finished) {
             this.endCorridor(world, random, i, j, k);
             return false;
-        }
-        else
-        {
+        } else {
             int dir = random.nextInt(4);
             int x = i;
             int y = j;
             int z = k;
-            if (dir == 0)
-            {
+            if (dir == 0) {
                 x = i + 16;
-                z = k + 0;
+                z = k;
             }
 
-            if (dir == 1)
-            {
+            if (dir == 1) {
                 x += 0;
                 z += 16;
             }
 
-            if (dir == 2)
-            {
+            if (dir == 2) {
                 x -= 16;
                 z += 0;
             }
 
-            if (dir == 3)
-            {
+            if (dir == 3) {
                 x += 0;
                 z -= 16;
             }
 
-            if (!this.isBoxSolid(world, x, j, z, 12, 8, 12))
-            {
+            if (!this.isBoxSolid(world, x, j, z, 12, 8, 12)) {
                 return false;
-            }
-            else
-            {
+            } else {
                 this.setBlocks(this.wallBlockID1, this.wallBlockID2, 20);
                 this.setMetadata(0, 0);
                 this.addHollowBox(world, random, x, j, z, 12, 8, 12);
 
                 int p;
                 int q;
-                for (p = x; p < x + 12; ++p)
-                {
-                    for (p = y; p < y + 8; ++p)
-                    {
-                        for (q = z; q < z + 12; ++q)
-                        {
-                            if (world.getBlockId(p, p, q) == this.wallBlockID1 && random.nextInt(100) == 0)
-                            {
+                for (p = x; p < x + 12; ++p) {
+                    for (p = y; p < y + 8; ++p) {
+                        for (q = z; q < z + 12; ++q) {
+                            if (world.getBlockId(p, p, q) == this.wallBlockID1 && random.nextInt(100) == 0) {
                                 world.setBlockInChunk(p, p, q, AetherBlocks.Trap.id);
                             }
                         }
                     }
                 }
 
-                for (p = x + 2; p < x + 10; p += 7)
-                {
-                    for (p = z + 2; p < z + 10; p += 7)
-                    {
+                for (p = x + 2; p < x + 10; p += 7) {
+                    for (p = z + 2; p < z + 10; p += 7) {
                         world.setBlockWithMetadata(p, j, p, AetherBlocks.Trap.id, 0);
                     }
                 }
@@ -175,19 +146,16 @@ public class AetherGenDungeonBronze extends AetherGenBuildings
                 p = random.nextInt(2);
                 p = x + 5 + random.nextInt(2);
                 q = z + 5 + random.nextInt(2);
-                switch (p)
-                {
+                switch (p) {
                     case 0:
                         world.setBlock(p, y + 2, q, AetherBlocks.ChestMimic.id);
                         break;
                     case 1:
-                        if (world.getBlockId(p, y + 2, q) == 0)
-                        {
+                        if (world.getBlockId(p, y + 2, q) == 0) {
                             world.setBlock(p, y + 2, q, Block.CHEST.id);
                             ChestBlockEntity chest = (ChestBlockEntity) world.getBlockEntity(p, y + 2, q);
 
-                            for (p = 0; p < 3 + random.nextInt(3); ++p)
-                            {
+                            for (p = 0; p < 3 + random.nextInt(3); ++p) {
                                 ItemStack item = this.getNormalLoot(random);
                                 chest.setInventoryItem(random.nextInt(chest.getInventorySize()), item);
                             }
@@ -196,8 +164,7 @@ public class AetherGenDungeonBronze extends AetherGenBuildings
 
                 this.setBlocks(this.corridorBlockID2, this.corridorBlockID1, 5);
                 this.setMetadata(this.corridorMeta2, this.corridorMeta1);
-                switch (dir)
-                {
+                switch (dir) {
                     case 0:
                         this.addSquareTube(world, random, x - 5, y, z + 3, 6, 6, 6, 0);
                         break;
@@ -212,20 +179,16 @@ public class AetherGenDungeonBronze extends AetherGenBuildings
                 }
 
                 ++this.n;
-                if (!this.generateNextRoom(world, random, x, y, z))
-                {
+                if (!this.generateNextRoom(world, random, x, y, z)) {
                     return false;
-                }
-                else
-                {
+                } else {
                     return this.generateNextRoom(world, random, x, y, z);
                 }
             }
         }
     }
 
-    public void endCorridor(World world, Random random, int i, int j, int k)
-    {
+    public void endCorridor(World world, Random random, int i, int j, int k) {
         this.replaceAir = false;
         boolean tunnelling = true;
         int dir = random.nextInt(3);
@@ -233,29 +196,21 @@ public class AetherGenDungeonBronze extends AetherGenBuildings
         int y = j;
         int z = k;
         boolean flag;
-        if (dir == 0)
-        {
+        if (dir == 0) {
             x = i + 11;
 
-            for (z = k + 3; tunnelling; ++x)
-            {
-                if (this.isBoxEmpty(world, x, y, z, 1, 8, 6) || x - i > 100)
-                {
+            for (z = k + 3; tunnelling; ++x) {
+                if (this.isBoxEmpty(world, x, y, z, 1, 8, 6) || x - i > 100) {
                     tunnelling = false;
                 }
 
                 flag = true;
 
-                while (true)
-                {
-                    while (flag && (world.getBlockId(x, y, z) == this.wallBlockID1 || world.getBlockId(x, y, z) == this.wallBlockID2 || world.getBlockId(x, y, z) == this.lockedBlockID1 || world.getBlockId(x, y, z) == this.lockedBlockID2))
-                    {
-                        if (world.getBlockId(x + 1, y, z) != this.wallBlockID1 && world.getBlockId(x + 1, y, z) != this.wallBlockID2 && world.getBlockId(x + 1, y, z) != this.lockedBlockID1 && world.getBlockId(x + 1, y, z) != this.lockedBlockID2)
-                        {
+                while (true) {
+                    while (flag && (world.getBlockId(x, y, z) == this.wallBlockID1 || world.getBlockId(x, y, z) == this.wallBlockID2 || world.getBlockId(x, y, z) == this.lockedBlockID1 || world.getBlockId(x, y, z) == this.lockedBlockID2)) {
+                        if (world.getBlockId(x + 1, y, z) != this.wallBlockID1 && world.getBlockId(x + 1, y, z) != this.wallBlockID2 && world.getBlockId(x + 1, y, z) != this.lockedBlockID1 && world.getBlockId(x + 1, y, z) != this.lockedBlockID2) {
                             flag = false;
-                        }
-                        else
-                        {
+                        } else {
                             ++x;
                         }
                     }
@@ -270,29 +225,21 @@ public class AetherGenDungeonBronze extends AetherGenBuildings
             }
         }
 
-        if (dir == 1)
-        {
+        if (dir == 1) {
             x += 3;
 
-            for (z += 11; tunnelling; ++z)
-            {
-                if (this.isBoxEmpty(world, x, y, z, 6, 8, 1) || z - k > 100)
-                {
+            for (z += 11; tunnelling; ++z) {
+                if (this.isBoxEmpty(world, x, y, z, 6, 8, 1) || z - k > 100) {
                     tunnelling = false;
                 }
 
                 flag = true;
 
-                while (true)
-                {
-                    while (flag && (world.getBlockId(x, y, z) == this.wallBlockID1 || world.getBlockId(x, y, z) == this.wallBlockID2 || world.getBlockId(x, y, z) == this.lockedBlockID1 || world.getBlockId(x, y, z) == this.lockedBlockID2))
-                    {
-                        if (world.getBlockId(x, y, z + 1) != this.wallBlockID1 && world.getBlockId(x, y, z + 1) != this.wallBlockID2 && world.getBlockId(x, y, z + 1) != this.lockedBlockID1 && world.getBlockId(x, y, z + 1) != this.lockedBlockID2)
-                        {
+                while (true) {
+                    while (flag && (world.getBlockId(x, y, z) == this.wallBlockID1 || world.getBlockId(x, y, z) == this.wallBlockID2 || world.getBlockId(x, y, z) == this.lockedBlockID1 || world.getBlockId(x, y, z) == this.lockedBlockID2)) {
+                        if (world.getBlockId(x, y, z + 1) != this.wallBlockID1 && world.getBlockId(x, y, z + 1) != this.wallBlockID2 && world.getBlockId(x, y, z + 1) != this.lockedBlockID1 && world.getBlockId(x, y, z + 1) != this.lockedBlockID2) {
                             flag = false;
-                        }
-                        else
-                        {
+                        } else {
                             ++z;
                         }
                     }
@@ -307,29 +254,21 @@ public class AetherGenDungeonBronze extends AetherGenBuildings
             }
         }
 
-        if (dir == 2)
-        {
+        if (dir == 2) {
             x += 3;
 
-            for (z += 0; tunnelling; --z)
-            {
-                if (this.isBoxEmpty(world, x, y, z, 6, 8, 1) || j - z > 100)
-                {
+            for (z += 0; tunnelling; --z) {
+                if (this.isBoxEmpty(world, x, y, z, 6, 8, 1) || j - z > 100) {
                     tunnelling = false;
                 }
 
                 flag = true;
 
-                while (true)
-                {
-                    while (flag && (world.getBlockId(x, y, z) == this.wallBlockID1 || world.getBlockId(x, y, z) == this.wallBlockID2 || world.getBlockId(x, y, z) == this.lockedBlockID1 || world.getBlockId(x, y, z) == this.lockedBlockID2))
-                    {
-                        if (world.getBlockId(x, y, z - 1) != this.wallBlockID1 && world.getBlockId(x, y, z - 1) != this.wallBlockID2 && world.getBlockId(x, y, z - 1) != this.lockedBlockID1 && world.getBlockId(x, y, z - 1) != this.lockedBlockID2)
-                        {
+                while (true) {
+                    while (flag && (world.getBlockId(x, y, z) == this.wallBlockID1 || world.getBlockId(x, y, z) == this.wallBlockID2 || world.getBlockId(x, y, z) == this.lockedBlockID1 || world.getBlockId(x, y, z) == this.lockedBlockID2)) {
+                        if (world.getBlockId(x, y, z - 1) != this.wallBlockID1 && world.getBlockId(x, y, z - 1) != this.wallBlockID2 && world.getBlockId(x, y, z - 1) != this.lockedBlockID1 && world.getBlockId(x, y, z - 1) != this.lockedBlockID2) {
                             flag = false;
-                        }
-                        else
-                        {
+                        } else {
                             --z;
                         }
                     }
@@ -347,11 +286,9 @@ public class AetherGenDungeonBronze extends AetherGenBuildings
         this.finished = true;
     }
 
-    private ItemStack getNormalLoot(Random random)
-    {
+    private ItemStack getNormalLoot(Random random) {
         int item = random.nextInt(14);
-        switch (item)
-        {
+        switch (item) {
             case 0:
                 return new ItemStack(AetherItems.PickZanite);
             case 1:
@@ -371,28 +308,24 @@ public class AetherGenDungeonBronze extends AetherGenBuildings
             case 8:
                 return new ItemStack(AetherItems.Dart, random.nextInt(3) + 1, 2);
             case 9:
-                if (random.nextInt(20) == 0)
-                {
+                if (random.nextInt(20) == 0) {
                     return new ItemStack(AetherItems.BlueMusicDisk);
                 }
                 break;
             case 10:
                 return new ItemStack(AetherItems.Bucket);
             case 11:
-                if (random.nextInt(10) == 0)
-                {
+                if (random.nextInt(10) == 0) {
                     return new ItemStack(Item.byId[Item.RECORD_13.id + random.nextInt(2)]);
                 }
                 break;
             case 12:
-                if (random.nextInt(4) == 0)
-                {
+                if (random.nextInt(4) == 0) {
                     return new ItemStack(AetherItems.IronRing);
                 }
                 break;
             case 13:
-                if (random.nextInt(10) == 0)
-                {
+                if (random.nextInt(10) == 0) {
                     return new ItemStack(AetherItems.GoldRing);
                 }
         }
@@ -400,11 +333,9 @@ public class AetherGenDungeonBronze extends AetherGenBuildings
         return new ItemStack(AetherBlocks.AmbrosiumTorch);
     }
 
-    private ItemStack getBronzeLoot(Random random)
-    {
+    private ItemStack getBronzeLoot(Random random) {
         int item = random.nextInt(7);
-        switch (item)
-        {
+        switch (item) {
             case 0:
                 return new ItemStack(AetherItems.GummieSwet, random.nextInt(8), random.nextInt(2));
             case 1:

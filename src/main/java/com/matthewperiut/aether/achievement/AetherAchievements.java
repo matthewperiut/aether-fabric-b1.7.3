@@ -14,8 +14,7 @@ import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
 import net.modificationstation.stationapi.api.registry.ModID;
 import net.modificationstation.stationapi.api.util.Null;
 
-public class AetherAchievements
-{
+public class AetherAchievements {
     @Entrypoint.ModID
     public static final ModID MOD_ID = Null.get();
     public static final int acOff = 800;
@@ -31,15 +30,13 @@ public class AetherAchievements
     public static Achievement lore;
     public static Achievement loreception;
 
-    public static void giveAchievement(Achievement achievement, PlayerEntity player)
-    {
+    public static void giveAchievement(Achievement achievement, PlayerEntity player) {
         player.incrementStat(achievement);
     }
 
     @EventListener
-    private void registerAchievements(AchievementRegisterEvent event)
-    {
-        enterAether = (new Achievement(acOff, "aether:enterAether", 0, 0, Block.GLOWSTONE, (Achievement) null)).register();
+    private void registerAchievements(AchievementRegisterEvent event) {
+        enterAether = (new Achievement(acOff, "aether:enterAether", 0, 0, Block.GLOWSTONE, null)).register();
         defeatBronze = (new Achievement(acOff + 1, "aether:defeatBronze", -2, 3, new ItemStack(AetherItems.Key, 1, 0), enterAether)).register();
         defeatSilver = (new Achievement(acOff + 2, "aether:defeatSilver", 0, 4, new ItemStack(AetherItems.Key, 1, 1), enterAether)).register();
         defeatGold = (new Achievement(acOff + 3, "aether:defeatGold", 2, 3, new ItemStack(AetherItems.Key, 1, 2), enterAether)).register();
@@ -62,6 +59,6 @@ public class AetherAchievements
         event.achievements.add(AetherAchievements.lore);/*, "The more you know!", "Read a book of lore");*/
         event.achievements.add(AetherAchievements.loreception);/*, "Lore-ception", "It's a book in a book in a book in...");*/
         final AchievementPage page = new AetherACPage();
-        page.addAchievements(new Achievement[]{enterAether, defeatBronze, defeatSilver, defeatGold, enchanter, incubator, gravTools, blueCloud, flyingPig, lore, loreception});
+        page.addAchievements(enterAether, defeatBronze, defeatSilver, defeatGold, enchanter, incubator, gravTools, blueCloud, flyingPig, lore, loreception);
     }
 }

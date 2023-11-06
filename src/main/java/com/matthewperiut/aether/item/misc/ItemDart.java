@@ -4,39 +4,29 @@ import net.minecraft.item.ItemStack;
 import net.modificationstation.stationapi.api.registry.Identifier;
 import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
 
-public class ItemDart extends TemplateItemBase
-{
+public class ItemDart extends TemplateItemBase {
     public static int sprGolden;// = ModLoader.addOverride("/gui/items.png", "/aether/items/DartGolden.png");
     public static int sprEnchanted;// = ModLoader.addOverride("/gui/items.png", "/aether/items/DartEnchanted.png");
     public static int sprPoison;// = ModLoader.addOverride("/gui/items.png", "/aether/items/DartPoison.png");
 
-    public ItemDart(Identifier itemID)
-    {
+    public ItemDart(Identifier itemID) {
         super(itemID);
         this.setHasSubItems(true);
     }
 
-    public int getTexturePosition(int damage)
-    {
-        if (damage == 0)
-        {
+    public int getTexturePosition(int damage) {
+        if (damage == 0) {
             return sprGolden;
-        }
-        else if (damage == 1)
-        {
+        } else if (damage == 1) {
             return sprPoison;
-        }
-        else
-        {
+        } else {
             return damage == 2 ? sprEnchanted : sprGolden;
         }
     }
 
-    public String getTranslationKey(ItemStack stack)
-    {
+    public String getTranslationKey(ItemStack stack) {
         int i = stack.getMeta();
-        if (i > 2)
-        {
+        if (i > 2) {
             i = 2;
         }
 

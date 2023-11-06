@@ -5,8 +5,7 @@ import net.minecraft.world.feature.Feature;
 
 import java.util.Random;
 
-public class AetherGenBuildings extends Feature
-{
+public class AetherGenBuildings extends Feature {
     public int blockID1;
     public int blockID2;
     public int meta1;
@@ -15,45 +14,34 @@ public class AetherGenBuildings extends Feature
     public boolean replaceAir;
     public boolean replaceSolid;
 
-    public AetherGenBuildings()
-    {
+    public AetherGenBuildings() {
     }
 
-    public boolean generate(World world, Random random, int i, int j, int k)
-    {
+    public boolean generate(World world, Random random, int i, int j, int k) {
         return false;
     }
 
-    public void setBlocks(int i, int j, int k)
-    {
+    public void setBlocks(int i, int j, int k) {
         this.blockID1 = i;
         this.blockID2 = j;
         this.chance = k;
-        if (this.chance < 1)
-        {
+        if (this.chance < 1) {
             this.chance = 1;
         }
 
     }
 
-    public void setMetadata(int i, int j)
-    {
+    public void setMetadata(int i, int j) {
         this.meta1 = i;
         this.meta2 = j;
     }
 
-    public void addLineX(World world, Random random, int i, int j, int k, int length)
-    {
-        for (int x = i; x < i + length; ++x)
-        {
-            if ((this.replaceAir || world.getBlockId(x, j, k) != 0) && (this.replaceSolid || world.getBlockId(x, j, k) == 0))
-            {
-                if (random.nextInt(this.chance) == 0)
-                {
+    public void addLineX(World world, Random random, int i, int j, int k, int length) {
+        for (int x = i; x < i + length; ++x) {
+            if ((this.replaceAir || world.getBlockId(x, j, k) != 0) && (this.replaceSolid || world.getBlockId(x, j, k) == 0)) {
+                if (random.nextInt(this.chance) == 0) {
                     world.setBlockWithMetadata(x, j, k, this.blockID2, this.meta2);
-                }
-                else
-                {
+                } else {
                     world.setBlockWithMetadata(x, j, k, this.blockID1, this.meta1);
                 }
             }
@@ -61,18 +49,12 @@ public class AetherGenBuildings extends Feature
 
     }
 
-    public void addLineY(World world, Random random, int i, int j, int k, int length)
-    {
-        for (int y = j; y < j + length; ++y)
-        {
-            if ((this.replaceAir || world.getBlockId(i, y, k) != 0) && (this.replaceSolid || world.getBlockId(i, y, k) == 0))
-            {
-                if (random.nextInt(this.chance) == 0)
-                {
+    public void addLineY(World world, Random random, int i, int j, int k, int length) {
+        for (int y = j; y < j + length; ++y) {
+            if ((this.replaceAir || world.getBlockId(i, y, k) != 0) && (this.replaceSolid || world.getBlockId(i, y, k) == 0)) {
+                if (random.nextInt(this.chance) == 0) {
                     world.setBlockWithMetadata(i, y, k, this.blockID2, this.meta2);
-                }
-                else
-                {
+                } else {
                     world.setBlockWithMetadata(i, y, k, this.blockID1, this.meta1);
                 }
             }
@@ -80,18 +62,12 @@ public class AetherGenBuildings extends Feature
 
     }
 
-    public void addLineZ(World world, Random random, int i, int j, int k, int length)
-    {
-        for (int z = k; z < k + length; ++z)
-        {
-            if ((this.replaceAir || world.getBlockId(i, j, z) != 0) && (this.replaceSolid || world.getBlockId(i, j, z) == 0))
-            {
-                if (random.nextInt(this.chance) == 0)
-                {
+    public void addLineZ(World world, Random random, int i, int j, int k, int length) {
+        for (int z = k; z < k + length; ++z) {
+            if ((this.replaceAir || world.getBlockId(i, j, z) != 0) && (this.replaceSolid || world.getBlockId(i, j, z) == 0)) {
+                if (random.nextInt(this.chance) == 0) {
                     world.setBlockWithMetadata(i, j, z, this.blockID2, this.meta2);
-                }
-                else
-                {
+                } else {
                     world.setBlockWithMetadata(i, j, z, this.blockID1, this.meta1);
                 }
             }
@@ -99,20 +75,13 @@ public class AetherGenBuildings extends Feature
 
     }
 
-    public void addPlaneX(World world, Random random, int i, int j, int k, int dj, int dk)
-    {
-        for (int y = j; y < j + dj; ++y)
-        {
-            for (int z = k; z < k + dk; ++z)
-            {
-                if ((this.replaceAir || world.getBlockId(i, y, z) != 0) && (this.replaceSolid || world.getBlockId(i, y, z) == 0))
-                {
-                    if (random.nextInt(this.chance) == 0)
-                    {
+    public void addPlaneX(World world, Random random, int i, int j, int k, int dj, int dk) {
+        for (int y = j; y < j + dj; ++y) {
+            for (int z = k; z < k + dk; ++z) {
+                if ((this.replaceAir || world.getBlockId(i, y, z) != 0) && (this.replaceSolid || world.getBlockId(i, y, z) == 0)) {
+                    if (random.nextInt(this.chance) == 0) {
                         world.setBlockWithMetadata(i, y, z, this.blockID2, this.meta2);
-                    }
-                    else
-                    {
+                    } else {
                         world.setBlockWithMetadata(i, y, z, this.blockID1, this.meta1);
                     }
                 }
@@ -121,20 +90,13 @@ public class AetherGenBuildings extends Feature
 
     }
 
-    public void addPlaneY(World world, Random random, int i, int j, int k, int di, int dk)
-    {
-        for (int x = i; x < i + di; ++x)
-        {
-            for (int z = k; z < k + dk; ++z)
-            {
-                if ((this.replaceAir || world.getBlockId(x, j, z) != 0) && (this.replaceSolid || world.getBlockId(x, j, z) == 0))
-                {
-                    if (random.nextInt(this.chance) == 0)
-                    {
+    public void addPlaneY(World world, Random random, int i, int j, int k, int di, int dk) {
+        for (int x = i; x < i + di; ++x) {
+            for (int z = k; z < k + dk; ++z) {
+                if ((this.replaceAir || world.getBlockId(x, j, z) != 0) && (this.replaceSolid || world.getBlockId(x, j, z) == 0)) {
+                    if (random.nextInt(this.chance) == 0) {
                         world.setBlockWithMetadata(x, j, z, this.blockID2, this.meta2);
-                    }
-                    else
-                    {
+                    } else {
                         world.setBlockWithMetadata(x, j, z, this.blockID1, this.meta1);
                     }
                 }
@@ -143,20 +105,13 @@ public class AetherGenBuildings extends Feature
 
     }
 
-    public void addPlaneZ(World world, Random random, int i, int j, int k, int di, int dj)
-    {
-        for (int x = i; x < i + di; ++x)
-        {
-            for (int y = j; y < j + dj; ++y)
-            {
-                if ((this.replaceAir || world.getBlockId(x, y, k) != 0) && (this.replaceSolid || world.getBlockId(x, y, k) == 0))
-                {
-                    if (random.nextInt(this.chance) == 0)
-                    {
+    public void addPlaneZ(World world, Random random, int i, int j, int k, int di, int dj) {
+        for (int x = i; x < i + di; ++x) {
+            for (int y = j; y < j + dj; ++y) {
+                if ((this.replaceAir || world.getBlockId(x, y, k) != 0) && (this.replaceSolid || world.getBlockId(x, y, k) == 0)) {
+                    if (random.nextInt(this.chance) == 0) {
                         world.setBlockWithMetadata(x, y, k, this.blockID2, this.meta2);
-                    }
-                    else
-                    {
+                    } else {
                         world.setBlockWithMetadata(x, y, k, this.blockID1, this.meta1);
                     }
                 }
@@ -165,8 +120,7 @@ public class AetherGenBuildings extends Feature
 
     }
 
-    public void addHollowBox(World world, Random random, int i, int j, int k, int di, int dj, int dk)
-    {
+    public void addHollowBox(World world, Random random, int i, int j, int k, int di, int dj, int dk) {
         int temp1 = this.blockID1;
         int temp2 = this.blockID2;
         this.setBlocks(0, 0, this.chance);
@@ -180,49 +134,37 @@ public class AetherGenBuildings extends Feature
         this.addPlaneZ(world, random, i, j, k + dk - 1, di, dj);
     }
 
-    public void addSquareTube(World world, Random random, int i, int j, int k, int di, int dj, int dk, int dir)
-    {
+    public void addSquareTube(World world, Random random, int i, int j, int k, int di, int dj, int dk, int dir) {
         int temp1 = this.blockID1;
         int temp2 = this.blockID2;
         this.setBlocks(0, 0, this.chance);
         this.addSolidBox(world, random, i, j, k, di, dj, dk);
         this.setBlocks(temp1, temp2, this.chance);
-        if (dir == 0 || dir == 2)
-        {
+        if (dir == 0 || dir == 2) {
             this.addPlaneY(world, random, i, j, k, di, dk);
             this.addPlaneY(world, random, i, j + dj - 1, k, di, dk);
         }
 
-        if (dir == 1 || dir == 2)
-        {
+        if (dir == 1 || dir == 2) {
             this.addPlaneX(world, random, i, j, k, dj, dk);
             this.addPlaneX(world, random, i + di - 1, j, k, dj, dk);
         }
 
-        if (dir == 0 || dir == 1)
-        {
+        if (dir == 0 || dir == 1) {
             this.addPlaneZ(world, random, i, j, k, di, dj);
             this.addPlaneZ(world, random, i, j, k + dk - 1, di, dj);
         }
 
     }
 
-    public void addSolidBox(World world, Random random, int i, int j, int k, int di, int dj, int dk)
-    {
-        for (int x = i; x < i + di; ++x)
-        {
-            for (int y = j; y < j + dj; ++y)
-            {
-                for (int z = k; z < k + dk; ++z)
-                {
-                    if ((this.replaceAir || world.getBlockId(x, y, z) != 0) && (this.replaceSolid || world.getBlockId(x, y, z) == 0))
-                    {
-                        if (random.nextInt(this.chance) == 0)
-                        {
+    public void addSolidBox(World world, Random random, int i, int j, int k, int di, int dj, int dk) {
+        for (int x = i; x < i + di; ++x) {
+            for (int y = j; y < j + dj; ++y) {
+                for (int z = k; z < k + dk; ++z) {
+                    if ((this.replaceAir || world.getBlockId(x, y, z) != 0) && (this.replaceSolid || world.getBlockId(x, y, z) == 0)) {
+                        if (random.nextInt(this.chance) == 0) {
                             world.setBlockWithMetadata(x, y, z, this.blockID2, this.meta2);
-                        }
-                        else
-                        {
+                        } else {
                             world.setBlockWithMetadata(x, y, z, this.blockID1, this.meta1);
                         }
                     }
@@ -232,18 +174,13 @@ public class AetherGenBuildings extends Feature
 
     }
 
-    public boolean isBoxSolid(World world, int i, int j, int k, int di, int dj, int dk)
-    {
+    public boolean isBoxSolid(World world, int i, int j, int k, int di, int dj, int dk) {
         boolean flag = true;
 
-        for (int x = i; x < i + di; ++x)
-        {
-            for (int y = j; y < j + dj; ++y)
-            {
-                for (int z = k; z < k + dk; ++z)
-                {
-                    if (world.getBlockId(x, y, z) == 0)
-                    {
+        for (int x = i; x < i + di; ++x) {
+            for (int y = j; y < j + dj; ++y) {
+                for (int z = k; z < k + dk; ++z) {
+                    if (world.getBlockId(x, y, z) == 0) {
                         flag = false;
                     }
                 }
@@ -253,18 +190,13 @@ public class AetherGenBuildings extends Feature
         return flag;
     }
 
-    public boolean isBoxEmpty(World world, int i, int j, int k, int di, int dj, int dk)
-    {
+    public boolean isBoxEmpty(World world, int i, int j, int k, int di, int dj, int dk) {
         boolean flag = true;
 
-        for (int x = i; x < i + di; ++x)
-        {
-            for (int y = j; y < j + dj; ++y)
-            {
-                for (int z = k; z < k + dk; ++z)
-                {
-                    if (world.getBlockId(x, y, z) != 0)
-                    {
+        for (int x = i; x < i + di; ++x) {
+            for (int y = j; y < j + dj; ++y) {
+                for (int z = k; z < k + dk; ++z) {
+                    if (world.getBlockId(x, y, z) != 0) {
                         flag = false;
                     }
                 }

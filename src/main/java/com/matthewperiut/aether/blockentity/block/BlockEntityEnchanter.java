@@ -13,12 +13,10 @@ import net.minecraft.util.io.ListTag;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockEntityEnchanter extends BlockEntity implements Inventory
-{
-    private static List<Enchantment> enchantments = new ArrayList();
+public class BlockEntityEnchanter extends BlockEntity implements Inventory {
+    private static final List<Enchantment> enchantments = new ArrayList();
 
-    static
-    {
+    static {
         addEnchantment(new ItemStack(AetherBlocks.GravititeOre, 1), new ItemStack(AetherBlocks.EnchantedGravitite, 1), 1000);
         addEnchantment(new ItemStack(AetherItems.PickSkyroot, 1), new ItemStack(AetherItems.PickSkyroot, 1), 250);
         addEnchantment(new ItemStack(AetherItems.SwordSkyroot, 1), new ItemStack(AetherItems.SwordSkyroot, 1), 250);
@@ -109,80 +107,62 @@ public class BlockEntityEnchanter extends BlockEntity implements Inventory
     private ItemStack[] enchanterItemStacks = new ItemStack[3];
     private Enchantment currentEnchantment;
 
-    public BlockEntityEnchanter()
-    {
+    public BlockEntityEnchanter() {
     }
 
-    public static void addEnchantment(ItemStack from, ItemStack to, int i)
-    {
+    public static void addEnchantment(ItemStack from, ItemStack to, int i) {
         enchantments.add(new Enchantment(from, to, i));
     }
 
-    public int getInventorySize()
-    {
+    public int getInventorySize() {
         return this.enchanterItemStacks.length;
     }
 
-    public ItemStack getInventoryItem(int i)
-    {
+    public ItemStack getInventoryItem(int i) {
         return this.enchanterItemStacks[i];
     }
 
-    public ItemStack takeInventoryItem(int i, int j)
-    {
-        if (this.enchanterItemStacks[i] != null)
-        {
+    public ItemStack takeInventoryItem(int i, int j) {
+        if (this.enchanterItemStacks[i] != null) {
             ItemStack itemstack1;
-            if (this.enchanterItemStacks[i].count <= j)
-            {
+            if (this.enchanterItemStacks[i].count <= j) {
                 itemstack1 = this.enchanterItemStacks[i];
                 this.enchanterItemStacks[i] = null;
                 return itemstack1;
-            }
-            else
-            {
+            } else {
                 itemstack1 = this.enchanterItemStacks[i].split(j);
-                if (this.enchanterItemStacks[i].count == 0)
-                {
+                if (this.enchanterItemStacks[i].count == 0) {
                     this.enchanterItemStacks[i] = null;
                 }
 
                 return itemstack1;
             }
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
 
-    public void setInventoryItem(int i, ItemStack itemstack)
-    {
+    public void setInventoryItem(int i, ItemStack itemstack) {
         this.enchanterItemStacks[i] = itemstack;
-        if (itemstack != null && itemstack.count > this.getMaxItemCount())
-        {
+        if (itemstack != null && itemstack.count > this.getMaxItemCount()) {
             itemstack.count = this.getMaxItemCount();
         }
 
     }
 
-    public String getContainerName()
-    {
+    public String getContainerName() {
         return "Enchanter";
     }
 
-    public void readNBT(CompoundTag nbttagcompound)
-    {
+    public void readNBT(CompoundTag nbttagcompound) {
         super.readNBT(nbttagcompound);
         ListTag nbttaglist = nbttagcompound.getListTag("Items");
         this.enchanterItemStacks = new ItemStack[this.getInventorySize()];
 
-        for (int i = 0; i < nbttaglist.size(); ++i)
-        {
+        for (int i = 0; i < nbttaglist.size(); ++i) {
             CompoundTag nbttagcompound1 = (CompoundTag) nbttaglist.get(i);
             byte byte0 = nbttagcompound1.getByte("Slot");
-            if (byte0 >= 0 && byte0 < this.enchanterItemStacks.length)
-            {
+            if (byte0 >= 0 && byte0 < this.enchanterItemStacks.length) {
                 this.enchanterItemStacks[byte0] = new ItemStack(nbttagcompound1);
             }
         }
@@ -191,17 +171,14 @@ public class BlockEntityEnchanter extends BlockEntity implements Inventory
         this.enchantTimeForItem = nbttagcompound.getShort("CookTime");
     }
 
-    public void writeNBT(CompoundTag nbttagcompound)
-    {
+    public void writeNBT(CompoundTag nbttagcompound) {
         super.writeNBT(nbttagcompound);
         nbttagcompound.put("BurnTime", (short) this.enchantProgress);
         nbttagcompound.put("CookTime", (short) this.enchantTimeForItem);
         ListTag nbttaglist = new ListTag();
 
-        for (int i = 0; i < this.enchanterItemStacks.length; ++i)
-        {
-            if (this.enchanterItemStacks[i] != null)
-            {
+        for (int i = 0; i < this.enchanterItemStacks.length; ++i) {
+            if (this.enchanterItemStacks[i] != null) {
                 CompoundTag nbttagcompound1 = new CompoundTag();
                 nbttagcompound1.put("Slot", (byte) i);
                 this.enchanterItemStacks[i].writeNBT(nbttagcompound1);
@@ -212,51 +189,39 @@ public class BlockEntityEnchanter extends BlockEntity implements Inventory
         nbttagcompound.put("Items", nbttaglist);
     }
 
-    public int getMaxItemCount()
-    {
+    public int getMaxItemCount() {
         return 64;
     }
 
-    public int getCookProgressScaled(int i)
-    {
+    public int getCookProgressScaled(int i) {
         return this.enchantTimeForItem == 0 ? 0 : this.enchantProgress * i / this.enchantTimeForItem;
     }
 
-    public int getBurnTimeRemainingScaled(int i)
-    {
+    public int getBurnTimeRemainingScaled(int i) {
         return this.enchantPowerRemaining * i / 500;
     }
 
-    public boolean isBurning()
-    {
+    public boolean isBurning() {
         return this.enchantPowerRemaining > 0;
     }
 
-    public void tick()
-    {
-        if (this.enchantPowerRemaining > 0)
-        {
+    public void tick() {
+        if (this.enchantPowerRemaining > 0) {
             --this.enchantPowerRemaining;
-            if (this.currentEnchantment != null)
-            {
+            if (this.currentEnchantment != null) {
                 ++this.enchantProgress;
             }
         }
 
-        if (this.currentEnchantment != null && (this.enchanterItemStacks[0] == null || this.enchanterItemStacks[0].itemId != this.currentEnchantment.enchantFrom.itemId))
-        {
+        if (this.currentEnchantment != null && (this.enchanterItemStacks[0] == null || this.enchanterItemStacks[0].itemId != this.currentEnchantment.enchantFrom.itemId)) {
             this.currentEnchantment = null;
             this.enchantProgress = 0;
         }
 
-        if (this.currentEnchantment != null && this.enchantProgress >= this.currentEnchantment.enchantPowerNeeded)
-        {
-            if (this.enchanterItemStacks[2] == null)
-            {
+        if (this.currentEnchantment != null && this.enchantProgress >= this.currentEnchantment.enchantPowerNeeded) {
+            if (this.enchanterItemStacks[2] == null) {
                 this.setInventoryItem(2, new ItemStack(this.currentEnchantment.enchantTo.getItem(), 1, this.currentEnchantment.enchantTo.getMeta()));
-            }
-            else
-            {
+            } else {
                 this.setInventoryItem(2, new ItemStack(this.currentEnchantment.enchantTo.getItem(), this.getInventoryItem(2).count + 1, this.currentEnchantment.enchantTo.getMeta()));
             }
 
@@ -266,28 +231,21 @@ public class BlockEntityEnchanter extends BlockEntity implements Inventory
             this.enchantTimeForItem = 0;
         }
 
-        if (this.enchantPowerRemaining <= 0 && this.currentEnchantment != null && this.getInventoryItem(1) != null && this.getInventoryItem(1).itemId == AetherItems.AmbrosiumShard.id)
-        {
+        if (this.enchantPowerRemaining <= 0 && this.currentEnchantment != null && this.getInventoryItem(1) != null && this.getInventoryItem(1).itemId == AetherItems.AmbrosiumShard.id) {
             this.enchantPowerRemaining += 500;
             this.takeInventoryItem(1, 1);
         }
 
-        if (this.currentEnchantment == null)
-        {
+        if (this.currentEnchantment == null) {
             ItemStack itemstack = this.getInventoryItem(0);
 
-            for (int i = 0; i < enchantments.size(); ++i)
-            {
-                if (itemstack != null && enchantments.get(i) != null && itemstack.itemId == ((Enchantment) enchantments.get(i)).enchantFrom.itemId)
-                {
-                    if (this.enchanterItemStacks[2] == null)
-                    {
-                        this.currentEnchantment = (Enchantment) enchantments.get(i);
+            for (int i = 0; i < enchantments.size(); ++i) {
+                if (itemstack != null && enchantments.get(i) != null && itemstack.itemId == enchantments.get(i).enchantFrom.itemId) {
+                    if (this.enchanterItemStacks[2] == null) {
+                        this.currentEnchantment = enchantments.get(i);
                         this.enchantTimeForItem = this.currentEnchantment.enchantPowerNeeded;
-                    }
-                    else if (this.enchanterItemStacks[2].itemId == ((Enchantment) enchantments.get(i)).enchantTo.itemId && ((Enchantment) enchantments.get(i)).enchantTo.getItem().getMaxStackSize() > this.enchanterItemStacks[2].count)
-                    {
-                        this.currentEnchantment = (Enchantment) enchantments.get(i);
+                    } else if (this.enchanterItemStacks[2].itemId == enchantments.get(i).enchantTo.itemId && enchantments.get(i).enchantTo.getItem().getMaxStackSize() > this.enchanterItemStacks[2].count) {
+                        this.currentEnchantment = enchantments.get(i);
                         this.enchantTimeForItem = this.currentEnchantment.enchantPowerNeeded;
                     }
                 }
@@ -296,26 +254,20 @@ public class BlockEntityEnchanter extends BlockEntity implements Inventory
 
     }
 
-    public boolean canPlayerUse(PlayerEntity entityplayer)
-    {
-        if (this.world.getBlockEntity(this.x, this.y, this.z) != this)
-        {
+    public boolean canPlayerUse(PlayerEntity entityplayer) {
+        if (this.world.getBlockEntity(this.x, this.y, this.z) != this) {
             return false;
-        }
-        else
-        {
+        } else {
             return entityplayer.squaredDistanceTo((double) this.x + 0.5, (double) this.y + 0.5, (double) this.z + 0.5) <= 64.0;
         }
     }
 
-    static class Enchantment
-    {
+    static class Enchantment {
         public ItemStack enchantFrom;
         public ItemStack enchantTo;
         public int enchantPowerNeeded;
 
-        public Enchantment(ItemStack from, ItemStack to, int i)
-        {
+        public Enchantment(ItemStack from, ItemStack to, int i) {
             this.enchantFrom = from;
             this.enchantTo = to;
             this.enchantPowerNeeded = i;

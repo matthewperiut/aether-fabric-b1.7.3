@@ -17,15 +17,13 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 
-public class GuiLore extends ContainerScreen
-{
+public class GuiLore extends ContainerScreen {
 
     public static ArrayList<Lore> lores;
 
-    static
-    {
+    static {
         (GuiLore.lores = new ArrayList<Lore>()).add(new Lore(Block.STONE, "Stone", "Found everywhere.", "Makes steps", "", "", "", "", 0));
-        GuiLore.lores.add(new Lore((Block) Block.GRASS, "Grass", "Found in light.", "Spreads to dirt.", "Flowers and trees", "will grow on it.", "Click with a hoe", "to make farmland", 0));
+        GuiLore.lores.add(new Lore(Block.GRASS, "Grass", "Found in light.", "Spreads to dirt.", "Flowers and trees", "will grow on it.", "Click with a hoe", "to make farmland", 0));
         GuiLore.lores.add(new Lore(Block.DIRT, "Dirt", "Found everywhere.", "Grass, trees and", "flowers will grow", "on it.", "Click with a hoe", "to make farmland", 0));
         GuiLore.lores.add(new Lore(Block.COBBLESTONE, "Cobblestone", "Found when mining", "stone and when", "water meets lava.", "Makes stone tools,", "cobble steps and", "furnaces", 0));
         GuiLore.lores.add(new Lore(Block.WOOD, "Wooden Planks", "Crafted from wood.", "Useful building", "material.", "Makes sticks, tools,", "boats, doors, chests", "and crafting tables", 0));
@@ -46,10 +44,10 @@ public class GuiLore extends ContainerScreen
         GuiLore.lores.add(new Lore(Block.DETECTOR_RAIL, "Detector Rail", "Gives out power", "when a minecart is", "on it.", "", "", "", 0));
         GuiLore.lores.add(new Lore(Block.COBWEB, "Web", "Slows down", "anything that", "enters it", "", "", "", 0));
         GuiLore.lores.add(new Lore(Block.WOOL, "Wool", "Found on sheep.", "Can be dyed.", "Decorative Block", "", "", "", 0));
-        GuiLore.lores.add(new Lore((Block) Block.DANDELION, "Dandelion", "Found on grass.", "Can make", "dandelion yellow", "dye", "", "", 0));
-        GuiLore.lores.add(new Lore((Block) Block.ROSE, "Rose", "Found on grass.", "Can make", "rose red dye", "", "", "", 0));
-        GuiLore.lores.add(new Lore((Block) Block.BROWN_MUSHROOM, "Mushroom", "Found on grass", "and in caves.", "Used to make", "mushroom soup", "", "", 0));
-        GuiLore.lores.add(new Lore((Block) Block.RED_MUSHROOM, "Mushroom", "Found on grass", "and in caves.", "Used to make", "mushroom soup", "", "", 0));
+        GuiLore.lores.add(new Lore(Block.DANDELION, "Dandelion", "Found on grass.", "Can make", "dandelion yellow", "dye", "", "", 0));
+        GuiLore.lores.add(new Lore(Block.ROSE, "Rose", "Found on grass.", "Can make", "rose red dye", "", "", "", 0));
+        GuiLore.lores.add(new Lore(Block.BROWN_MUSHROOM, "Mushroom", "Found on grass", "and in caves.", "Used to make", "mushroom soup", "", "", 0));
+        GuiLore.lores.add(new Lore(Block.RED_MUSHROOM, "Mushroom", "Found on grass", "and in caves.", "Used to make", "mushroom soup", "", "", 0));
         GuiLore.lores.add(new Lore(Block.GOLD_BLOCK, "Gold", "Crafted from 9", "gold ingots.", "Decorative block", "", "", "", 0));
         GuiLore.lores.add(new Lore(Block.IRON_BLOCK, "Iron", "Crafted from 9", "iron ingots.", "Decorative block", "", "", "", 0));
         GuiLore.lores.add(new Lore(Block.STONE_SLAB, "Half-Step", "Used for making", "stairs and such.", "Decorative block", "", "", "", 0));
@@ -82,7 +80,7 @@ public class GuiLore extends ContainerScreen
         GuiLore.lores.add(new Lore(Block.TRAPDOOR, "Trapdoor", "Opens upwards to", "allow access to", "space below", "", "", "", 0));
         GuiLore.lores.add(new Lore(Block.PISTON, "Piston", "Extends when", "powered. Useful", "for traps, doors", "and machines.", "", "", 0));
         GuiLore.lores.add(new Lore(Block.STICKY_PISTON, "Sticky Piston", "Extends when", "powered and pulls", "blocks when", "retracted. Useful", "in making doors", "and hidden blocks", 0));
-        GuiLore.lores.add(new Lore((Block) Block.LEAVES, "Leaves", "Grows on trees.", "Obtainable by", "using shears.", "Decorative block", "", "", 0));
+        GuiLore.lores.add(new Lore(Block.LEAVES, "Leaves", "Grows on trees.", "Obtainable by", "using shears.", "Decorative block", "", "", 0));
         GuiLore.lores.add(new Lore(Item.IRON_SHOVEL, "Iron Shovel", "Digs grass, dirt,", "sand and gravel.", "Normal Speed", "Many Uses", "", "", 0));
         GuiLore.lores.add(new Lore(Item.IRON_PICKAXE, "Iron Pickaxe", "Digs stone, cobble,", "and other rocks.", "Normal Speed", "Many Uses", "", "", 0));
         GuiLore.lores.add(new Lore(Item.IRON_AXE, "Iron Axe", "Chops wood and ", "planks.", "Normal Speed", "Many Uses", "", "", 0));
@@ -185,10 +183,10 @@ public class GuiLore extends ContainerScreen
         GuiLore.lores.add(new Lore(Item.BED, "Bed", "Made from planks", "and wool.", "Allows you to", "sleep until", "morning and set", "your spawnpoint", 0));
         GuiLore.lores.add(new Lore(Item.REDSTONE_REPEATER, "Repeater", "Made from stone", "and redstone.", "Repeats a signal", "with a delay, set", "by the toggle", "", 0));
         GuiLore.lores.add(new Lore(Item.COOKIE, "Cookie", "Made from cocoa", "beans and wheat.", "Heals a few hearts", "", "", "", 0));
-        GuiLore.lores.add(new Lore((Item) Item.MAP, "Map", "Made from paper", "and a compass.", "Makes a map of the", "area you are in", "", "", 0));
+        GuiLore.lores.add(new Lore(Item.MAP, "Map", "Made from paper", "and a compass.", "Makes a map of the", "area you are in", "", "", 0));
         GuiLore.lores.add(new Lore(Item.RECORD_13, "13", "Found in dungeons.", "Playable in jukebox.", "A rather odd tune", "", "", "", 0));
         GuiLore.lores.add(new Lore(Item.RECORD_CAT, "Cat", "Found in dungeons.", "Playable in jukebox.", "A very jolly tune", "", "", "", 0));
-        GuiLore.lores.add(new Lore((Item) Item.SHEARS, "Shears", "Made from iron.", "Used to shear", "sheep and to get", "leaf blocks from", "trees.", "", 0));
+        GuiLore.lores.add(new Lore(Item.SHEARS, "Shears", "Made from iron.", "Used to shear", "sheep and to get", "leaf blocks from", "trees.", "", 0));
         GuiLore.lores.add(new Lore(AetherItems.IronRing, "Iron Ring", "Made from iron.", "Wear it in your", "ring slot.", "Purely decorative", "item", "", 0));
         GuiLore.lores.add(new Lore(AetherItems.GoldRing, "Gold Ring", "Made from gold.", "Wear it in your", "ring slot.", "Purely decorative", "item", "", 0));
         GuiLore.lores.add(new Lore(AetherItems.IronPendant, "Iron Pendant", "Made from iron.", "Wear it in your", "pendant slot.", "Purely decorative", "item", "", 0));
@@ -330,45 +328,36 @@ public class GuiLore extends ContainerScreen
         GuiLore.lores.add(new Lore(new ItemStack(AetherItems.LoreBook, 1, 2), "Lore Book : Vol 3", "Contains information", "about blocks and", "items from the", "Aether", "", "", 2));
     }
 
-    private int type;
+    private final int type;
 
-    public GuiLore(PlayerInventory inv, int i)
-    {
+    public GuiLore(PlayerInventory inv, int i) {
         super(new ContainerLore(inv));
         this.type = i;
     }
 
     @Override
-    protected void renderForeground()
-    {
+    protected void renderForeground() {
         this.textRenderer.drawText("Book Of Lore", 37, 18, 4210752);
-        this.textRenderer.drawText(new StringBuilder().append("Volume ").append(this.type + 1).toString(), 47, 28, 4210752);
-        switch (this.type)
-        {
-            case 0:
-            {
+        this.textRenderer.drawText("Volume " + (this.type + 1), 47, 28, 4210752);
+        switch (this.type) {
+            case 0: {
                 this.textRenderer.drawText("The Surface", 37, 38, 4210752);
                 break;
             }
-            case 1:
-            {
+            case 1: {
                 this.textRenderer.drawText("The Nether", 37, 38, 4210752);
                 break;
             }
-            case 2:
-            {
+            case 2: {
                 this.textRenderer.drawText("The Aether", 37, 38, 4210752);
                 break;
             }
         }
         this.textRenderer.drawText("Item : ", 46, 72, 4210752);
         final ItemStack item = ((ContainerLore) this.container).loreSlot.getInventoryItem(0);
-        if (item != null)
-        {
-            for (final Lore lore : GuiLore.lores)
-            {
-                if (lore.equals(item) && lore.type == this.type)
-                {
+        if (item != null) {
+            for (final Lore lore : GuiLore.lores) {
+                if (lore.equals(item) && lore.type == this.type) {
                     this.textRenderer.drawText(lore.name, 134, 14, 4210752);
                     this.textRenderer.drawText(lore.line1, 134, 28, 4210752);
                     this.textRenderer.drawText(lore.line2, 134, 38, 4210752);
@@ -377,8 +366,7 @@ public class GuiLore extends ContainerScreen
                     this.textRenderer.drawText(lore.line5, 134, 68, 4210752);
                     this.textRenderer.drawText(lore.line6, 134, 78, 4210752);
                     AetherAchievements.giveAchievement(AetherAchievements.lore, client.player);
-                    if (item.itemId == AetherItems.LoreBook.id)
-                    {
+                    if (item.itemId == AetherItems.LoreBook.id) {
                         AetherAchievements.giveAchievement(AetherAchievements.loreception, client.player);
                         break;
                     }
@@ -389,15 +377,13 @@ public class GuiLore extends ContainerScreen
     }
 
     @Override
-    public void onClose()
-    {
+    public void onClose() {
         super.onClose();
         this.container.onClosed(client.player);
     }
 
     @Override
-    protected void renderContainerBackground(final float tickDelta)
-    {
+    protected void renderContainerBackground(final float tickDelta) {
         this.containerWidth = 256;
         this.containerHeight = 195;
         final int i = client.textureManager.getTextureId("/assets/aether/stationapi/textures/gui/lore.png");
@@ -408,13 +394,10 @@ public class GuiLore extends ContainerScreen
         this.blit(j, k, 0, 0, this.containerWidth, this.containerHeight);
     }
 
-    private Slot getSlot(int i, int j)
-    {
-        for (int var3 = 0; var3 < this.container.slots.size(); ++var3)
-        {
+    private Slot getSlot(int i, int j) {
+        for (int var3 = 0; var3 < this.container.slots.size(); ++var3) {
             Slot var4 = (Slot) this.container.slots.get(var3);
-            if (this.isMouseOverSlot(var4, i, j))
-            {
+            if (this.isMouseOverSlot(var4, i, j)) {
                 return var4;
             }
         }
@@ -422,8 +405,7 @@ public class GuiLore extends ContainerScreen
         return null;
     }
 
-    private boolean isMouseOverSlot(Slot arg, int i, int j)
-    {
+    private boolean isMouseOverSlot(Slot arg, int i, int j) {
         int var4 = (this.width - this.containerWidth) / 2;
         int var5 = (this.height - this.containerHeight) / 2;
         i -= var4;
@@ -431,60 +413,33 @@ public class GuiLore extends ContainerScreen
         return i >= arg.x - 1 && i < arg.x + 16 + 1 && j >= arg.y - 1 && j < arg.y + 16 + 1;
     }
 
-    /* todo: Add these to lore book:
-	(pulled from lang file)
-    item.IronGlove.name=Iron Glove
-    item.GoldGlove.name=Gold Glove
-    item.DiamondGlove.name=Diamond Glove
-    item.WhiteCape.name=White Cape
-    item.AetherCape.name=Aether Cape
-	item.LeatherGlove.name=Leather Glove
-    item.IronGlove.name=Iron Glove
-    item.GoldGlove.name=Gold Glove
-    item.DiamondGlove.name=Diamond Glove
-	item.IronPendant.name=Iron Pendant
-    item.GoldPendant.name=Gold Pendant
-	item.IronRing.name=Iron Ring
-    item.GoldRing.name=Gold Ring
-    tile.SkyrootLeaves.name=Skyroot Leaves
-    tile.GoldenOakLog.name=Golden Oak Log
-    tile.GoldenOakLeaves.name=Golden Oak Leaves
-*/
-
     @Override
-    protected void mouseClicked(int i, int j, int k)
-    {
-        if (k == 0 || k == 1)
-        {
+    protected void mouseClicked(int i, int j, int k) {
+        if (k == 0 || k == 1) {
             Slot var4 = this.getSlot(i, j);
             int var5 = (this.width - this.containerWidth) / 2;
             int var6 = (this.height - this.containerHeight) / 2;
             boolean var7 = i < var5 || j < var6 || i >= var5 + this.containerWidth || j >= var6 + this.containerHeight;
             int var8 = -1;
-            if (var4 != null)
-            {
+            if (var4 != null) {
                 var8 = var4.id;
             }
 
-            if (var7)
-            {
+            if (var7) {
                 var8 = -999;
             }
 
-            if (var8 != -1)
-            {
+            if (var8 != -1) {
                 boolean var9 = var8 != -999 && (Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54));
                 ItemStack item = client.interactionManager.clickSlot(this.container.currentContainerId, var8, k, var9, client.player);
-                if (((Minecraft) FabricLoader.getInstance().getGameInstance()).hasWorld())
-                {
+                if (((Minecraft) FabricLoader.getInstance().getGameInstance()).hasWorld()) {
                     ((Slot) this.container.slots.get(0)).setStack(item);
                 }
             }
         }
     }
 
-    static class Lore
-    {
+    static class Lore {
         public ItemStack stack;
         public String name;
         public String line1;
@@ -495,8 +450,7 @@ public class GuiLore extends ContainerScreen
         public String line6;
         public int type;
 
-        public Lore(final ItemStack item, final String s, final String s1, final String s2, final String s3, final String s4, final String s5, final String s6, final int i)
-        {
+        public Lore(final ItemStack item, final String s, final String s1, final String s2, final String s3, final String s4, final String s5, final String s6, final int i) {
             this.stack = item;
             this.name = s;
             this.line1 = s1;
@@ -508,29 +462,23 @@ public class GuiLore extends ContainerScreen
             this.type = i;
         }
 
-        public Lore(final int id, final String s, final String s1, final String s2, final String s3, final String s4, final String s5, final String s6, final int i)
-        {
+        public Lore(final int id, final String s, final String s1, final String s2, final String s3, final String s4, final String s5, final String s6, final int i) {
             this(new ItemStack(id, 1, -1), s, s1, s2, s3, s4, s5, s6, i);
         }
 
-        public Lore(final Block block, final String s, final String s1, final String s2, final String s3, final String s4, final String s5, final String s6, final int i)
-        {
+        public Lore(final Block block, final String s, final String s1, final String s2, final String s3, final String s4, final String s5, final String s6, final int i) {
             this(new ItemStack(block == null ? 0 : block.id, 1, -1), s, s1, s2, s3, s4, s5, s6, i);
         }
 
-        public Lore(final Item item, final String s, final String s1, final String s2, final String s3, final String s4, final String s5, final String s6, final int i)
-        {
+        public Lore(final Item item, final String s, final String s1, final String s2, final String s3, final String s4, final String s5, final String s6, final int i) {
             this(new ItemStack(item == null ? 0 : item.id, 1, -1), s, s1, s2, s3, s4, s5, s6, i);
         }
 
-        public boolean equals(final Object other)
-        {
-            if (other == null)
-            {
+        public boolean equals(final Object other) {
+            if (other == null) {
                 return this.stack == null;
             }
-            if (other instanceof Lore)
-            {
+            if (other instanceof Lore) {
                 return ((Lore) other).stack.itemId == this.stack.itemId && (((Lore) other).stack.getDamage() == this.stack.getDamage() || this.stack.getDamage() == -1);
             }
             return other instanceof ItemStack && ((ItemStack) other).itemId == this.stack.itemId && (((ItemStack) other).getDamage() == this.stack.getDamage() || this.stack.getDamage() == -1);

@@ -12,8 +12,7 @@ import net.modificationstation.stationapi.api.util.Null;
 
 import java.util.Map;
 
-public class AetherBlocks
-{
+public class AetherBlocks {
     @Entrypoint.ModID
     private static final ModID MOD_ID = Null.get();
     public static Block Portal;
@@ -53,25 +52,21 @@ public class AetherBlocks
     public static Block PurpleFlower;
     public static Block Bed;
 
-    public static void AddRenderer(Map map)
-    {
+    public static void AddRenderer(Map map) {
         //map.put(EntityFloatingBlock.class, new RenderFloatingBlock());
         //map.put(EntityMimic.class, new RenderMimic());
     }
 
-    public static boolean isGood(int id, int meta)
-    {
+    public static boolean isGood(int id, int meta) {
         return id == 0 || id == Aercloud.id;
     }
 
-    public static boolean isEarth(int id, int meta)
-    {
+    public static boolean isEarth(int id, int meta) {
         return id == Dirt.id || id == Grass.id || id == Holystone.id && meta <= 1;
     }
 
     @EventListener
-    public void registerBlocks(BlockRegistryEvent event)
-    {
+    public void registerBlocks(BlockRegistryEvent event) {
         Portal = (new AetherPortal(Identifier.of(MOD_ID, "aether_portal"))).setHardness(-1.0F).setBlastResistance(6000000.0F).setTranslationKey(MOD_ID, "aether_portal");
         Dirt = (new AetherDirt(Identifier.of(MOD_ID, "aether_dirt"))).setHardness(0.2F).setSounds(Block.GRAVEL_SOUNDS).setTranslationKey(MOD_ID, "aether_dirt");
         Grass = (new AetherGrass(Identifier.of(MOD_ID, "aether_grass"))).setHardness(0.2F).setSounds(Block.GRASS_SOUNDS).setTranslationKey(MOD_ID, "aether_grass");
@@ -135,21 +130,18 @@ public class AetherBlocks
          */
     }
 
-    public void RegisterBlocks(Block... blocks)
-    {
+    public void RegisterBlocks(Block... blocks) {
         Block[] arr$ = blocks;
         int len$ = blocks.length;
 
-        for (int i$ = 0; i$ < len$; ++i$)
-        {
+        for (int i$ = 0; i$ < len$; ++i$) {
             Block block = arr$[i$];
             //ModLoader.RegisterBlock(block);
         }
 
     }
 
-    public int override(String path)
-    {
+    public int override(String path) {
         return 0;
     }
 }

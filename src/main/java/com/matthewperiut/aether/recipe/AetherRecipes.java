@@ -11,22 +11,17 @@ import net.modificationstation.stationapi.api.recipe.CraftingRegistry;
 
 import java.util.Objects;
 
-public class AetherRecipes
-{
+public class AetherRecipes {
     @EventListener
-    public void registerRecipes(RecipeRegisterEvent event)
-    {
+    public void registerRecipes(RecipeRegisterEvent event) {
         RecipeRegisterEvent.Vanilla type = RecipeRegisterEvent.Vanilla.fromType(event.recipeId);
-        switch (Objects.requireNonNull(type))
-        {
-            case CRAFTING_SHAPELESS ->
-            {
+        switch (Objects.requireNonNull(type)) {
+            case CRAFTING_SHAPELESS -> {
                 CraftingRegistry.addShapelessRecipe(new ItemStack(AetherItems.DartShooter, 1, 1), new ItemStack(AetherItems.DartShooter, 1, 0), AetherItems.AechorPetal);
                 CraftingRegistry.addShapelessRecipe(new ItemStack(AetherItems.Zanite, 4), AetherBlocks.ZaniteBlock);
                 CraftingRegistry.addShapelessRecipe(new ItemStack(Item.DYE_POWDER, 2, 5), AetherBlocks.PurpleFlower);
             }
-            case CRAFTING_SHAPED ->
-            {
+            case CRAFTING_SHAPED -> {
                 CraftingRegistry.addShapedRecipe(new ItemStack(AetherItems.PickHolystone, 1), "ZZZ", " Y ", " Y ", 'Z', AetherBlocks.Holystone, 'Y', AetherItems.Stick);
                 CraftingRegistry.addShapedRecipe(new ItemStack(AetherItems.PickHolystone, 1), "ZZZ", " Y ", " Y ", 'Z', AetherBlocks.Holystone, 'Y', AetherItems.Stick);
                 CraftingRegistry.addShapedRecipe(new ItemStack(AetherItems.AxeHolystone, 1), "ZZ", "ZY", " Y", 'Z', AetherBlocks.Holystone, 'Y', AetherItems.Stick);

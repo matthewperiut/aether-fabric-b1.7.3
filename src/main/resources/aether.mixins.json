@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "CraftingResultSlotMixin",
+    "EntityMixin",
     "access.EntityAccessor",
     "access.LivingEntityAccessor",
     "access.PlayerEntityAccessor"

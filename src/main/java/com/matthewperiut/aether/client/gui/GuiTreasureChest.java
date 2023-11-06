@@ -6,15 +6,13 @@ import net.minecraft.container.ChestContainer;
 import net.minecraft.inventory.Inventory;
 import org.lwjgl.opengl.GL11;
 
-public class GuiTreasureChest extends ContainerScreen
-{
-    private Inventory upperChestInventory;
-    private Inventory lowerChestInventory;
+public class GuiTreasureChest extends ContainerScreen {
+    private final Inventory upperChestInventory;
+    private final Inventory lowerChestInventory;
+    private final String name;
     private int inventoryRows;
-    private String name;
 
-    public GuiTreasureChest(final Inventory iinventory, final BlockEntityTreasureChest iinventory1)
-    {
+    public GuiTreasureChest(final Inventory iinventory, final BlockEntityTreasureChest iinventory1) {
         super(new ChestContainer(iinventory, iinventory1));
         this.inventoryRows = 0;
         this.upperChestInventory = iinventory;
@@ -25,40 +23,33 @@ public class GuiTreasureChest extends ContainerScreen
         this.inventoryRows = iinventory1.getInventorySize() / 9;
         this.containerHeight = i + this.inventoryRows * 18;
 
-        switch (iinventory1.rarity)
-        {
-            case 1:
-            {
+        switch (iinventory1.rarity) {
+            case 1: {
                 this.name = "Bronze Treasure Chest";
                 break;
             }
-            case 2:
-            {
+            case 2: {
                 this.name = "Silver Treasure Chest";
                 break;
             }
-            case 3:
-            {
+            case 3: {
                 this.name = "Gold Treasure Chest";
                 break;
             }
-            default:
-            {
+            default: {
                 this.name = "Treasure Chest";
             }
         }
     }
 
     @Override
-    protected void renderForeground()
-    {
+    protected void renderForeground() {
         this.textRenderer.drawText(this.name, 8, 6, 4210752);
         this.textRenderer.drawText(this.upperChestInventory.getContainerName(), 8, this.containerHeight - 96 + 2, 4210752);
     }
 
     @Override
-    protected void renderContainerBackground(final float tickDelta)
-    {
+    protected void renderContainerBackground(final float tickDelta) {
         final int i = this.client.textureManager.getTextureId("/gui/container.png");
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         this.client.textureManager.bindTexture(i);

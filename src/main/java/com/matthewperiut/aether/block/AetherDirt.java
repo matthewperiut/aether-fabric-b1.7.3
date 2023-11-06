@@ -7,30 +7,24 @@ import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.registry.Identifier;
 import net.modificationstation.stationapi.api.template.block.TemplateBlockBase;
 
-public class AetherDirt extends TemplateBlockBase
-{
+public class AetherDirt extends TemplateBlockBase {
 
-    public AetherDirt(Identifier identifier)
-    {
+    public AetherDirt(Identifier identifier) {
         super(identifier, Material.DIRT);
     }
 
-    public boolean isFullOpaque()
-    {
+    public boolean isFullOpaque() {
         return true;
     }
 
-    public void onBlockPlaced(World world, int i, int j, int k, int l)
-    {
+    public void onBlockPlaced(World world, int i, int j, int k, int l) {
         world.setBlock(i, j, k, this.id);
         world.setBlockMeta(i, j, k, 1);
     }
 
-    public void afterBreak(World world, PlayerEntity entityplayer, int i, int j, int k, int l)
-    {
+    public void afterBreak(World world, PlayerEntity entityplayer, int i, int j, int k, int l) {
         entityplayer.increaseStat(Stats.mineBlock[this.id], 1);
-        if (l == 0 && UtilSkyroot.shovel(entityplayer))
-        {
+        if (l == 0 && UtilSkyroot.shovel(entityplayer)) {
             this.drop(world, i, j, k, l);
         }
 

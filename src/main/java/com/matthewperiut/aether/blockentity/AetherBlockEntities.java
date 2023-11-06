@@ -10,14 +10,12 @@ import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
 import net.modificationstation.stationapi.api.util.Null;
 import org.jetbrains.annotations.NotNull;
 
-public class AetherBlockEntities
-{
+public class AetherBlockEntities {
     @Entrypoint.ModID
     public static final net.modificationstation.stationapi.api.registry.@NotNull ModID MOD_ID = Null.get();
 
     @EventListener
-    public void registerTileEntities(TileEntityRegisterEvent event)
-    {
+    public void registerTileEntities(TileEntityRegisterEvent event) {
         event.register(BlockEntityTreasureChest.class, MOD_ID.id("treasure_chest").toString());
         event.register(BlockEntityFreezer.class, MOD_ID.id("freezer").toString());
         event.register(BlockEntityEnchanter.class, MOD_ID.id("enchanter").toString());
