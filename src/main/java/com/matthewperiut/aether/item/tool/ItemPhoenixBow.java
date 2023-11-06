@@ -1,5 +1,6 @@
 package com.matthewperiut.aether.item.tool;
 
+import com.matthewperiut.aether.entity.EntityFlamingArrow;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -17,7 +18,7 @@ public class ItemPhoenixBow extends TemplateItemBase {
         if (entityplayer.inventory.removeItem(Item.ARROW.id)) {
             world.playSound(entityplayer, "mob.ghast.fireball", 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
             if (!world.isClient) {
-                // todo: entity world.spawnEntity(new EntityFlamingArrow(world, entityplayer));
+                world.spawnEntity(new EntityFlamingArrow(world, entityplayer));
             }
         }
 

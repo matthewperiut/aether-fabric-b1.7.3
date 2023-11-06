@@ -1,6 +1,10 @@
 package com.matthewperiut.aether.item.misc;
 
+import com.matthewperiut.aether.entity.EntityDartEnchanted;
+import com.matthewperiut.aether.entity.EntityDartGolden;
+import com.matthewperiut.aether.entity.EntityDartPoison;
 import com.matthewperiut.aether.item.AetherItems;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
@@ -37,10 +41,8 @@ public class ItemDartShooter extends TemplateItemBase {
     public ItemStack use(ItemStack itemstack, World world, PlayerEntity entityplayer) {
         int consume = this.consumeItem(entityplayer, AetherItems.Dart.id, itemstack.getMeta());
         if (consume != -1) {
-            world.playSound(entityplayer, "aether.sound.other.dartshooter.shootDart", 2.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
+            world.playSound(entityplayer, "aether:other.dartshooter.shootDart", 2.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
             if (!world.isClient) {
-                /*
-                todo: entity
                 EntityDartGolden dart = null;
                 if (consume == 1) {
                     dart = new EntityDartPoison(world, entityplayer);
@@ -54,8 +56,7 @@ public class ItemDartShooter extends TemplateItemBase {
                     dart = new EntityDartGolden(world, entityplayer);
                 }
 
-                world.spawnEntity((Entity)dart);
-                 */
+                world.spawnEntity((Entity) dart);
             }
         }
 

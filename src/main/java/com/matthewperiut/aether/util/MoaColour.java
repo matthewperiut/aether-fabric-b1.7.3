@@ -56,6 +56,6 @@ public class MoaColour {
     }
 
     public String getTexture(boolean saddled) {
-        return "/aether/mobs/" + this.name + (saddled ? "MoaSaddle.png" : "Moa.png");
+        return "aether:stationapi/textures/mobs/" + this.name + (saddled ? "MoaSaddle.png" : "Moa.png");
     }
 }

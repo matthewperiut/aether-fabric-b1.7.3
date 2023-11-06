@@ -19,12 +19,14 @@
       "com.matthewperiut.aether.recipe.AetherRecipes",
       "com.matthewperiut.aether.gen.biome.AetherBiomes",
       "com.matthewperiut.aether.gen.dim.AetherDimensions",
+      "com.matthewperiut.aether.entity.AetherEntities",
       "com.matthewperiut.aether.gen.portal.AetherPortalListener",
       "com.matthewperiut.aether.achievement.AetherAchievements",
       "com.matthewperiut.aether.blockentity.AetherBlockEntities"
     ],
     "stationapi:event_bus_client": [
       "com.matthewperiut.aether.client.texture.AetherTextures",
+      "com.matthewperiut.aether.client.entity.AetherEntityRenderers",
       "com.matthewperiut.aether.client.gui.AetherGuis"
     ],
     "stationapi:event_bus_server": [
