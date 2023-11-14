@@ -16,7 +16,7 @@ public class ItemCloudStaff extends TemplateItemBase {
         this.setDurability(60);
     }
 
-    public ItemStack use(ItemStack itemstack, World world, PlayerEntity entityplayer) {
+    private ItemStack useCloudStaff(ItemStack itemstack, World world, PlayerEntity entityplayer) {
         if (!this.cloudsExist(world, entityplayer)) {
             // todo: entity EntityMiniCloud c1 = new EntityMiniCloud(world, entityplayer, false);
             // todo: entity EntityMiniCloud c2 = new EntityMiniCloud(world, entityplayer, true);
@@ -26,6 +26,10 @@ public class ItemCloudStaff extends TemplateItemBase {
         }
 
         return itemstack;
+    }
+
+    public ItemStack use(ItemStack itemstack, World world, PlayerEntity entityplayer) {
+        return world.isClient ? itemstack : useCloudStaff(itemstack, world, entityplayer);
     }
 
     private boolean cloudsExist(World world, PlayerEntity entityplayer) {

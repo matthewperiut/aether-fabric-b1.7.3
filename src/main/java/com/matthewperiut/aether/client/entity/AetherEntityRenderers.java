@@ -11,7 +11,7 @@ public class AetherEntityRenderers {
     @EventListener
     public void registerEntityRenderers(EntityRendererRegisterEvent event) {
         event.renderers.put(EntityAechorPlant.class, new RenderAechorPlant(new ModelAechorPlant(), 0.3F));
-        event.renderers.put(EntityAerbunny.class, new RenderAerbunny(new ModelAerbunny(), 0.3F));
+        event.renderers.put(EntityAerbunnyMp.class, new RenderAerbunny(new ModelAerbunny(), 0.3F));
         event.renderers.put(EntityAerwhale.class, new RenderAerwhale());
 
         event.renderers.put(EntityPoisonNeedle.class, new RenderPoisonNeedle());

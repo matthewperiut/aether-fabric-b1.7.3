@@ -16,7 +16,7 @@ public class AetherEntities {
     public void registerEntities(EntityRegister event) {
         //event.register(EntityClayMan.class, "claysoldier");
         event.register(EntityAechorPlant.class, "AechorPlant");
-        event.register(EntityAerbunny.class, "Aerbunny");
+        event.register(EntityAerbunnyMp.class, "Aerbunny");
         event.register(EntityAerwhale.class, "Aerwhale");
 
         event.register(EntityFlamingArrow.class, "FlamingArrow");
@@ -51,7 +51,7 @@ public class AetherEntities {
     public void registerMobHandlers(MobHandlerRegistryEvent event) {
         //Registry.register(event.registry, MOD_ID.id("claysoldier"), EntityClayMan::new);
         Registry.register(event.registry, MOD_ID.id("AechorPlant"), EntityAechorPlant::new);
-        Registry.register(event.registry, MOD_ID.id("Aerbunny"), EntityAerbunny::new);
+        Registry.register(event.registry, MOD_ID.id("Aerbunny"), EntityAerbunnyMp::new);
         Registry.register(event.registry, MOD_ID.id("Aerwhale"), EntityAerwhale::new);
     }
 }

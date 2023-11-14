@@ -68,13 +68,17 @@ public class Enchanter extends TemplateBlockWithEntity {
     }
 
     public void randomDisplayTick(World world, int i, int j, int k, Random random) {
-        BlockEntityEnchanter tileentity = (BlockEntityEnchanter) world.getBlockEntity(i, j, k);
-        if (tileentity.isBurning()) {
-            float f = (float) i + 0.5F;
-            float f1 = (float) j + 1.0F + random.nextFloat() * 6.0F / 16.0F;
-            float f2 = (float) k + 0.5F;
-            world.addParticle("smoke", f, f1, f2, 0.0, 0.0, 0.0);
-            world.addParticle("flame", f, f1, f2, 0.0, 0.0, 0.0);
+        if (world.isClient) {
+            BlockEntityEnchanter tileentity = (BlockEntityEnchanter) world.getBlockEntity(i, j, k);
+            if (tileentity.isBurning()) {
+                float f = (float) i + 0.5F;
+                float f1 = (float) j + 1.0F + random.nextFloat() * 6.0F / 16.0F;
+                float f2 = (float) k + 0.5F;
+                world.addParticle("smoke", f, f1, f2, 0.0, 0.0, 0.0);
+                world.addParticle("flame", f, f1, f2, 0.0, 0.0, 0.0);
+            }
+        } else {
+            super.randomDisplayTick(world, i, j, k, random);
         }
     }
 

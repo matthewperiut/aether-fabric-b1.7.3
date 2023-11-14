@@ -14,8 +14,8 @@ public class ItemLightningKnife extends TemplateItemBase {
 
     public ItemStack use(ItemStack itemstack, World world, PlayerEntity entityplayer) {
         --itemstack.count;
-        world.playSound(entityplayer, "aether:mob.dartshoot", 2.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
         if (!world.isClient) {
+            world.playSound(entityplayer, "aether:mob.dartshoot", 2.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
             // todo: entity world.spawnEntity(new EntityLightningKnife(world, entityplayer));
         }
 

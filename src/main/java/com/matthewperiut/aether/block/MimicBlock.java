@@ -164,16 +164,20 @@ public class MimicBlock extends TemplateBlockBase {
     }
 
     public void onBlockRemoved(World world, int i, int j, int k) {
-        world.setBlock(i, j, k, 0);
+        if (!world.isClient) {
+            world.setBlock(i, j, k, 0);
         /* todo: entity
         EntityMimic mimic = new EntityMimic(world);
         mimic.setPosition((double)i + 0.5, (double)j + 1.5, (double)k + 0.5);
         world.spawnEntity(mimic);
          */
+        }
     }
 
     public boolean canUse(World world, int i, int j, int k, PlayerEntity entityplayer) {
-        world.setBlock(i, j, k, 0);
+        if (!world.isClient) {
+            world.setBlock(i, j, k, 0);
+        }
         return true;
     }
 
