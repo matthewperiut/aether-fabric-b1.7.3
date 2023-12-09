@@ -5,16 +5,16 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.modificationstation.stationapi.api.event.registry.BlockRegistryEvent;
 import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.registry.ModID;
-import net.modificationstation.stationapi.api.template.block.TemplateBlockBase;
+import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.util.Namespace;
+import net.modificationstation.stationapi.api.template.block.TemplateBlock;
 import net.modificationstation.stationapi.api.util.Null;
 
 import java.util.Map;
 
 public class AetherBlocks {
-    @Entrypoint.ModID
-    private static final ModID MOD_ID = Null.get();
+    @Entrypoint.Namespace
+    private static final Namespace MOD_ID = Null.get();
     public static Block Portal;
     public static Block Dirt;
     public static Block Grass;
@@ -79,7 +79,7 @@ public class AetherBlocks {
         Aercloud = (new Aercloud(Identifier.of(MOD_ID, "aercloud"))).setHardness(0.2F).setLightOpacity(3).setSounds(Block.WOOL_SOUNDS).setTranslationKey(MOD_ID, "aercloud");
         Aerogel = (new Aerogel(Identifier.of(MOD_ID, "aerogel"))).setHardness(1.0F).setBlastResistance(2000.0F).setLightOpacity(3).setSounds(Block.PISTON_SOUNDS).setTranslationKey(MOD_ID, "aerogel");
         Log = (new AetherLog(Identifier.of(MOD_ID, "skyroot_log"))).setHardness(2.0F).setSounds(Block.WOOD_SOUNDS).setTranslationKey(MOD_ID, "skyroot_log");
-        Plank = (new TemplateBlockBase(Identifier.of(MOD_ID, "skyroot_planks"), Material.WOOD)).setHardness(2.0F).setBlastResistance(5.0F).setSounds(Block.WOOD_SOUNDS).setTranslationKey(MOD_ID, "skyroot_planks");
+        Plank = (new TemplateBlock(Identifier.of(MOD_ID, "skyroot_planks"), Material.WOOD)).setHardness(2.0F).setBlastResistance(5.0F).setSounds(Block.WOOD_SOUNDS).setTranslationKey(MOD_ID, "skyroot_planks");
         SkyrootLeaves = (new AetherLeaves(Identifier.of(MOD_ID, "skyroot_leaves"), false)).setHardness(0.2F).setLightOpacity(1).setSounds(Block.GRASS_SOUNDS).setTranslationKey(MOD_ID, "skyroot_leaves");
         GoldenOakLeaves = (new AetherLeaves(Identifier.of(MOD_ID, "golden_leaves"), true)).setHardness(0.2F).setLightOpacity(1).setSounds(Block.GRASS_SOUNDS).setTranslationKey(MOD_ID, "golden_leaves");
         SkyrootSapling = (new AetherSapling(Identifier.of(MOD_ID, "skyroot_sapling"), false)).setTranslationKey(MOD_ID, "skyroot_sapling").setHardness(0.0F).setSounds(Block.GRASS_SOUNDS);

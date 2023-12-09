@@ -11,7 +11,6 @@ import net.minecraft.server.entity.player.ServerPlayerEntity;
 import net.minecraft.util.math.AxixAlignedBoundingBox;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.entity.player.PlayerHelper;
-import net.modificationstation.stationapi.api.packet.PacketHelper;
 
 import java.util.List;
 

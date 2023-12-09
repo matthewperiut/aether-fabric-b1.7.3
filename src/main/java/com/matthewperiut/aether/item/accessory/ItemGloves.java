@@ -4,13 +4,13 @@ import com.matthewperiut.accessoryapi.api.render.AccessoryRenderer;
 import com.matthewperiut.accessoryapi.api.render.HasCustomRenderer;
 import com.matthewperiut.accessoryapi.api.render.builtin.GloveRenderer;
 import net.minecraft.entity.player.PlayerEntity;
-import net.modificationstation.stationapi.api.item.CustomArmourValue;
-import net.modificationstation.stationapi.api.registry.Identifier;
+import net.modificationstation.stationapi.api.item.CustomArmorValue;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.awt.*;
 import java.util.Optional;
 
-public class ItemGloves extends ItemMoreArmor implements HasCustomRenderer, CustomArmourValue {
+public class ItemGloves extends ItemMoreArmor implements HasCustomRenderer, CustomArmorValue {
     AccessoryRenderer renderer;
 
     public ItemGloves(Identifier i, int j, String path, int l, int m) {

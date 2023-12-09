@@ -7,12 +7,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.NetherTeleporter;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.block.CustomPortal;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.block.TemplatePortal;
+import net.modificationstation.stationapi.api.template.block.TemplateNetherPortalBlock;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-public class AetherPortal extends TemplatePortal implements CustomPortal {
+public class AetherPortal extends TemplateNetherPortalBlock implements CustomPortal {
     public static int spr;
 
     public AetherPortal(Identifier identifier) {

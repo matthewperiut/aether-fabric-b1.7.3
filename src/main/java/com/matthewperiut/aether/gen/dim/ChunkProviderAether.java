@@ -15,7 +15,7 @@ import net.minecraft.world.feature.LakeFeature;
 import net.minecraft.world.gen.Carver;
 import net.minecraft.world.gen.OverworldCarver;
 import net.minecraft.world.source.WorldSource;
-import net.modificationstation.stationapi.impl.level.chunk.FlattenedChunk;
+import net.modificationstation.stationapi.impl.world.chunk.FlattenedChunk;
 
 import java.util.Random;
 

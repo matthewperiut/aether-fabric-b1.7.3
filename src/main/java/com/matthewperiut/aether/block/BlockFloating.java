@@ -3,12 +3,12 @@ package com.matthewperiut.aether.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.block.TemplateBlockBase;
+import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.template.block.TemplateBlock;
 
 import java.util.Random;
 
-public class BlockFloating extends TemplateBlockBase {
+public class BlockFloating extends TemplateBlock {
     public static boolean fallInstantly = false;
     private final boolean enchanted;
 

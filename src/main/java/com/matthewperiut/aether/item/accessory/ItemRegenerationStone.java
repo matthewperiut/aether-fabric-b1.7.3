@@ -3,7 +3,7 @@ package com.matthewperiut.aether.item.accessory;
 import com.matthewperiut.accessoryapi.api.PlayerExtraHP;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.modificationstation.stationapi.api.registry.Identifier;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 public class ItemRegenerationStone extends ItemMoreArmor {
     public ItemRegenerationStone(Identifier i, int j, int k, int l) {

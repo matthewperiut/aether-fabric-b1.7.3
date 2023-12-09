@@ -13,14 +13,14 @@ import net.minecraft.inventory.Inventory;
 import net.modificationstation.stationapi.api.event.registry.GuiHandlerRegistryEvent;
 import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
 import net.modificationstation.stationapi.api.registry.GuiHandlerRegistry;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.registry.ModID;
+import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.util.Namespace;
 import net.modificationstation.stationapi.api.util.Null;
 import uk.co.benjiweber.expressions.tuple.BiTuple;
 
 public class AetherGuis {
-    @Entrypoint.ModID
-    private static final ModID MOD_ID = Null.get();
+    @Entrypoint.Namespace
+    private static final Namespace MOD_ID = Null.get();
 
     @Environment(EnvType.CLIENT)
     @EventListener

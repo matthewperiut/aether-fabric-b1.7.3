@@ -7,12 +7,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stat.Stats;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.block.TemplateBlockBase;
+import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.template.block.TemplateBlock;
 
 import java.util.Random;
 
-public class AetherGrass extends TemplateBlockBase {
+public class AetherGrass extends TemplateBlock {
     public static int sprTop;
     public static int sprSide;
 

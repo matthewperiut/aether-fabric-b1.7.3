@@ -5,12 +5,12 @@ import net.minecraft.entity.EntityRegistry;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.item.tool.TemplateSword;
+import net.modificationstation.stationapi.api.template.item.TemplateSwordItem;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-public class ItemPigSlayer extends TemplateSword {
+public class ItemPigSlayer extends TemplateSwordItem {
     Random rand = new Random();
 
     public ItemPigSlayer(Identifier i) {

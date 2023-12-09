@@ -3,12 +3,12 @@ package com.matthewperiut.aether.block;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.AxixAlignedBoundingBox;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.block.TemplateBlockBase;
+import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.template.block.TemplateBlock;
 
 import java.util.Random;
 
-public class AetherFlower extends TemplateBlockBase {
+public class AetherFlower extends TemplateBlock {
     public AetherFlower(Identifier identifier) {
         super(identifier, Material.PLANT);
         this.setTicksRandomly(true);

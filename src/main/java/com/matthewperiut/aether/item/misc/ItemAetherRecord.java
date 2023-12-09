@@ -6,10 +6,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.item.TemplateRecord;
+import net.modificationstation.stationapi.api.template.item.TemplateMusicDiscItem;
+import net.modificationstation.stationapi.api.util.Identifier;
 
-public class ItemAetherRecord extends TemplateRecord {
+public class ItemAetherRecord extends TemplateMusicDiscItem {
     String jukeboxMessage;
 
     public ItemAetherRecord(Identifier i, String s, String jukeboxMessage) {

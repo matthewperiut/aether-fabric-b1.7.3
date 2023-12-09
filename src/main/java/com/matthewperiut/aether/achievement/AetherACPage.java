@@ -3,7 +3,7 @@ package com.matthewperiut.aether.achievement;
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.block.Holystone;
 import net.minecraft.block.Block;
-import net.modificationstation.stationapi.api.client.gui.screen.menu.AchievementPage;
+import net.modificationstation.stationapi.api.client.gui.screen.achievement.AchievementPage;
 
 import java.util.Random;
 

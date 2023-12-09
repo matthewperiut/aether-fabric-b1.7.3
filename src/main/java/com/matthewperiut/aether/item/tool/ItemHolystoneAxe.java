@@ -4,12 +4,12 @@ import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.item.tool.TemplateHatchet;
+import net.modificationstation.stationapi.api.template.item.TemplateAxeItem;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-public class ItemHolystoneAxe extends TemplateHatchet {
+public class ItemHolystoneAxe extends TemplateAxeItem {
     Random random = new Random();
 
     public ItemHolystoneAxe(Identifier identifier, ToolMaterial material) {

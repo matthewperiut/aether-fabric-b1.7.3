@@ -2,10 +2,10 @@ package com.matthewperiut.aether.item.accessory;
 
 import com.matthewperiut.accessoryapi.api.Accessory;
 import net.minecraft.item.ItemStack;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
+import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.template.item.TemplateItem;
 
-public class ItemMoreArmor extends TemplateItemBase implements Accessory {
+public class ItemMoreArmor extends TemplateItem implements Accessory {
     private static final int[] damageReduceAmountArray = new int[]{3, 8, 6, 3, 0, 1, 0, 0, 0, 0, 2, 0};
     private static final int[] maxDamageArray = new int[]{11, 16, 15, 13, 10, 10, 8, 10, 10, 10, 10, 10};
     public final int armorLevel;

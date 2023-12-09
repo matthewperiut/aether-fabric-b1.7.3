@@ -5,11 +5,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.util.hit.HitType;
 import net.modificationstation.stationapi.api.item.CustomReachProvider;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.item.tool.TemplateShovel;
+import net.modificationstation.stationapi.api.template.item.TemplateShovelItem;
+import net.modificationstation.stationapi.api.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
-public class ItemValkyrieSpade extends TemplateShovel implements CustomReachProvider {
+public class ItemValkyrieSpade extends TemplateShovelItem implements CustomReachProvider {
     public ItemValkyrieSpade(final @NotNull Identifier identifier, final ToolMaterial enumtoolmaterial) {
         super(identifier, enumtoolmaterial);
     }

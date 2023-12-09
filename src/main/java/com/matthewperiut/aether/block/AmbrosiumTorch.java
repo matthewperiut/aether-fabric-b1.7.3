@@ -5,12 +5,12 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.AxixAlignedBoundingBox;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.block.TemplateBlockBase;
+import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.template.block.TemplateBlock;
 
 import java.util.Random;
 
-public class AmbrosiumTorch extends TemplateBlockBase {
+public class AmbrosiumTorch extends TemplateBlock {
     public AmbrosiumTorch(Identifier identifier) {
         super(identifier, Material.DOODADS);
         this.setTicksRandomly(true);

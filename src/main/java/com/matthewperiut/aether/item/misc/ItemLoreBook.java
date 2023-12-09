@@ -8,11 +8,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
-import net.modificationstation.stationapi.api.util.SideUtils;
+import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.template.item.TemplateItem;
+import net.modificationstation.stationapi.api.util.SideUtil;
 
-public class ItemLoreBook extends TemplateItemBase {
+public class ItemLoreBook extends TemplateItem {
     public ItemLoreBook(Identifier identifier) {
         super(identifier);
         this.maxStackSize = 1;
@@ -41,7 +41,7 @@ public class ItemLoreBook extends TemplateItemBase {
     }
 
     public ItemStack use(ItemStack item, World world, PlayerEntity player) {
-        SideUtils.run(() -> useLoreClient(player, item), () -> useLoreServer());
+        SideUtil.run(() -> useLoreClient(player, item), () -> useLoreServer());
         return item;
     }
 

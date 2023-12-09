@@ -9,8 +9,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.source.WorldSource;
-import net.modificationstation.stationapi.api.client.level.dimension.TravelMessageProvider;
-import net.modificationstation.stationapi.api.registry.Identifier;
+import net.modificationstation.stationapi.api.client.world.dimension.TravelMessageProvider;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 import static com.matthewperiut.aether.gen.dim.AetherDimensions.MOD_ID;
 

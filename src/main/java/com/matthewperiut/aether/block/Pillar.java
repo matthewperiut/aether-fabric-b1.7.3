@@ -2,10 +2,10 @@ package com.matthewperiut.aether.block;
 
 import net.minecraft.block.material.Material;
 import net.modificationstation.stationapi.api.block.MetaNamedBlockItemProvider;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.block.TemplateBlockBase;
+import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.template.block.TemplateBlock;
 
-public class Pillar extends TemplateBlockBase implements MetaNamedBlockItemProvider {
+public class Pillar extends TemplateBlock implements MetaNamedBlockItemProvider {
     public static int sprTop;
     public static int sprSide;
     public static int sprTopSide;

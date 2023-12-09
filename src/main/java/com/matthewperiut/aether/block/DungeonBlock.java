@@ -2,10 +2,10 @@ package com.matthewperiut.aether.block;
 
 import net.minecraft.block.material.Material;
 import net.modificationstation.stationapi.api.block.MetaNamedBlockItemProvider;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.block.TemplateBlockBase;
+import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.template.block.TemplateBlock;
 
-public class DungeonBlock extends TemplateBlockBase implements MetaNamedBlockItemProvider {
+public class DungeonBlock extends TemplateBlock implements MetaNamedBlockItemProvider {
     public static int sprBronze;
     public static int sprSilver;
     public static int sprGold;

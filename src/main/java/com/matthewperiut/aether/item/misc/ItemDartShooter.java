@@ -9,10 +9,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
+import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.template.item.TemplateItem;
 
-public class ItemDartShooter extends TemplateItemBase {
+public class ItemDartShooter extends TemplateItem {
     public static int sprNormal;// = ModLoader.addOverride("/gui/items.png", "/aether/items/DartShooter.png");
     public static int sprPoison;// = ModLoader.addOverride("/gui/items.png", "/aether/items/DartShooterPoison.png");
     public static int sprEnchanted;// = ModLoader.addOverride("/gui/items.png", "/aether/items/DartShooterEnchanted.png");

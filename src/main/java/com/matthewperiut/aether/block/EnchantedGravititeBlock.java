@@ -1,7 +1,7 @@
 package com.matthewperiut.aether.block;
 
 import net.minecraft.world.BlockView;
-import net.modificationstation.stationapi.api.registry.Identifier;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 public class EnchantedGravititeBlock extends BlockFloating {
     public EnchantedGravititeBlock(Identifier i, int j, boolean bool) {

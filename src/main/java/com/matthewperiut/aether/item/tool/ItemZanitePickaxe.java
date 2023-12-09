@@ -3,10 +3,10 @@ package com.matthewperiut.aether.item.tool;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.item.tool.TemplatePickaxe;
+import net.modificationstation.stationapi.api.template.item.TemplatePickaxeItem;
+import net.modificationstation.stationapi.api.util.Identifier;
 
-public class ItemZanitePickaxe extends TemplatePickaxe {
+public class ItemZanitePickaxe extends TemplatePickaxeItem {
     public ItemZanitePickaxe(Identifier identifier, ToolMaterial material) {
         super(identifier, material);
     }

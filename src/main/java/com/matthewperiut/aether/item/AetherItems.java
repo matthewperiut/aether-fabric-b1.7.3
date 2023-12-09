@@ -9,18 +9,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ToolMaterial;
 import net.modificationstation.stationapi.api.event.registry.ItemRegistryEvent;
 import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.registry.ModID;
-import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
-import net.modificationstation.stationapi.api.template.item.tool.TemplateHatchet;
-import net.modificationstation.stationapi.api.template.item.tool.TemplatePickaxe;
-import net.modificationstation.stationapi.api.template.item.tool.TemplateShovel;
-import net.modificationstation.stationapi.api.template.item.tool.TemplateSword;
+import net.modificationstation.stationapi.api.template.item.*;
+import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.util.Namespace;
 import net.modificationstation.stationapi.api.util.Null;
 
 public class AetherItems {
-    @Entrypoint.ModID
-    public static final ModID MOD_ID = Null.get();
+    @Entrypoint.Namespace
+    public static final Namespace MOD_ID = Null.get();
     private static final int ticks = 0;
     public static double motionOffset = 0.05;
     public static double ybuff = 0.3;
@@ -133,26 +129,26 @@ public class AetherItems {
         AccessoryRegister.add("ring");
         AccessoryRegister.add("gloves");
 
-        VictoryMedal = (new TemplateItemBase(Identifier.of(MOD_ID, "victory_medal"))).setMaxStackSize(10).setTranslationKey(MOD_ID, "victory_medal");
+        VictoryMedal = (new TemplateItem(Identifier.of(MOD_ID, "victory_medal"))).setMaxStackSize(10).setTranslationKey(MOD_ID, "victory_medal");
         Key = (new ItemAetherKey(Identifier.of(MOD_ID, "aether_key"))).setTranslationKey(MOD_ID, "aether_key");
         LoreBook = (new ItemLoreBook(Identifier.of(MOD_ID, "lore_book"))).setTexturePosition(59).setTranslationKey(MOD_ID, "lore_book");
         MoaEgg = (new ItemMoaEgg(Identifier.of(MOD_ID, "moa_egg"))).setTranslationKey(MOD_ID, "moa_egg");
-        AechorPetal = (new TemplateItemBase(Identifier.of(MOD_ID, "aechor_petal"))).setTranslationKey(MOD_ID, "aechor_petal");
-        GoldenAmber = (new TemplateItemBase(Identifier.of(MOD_ID, "golden_amber"))).setTranslationKey(MOD_ID, "golden_amber");
-        Stick = (new TemplateItemBase(Identifier.of(MOD_ID, "skyroot_stick"))).setTranslationKey(MOD_ID, "skyroot_stick");
+        AechorPetal = (new TemplateItem(Identifier.of(MOD_ID, "aechor_petal"))).setTranslationKey(MOD_ID, "aechor_petal");
+        GoldenAmber = (new TemplateItem(Identifier.of(MOD_ID, "golden_amber"))).setTranslationKey(MOD_ID, "golden_amber");
+        Stick = (new TemplateItem(Identifier.of(MOD_ID, "skyroot_stick"))).setTranslationKey(MOD_ID, "skyroot_stick");
         Dart = (new ItemDart(Identifier.of(MOD_ID, "dart"))).setHasSubItems(true).setTranslationKey(MOD_ID, "dart");
         DartShooter = (new ItemDartShooter(Identifier.of("dart_shooter"))).setTranslationKey(MOD_ID, "dart_shooter");
         AmbrosiumShard = (new ItemAmbrosium(Identifier.of(MOD_ID, "ambrosium"), 1)).setTranslationKey(MOD_ID, "ambrosium");
         HealingStone = (new ItemAmbrosium(Identifier.of(MOD_ID, "healing_stone"), 4)).setTranslationKey(MOD_ID, "healing_stone");
-        Zanite = (new TemplateItemBase(Identifier.of(MOD_ID, "zanite"))).setTranslationKey(MOD_ID, "zanite");
+        Zanite = (new TemplateItem(Identifier.of(MOD_ID, "zanite"))).setTranslationKey(MOD_ID, "zanite");
         BlueMusicDisk = (new ItemAetherRecord(Identifier.of(MOD_ID, "blue_music_disc"), "aether:aethertune", "Noisestorm - Aethertune")).setTranslationKey(MOD_ID, "blue_music_disc");
         Bucket = (new ItemSkyrootBucket(Identifier.of(MOD_ID, "skyroot_bucket"))).setTranslationKey(MOD_ID, "skyroot_bucket");
 
         ToolMaterial mat = ToolMaterial.WOOD;
-        SwordSkyroot = (new TemplateSword(Identifier.of(MOD_ID, "skyroot_sword"), mat)).setTranslationKey(MOD_ID, "skyroot_sword");
-        PickSkyroot = (new TemplatePickaxe(Identifier.of(MOD_ID, "skyroot_pickaxe"), mat)).setTranslationKey(MOD_ID, "skyroot_pickaxe");
-        AxeSkyroot = (new TemplateHatchet(Identifier.of(MOD_ID, "skyroot_axe"), mat)).setTranslationKey(MOD_ID, "skyroot_axe");
-        ShovelSkyroot = (new TemplateShovel(Identifier.of(MOD_ID, "skyroot_shovel"), mat)).setTranslationKey(MOD_ID, "skyroot_shovel");
+        SwordSkyroot = (new TemplateSwordItem(Identifier.of(MOD_ID, "skyroot_sword"), mat)).setTranslationKey(MOD_ID, "skyroot_sword");
+        PickSkyroot = (new TemplatePickaxeItem(Identifier.of(MOD_ID, "skyroot_pickaxe"), mat)).setTranslationKey(MOD_ID, "skyroot_pickaxe");
+        AxeSkyroot = (new TemplateAxeItem(Identifier.of(MOD_ID, "skyroot_axe"), mat)).setTranslationKey(MOD_ID, "skyroot_axe");
+        ShovelSkyroot = (new TemplateShovelItem(Identifier.of(MOD_ID, "skyroot_shovel"), mat)).setTranslationKey(MOD_ID, "skyroot_shovel");
 
         mat = ToolMaterial.STONE;
         SwordHolystone = (new ItemSwordHolystone(Identifier.of(MOD_ID, "holystone_sword"), mat)).setTranslationKey(MOD_ID, "holystone_sword");
@@ -179,7 +175,7 @@ public class AetherItems {
 
         PigSlayer = (new ItemPigSlayer(Identifier.of(MOD_ID, "pig_slayer"))).setTranslationKey(MOD_ID, "pig_slayer");
         VampireBlade = (new ItemVampireBlade(Identifier.of(MOD_ID, "vampire_blade"))).setTranslationKey(MOD_ID, "vampire_blade");
-        NatureStaff = (new TemplateItemBase(Identifier.of(MOD_ID, "nature_staff"))).setMaxStackSize(1).setTranslationKey(MOD_ID, "nature_staff");
+        NatureStaff = (new TemplateItem(Identifier.of(MOD_ID, "nature_staff"))).setMaxStackSize(1).setTranslationKey(MOD_ID, "nature_staff");
         SwordFire = (new ItemSwordElemental(Identifier.of(MOD_ID, "fire_sword"), EnumElement.Fire, -20609)).setTranslationKey(MOD_ID, "fire_sword");
         SwordHoly = (new ItemSwordElemental(Identifier.of(MOD_ID, "holy_sword"), EnumElement.Holy, -81)).setTranslationKey(MOD_ID, "holy_sword");
         SwordLightning = (new ItemSwordElemental(Identifier.of(MOD_ID, "lightning_sword"), EnumElement.Lightning, -5242881)).setTranslationKey(MOD_ID, "lightning_sword");

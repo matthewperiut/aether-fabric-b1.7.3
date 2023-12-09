@@ -2,7 +2,7 @@ package com.matthewperiut.aether.item.accessory;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.modificationstation.stationapi.api.registry.Identifier;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 public class ItemAgilityCape extends ItemCape {
     public ItemAgilityCape(Identifier i, int j, String path, int l) {

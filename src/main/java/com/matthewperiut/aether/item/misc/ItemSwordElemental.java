@@ -8,13 +8,13 @@ import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.monster.ZombiePigmanEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.item.tool.TemplateSword;
+import net.modificationstation.stationapi.api.template.item.TemplateSwordItem;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class ItemSwordElemental extends TemplateSword {
+public class ItemSwordElemental extends TemplateSwordItem {
     public static ArrayList<Class<? extends LivingEntity>> undead = new ArrayList();
     public static int textureId;
 

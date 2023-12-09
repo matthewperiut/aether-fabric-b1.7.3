@@ -6,11 +6,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.block.BlockState;
-import net.modificationstation.stationapi.api.registry.Identifier;
+import net.modificationstation.stationapi.api.template.item.TemplateShovelItem;
+import net.modificationstation.stationapi.api.util.Identifier;
 import net.modificationstation.stationapi.api.tag.TagKey;
-import net.modificationstation.stationapi.api.template.item.tool.TemplateShovel;
 
-public class ItemGravititeShovel extends TemplateShovel {
+public class ItemGravititeShovel extends TemplateShovelItem {
     public ItemGravititeShovel(Identifier identifier, ToolMaterial material) {
         super(identifier, material);
     }

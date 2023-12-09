@@ -4,7 +4,7 @@ import com.matthewperiut.accessoryapi.api.TickableInArmorSlot;
 import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.modificationstation.stationapi.api.registry.Identifier;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 public class ItemPhoenixArmour extends ItemColouredArmour implements TickableInArmorSlot {
     public ItemPhoenixArmour(Identifier i, int j, String s, int l, int col) {

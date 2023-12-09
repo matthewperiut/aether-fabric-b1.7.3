@@ -11,10 +11,10 @@ import net.minecraft.util.hit.HitType;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
+import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.template.item.TemplateItem;
 
-public class ItemSkyrootBucket extends TemplateItemBase {
+public class ItemSkyrootBucket extends TemplateItem {
     public static int sprEmpty;// = ModLoader.addOverride("/gui/items.png", "/aether/items/Bucket.png");
     public static int sprWater;// = ModLoader.addOverride("/gui/items.png", "/aether/items/BucketWater.png");
     public static int sprMilk;// = ModLoader.addOverride("/gui/items.png", "/aether/items/BucketMilk.png");

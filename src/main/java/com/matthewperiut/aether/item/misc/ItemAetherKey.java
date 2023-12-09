@@ -1,10 +1,10 @@
 package com.matthewperiut.aether.item.misc;
 
 import net.minecraft.item.ItemStack;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
+import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.template.item.TemplateItem;
 
-public class ItemAetherKey extends TemplateItemBase {
+public class ItemAetherKey extends TemplateItem {
     public ItemAetherKey(Identifier itemID) {
         super(itemID);
         this.setHasSubItems(true);

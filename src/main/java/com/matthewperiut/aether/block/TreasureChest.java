@@ -10,14 +10,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.gui.screen.container.GuiHelper;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.block.TemplateChest;
+import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.template.block.TemplateChestBlock;
 
 import java.util.Random;
 
 import static com.matthewperiut.aether.blockentity.AetherBlockEntities.MOD_ID;
 
-public class TreasureChest extends TemplateChest {
+public class TreasureChest extends TemplateChestBlock {
     public static int sideTexture;
 
     public TreasureChest(Identifier identifier) {

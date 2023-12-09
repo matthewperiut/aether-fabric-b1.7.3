@@ -9,10 +9,10 @@ import net.minecraft.util.math.AxixAlignedBoundingBox;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.block.MetaNamedBlockItemProvider;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.block.TemplateBlockBase;
+import net.modificationstation.stationapi.api.template.block.TemplateBlock;
+import net.modificationstation.stationapi.api.util.Identifier;
 
-public class Aercloud extends TemplateBlockBase implements MetaNamedBlockItemProvider {
+public class Aercloud extends TemplateBlock implements MetaNamedBlockItemProvider {
     public static final int bouncingMeta = 1;
 
     public Aercloud(Identifier identifier) {

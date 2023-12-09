@@ -1,13 +1,13 @@
 package com.matthewperiut.aether.item.tool;
 
 import net.minecraft.item.ArmorItem;
-import net.modificationstation.stationapi.api.client.item.ArmourTextureProvider;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.item.armour.TemplateArmour;
+import net.modificationstation.stationapi.api.client.item.ArmorTextureProvider;
+import net.modificationstation.stationapi.api.template.item.TemplateArmorItem;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 import static com.matthewperiut.aether.item.AetherItems.MOD_ID;
 
-public class ItemColouredArmour extends TemplateArmour implements ArmourTextureProvider {
+public class ItemColouredArmour extends TemplateArmorItem implements ArmorTextureProvider {
     private final int colour;
     private final String name;
 

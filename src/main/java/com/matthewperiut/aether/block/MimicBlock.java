@@ -10,12 +10,12 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.block.TemplateBlockBase;
+import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.template.block.TemplateBlock;
 
 import java.util.Random;
 
-public class MimicBlock extends TemplateBlockBase {
+public class MimicBlock extends TemplateBlock {
     protected MimicBlock(Identifier identifier) {
         super(identifier, Material.WOOD);
         this.texture = 26;

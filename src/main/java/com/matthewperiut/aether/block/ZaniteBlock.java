@@ -2,10 +2,10 @@ package com.matthewperiut.aether.block;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.world.BlockView;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.block.TemplateBlockBase;
+import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.template.block.TemplateBlock;
 
-public class ZaniteBlock extends TemplateBlockBase {
+public class ZaniteBlock extends TemplateBlock {
     protected ZaniteBlock(Identifier blockID, int j) {
         super(blockID, j, Material.STONE);
     }

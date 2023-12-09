@@ -7,10 +7,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stat.Stats;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.block.MetaNamedBlockItemProvider;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.block.TemplateBlockBase;
+import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.template.block.TemplateBlock;
 
-public class Holystone extends TemplateBlockBase implements MetaNamedBlockItemProvider {
+public class Holystone extends TemplateBlock implements MetaNamedBlockItemProvider {
     public static int sprNormal;
     public static int sprMossy;
 

@@ -4,7 +4,7 @@ import com.matthewperiut.accessoryapi.api.render.AccessoryRenderer;
 import com.matthewperiut.accessoryapi.api.render.HasCustomRenderer;
 import com.matthewperiut.accessoryapi.api.render.builtin.CapeRenderer;
 import com.matthewperiut.accessoryapi.api.render.builtin.ConfigurableRenderer;
-import net.modificationstation.stationapi.api.registry.Identifier;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.awt.*;
 import java.util.Optional;

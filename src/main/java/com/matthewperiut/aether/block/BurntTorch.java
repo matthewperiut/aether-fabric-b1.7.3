@@ -2,12 +2,12 @@ package com.matthewperiut.aether.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.block.TemplateTorch;
+import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.template.block.TemplateTorchBlock;
 
 import java.util.Random;
 
-public class BurntTorch extends TemplateTorch {
+public class BurntTorch extends TemplateTorchBlock {
     public BurntTorch(Identifier i) {
         super(i, 0);
     }

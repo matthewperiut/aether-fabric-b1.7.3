@@ -2,10 +2,10 @@ package com.matthewperiut.aether.block;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.world.BlockView;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.block.TemplateBlockBase;
+import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.template.block.TemplateBlock;
 
-public class Aerogel extends TemplateBlockBase {
+public class Aerogel extends TemplateBlock {
     public Aerogel(Identifier identifier) {
         super(identifier, Material.STONE);
     }

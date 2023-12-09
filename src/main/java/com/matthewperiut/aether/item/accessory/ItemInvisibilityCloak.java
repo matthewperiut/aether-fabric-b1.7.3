@@ -4,7 +4,7 @@ import com.matthewperiut.accessoryapi.api.Accessory;
 import com.matthewperiut.accessoryapi.api.PlayerVisibility;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.modificationstation.stationapi.api.registry.Identifier;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 public class ItemInvisibilityCloak extends ItemMoreArmor implements Accessory {
     public ItemInvisibilityCloak(Identifier i, int j, int k, int l) {

@@ -9,10 +9,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.util.hit.HitType;
 import net.modificationstation.stationapi.api.item.CustomReachProvider;
-import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
+import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.template.item.TemplateItem;
 
-public class ItemLance extends TemplateItemBase implements CustomReachProvider {
+public class ItemLance extends TemplateItem implements CustomReachProvider {
     private final int weaponDamage;
 
     public ItemLance(Identifier i, ToolMaterial enumtoolmaterial) {
