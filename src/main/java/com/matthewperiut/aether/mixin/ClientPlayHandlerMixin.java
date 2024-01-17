@@ -17,7 +17,6 @@ public class ClientPlayHandlerMixin {
 
     @Redirect(method = "increaseStat", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/AchievementWidget;setAchievementGet(Lnet/minecraft/stat/achievement/Achievement;)V"))
     public void onIncreaseStat(AchievementWidget instance, Achievement achievement) {
-        System.out.println(achievement.id);
         int achievementId = achievement.id - 5242880;
         if (achievementId >= AetherAchievements.acOff && achievementId <= AetherAchievements.acOff + 10) {
             if (achievementId == AetherAchievements.acOff + 1) {

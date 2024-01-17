@@ -72,16 +72,16 @@ dependencies {
     modImplementation("com.github.matthewperiut:accessory-api:${project.accessory_version}") {
         transitive false
     }
-/*
     modLocalRuntime("com.github.calmilamsy:ModMenu:${project.modmenu_version}") {
         transitive false
     }
+    implementation "blue.endless:jankson:1.2.1"
     modLocalRuntime("net.glasslauncher.mods:GlassConfigAPI:${project.gcapi_version}") {
         transitive false
     }
     modLocalRuntime("net.glasslauncher:HowManyItems-Fabric-Unofficial:${project.hmi_version}") {
         transitive false
-    }*/
+    }
     modImplementation ("com.github.paulevsGitch:BHCreative:${project.bhcreative_version}") {
         transitive false
     }
