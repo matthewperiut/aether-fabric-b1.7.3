@@ -5,12 +5,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.modificationstation.stationapi.api.event.registry.BlockRegistryEvent;
 import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
+import net.modificationstation.stationapi.api.template.block.TemplateBlock;
 import net.modificationstation.stationapi.api.util.Identifier;
 import net.modificationstation.stationapi.api.util.Namespace;
-import net.modificationstation.stationapi.api.template.block.TemplateBlock;
 import net.modificationstation.stationapi.api.util.Null;
-
-import java.util.Map;
 
 public class AetherBlocks {
     @Entrypoint.Namespace
@@ -54,8 +52,8 @@ public class AetherBlocks {
     public static Block Chest;
 
     //public static void AddRenderer(Map map) {
-        //map.put(EntityFloatingBlock.class, new RenderFloatingBlock());
-        //map.put(EntityMimic.class, new RenderMimic());
+    //map.put(EntityFloatingBlock.class, new RenderFloatingBlock());
+    //map.put(EntityMimic.class, new RenderMimic());
     //}
 
     public static boolean isGood(int id, int meta) {

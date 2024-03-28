@@ -2,8 +2,8 @@ package com.matthewperiut.aether.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.util.Identifier;
 import net.modificationstation.stationapi.api.template.block.TemplateTorchBlock;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 

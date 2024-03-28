@@ -1,8 +1,8 @@
 package com.matthewperiut.aether.item.misc;
 
 import net.minecraft.item.ItemStack;
-import net.modificationstation.stationapi.api.util.Identifier;
 import net.modificationstation.stationapi.api.template.item.TemplateItem;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 public class ItemAetherKey extends TemplateItem {
     public ItemAetherKey(Identifier itemID) {

@@ -1,4 +1,4 @@
-package com.matthewperiut.aether.client.entity.renderer;
+package com.matthewperiut.aether.client.entity.renderer.living;
 
 import com.matthewperiut.aether.client.entity.model.ModelAerwhale;
 import net.minecraft.client.render.entity.EntityRenderer;

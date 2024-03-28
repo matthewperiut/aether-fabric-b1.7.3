@@ -1,4 +1,4 @@
-package com.matthewperiut.aether.entity;
+package com.matthewperiut.aether.entity.living;
 
 import com.matthewperiut.aether.block.AetherBlocks;
 import net.minecraft.entity.AbstractAnimalEntity;

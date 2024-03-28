@@ -5,6 +5,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
+import java.util.Random;
+
 @Mixin(Entity.class)
 public interface EntityAccessor {
     @Accessor("fallDistance")
@@ -18,4 +20,7 @@ public interface EntityAccessor {
 
     @Accessor("immuneToFire")
     void setImmuneToFire(boolean immune);
+
+    @Accessor("rand")
+    Random getRand();
 }

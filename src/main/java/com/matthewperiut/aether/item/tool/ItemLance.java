@@ -9,8 +9,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.util.hit.HitType;
 import net.modificationstation.stationapi.api.item.CustomReachProvider;
-import net.modificationstation.stationapi.api.util.Identifier;
 import net.modificationstation.stationapi.api.template.item.TemplateItem;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 public class ItemLance extends TemplateItem implements CustomReachProvider {
     private final int weaponDamage;

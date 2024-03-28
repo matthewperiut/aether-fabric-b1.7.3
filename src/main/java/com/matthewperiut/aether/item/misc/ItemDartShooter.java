@@ -1,16 +1,16 @@
 package com.matthewperiut.aether.item.misc;
 
-import com.matthewperiut.aether.entity.EntityDartEnchanted;
-import com.matthewperiut.aether.entity.EntityDartGolden;
-import com.matthewperiut.aether.entity.EntityDartPoison;
+import com.matthewperiut.aether.entity.projectile.EntityDartEnchanted;
+import com.matthewperiut.aether.entity.projectile.EntityDartGolden;
+import com.matthewperiut.aether.entity.projectile.EntityDartPoison;
 import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.util.Identifier;
 import net.modificationstation.stationapi.api.template.item.TemplateItem;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 public class ItemDartShooter extends TemplateItem {
     public static int sprNormal;// = ModLoader.addOverride("/gui/items.png", "/aether/items/DartShooter.png");

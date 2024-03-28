@@ -1,4 +1,4 @@
-package com.matthewperiut.aether.entity;
+package com.matthewperiut.aether.entity.projectile;
 
 import com.matthewperiut.aether.mixin.access.LivingEntityAccessor;
 import net.minecraft.entity.Entity;

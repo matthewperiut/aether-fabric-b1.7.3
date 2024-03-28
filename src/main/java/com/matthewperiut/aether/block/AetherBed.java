@@ -12,8 +12,8 @@ import net.minecraft.util.SleepStatus;
 import net.minecraft.util.Vec3i;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.util.Identifier;
 import net.modificationstation.stationapi.api.template.block.TemplateBlock;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Iterator;
 import java.util.Random;

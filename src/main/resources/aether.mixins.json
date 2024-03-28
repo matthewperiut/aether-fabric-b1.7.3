@@ -6,6 +6,7 @@
   "mixins": [
     "CraftingResultSlotMixin",
     "EntityMixin",
+    "PlayerMixin",
     "access.EntityAccessor",
     "access.LivingEntityAccessor",
     "access.PlayerEntityAccessor"
@@ -14,7 +15,8 @@
   ],
   "client": [
     "BiomeMixin",
-    "ClientPlayHandlerMixin"
+    "ClientPlayHandlerMixin",
+    "client.InGameHudPoison"
   ],
   "injectors": {
     "defaultRequire": 1

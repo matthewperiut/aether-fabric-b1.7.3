@@ -2,8 +2,8 @@ package com.matthewperiut.aether.block;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.world.BlockView;
-import net.modificationstation.stationapi.api.util.Identifier;
 import net.modificationstation.stationapi.api.template.block.TemplateTranslucentBlock;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 

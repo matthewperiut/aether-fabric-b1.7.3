@@ -1,6 +1,8 @@
 package com.matthewperiut.aether.mixin;
 
 import com.matthewperiut.aether.gen.dim.BareAetherTravelAgent;
+import com.matthewperiut.aether.poison.AetherPoison;
+import com.matthewperiut.aether.poison.PoisonControl;
 import com.matthewperiut.aether.util.VoidUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
@@ -13,15 +15,33 @@ import net.modificationstation.stationapi.api.world.dimension.VanillaDimensions;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.OptionalInt;
 
 import static com.matthewperiut.aether.gen.dim.AetherDimensions.MOD_ID;
 
 @Mixin(Entity.class)
-public abstract class EntityMixin {
+public abstract class EntityMixin implements AetherPoison {
+
+    // Aether Poison below
+    @Unique
+    PoisonControl poisonControl = new PoisonControl((Entity) (Object) this);
+
+    public PoisonControl getPoison() {
+        return poisonControl;
+    }
+
+    @Inject(method = "tick", at = @At("HEAD"))
+    void poisonTick(CallbackInfo ci) {
+        poisonControl.onTick();
+    }
+
+    // Falling out of world below
     @Shadow
     public World world;
 

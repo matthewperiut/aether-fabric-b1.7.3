@@ -1,12 +1,12 @@
-package com.matthewperiut.aether.entity;
+package com.matthewperiut.aether.entity.projectile;
 
 import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.util.Identifier;
 import net.modificationstation.stationapi.api.server.entity.EntitySpawnDataProvider;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 

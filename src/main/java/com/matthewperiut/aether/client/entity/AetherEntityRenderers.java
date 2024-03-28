@@ -2,8 +2,14 @@ package com.matthewperiut.aether.client.entity;
 
 import com.matthewperiut.aether.client.entity.model.ModelAechorPlant;
 import com.matthewperiut.aether.client.entity.model.ModelAerbunny;
-import com.matthewperiut.aether.client.entity.renderer.*;
-import com.matthewperiut.aether.entity.*;
+import com.matthewperiut.aether.client.entity.renderer.living.RenderAechorPlant;
+import com.matthewperiut.aether.client.entity.renderer.living.RenderAerbunny;
+import com.matthewperiut.aether.client.entity.renderer.living.RenderAerwhale;
+import com.matthewperiut.aether.client.entity.renderer.projectile.*;
+import com.matthewperiut.aether.entity.living.EntityAechorPlant;
+import com.matthewperiut.aether.entity.living.EntityAerbunny;
+import com.matthewperiut.aether.entity.living.EntityAerwhale;
+import com.matthewperiut.aether.entity.projectile.*;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.modificationstation.stationapi.api.client.event.render.entity.EntityRendererRegisterEvent;
 
@@ -11,7 +17,7 @@ public class AetherEntityRenderers {
     @EventListener
     public void registerEntityRenderers(EntityRendererRegisterEvent event) {
         event.renderers.put(EntityAechorPlant.class, new RenderAechorPlant(new ModelAechorPlant(), 0.3F));
-        event.renderers.put(EntityAerbunnyMp.class, new RenderAerbunny(new ModelAerbunny(), 0.3F));
+        event.renderers.put(EntityAerbunny.class, new RenderAerbunny(new ModelAerbunny(), 0.3F));
         event.renderers.put(EntityAerwhale.class, new RenderAerwhale());
 
         event.renderers.put(EntityPoisonNeedle.class, new RenderPoisonNeedle());

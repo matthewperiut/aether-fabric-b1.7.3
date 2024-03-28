@@ -1,4 +1,4 @@
-package com.matthewperiut.aether.entity;
+package com.matthewperiut.aether.entity.projectile;
 
 import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.entity.LivingEntity;

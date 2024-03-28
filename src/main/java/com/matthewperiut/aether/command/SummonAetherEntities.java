@@ -1,6 +1,6 @@
 package com.matthewperiut.aether.command;
 
-import com.matthewperiut.aether.entity.EntityAechorPlant;
+import com.matthewperiut.aether.entity.living.EntityAechorPlant;
 import com.matthewperiut.spc.api.SummonRegistry;
 
 public class SummonAetherEntities {

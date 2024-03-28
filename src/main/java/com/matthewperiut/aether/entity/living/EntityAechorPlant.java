@@ -1,7 +1,8 @@
-package com.matthewperiut.aether.entity;
+package com.matthewperiut.aether.entity.living;
 
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.block.UtilSkyroot;
+import com.matthewperiut.aether.entity.projectile.EntityPoisonNeedle;
 import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -11,8 +12,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.io.CompoundTag;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.util.Identifier;
 import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.List;
 

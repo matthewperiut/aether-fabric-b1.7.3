@@ -6,9 +6,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.block.BlockState;
+import net.modificationstation.stationapi.api.tag.TagKey;
 import net.modificationstation.stationapi.api.template.item.TemplateAxeItem;
 import net.modificationstation.stationapi.api.util.Identifier;
-import net.modificationstation.stationapi.api.tag.TagKey;
 
 public class ItemGravititeAxe extends TemplateAxeItem {
     public ItemGravititeAxe(Identifier identifier, ToolMaterial material) {

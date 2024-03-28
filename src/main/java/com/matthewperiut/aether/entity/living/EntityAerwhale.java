@@ -1,4 +1,4 @@
-package com.matthewperiut.aether.entity;
+package com.matthewperiut.aether.entity.living;
 
 import com.matthewperiut.aether.block.AetherBlocks;
 import net.minecraft.entity.Entity;
@@ -10,8 +10,8 @@ import net.minecraft.util.math.AxixAlignedBoundingBox;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.util.Identifier;
 import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 

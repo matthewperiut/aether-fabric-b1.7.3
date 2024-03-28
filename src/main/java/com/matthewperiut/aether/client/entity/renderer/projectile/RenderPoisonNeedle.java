@@ -1,25 +1,25 @@
-package com.matthewperiut.aether.client.entity.renderer;
+package com.matthewperiut.aether.client.entity.renderer.projectile;
 
-import com.matthewperiut.aether.entity.EntityFlamingArrow;
+import com.matthewperiut.aether.entity.projectile.EntityPoisonNeedle;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 
-public class RenderFlamingArrow extends EntityRenderer {
-    public RenderFlamingArrow() {
+public class RenderPoisonNeedle extends EntityRenderer {
+    public RenderPoisonNeedle() {
     }
 
-    public void func_154_a(EntityFlamingArrow entityarrow, double d, double d1, double d2, float f, float f1) {
-        if (entityarrow.prevYaw != 0.0F || entityarrow.prevPitch != 0.0F) {
-            this.bindTexture("aether:stationapi/textures/other/FlamingArrows.png");
+    public void renderPoisonNeedle(EntityPoisonNeedle entityarrow, double d, double d1, double d2, float f, float f1) {
+        if (entityarrow.victim == null) {
+            this.bindTexture("aether:stationapi/textures/mobs/entitypoisonneedle.png");
             GL11.glPushMatrix();
             GL11.glTranslatef((float) d, (float) d1, (float) d2);
             GL11.glRotatef(entityarrow.prevYaw + (entityarrow.yaw - entityarrow.prevYaw) * f1 - 90.0F, 0.0F, 1.0F, 0.0F);
             GL11.glRotatef(entityarrow.prevPitch + (entityarrow.pitch - entityarrow.prevPitch) * f1, 0.0F, 0.0F, 1.0F);
             Tessellator tessellator = Tessellator.INSTANCE;
-            int i = 0;
+            int i = 1;
             float f2 = 0.0F;
             float f3 = 0.5F;
             float f4 = (float) (0 + i * 10) / 32.0F;
@@ -54,8 +54,8 @@ public class RenderFlamingArrow extends EntityRenderer {
             tessellator.vertex(-7.0, -2.0, -2.0, (double) f6, (double) f9);
             tessellator.tessellate();
 
-            for (int j = 0; j < 4; ++j) {
-                GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
+            for (int j = 0; j < 5; ++j) {
+                GL11.glRotatef(72.0F, 1.0F, 0.0F, 0.0F);
                 GL11.glNormal3f(0.0F, 0.0F, f10);
                 tessellator.start();
                 tessellator.vertex(-8.0, -2.0, 0.0, (double) f2, (double) f4);
@@ -71,6 +71,6 @@ public class RenderFlamingArrow extends EntityRenderer {
     }
 
     public void render(Entity entity, double d, double d1, double d2, float f, float f1) {
-        this.func_154_a((EntityFlamingArrow) entity, d, d1, d2, f, f1);
+        this.renderPoisonNeedle((EntityPoisonNeedle) entity, d, d1, d2, f, f1);
     }
 }

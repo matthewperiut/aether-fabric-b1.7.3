@@ -9,7 +9,6 @@ import net.modificationstation.stationapi.api.event.block.entity.BlockEntityRegi
 import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
 import net.modificationstation.stationapi.api.util.Namespace;
 import net.modificationstation.stationapi.api.util.Null;
-import org.jetbrains.annotations.NotNull;
 
 public class AetherBlockEntities {
     @Entrypoint.Namespace

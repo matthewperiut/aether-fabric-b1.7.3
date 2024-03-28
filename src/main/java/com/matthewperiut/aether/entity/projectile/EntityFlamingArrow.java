@@ -1,4 +1,4 @@
-package com.matthewperiut.aether.entity;
+package com.matthewperiut.aether.entity.projectile;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -12,8 +12,8 @@ import net.minecraft.util.math.AxixAlignedBoundingBox;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.util.Identifier;
 import net.modificationstation.stationapi.api.server.entity.EntitySpawnDataProvider;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.List;
 

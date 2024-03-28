@@ -1,5 +1,6 @@
 package com.matthewperiut.aether.item.misc;
 
+import com.matthewperiut.aether.entity.projectile.EntityAetherLightning;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -57,9 +58,9 @@ public class ItemSwordElemental extends TemplateSwordItem {
         if (this.element == EnumElement.Fire) {
             entityliving.fireTicks = 600;
         } else if (this.element == EnumElement.Lightning) {
-            double var10004 = (int) entityliving.x;
-            double var10005 = (int) entityliving.y;
-            // todo: entity ModLoader.getMinecraftInstance().world.spawnEntity(new EntityAetherLightning(ModLoader.getMinecraftInstance().world, var10004, var10005, (double)((int)entityliving.z)));
+            if (!entityliving.world.isClient) {
+                entityliving.world.spawnEntity(new EntityAetherLightning(entityliving.world, entityliving.x, entityliving.y, entityliving.z));
+            }
         }
 
         itemstack.applyDamage(1, entityliving1);

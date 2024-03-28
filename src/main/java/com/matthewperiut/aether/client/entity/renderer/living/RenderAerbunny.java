@@ -1,7 +1,7 @@
-package com.matthewperiut.aether.client.entity.renderer;
+package com.matthewperiut.aether.client.entity.renderer.living;
 
 import com.matthewperiut.aether.client.entity.model.ModelAerbunny;
-import com.matthewperiut.aether.entity.EntityAerbunny;
+import com.matthewperiut.aether.entity.living.EntityAerbunny;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.entity.LivingEntity;

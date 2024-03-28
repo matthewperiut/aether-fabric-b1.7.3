@@ -11,111 +11,83 @@ import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-public class AetherChest extends TemplateChestBlock
-{
+public class AetherChest extends TemplateChestBlock {
     Random rand;
 
-    public AetherChest(Identifier identifier)
-    {
+    public AetherChest(Identifier identifier) {
         super(identifier);
         rand = new Random();
     }
 
-    private ItemStack getNormalLootSilver(final Random random)
-    {
+    private ItemStack getNormalLootSilver(final Random random) {
         final int item = random.nextInt(15);
-        switch (item)
-        {
-            case 0:
-            {
+        switch (item) {
+            case 0: {
                 return new ItemStack(AetherItems.PickZanite);
             }
-            case 1:
-            {
+            case 1: {
                 return new ItemStack(AetherItems.Bucket, 1, 2);
             }
-            case 2:
-            {
+            case 2: {
                 return new ItemStack(AetherItems.DartShooter);
             }
-            case 3:
-            {
+            case 3: {
                 return new ItemStack(AetherItems.MoaEgg, 1, 0);
             }
-            case 4:
-            {
+            case 4: {
                 return new ItemStack(AetherItems.AmbrosiumShard, random.nextInt(10) + 1);
             }
-            case 5:
-            {
+            case 5: {
                 return new ItemStack(AetherItems.Dart, random.nextInt(5) + 1, 0);
             }
-            case 6:
-            {
+            case 6: {
                 return new ItemStack(AetherItems.Dart, random.nextInt(3) + 1, 1);
             }
-            case 7:
-            {
+            case 7: {
                 return new ItemStack(AetherItems.Dart, random.nextInt(3) + 1, 2);
             }
-            case 8:
-            {
-                if (random.nextInt(20) == 0)
-                {
+            case 8: {
+                if (random.nextInt(20) == 0) {
                     return new ItemStack(AetherItems.BlueMusicDisk);
                 }
                 break;
             }
-            case 9:
-            {
+            case 9: {
                 return new ItemStack(AetherItems.Bucket);
             }
-            case 10:
-            {
-                if (random.nextInt(10) == 0)
-                {
+            case 10: {
+                if (random.nextInt(10) == 0) {
                     return new ItemStack(Item.byId[Item.RECORD_13.id + random.nextInt(2)]);
                 }
                 break;
             }
-            case 11:
-            {
-                if (random.nextInt(2) == 0)
-                {
+            case 11: {
+                if (random.nextInt(2) == 0) {
                     return new ItemStack(AetherItems.ZaniteBoots);
                 }
-                if (random.nextInt(2) == 0)
-                {
+                if (random.nextInt(2) == 0) {
                     return new ItemStack(AetherItems.ZaniteHelmet);
                 }
-                if (random.nextInt(2) == 0)
-                {
+                if (random.nextInt(2) == 0) {
                     return new ItemStack(AetherItems.ZaniteLeggings);
                 }
-                if (random.nextInt(2) == 0)
-                {
+                if (random.nextInt(2) == 0) {
                     return new ItemStack(AetherItems.ZaniteChestplate);
                 }
                 break;
             }
-            case 12:
-            {
-                if (random.nextInt(4) == 0)
-                {
+            case 12: {
+                if (random.nextInt(4) == 0) {
                     return new ItemStack(AetherItems.IronPendant);
                 }
             }
-            case 13:
-            {
-                if (random.nextInt(10) == 0)
-                {
+            case 13: {
+                if (random.nextInt(10) == 0) {
                     return new ItemStack(AetherItems.GoldPendant);
                 }
             }
-            case 14:
-            {
-                if (random.nextInt(15) == 0)
-                {
+            case 14: {
+                if (random.nextInt(15) == 0) {
                     return new ItemStack(AetherItems.ZaniteRing);
                 }
                 break;
@@ -179,28 +151,25 @@ public class AetherChest extends TemplateChestBlock
     }
 
     public void replaceChest(World world, int x, int y, int z) {
-        int meta = world.getBlockMeta(x,y,z);
-        world.setBlock(x,y,z, CHEST.id);
+        int meta = world.getBlockMeta(x, y, z);
+        world.setBlock(x, y, z, CHEST.id);
 
-        final ChestBlockEntity chest = (ChestBlockEntity) world.getBlockEntity(x,y,z);
-        for (int i = 0; i < 3 + rand.nextInt(3); ++i)
-        {
+        final ChestBlockEntity chest = (ChestBlockEntity) world.getBlockEntity(x, y, z);
+        for (int i = 0; i < 3 + rand.nextInt(3); ++i) {
             final ItemStack item = this.getNormalLoot(rand, meta);
             chest.setInventoryItem(rand.nextInt(chest.getInventorySize()), item);
         }
     }
 
     @Override
-    public boolean canUse(World world, int x, int y, int z, PlayerEntity player)
-    {
+    public boolean canUse(World world, int x, int y, int z, PlayerEntity player) {
         replaceChest(world, x, y, z);
         return CHEST.canUse(world, x, y, z, player);
     }
 
     @Override
-    public void onBlockPlaced(World arg, int i, int j, int k)
-    {
-        
+    public void onBlockPlaced(World arg, int i, int j, int k) {
+
     }
 
     @Override

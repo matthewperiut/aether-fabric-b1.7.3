@@ -1,7 +1,7 @@
-package com.matthewperiut.aether.client.entity.renderer;
+package com.matthewperiut.aether.client.entity.renderer.living;
 
 import com.matthewperiut.aether.client.entity.model.ModelAechorPlant;
-import com.matthewperiut.aether.entity.EntityAechorPlant;
+import com.matthewperiut.aether.entity.living.EntityAechorPlant;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.entity.LivingEntity;
 import org.lwjgl.opengl.GL11;

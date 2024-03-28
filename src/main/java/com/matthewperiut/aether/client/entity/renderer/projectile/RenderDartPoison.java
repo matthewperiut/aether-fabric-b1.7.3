@@ -1,6 +1,6 @@
-package com.matthewperiut.aether.client.entity.renderer;
+package com.matthewperiut.aether.client.entity.renderer.projectile;
 
-import com.matthewperiut.aether.entity.EntityDartPoison;
+import com.matthewperiut.aether.entity.projectile.EntityDartPoison;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.entity.Entity;

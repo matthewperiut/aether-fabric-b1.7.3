@@ -1,4 +1,4 @@
-package com.matthewperiut.aether.entity;
+package com.matthewperiut.aether.entity.living;
 
 import com.matthewperiut.aether.block.UtilSkyroot;
 import com.matthewperiut.aether.mixin.access.EntityAccessor;
@@ -13,8 +13,8 @@ import net.minecraft.item.Item;
 import net.minecraft.util.io.CompoundTag;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.util.Identifier;
 import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.List;
 
@@ -293,12 +293,15 @@ public class EntityAerbunny extends EntityAetherAnimal implements MobSpawnDataPr
     }
 
     protected void getDrops() {
-        if (UtilSkyroot.sword(world.getClosestPlayer(x, y, z, 10))) {
-            this.dropItem(Item.STRING.id, 2);
-        } else {
-            this.dropItem(Item.STRING.id, 1);
+        PlayerEntity player = world.getClosestPlayer(x, y, z, 10);
+        if (player != null) {
+            if (UtilSkyroot.sword(player)) {
+                this.dropItem(Item.STRING.id, 2);
+                return;
+            }
         }
 
+        this.dropItem(Item.STRING.id, 1);
     }
 
     public void proceed() {

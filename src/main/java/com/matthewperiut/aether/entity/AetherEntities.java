@@ -1,11 +1,15 @@
 package com.matthewperiut.aether.entity;
 
+import com.matthewperiut.aether.entity.living.EntityAechorPlant;
+import com.matthewperiut.aether.entity.living.EntityAerbunny;
+import com.matthewperiut.aether.entity.living.EntityAerwhale;
+import com.matthewperiut.aether.entity.projectile.*;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.modificationstation.stationapi.api.event.entity.EntityRegister;
 import net.modificationstation.stationapi.api.event.registry.MobHandlerRegistryEvent;
 import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
-import net.modificationstation.stationapi.api.util.Namespace;
 import net.modificationstation.stationapi.api.registry.Registry;
+import net.modificationstation.stationapi.api.util.Namespace;
 import net.modificationstation.stationapi.api.util.Null;
 
 public class AetherEntities {
@@ -14,11 +18,11 @@ public class AetherEntities {
 
     @EventListener
     public void registerEntities(EntityRegister event) {
-        //event.register(EntityClayMan.class, "claysoldier");
         event.register(EntityAechorPlant.class, "AechorPlant");
-        event.register(EntityAerbunnyMp.class, "Aerbunny");
+        event.register(EntityAerbunny.class, "Aerbunny");
         event.register(EntityAerwhale.class, "Aerwhale");
 
+        event.register(EntityAetherLightning.class, "AetherLightning");
         event.register(EntityFlamingArrow.class, "FlamingArrow");
         event.register(EntityPoisonNeedle.class, "PoisonNeedle");
         event.register(EntityDartPoison.class, "PoisonDart");
@@ -51,7 +55,7 @@ public class AetherEntities {
     public void registerMobHandlers(MobHandlerRegistryEvent event) {
         //Registry.register(event.registry, MOD_ID.id("claysoldier"), EntityClayMan::new);
         Registry.register(event.registry, MOD_ID.id("AechorPlant"), EntityAechorPlant::new);
-        Registry.register(event.registry, MOD_ID.id("Aerbunny"), EntityAerbunnyMp::new);
+        Registry.register(event.registry, MOD_ID.id("Aerbunny"), EntityAerbunny::new);
         Registry.register(event.registry, MOD_ID.id("Aerwhale"), EntityAerwhale::new);
     }
 }

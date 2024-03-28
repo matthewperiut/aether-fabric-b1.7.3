@@ -2,8 +2,8 @@ package com.matthewperiut.aether.item.accessory;
 
 import com.matthewperiut.accessoryapi.api.Accessory;
 import net.minecraft.item.ItemStack;
-import net.modificationstation.stationapi.api.util.Identifier;
 import net.modificationstation.stationapi.api.template.item.TemplateItem;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 public class ItemMoreArmor extends TemplateItem implements Accessory {
     private static final int[] damageReduceAmountArray = new int[]{3, 8, 6, 3, 0, 1, 0, 0, 0, 0, 2, 0};

@@ -1,6 +1,8 @@
 package com.matthewperiut.aether.item.misc;
 
+import com.matthewperiut.aether.entity.living.EntityAechorPlant;
 import com.matthewperiut.aether.item.AetherItems;
+import com.matthewperiut.aether.poison.AetherPoison;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.animal.CowEntity;
@@ -11,8 +13,8 @@ import net.minecraft.util.hit.HitType;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.util.Identifier;
 import net.modificationstation.stationapi.api.template.item.TemplateItem;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 public class ItemSkyrootBucket extends TemplateItem {
     public static int sprEmpty;// = ModLoader.addOverride("/gui/items.png", "/aether/items/Bucket.png");
@@ -67,16 +69,16 @@ public class ItemSkyrootBucket extends TemplateItem {
         double d3 = 5.0;
         Vec3d vec3d1 = vec3d.translate((double) f7 * d3, (double) f6 * d3, (double) f9 * d3);
         HitResult movingobjectposition = world.method_161(vec3d, vec3d1, itemstack.getMeta() == 0);
-        /* todo: poison
-        if (itemstack.getMeta() == 2 && (ModLoader.getMinecraftInstance().hitResult == null || ModLoader.getMinecraftInstance().hitResult.field_1989 == null || !(ModLoader.getMinecraftInstance().hitResult.field_1989 instanceof EntityAechorPlant))) {
-             if (AetherPoison.afflictPoison()) {
+
+        if (itemstack.getMeta() == 2 && (movingobjectposition == null || movingobjectposition.field_1989 == null || !(movingobjectposition.field_1989 instanceof EntityAechorPlant))) {
+            if (((AetherPoison) entityplayer).getPoison().afflictPoison()) {
                 itemstack.setMeta(0);
                 return itemstack;
             }
-        } else if (itemstack.getMeta() == 3 && AetherPoison.curePoison()) {
+        } else if (itemstack.getMeta() == 3 && ((AetherPoison) entityplayer).getPoison().curePoison()) {
             itemstack.setMeta(0);
             return itemstack;
-        }*/
+        }
 
         if (movingobjectposition == null || movingobjectposition.type != HitType.field_789 || itemstack.getMeta() != 0 && itemstack.getMeta() != Block.FLOWING_WATER.id) {
             if (itemstack.getMeta() == 0 && movingobjectposition != null && movingobjectposition.field_1989 != null && (movingobjectposition.field_1989 instanceof CowEntity)) {// todo: entity || movingobjectposition.field_1989 instanceof EntityFlyingCow)) {

@@ -1,8 +1,8 @@
 package com.matthewperiut.aether.item.misc;
 
 import net.minecraft.item.ItemStack;
-import net.modificationstation.stationapi.api.util.Identifier;
 import net.modificationstation.stationapi.api.template.item.TemplateItem;
+import net.modificationstation.stationapi.api.util.Identifier;
 
 public class ItemDart extends TemplateItem {
     public static int sprGolden;// = ModLoader.addOverride("/gui/items.png", "/aether/items/DartGolden.png");
