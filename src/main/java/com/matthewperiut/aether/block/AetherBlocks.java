@@ -51,11 +51,12 @@ public class AetherBlocks {
     public static Block WhiteFlower;
     public static Block PurpleFlower;
     public static Block Bed;
+    public static Block Chest;
 
-    public static void AddRenderer(Map map) {
+    //public static void AddRenderer(Map map) {
         //map.put(EntityFloatingBlock.class, new RenderFloatingBlock());
         //map.put(EntityMimic.class, new RenderMimic());
-    }
+    //}
 
     public static boolean isGood(int id, int meta) {
         return id == 0 || id == Aercloud.id;
@@ -101,9 +102,9 @@ public class AetherBlocks {
         Incubator = (new Incubator(Identifier.of(MOD_ID, "incubator"))).setTranslationKey(MOD_ID, "incubator").setHardness(2.0F);
         Enchanter = (new Enchanter(Identifier.of(MOD_ID, "enchanter"))).setTranslationKey(MOD_ID, "enchanter").setHardness(2.0F);
         TreasureChest = (new TreasureChest(Identifier.of(MOD_ID, "treasure_chest"))).setHardness(-1.0F).setSounds(Block.PISTON_SOUNDS).setTranslationKey(MOD_ID, "treasure_chest");
+        Chest = (new AetherChest(Identifier.of("aether_chest")).setHardness(2.5f).setTranslationKey(MOD_ID, "aether_chest").setSounds(Block.WOOD_SOUNDS).disableNotifyOnMetaDataChange());
         ChestMimic = (new MimicBlock(Identifier.of(MOD_ID, "mimic"))).setHardness(2.0F).setSounds(Block.WOOD_SOUNDS).setTranslationKey(MOD_ID, "mimic");
         Bed = (new AetherBed(Identifier.of(MOD_ID, "aether_bed"))).setHardness(0.2F).setTranslationKey(MOD_ID, "aether_bed").disableStat().disableNotifyOnMetaDataChange();
-
         //AetherItems.Aercloud = (new ItemBlockAercloud(Aercloud.id));
 
         /*

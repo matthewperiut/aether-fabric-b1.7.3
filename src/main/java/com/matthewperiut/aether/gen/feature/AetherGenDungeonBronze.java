@@ -2,11 +2,6 @@ package com.matthewperiut.aether.gen.feature;
 
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.block.TreasureChest;
-import com.matthewperiut.aether.item.AetherItems;
-import net.minecraft.block.Block;
-import net.minecraft.entity.block.ChestBlockEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -152,13 +147,7 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
                         break;
                     case 1:
                         if (world.getBlockId(p, y + 2, q) == 0) {
-                            world.setBlock(p, y + 2, q, Block.CHEST.id);
-                            ChestBlockEntity chest = (ChestBlockEntity) world.getBlockEntity(p, y + 2, q);
-
-                            for (p = 0; p < 3 + random.nextInt(3); ++p) {
-                                ItemStack item = this.getNormalLoot(random);
-                                chest.setInventoryItem(random.nextInt(chest.getInventorySize()), item);
-                            }
+                            world.setBlock(p, y + 2, q, AetherBlocks.Chest.id);
                         }
                 }
 
@@ -284,74 +273,5 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
         }
 
         this.finished = true;
-    }
-
-    private ItemStack getNormalLoot(Random random) {
-        int item = random.nextInt(14);
-        switch (item) {
-            case 0:
-                return new ItemStack(AetherItems.PickZanite);
-            case 1:
-                return new ItemStack(AetherItems.AxeZanite);
-            case 2:
-                return new ItemStack(AetherItems.SwordZanite);
-            case 3:
-                return new ItemStack(AetherItems.ShovelZanite);
-            case 4:
-                return new ItemStack(AetherItems.AgilityCape);
-            case 5:
-                return new ItemStack(AetherItems.AmbrosiumShard, random.nextInt(10) + 1);
-            case 6:
-                return new ItemStack(AetherItems.Dart, random.nextInt(5) + 1, 0);
-            case 7:
-                return new ItemStack(AetherItems.Dart, random.nextInt(3) + 1, 1);
-            case 8:
-                return new ItemStack(AetherItems.Dart, random.nextInt(3) + 1, 2);
-            case 9:
-                if (random.nextInt(20) == 0) {
-                    return new ItemStack(AetherItems.BlueMusicDisk);
-                }
-                break;
-            case 10:
-                return new ItemStack(AetherItems.Bucket);
-            case 11:
-                if (random.nextInt(10) == 0) {
-                    return new ItemStack(Item.byId[Item.RECORD_13.id + random.nextInt(2)]);
-                }
-                break;
-            case 12:
-                if (random.nextInt(4) == 0) {
-                    return new ItemStack(AetherItems.IronRing);
-                }
-                break;
-            case 13:
-                if (random.nextInt(10) == 0) {
-                    return new ItemStack(AetherItems.GoldRing);
-                }
-        }
-
-        return new ItemStack(AetherBlocks.AmbrosiumTorch);
-    }
-
-    private ItemStack getBronzeLoot(Random random) {
-        int item = random.nextInt(7);
-        switch (item) {
-            case 0:
-                return new ItemStack(AetherItems.GummieSwet, random.nextInt(8), random.nextInt(2));
-            case 1:
-                return new ItemStack(AetherItems.PhoenixBow);
-            case 2:
-                return new ItemStack(AetherItems.SwordFire);
-            case 3:
-                return new ItemStack(AetherItems.HammerNotch);
-            case 4:
-                return new ItemStack(AetherItems.LightningKnife, random.nextInt(16));
-            case 5:
-                return new ItemStack(AetherItems.Lance);
-            case 6:
-                return new ItemStack(AetherItems.AgilityCape);
-            default:
-                return new ItemStack(AetherItems.Stick);
-        }
     }
 }
