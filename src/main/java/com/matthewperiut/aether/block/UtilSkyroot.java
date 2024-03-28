@@ -5,6 +5,10 @@ import net.minecraft.entity.player.PlayerEntity;
 
 public class UtilSkyroot {
     public static boolean sword(PlayerEntity player) {
+        if (player == null)
+            return false;
+        if (player.inventory == null)
+            return false;
         if (player.inventory.getHeldItem() != null) {
             return player.inventory.getHeldItem().getItem() == AetherItems.SwordSkyroot;
         }
@@ -12,6 +16,10 @@ public class UtilSkyroot {
     }
 
     public static boolean pickaxe(PlayerEntity player) {
+        if (player == null)
+            return false;
+        if (player.inventory == null)
+            return false;
         if (player.inventory.getHeldItem() != null) {
             return player.inventory.getHeldItem().getItem() == AetherItems.PickSkyroot;
         }
@@ -19,6 +27,10 @@ public class UtilSkyroot {
     }
 
     public static boolean axe(PlayerEntity player) {
+        if (player == null)
+            return false;
+        if (player.inventory == null)
+            return false;
         if (player.inventory.getHeldItem() != null) {
             return player.inventory.getHeldItem().getItem() == AetherItems.AxeSkyroot;
         }
@@ -26,6 +38,10 @@ public class UtilSkyroot {
     }
 
     public static boolean shovel(PlayerEntity player) {
+        if (player == null)
+            return false;
+        if (player.inventory == null)
+            return false;
         if (player.inventory.getHeldItem() != null) {
             return player.inventory.getHeldItem().getItem() == AetherItems.ShovelSkyroot;
         }

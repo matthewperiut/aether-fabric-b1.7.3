@@ -58,6 +58,10 @@ public class PoisonControl {
     }
 
     public boolean afflictPoison() {
+        if (!canPoison) {
+            return false;
+        }
+
         if (poisonTime < 0) {
             return false;
         } else {
