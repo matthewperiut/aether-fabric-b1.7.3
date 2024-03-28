@@ -2,6 +2,7 @@ package com.matthewperiut.aether.blockentity.container;
 
 import com.matthewperiut.aether.blockentity.block.BlockEntityIncubator;
 import net.minecraft.container.Container;
+import net.minecraft.container.ContainerListener;
 import net.minecraft.container.slot.Slot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
@@ -9,13 +10,12 @@ import net.minecraft.inventory.PlayerInventory;
 import net.minecraft.item.ItemStack;
 
 public class ContainerIncubator extends Container {
-    private final BlockEntityIncubator Incubator;
-    private final int cookTime = 0;
-    private final int burnTime = 0;
-    private final int itemBurnTime = 0;
+    private final BlockEntityIncubator incubator;
+    private int burnTime = 0;
+    private int itemBurnTime = 0;
 
     public ContainerIncubator(PlayerInventory inventoryplayer, BlockEntityIncubator tileentityIncubator) {
-        this.Incubator = tileentityIncubator;
+        this.incubator = tileentityIncubator;
         this.addSlot(new TileEntityIncubatorSlot(tileentityIncubator, 1, 73, 17));
         this.addSlot(new Slot(tileentityIncubator, 0, 73, 53));
 
@@ -35,8 +35,39 @@ public class ContainerIncubator extends Container {
     protected void insertItem(ItemStack itemstack, int i, int j, boolean flag) {
     }
 
+    @Override
+    public void tick() {
+        super.tick();
+
+        for (int i = 0; i < this.listeners.size(); ++i) {
+            ContainerListener icrafting = (ContainerListener) this.listeners.get(i);
+
+            if (this.burnTime != this.incubator.progress) {
+                icrafting.updateProperty(this, 0, this.incubator.progress);
+            }
+
+            if (this.itemBurnTime != this.incubator.torchPower) {
+                icrafting.updateProperty(this, 1, this.incubator.torchPower);
+            }
+        }
+
+        this.burnTime = this.incubator.progress;
+        this.itemBurnTime = this.incubator.torchPower;
+    }
+
+    @Override
+    public void setProperty(int i, int j) {
+        if (i == 0) {
+            this.incubator.progress = j;
+        }
+
+        if (i == 1) {
+            this.incubator.torchPower = j;
+        }
+    }
+
     public boolean canUse(PlayerEntity entityplayer) {
-        return this.Incubator.canPlayerUse(entityplayer);
+        return this.incubator.canPlayerUse(entityplayer);
     }
 
     public ItemStack transferSlot(int i) {
