@@ -25,7 +25,8 @@ public class TreasureChest extends TemplateChestBlock {
     }
 
     public static void PlaceTreasureChest(World world, int x, int y, int z, int rarity) {
-        world.setBlockWithMetadata(x, y, z, AetherBlocks.TreasureChest.id, 1 + rarity);
+        world.setBlock(x, y, z, AetherBlocks.TreasureChest.id);
+        world.setBlockMeta(x, y, z, 1 + rarity);
     }
 
     @Override
