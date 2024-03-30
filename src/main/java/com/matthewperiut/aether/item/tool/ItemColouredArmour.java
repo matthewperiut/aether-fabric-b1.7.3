@@ -8,18 +8,18 @@ import net.modificationstation.stationapi.api.util.Identifier;
 import static com.matthewperiut.aether.item.AetherItems.MOD_ID;
 
 public class ItemColouredArmour extends TemplateArmorItem implements ArmorTextureProvider {
-    private final int colour;
+    private final int color;
     private final String name;
 
     public ItemColouredArmour(final Identifier i, final int j, final String s, final int l, final int col) {
         super(i, j, 0, l);
         this.name = s;
-        this.colour = col;
+        this.color = col;
     }
 
     @Override
     public int getNameColor(int i) {
-        return this.colour;
+        return this.color;
     }
 
     @Override
