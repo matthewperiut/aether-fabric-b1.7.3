@@ -30,7 +30,7 @@ public abstract class EntityProjectileBase extends Entity {
     public int inData;
     public boolean inGround;
     public int arrowShake;
-    public LivingEntity shooter;
+    public LivingEntity owner;
     public int ticksInGround;
     public int ticksFlying;
     public boolean shotByPlayer;
@@ -46,7 +46,7 @@ public abstract class EntityProjectileBase extends Entity {
 
     public EntityProjectileBase(World world, LivingEntity entityliving) {
         this(world);
-        this.shooter = entityliving;
+        this.owner = entityliving;
         this.shotByPlayer = entityliving instanceof PlayerEntity;
         this.setPositionAndAngles(entityliving.x, entityliving.y + (double) entityliving.getStandingEyeHeight(), entityliving.z, entityliving.yaw, entityliving.pitch);
         this.x -= (double) (MathHelper.cos(this.yaw / 180.0F * 3.141593F) * 0.16F);
@@ -80,7 +80,7 @@ public abstract class EntityProjectileBase extends Entity {
     }
 
     public void remove() {
-        this.shooter = null;
+        this.owner = null;
         super.remove();
     }
 
@@ -193,7 +193,7 @@ public abstract class EntityProjectileBase extends Entity {
                         ((LivingEntityAccessor) ent).set1058(0);
                     }
 
-                    ent.damage(this.shooter, this.dmg);
+                    ent.damage(this.owner, this.dmg);
                     this.remove();
                 }
             } else {
@@ -299,7 +299,7 @@ public abstract class EntityProjectileBase extends Entity {
     }
 
     public boolean canBeShot(Entity ent) {
-        return ent.method_1356() && (ent != this.shooter || this.ticksFlying >= 5) && (!(ent instanceof LivingEntity) || ((LivingEntity) ent).deathTime <= 0);
+        return ent.method_1356() && (ent != this.owner || this.ticksFlying >= 5) && (!(ent instanceof LivingEntity) || ((LivingEntity) ent).deathTime <= 0);
     }
 
     public boolean onHit() {

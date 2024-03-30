@@ -2,7 +2,6 @@ package com.matthewperiut.aether.gen.portal;
 
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.block.AetherPortal;
-import com.matthewperiut.aether.gen.dim.AetherDimension;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.minecraft.block.Block;
 import net.modificationstation.stationapi.api.event.world.BlockSetEvent;
@@ -20,12 +19,6 @@ public class AetherPortalListener {
         ) {
             event.cancel();
             event.world.setBlock(event.x, event.y, event.z, AetherBlocks.Portal.id);
-        }
-        if (event.blockState.getBlock().id == Block.TORCH.id) {
-            if (event.world.dimension instanceof AetherDimension) {
-                event.cancel();
-                event.world.setBlock(event.x, event.y, event.z, AetherBlocks.BurntTorch.id);
-            }
         }
     }
 }

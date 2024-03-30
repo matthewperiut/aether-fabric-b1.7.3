@@ -1,5 +1,6 @@
 package com.matthewperiut.aether.item.tool;
 
+import com.matthewperiut.aether.entity.special.EntityFloatingBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -24,8 +25,8 @@ public class ItemGravititePickaxe extends TemplatePickaxeItem {
             if (b.isIn(tag)) {
                 final int blockID = world.getBlockId(x, y, z);
                 final int metadata = world.getBlockMeta(x, y, z);
-                // todo: entity final EntityFloatingBlock floating = new EntityFloatingBlock(level, x + 0.5f, y + 0.5f, z + 0.5f, blockID, metadata);
-                // level.spawnEntity(floating);
+                final EntityFloatingBlock floating = new EntityFloatingBlock(world, x + 0.5f, y + 0.5f, z + 0.5f, blockID, metadata);
+                world.spawnEntity(floating);
                 item.applyDamage(1, player);
             }
 

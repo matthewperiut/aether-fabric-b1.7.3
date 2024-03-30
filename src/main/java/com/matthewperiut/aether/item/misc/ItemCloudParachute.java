@@ -1,5 +1,6 @@
 package com.matthewperiut.aether.item.misc;
 
+import com.matthewperiut.aether.entity.special.EntityCloudParachute;
 import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -23,9 +24,8 @@ public class ItemCloudParachute extends TemplateItem {
     }
 
     public ItemStack use(ItemStack itemstack, World world, PlayerEntity entityplayer) {
-        /* todo: entity
         if (EntityCloudParachute.entityHasRoomForCloud(world, entityplayer)) {
-            for(int i = 0; i < 32; ++i) {
+            for (int i = 0; i < 32; ++i) {
                 EntityCloudParachute.doCloudSmoke(world, entityplayer);
             }
 
@@ -40,7 +40,6 @@ public class ItemCloudParachute extends TemplateItem {
                 world.spawnEntity(new EntityCloudParachute(world, entityplayer, this.id == AetherItems.CloudParachuteGold.id));
             }
         }
-*/
         return itemstack;
     }
 

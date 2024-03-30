@@ -131,10 +131,7 @@ public class AetherPortal extends TemplateNetherPortalBlock implements CustomPor
                 d5 = random.nextFloat() * 2.0F * (float) i1;
             }
 
-            /* todo: particle
-            ParticleEntity obj = new EntityAetherPortalFX(world, d, d1, d2, d3, d4, d5);
-            ((Minecraft)FabricLoader.getInstance().getGameInstance()).particleManager.addParticle(obj);
-             */
+            world.addParticle("aether_portal", d, d1, d2, d3, d4, d5);
         }
 
     }

@@ -3,6 +3,8 @@ package com.matthewperiut.aether.item.accessory;
 import com.matthewperiut.accessoryapi.api.render.AccessoryRenderer;
 import com.matthewperiut.accessoryapi.api.render.HasCustomRenderer;
 import com.matthewperiut.accessoryapi.impl.mixin.client.LivingEntityRendererAccessor;
+import com.matthewperiut.aether.entity.projectile.EntityFlamingArrow;
+import com.matthewperiut.aether.entity.projectile.EntityProjectileBase;
 import com.matthewperiut.aether.mixin.access.LivingEntityAccessor;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
@@ -13,7 +15,6 @@ import net.minecraft.client.util.ScreenScaler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.inventory.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -51,12 +52,12 @@ public class ItemRepShield extends ItemMoreArmor implements HasCustomRenderer {
     public void repShieldUpdate(final World world, PlayerEntity player, final ItemStack shieldItem) {
         if (world != null && !world.isClient) {
             final PlayerInventory inv = player.inventory;
-            if ((player.onGround || (player.vehicle != null && player.vehicle.onGround)) && ((LivingEntityAccessor) player).get1029() == 0.0f && ((LivingEntityAccessor) player).get1060() == 0.0f) {
+            if ((player.onGround || (player.vehicle != null && player.vehicle.onGround)) && ((LivingEntityAccessor) player).getForwardVelocity() == 0.0f && ((LivingEntityAccessor) player).getHorizontalVelocity() == 0.0f) {
                 final List list2 = world.getEntities(player, player.boundingBox.expand(4.0, 4.0, 4.0));
                 for (int j = 0; j < list2.size() && shieldItem != null && shieldItem.getDamage() < 500; ++j) {
                     final Entity entity = (Entity) list2.get(j);
                     boolean flag2 = false;
-                    if (entity instanceof ArrowEntity proj && entity.distanceTo(player) < 2.5f && (entity.prevX != entity.x || entity.prevY != entity.y || entity.prevZ != entity.z)) {
+                    if (entity instanceof EntityFlamingArrow proj && entity.distanceTo(player) < 2.5f && (entity.prevX != entity.x || entity.prevY != entity.y || entity.prevZ != entity.z)) {
                         if (proj.owner == null || proj.owner != player) {
                             final Entity dick = proj.owner;
                             proj.owner = player;
@@ -80,7 +81,8 @@ public class ItemRepShield extends ItemMoreArmor implements HasCustomRenderer {
                             proj.xVelocity = a * 0.75;
                             proj.yVelocity = b * 0.75 + 0.05;
                             proj.zVelocity = c * 0.75;
-                            proj.method_1291(proj.xVelocity, proj.yVelocity, proj.zVelocity, 0.8f, 0.5f);
+                            //method_1291
+                            proj.setArrowHeading(proj.xVelocity, proj.yVelocity, proj.zVelocity, 0.8f, 0.5f);
                             world.playSound(proj, "note.snare", 1.0f, ((rand.nextFloat() - rand.nextFloat()) * 0.4f + 0.8f) * 1.1f);
                             for (int k = 0; k < 12; ++k) {
                                 double d2 = -proj.xVelocity * 0.15000000596046448 + (rand.nextFloat() - 0.5f) * 0.05f;
@@ -92,47 +94,84 @@ public class ItemRepShield extends ItemMoreArmor implements HasCustomRenderer {
                                 world.addParticle("flame", proj.x, proj.y, proj.z, d2, e1, f1);
                             }
                         }
-                    } else if (entity instanceof ArrowEntity proj2 && entity.distanceTo(player) < 2.5f && (entity.prevX != entity.x || entity.prevY != entity.y || entity.prevZ != entity.z)) {
-                        if (proj2.owner == null || proj2.owner != player) {
-                            final Entity dick = proj2.owner;
-                            proj2.owner = player;
+                    } else if ((entity instanceof EntityProjectileBase projectile) && entity.distanceTo(player) < 2.5f && (entity.prevX != entity.x || entity.prevY != entity.y || entity.prevZ != entity.z)) {
+                        if (projectile.owner == null || projectile.owner != player) {
+                            final Entity dick = projectile.owner;
+                            projectile.owner = player;
                             flag2 = true;
                             double a;
                             double b;
                             double c;
                             if (dick != null) {
-                                a = proj2.x - dick.x;
-                                b = proj2.boundingBox.minY - dick.boundingBox.minY;
-                                c = proj2.z - dick.z;
+                                a = projectile.x - dick.x;
+                                b = projectile.boundingBox.minY - dick.boundingBox.minY;
+                                c = projectile.z - dick.z;
                             } else {
-                                a = player.x - proj2.x;
-                                b = player.y - proj2.y;
-                                c = player.z - proj2.z;
+                                a = player.x - projectile.x;
+                                b = player.y - projectile.y;
+                                c = player.z - projectile.z;
                             }
                             final double d = Math.sqrt(a * a + b * b + c * c);
                             a /= -d;
                             b /= -d;
                             c /= -d;
-                            proj2.xVelocity = a * 0.75;
-                            proj2.yVelocity = b * 0.75 + 0.15;
-                            proj2.zVelocity = c * 0.75;
-                            proj2.method_1291(proj2.xVelocity, proj2.yVelocity, proj2.zVelocity, 0.8f, 0.5f);
-                            world.playSound(proj2, "note.snare", 1.0f, ((rand.nextFloat() - rand.nextFloat()) * 0.4f + 0.8f) * 1.1f);
+                            projectile.xVelocity = a * 0.75;
+                            projectile.yVelocity = b * 0.75 + 0.15;
+                            projectile.zVelocity = c * 0.75;
+                            projectile.setArrowHeading(projectile.xVelocity, projectile.yVelocity, projectile.zVelocity, 0.8f, 0.5f);
+                            world.playSound(projectile, "note.snare", 1.0f, ((rand.nextFloat() - rand.nextFloat()) * 0.4f + 0.8f) * 1.1f);
                             for (int k = 0; k < 12; ++k) {
-                                double d2 = -proj2.xVelocity * 0.15000000596046448 + (rand.nextFloat() - 0.5f) * 0.05f;
-                                double e1 = -proj2.yVelocity * 0.15000000596046448 + (rand.nextFloat() - 0.5f) * 0.05f;
-                                double f1 = -proj2.zVelocity * 0.15000000596046448 + (rand.nextFloat() - 0.5f) * 0.05f;
+                                double d2 = -projectile.xVelocity * 0.15000000596046448 + (rand.nextFloat() - 0.5f) * 0.05f;
+                                double e1 = -projectile.yVelocity * 0.15000000596046448 + (rand.nextFloat() - 0.5f) * 0.05f;
+                                double f1 = -projectile.zVelocity * 0.15000000596046448 + (rand.nextFloat() - 0.5f) * 0.05f;
                                 d2 *= 0.625;
                                 e1 *= 0.625;
                                 f1 *= 0.625;
-                                world.addParticle("flame", proj2.x, proj2.y, proj2.z, d2, e1, f1);
+                                world.addParticle("flame", projectile.x, projectile.y, projectile.z, d2, e1, f1);
                             }
                         }
-                    }
-                    if (flag2 && shieldItem != null) {
-                        shieldItem.applyDamage(1, null);
-                        if (shieldItem.getDamage() >= 500) {
-                            player.inventory.armor[6] = null;
+                    } else if (entity instanceof EntityFlamingArrow proj && entity.distanceTo(player) < 2.5f && (entity.prevX != entity.x || entity.prevY != entity.y || entity.prevZ != entity.z)) {
+                        if (proj.owner == null || proj.owner != player) {
+                            final Entity dick = proj.owner;
+                            proj.owner = player;
+                            flag2 = true;
+                            double a;
+                            double b;
+                            double c;
+                            if (dick != null) {
+                                a = proj.x - dick.x;
+                                b = proj.boundingBox.minY - dick.boundingBox.minY;
+                                c = proj.z - dick.z;
+                            } else {
+                                a = player.x - proj.x;
+                                b = player.y - proj.y;
+                                c = player.z - proj.z;
+                            }
+                            final double d = Math.sqrt(a * a + b * b + c * c);
+                            a /= -d;
+                            b /= -d;
+                            c /= -d;
+                            proj.xVelocity = a * 0.75;
+                            proj.yVelocity = b * 0.75 + 0.05;
+                            proj.zVelocity = c * 0.75;
+                            //method_1291
+                            proj.setArrowHeading(proj.xVelocity, proj.yVelocity, proj.zVelocity, 0.8f, 0.5f);
+                            world.playSound(proj, "note.snare", 1.0f, ((rand.nextFloat() - rand.nextFloat()) * 0.4f + 0.8f) * 1.1f);
+                            for (int k = 0; k < 12; ++k) {
+                                double d2 = -proj.xVelocity * 0.15000000596046448 + (rand.nextFloat() - 0.5f) * 0.05f;
+                                double e1 = -proj.yVelocity * 0.15000000596046448 + (rand.nextFloat() - 0.5f) * 0.05f;
+                                double f1 = -proj.zVelocity * 0.15000000596046448 + (rand.nextFloat() - 0.5f) * 0.05f;
+                                d2 *= 0.625;
+                                e1 *= 0.625;
+                                f1 *= 0.625;
+                                world.addParticle("flame", proj.x, proj.y, proj.z, d2, e1, f1);
+                            }
+                        }
+                        if (flag2 && shieldItem != null) {
+                            shieldItem.applyDamage(1, null);
+                            if (shieldItem.getDamage() >= 500) {
+                                player.inventory.armor[6] = null;
+                            }
                         }
                     }
                 }
@@ -161,7 +200,7 @@ public class ItemRepShield extends ItemMoreArmor implements HasCustomRenderer {
         public void renderHUD(PlayerEntity player, ItemStack ItemStack, Minecraft minecraft, ScreenScaler screenScaler, int scaledWidth, int scaledHeight) {
             if (!(player.onGround || (player.vehicle != null && player.vehicle.onGround)))
                 return;
-            if (!(((LivingEntityAccessor) player).get1029() == 0.0f && ((LivingEntityAccessor) player).get1060() == 0.0f))
+            if (!(((LivingEntityAccessor) player).getForwardVelocity() == 0.0f && ((LivingEntityAccessor) player).getHorizontalVelocity() == 0.0f))
                 return;
             if (minecraft.options.thirdPerson)
                 return;

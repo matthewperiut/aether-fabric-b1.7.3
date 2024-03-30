@@ -78,6 +78,8 @@ public class ItemSkyrootBucket extends TemplateItem {
         } else if (itemstack.getMeta() == 3 && ((AetherPoison) entityplayer).getPoison().curePoison()) {
             itemstack.setMeta(0);
             return itemstack;
+        } else if (itemstack.getMeta() == 0 && (movingobjectposition == null || movingobjectposition.field_1989 == null || (movingobjectposition.field_1989 instanceof EntityAechorPlant))) {
+            itemstack.setMeta(2);
         }
 
         if (movingobjectposition == null || movingobjectposition.type != HitType.field_789 || itemstack.getMeta() != 0 && itemstack.getMeta() != Block.FLOWING_WATER.id) {

@@ -41,7 +41,7 @@ public class ItemDartShooter extends TemplateItem {
     public ItemStack use(ItemStack itemstack, World world, PlayerEntity entityplayer) {
         int consume = this.consumeItem(entityplayer, AetherItems.Dart.id, itemstack.getMeta());
         if (consume != -1) {
-            world.playSound(entityplayer, "aether:other.dartshooter.shootDart", 2.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
+            world.playSound(entityplayer, "aether:other.dartshooter.shootdart", 2.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
             if (!world.isClient) {
                 EntityDartGolden dart = null;
                 if (consume == 1) {

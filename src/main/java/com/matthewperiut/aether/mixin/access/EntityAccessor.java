@@ -21,6 +21,9 @@ public interface EntityAccessor {
     @Accessor("immuneToFire")
     void setImmuneToFire(boolean immune);
 
+    @Accessor("immuneToFire")
+    boolean isImmuneToFire();
+
     @Accessor("rand")
     Random getRand();
 }

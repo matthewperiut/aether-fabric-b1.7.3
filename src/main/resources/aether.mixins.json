@@ -7,6 +7,7 @@
     "CraftingResultSlotMixin",
     "EntityMixin",
     "PlayerMixin",
+    "TorchMixin",
     "access.EntityAccessor",
     "access.LivingEntityAccessor",
     "access.PlayerEntityAccessor"
@@ -16,7 +17,8 @@
   "client": [
     "BiomeMixin",
     "ClientPlayHandlerMixin",
-    "client.InGameHudPoison"
+    "client.InGameHudPoison",
+    "client.WorldEventRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

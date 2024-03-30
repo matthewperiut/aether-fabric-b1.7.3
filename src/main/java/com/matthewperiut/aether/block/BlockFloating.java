@@ -1,5 +1,6 @@
 package com.matthewperiut.aether.block;
 
+import com.matthewperiut.aether.entity.special.EntityFloatingBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
@@ -57,8 +58,8 @@ public class BlockFloating extends TemplateBlock {
         if (canFallAbove(world, i, j + 1, k) && j < 128) {
             byte byte0 = 32;
             if (!fallInstantly && world.method_155(i - byte0, j - byte0, k - byte0, i + byte0, j + byte0, k + byte0)) {
-                // todo: entity EntityFloatingBlock floating = new EntityFloatingBlock(world, (double)((float)i + 0.5F), (double)((float)j + 0.5F), (double)((float)k + 0.5F), this.id);
-                // world.spawnEntity(floating);
+                EntityFloatingBlock floating = new EntityFloatingBlock(world, (double) ((float) i + 0.5F), (double) ((float) j + 0.5F), (double) ((float) k + 0.5F), this.id);
+                world.spawnEntity(floating);
             } else {
                 world.setBlock(i, j, k, 0);
 

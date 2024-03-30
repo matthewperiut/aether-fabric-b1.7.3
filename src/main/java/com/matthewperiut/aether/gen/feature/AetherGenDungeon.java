@@ -2,6 +2,7 @@ package com.matthewperiut.aether.gen.feature;
 
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.block.TreasureChest;
+import com.matthewperiut.aether.entity.living.EntityFireMonster;
 import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
@@ -166,8 +167,8 @@ public class AetherGenDungeon extends Feature {
             }
         }
 
-        // todo: entity EntityFireMonster boss = new EntityFireMonster(world, x, y - 1, z, wid, j);
-        // world.spawnEntity(boss);
+        EntityFireMonster boss = new EntityFireMonster(world, x, y - 1, z, wid, j);
+        world.spawnEntity(boss);
         return true;
     }
 

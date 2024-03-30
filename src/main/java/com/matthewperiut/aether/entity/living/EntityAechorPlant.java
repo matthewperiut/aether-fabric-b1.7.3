@@ -170,7 +170,7 @@ public class EntityAechorPlant extends EntityAetherAnimal implements MobSpawnDat
             d2 *= d3;
             EntityPoisonNeedle entityarrow = new EntityPoisonNeedle(this.world, this);
             entityarrow.y = this.y + 0.5;
-            this.world.playSound(this, "aether:other.dartshooter.shootDart", 2.0F, 1.0F / (this.rand.nextFloat() * 0.4F + 0.8F));
+            this.world.playSound(this, "aether:other.dartshooter.shootdart", 2.0F, 1.0F / (this.rand.nextFloat() * 0.4F + 0.8F));
             this.world.spawnEntity(entityarrow);
             entityarrow.setArrowHeading(d1, d4, d2, 0.285F + (float) d4 * 0.05F, 1.0F);
         }

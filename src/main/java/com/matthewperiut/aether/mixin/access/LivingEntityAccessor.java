@@ -14,10 +14,10 @@ public interface LivingEntityAccessor {
     void invokeGetDrops();
 
     @Accessor("forwardVelocity")
-    float get1029();
+    float getForwardVelocity();
 
     @Accessor("horizontalVelocity")
-    float get1060();
+    float getHorizontalVelocity();
 
     @Accessor("jumping")
     boolean getJumping();
