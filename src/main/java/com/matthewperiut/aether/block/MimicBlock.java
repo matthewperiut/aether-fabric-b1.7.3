@@ -1,5 +1,6 @@
 package com.matthewperiut.aether.block;
 
+import com.matthewperiut.aether.entity.living.EntityMimic;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
@@ -161,11 +162,9 @@ public class MimicBlock extends TemplateBlock {
     public void onBlockRemoved(World world, int i, int j, int k) {
         if (!world.isClient) {
             world.setBlock(i, j, k, 0);
-        /* todo: entity
-        EntityMimic mimic = new EntityMimic(world);
-        mimic.setPosition((double)i + 0.5, (double)j + 1.5, (double)k + 0.5);
-        world.spawnEntity(mimic);
-         */
+            EntityMimic mimic = new EntityMimic(world);
+            mimic.setPosition((double) i + 0.5, (double) j + 1.5, (double) k + 0.5);
+            world.spawnEntity(mimic);
         }
     }
 

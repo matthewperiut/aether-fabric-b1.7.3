@@ -1,5 +1,6 @@
 package com.matthewperiut.aether.item.tool;
 
+import com.matthewperiut.aether.entity.projectile.EntityLightningKnife;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -16,7 +17,7 @@ public class ItemLightningKnife extends TemplateItem {
         --itemstack.count;
         if (!world.isClient) {
             world.playSound(entityplayer, "aether:mob.dartshoot", 2.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
-            // todo: entity world.spawnEntity(new EntityLightningKnife(world, entityplayer));
+            world.spawnEntity(new EntityLightningKnife(world, entityplayer));
         }
 
         return itemstack;

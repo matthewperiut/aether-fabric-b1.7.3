@@ -4,6 +4,7 @@ import com.matthewperiut.aether.entity.living.*;
 import com.matthewperiut.aether.entity.projectile.*;
 import com.matthewperiut.aether.entity.special.EntityCloudParachute;
 import com.matthewperiut.aether.entity.special.EntityFloatingBlock;
+import com.matthewperiut.aether.entity.special.EntityMiniCloud;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.modificationstation.stationapi.api.event.entity.EntityRegister;
 import net.modificationstation.stationapi.api.event.registry.EntityHandlerRegistryEvent;
@@ -23,6 +24,9 @@ public class AetherEntities {
         event.register(EntityAerbunny.class, "Aerbunny");
         event.register(EntityAerwhale.class, "Aerwhale");
         event.register(EntityCockatrice.class, "Cockatrice");
+        event.register(EntityFlyingCow.class, "FlyingCow");
+        event.register(EntityMimic.class, "Mimic");
+        event.register(EntityMiniCloud.class, "Minicloud");
 
         event.register(EntityWhirly.class, "Whirlwind");
         event.register(EntityZephyr.class, "Zephyr");
@@ -40,28 +44,29 @@ public class AetherEntities {
         event.register(EntityCloudParachute.class, "CloudParachute");
         event.register(EntityFloatingBlock.class, "FloatingBlock");
         event.register(EntityFiroBall.class, "FiroBall");
+        event.register(EntityHomeShot.class, "HomeShot");
+        event.register(EntityLightningKnife.class, "LightningKnife");
 
     }
 
     /*
-    ModLoader.RegisterEntityID(EntityAerwhale.class, "Aerwhale", ModLoader.getUniqueEntityId());
-    ModLoader.RegisterEntityID(EntityCockatrice.class, "Cockatrice", ModLoader.getUniqueEntityId());
-    ModLoader.RegisterEntityID(EntitySwet.class, "Swets", ModLoader.getUniqueEntityId());
-    ModLoader.RegisterEntityID(EntityZephyr.class, "Zephyr", ModLoader.getUniqueEntityId());
-    ModLoader.RegisterEntityID(EntitySheepuff.class, "Sheepuff", ModLoader.getUniqueEntityId());
-    ModLoader.RegisterEntityID(EntityPhyg.class, "FlyingPig", ModLoader.getUniqueEntityId());
-    ModLoader.RegisterEntityID(EntityAechorPlant.class, "AechorPlant", ModLoader.getUniqueEntityId());
-    ModLoader.RegisterEntityID(EntitySentry.class, "Sentry", ModLoader.getUniqueEntityId());
-    ModLoader.RegisterEntityID(EntitySlider.class, "Slider", ModLoader.getUniqueEntityId());
-    ModLoader.RegisterEntityID(EntityValkyrie.class, "Valkyrie", ModLoader.getUniqueEntityId());
-    ModLoader.RegisterEntityID(EntityHomeShot.class, "HomeShot", ModLoader.getUniqueEntityId());
-    ModLoader.RegisterEntityID(EntityFireMonster.class, "Fire Monster", ModLoader.getUniqueEntityId());
-    ModLoader.RegisterEntityID(EntityFireMinion.class, "Fire Minion", ModLoader.getUniqueEntityId());
-    ModLoader.RegisterEntityID(EntityFiroBall.class, "Firo Ball", ModLoader.getUniqueEntityId());
-    ModLoader.RegisterEntityID(EntityMoa.class, "MoaBase", ModLoader.getUniqueEntityId());
-    ModLoader.RegisterEntityID(EntityFlyingCow.class, "FlyingCow", ModLoader.getUniqueEntityId());
-    ModLoader.RegisterEntityID(EntityAerbunny.class, "Aerbunny", ModLoader.getUniqueEntityId());
-    ModLoader.RegisterEntityID(Whirly.class, "Whirlwind", ModLoader.getUniqueEntityId());
+    event.register(EntityAerwhale.class, "Aerwhale");
+    event.register(EntityCockatrice.class, "Cockatrice");
+    event.register(EntitySwet.class, "Swets");
+    event.register(EntityZephyr.class, "Zephyr");
+    event.register(EntitySheepuff.class, "Sheepuff");
+    event.register(EntityPhyg.class, "FlyingPig");
+    event.register(EntityAechorPlant.class, "AechorPlant");
+    event.register(EntitySentry.class, "Sentry");
+    event.register(EntitySlider.class, "Slider");
+    event.register(EntityValkyrie.class, "Valkyrie");
+    event.register(EntityHomeShot.class, "HomeShot");
+    event.register(EntityFireMonster.class, "Fire Monster");
+    event.register(EntityFireMinion.class, "Fire Minion");
+    event.register(EntityFiroBall.class, "Firo Ball");
+    event.register(EntityMoa.class, "MoaBase");
+    event.register(EntityAerbunny.class, "Aerbunny");
+    event.register(Whirly.class, "Whirlwind");
      */
 
     @EventListener
@@ -71,6 +76,9 @@ public class AetherEntities {
         Registry.register(event.registry, MOD_ID.id("Aerbunny"), EntityAerbunny::new);
         Registry.register(event.registry, MOD_ID.id("Aerwhale"), EntityAerwhale::new);
         Registry.register(event.registry, MOD_ID.id("Cockatrice"), EntityCockatrice::new);
+        Registry.register(event.registry, MOD_ID.id("FlyingCow"), EntityFlyingCow::new);
+        Registry.register(event.registry, MOD_ID.id("Mimic"), EntityMimic::new);
+        Registry.register(event.registry, MOD_ID.id("Minicloud"), EntityMiniCloud::new);
 
         Registry.register(event.registry, MOD_ID.id("Whirlwind"), EntityWhirly::new);
         Registry.register(event.registry, MOD_ID.id("Zephyr"), EntityZephyr::new);
@@ -91,5 +99,6 @@ public class AetherEntities {
         Registry.register(event.registry, MOD_ID.id("CloudParachute"), EntityCloudParachute::new);
         Registry.register(event.registry, MOD_ID.id("FloatingBlock"), EntityFloatingBlock::new);
         Registry.register(event.registry, MOD_ID.id("FiroBall"), EntityFiroBall::new);
+        Registry.register(event.registry, MOD_ID.id("LightningKnife"), EntityLightningKnife::new);
     }
 }

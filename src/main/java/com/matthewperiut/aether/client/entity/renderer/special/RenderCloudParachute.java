@@ -1,4 +1,4 @@
-package com.matthewperiut.aether.client.entity.renderer.projectile;
+package com.matthewperiut.aether.client.entity.renderer.special;
 
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.entity.special.EntityCloudParachute;
