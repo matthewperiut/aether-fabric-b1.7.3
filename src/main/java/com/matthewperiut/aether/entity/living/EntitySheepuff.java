@@ -34,6 +34,14 @@ public class EntitySheepuff extends EntityAetherAnimal implements MobSpawnDataPr
         this.amountEaten = 0;
     }
 
+    public EntitySheepuff(World world, int color) {
+        super(world);
+        this.texture = "aether:stationapi/textures/mobs/sheepuff.png";
+        this.setSize(0.9F, 1.3F);
+        this.setFleeceColor(color);
+        this.amountEaten = 0;
+    }
+
     protected void initDataTracker() {
         super.initDataTracker();
         this.dataTracker.startTracking(16, (byte) 0);

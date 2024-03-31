@@ -17,9 +17,6 @@ import net.modificationstation.stationapi.api.util.Null;
 public class AetherItems {
     @Entrypoint.Namespace
     public static final Namespace MOD_ID = Null.get();
-    private static final int ticks = 0;
-    public static double motionOffset = 0.05;
-    public static double ybuff = 0.3;
     public static Item VictoryMedal;
     public static Item Key;
     public static Item LoreBook;
@@ -116,7 +113,6 @@ public class AetherItems {
     public static Item BlueCape;
     public static Item IceRing;
     public static Item IcePendant;
-    private static boolean jumpBoosted;
 
     @EventListener
     public void registerItems(ItemRegistryEvent event) {

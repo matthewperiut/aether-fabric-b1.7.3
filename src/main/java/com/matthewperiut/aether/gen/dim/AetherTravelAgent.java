@@ -3,6 +3,7 @@ package com.matthewperiut.aether.gen.dim;
 
 import com.matthewperiut.aether.achievement.AetherAchievements;
 import com.matthewperiut.aether.block.AetherBlocks;
+import com.matthewperiut.aether.util.AetherPlayerBooks;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -25,6 +26,9 @@ public class AetherTravelAgent extends NetherTeleporter {
         }
         if (entity instanceof PlayerEntity player) {
             AetherAchievements.giveAchievement(AetherAchievements.enterAether, player);
+            if (player instanceof AetherPlayerBooks books) {
+                books.giveAetherBook();
+            }
         }
     }
 

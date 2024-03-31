@@ -167,3 +167,6 @@ item.obsidian_glove.name=§aObsidian Gloves
 item.neptune_glove.name=§aNeptune Gloves
 item.cloud_parachute.name=Cloud Parachute
 item.cloud_parachute_gold.name=Golden Parachute
+
+tab.aetherBlocks.name=Aether Blocks
+tab.aetherItems.name=Aether Items

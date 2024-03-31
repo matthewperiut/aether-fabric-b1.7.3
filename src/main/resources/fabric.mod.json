@@ -3,7 +3,7 @@
   "id": "aether",
   "version": "${version}",
   "name": "Aether",
-  "description": "Hostile Paradise",
+  "description": "Hostile Paradise, STAPI Alpha Release",
   "authors": [
     "Slainlight",
     "GildedGames"
@@ -30,6 +30,9 @@
       "com.matthewperiut.aether.client.gui.AetherGuis"
     ],
     "stationapi:event_bus_server": [
+    ],
+    "bhcreative:event_bus": [
+      "com.matthewperiut.aether.optional.AetherCreativeListener"
     ]
   },
   "mixins": [
