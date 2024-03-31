@@ -1,5 +1,6 @@
 package com.matthewperiut.aether.item.tool;
 
+import com.matthewperiut.aether.entity.projectile.EntityNotchWave;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -42,8 +43,8 @@ public class ItemNotchHammer extends TemplateItem {
         itemstack.applyDamage(1, entityplayer);
         world.playSound(entityplayer, "mob.ghast.fireball", 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
         if (!world.isClient) {
-            // todo: entity EntityNotchWave notchwave = new EntityNotchWave(world, entityplayer);
-            // world.spawnEntity(notchwave);
+            EntityNotchWave notchwave = new EntityNotchWave(world, entityplayer);
+            world.spawnEntity(notchwave);
         }
 
         return itemstack;

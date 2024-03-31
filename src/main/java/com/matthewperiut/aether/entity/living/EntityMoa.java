@@ -247,15 +247,15 @@ public class EntityMoa extends EntityAetherAnimal implements MobSpawnDataProvide
     }
 
     protected String getAmbientSound() {
-        return "aether:mobs.moa.idleCall";
+        return "aether:mobs.moa.idlecall";
     }
 
     protected String getHurtSound() {
-        return "aether:mobs.moa.idleCall";
+        return "aether:mobs.moa.idlecall";
     }
 
     protected String getDeathSound() {
-        return "aether:mobs.moa.idleCall";
+        return "aether:mobs.moa.idlecall";
     }
 
     public boolean interact(PlayerEntity entityplayer) {

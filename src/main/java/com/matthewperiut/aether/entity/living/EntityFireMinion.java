@@ -2,8 +2,12 @@ package com.matthewperiut.aether.entity.living;
 
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.world.World;
+import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
+import net.modificationstation.stationapi.api.util.Identifier;
 
-public class EntityFireMinion extends MonsterEntity {
+import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
+
+public class EntityFireMinion extends MonsterEntity implements MobSpawnDataProvider {
     public EntityFireMinion(World world) {
         super(world);
         this.texture = "aether:stationapi/textures/mobs/firemonster.png";
@@ -27,5 +31,10 @@ public class EntityFireMinion extends MonsterEntity {
             }
         }
 
+    }
+
+    @Override
+    public Identifier getHandlerIdentifier() {
+        return MOD_ID.id("FireMinion");
     }
 }

@@ -28,7 +28,12 @@ public class AetherEntities {
         event.register(EntityMimic.class, "Mimic");
         event.register(EntityMiniCloud.class, "Minicloud");
         event.register(EntityMoa.class, "Moa");
-
+        event.register(EntitySlider.class, "Slider");
+        event.register(EntityPhyg.class, "Phyg");
+        event.register(EntitySheepuff.class, "Sheepuff");
+        event.register(EntitySwet.class, "Swet");
+        event.register(EntityValkyrie.class, "Valkyrie");
+        event.register(EntitySentry.class, "Sentry");
         event.register(EntityWhirly.class, "Whirlwind");
         event.register(EntityZephyr.class, "Zephyr");
 
@@ -47,27 +52,11 @@ public class AetherEntities {
         event.register(EntityFiroBall.class, "FiroBall");
         event.register(EntityHomeShot.class, "HomeShot");
         event.register(EntityLightningKnife.class, "LightningKnife");
+        event.register(EntityNotchWave.class, "NotchWave");
 
     }
 
     /*
-    event.register(EntityAerwhale.class, "Aerwhale");
-    event.register(EntityCockatrice.class, "Cockatrice");
-    event.register(EntitySwet.class, "Swets");
-    event.register(EntityZephyr.class, "Zephyr");
-    event.register(EntitySheepuff.class, "Sheepuff");
-    event.register(EntityPhyg.class, "FlyingPig");
-    event.register(EntityAechorPlant.class, "AechorPlant");
-    event.register(EntitySentry.class, "Sentry");
-    event.register(EntitySlider.class, "Slider");
-    event.register(EntityValkyrie.class, "Valkyrie");
-    event.register(EntityHomeShot.class, "HomeShot");
-    event.register(EntityFireMonster.class, "Fire Monster");
-    event.register(EntityFireMinion.class, "Fire Minion");
-    event.register(EntityFiroBall.class, "Firo Ball");
-    event.register(EntityMoa.class, "MoaBase");
-    event.register(EntityAerbunny.class, "Aerbunny");
-    event.register(Whirly.class, "Whirlwind");
      */
 
     @EventListener
@@ -81,7 +70,12 @@ public class AetherEntities {
         Registry.register(event.registry, MOD_ID.id("Mimic"), EntityMimic::new);
         Registry.register(event.registry, MOD_ID.id("Minicloud"), EntityMiniCloud::new);
         Registry.register(event.registry, MOD_ID.id("Moa"), EntityMoa::new);
-
+        Registry.register(event.registry, MOD_ID.id("Slider"), EntitySlider::new);
+        Registry.register(event.registry, MOD_ID.id("Phyg"), EntityPhyg::new);
+        Registry.register(event.registry, MOD_ID.id("Sheepuff"), EntitySheepuff::new);
+        Registry.register(event.registry, MOD_ID.id("Swet"), EntitySwet::new);
+        Registry.register(event.registry, MOD_ID.id("Valkyrie"), EntityValkyrie::new);
+        Registry.register(event.registry, MOD_ID.id("Sentry"), EntitySentry::new);
 
         Registry.register(event.registry, MOD_ID.id("Whirlwind"), EntityWhirly::new);
         Registry.register(event.registry, MOD_ID.id("Zephyr"), EntityZephyr::new);
@@ -103,5 +97,6 @@ public class AetherEntities {
         Registry.register(event.registry, MOD_ID.id("FloatingBlock"), EntityFloatingBlock::new);
         Registry.register(event.registry, MOD_ID.id("FiroBall"), EntityFiroBall::new);
         Registry.register(event.registry, MOD_ID.id("LightningKnife"), EntityLightningKnife::new);
+        Registry.register(event.registry, MOD_ID.id("NotchWave"), EntityNotchWave::new);
     }
 }

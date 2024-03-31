@@ -2,6 +2,7 @@ package com.matthewperiut.aether.gen.feature;
 
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.block.TreasureChest;
+import com.matthewperiut.aether.entity.living.EntitySlider;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -45,11 +46,10 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
         this.setBlocks(this.lockedBlockID1, this.lockedBlockID2, 20);
         this.addHollowBox(level, rand, x, y, z, 16, 12, 16);
         this.addHollowBox(level, rand, x + 6, y - 2, z + 6, 4, 4, 4);
-        // todo: entity
-        //  final EntitySlider slider = new EntitySlider(level);
-        //  slider.setPosition(x + 8, y + 2, z + 8);
-        //  slider.setDungeon(x, y, z);
-        //  level.spawnEntity(slider);
+        final EntitySlider slider = new EntitySlider(level);
+        slider.setPosition(x + 8, y + 2, z + 8);
+        slider.setDungeon(x, y, z);
+        level.spawnEntity(slider);
         int x2 = x + 7 + rand.nextInt(2);
         int y2 = y - 1;
         int z2 = z + 7 + rand.nextInt(2);

@@ -24,11 +24,15 @@ import net.minecraft.util.io.CompoundTag;
 import net.minecraft.util.math.AxixAlignedBoundingBox;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
+import net.modificationstation.stationapi.api.util.Identifier;
 import net.modificationstation.stationapi.api.util.SideUtil;
 
 import java.util.List;
 
-public class EntityFireMonster extends FlyingEntity implements BossLivingEntity {
+import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
+
+public class EntityFireMonster extends FlyingEntity implements BossLivingEntity, MobSpawnDataProvider {
     public int wideness;
     public int orgX;
     public int orgY;
@@ -500,5 +504,10 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity 
     @Override
     public String getCustomTitle() {
         return BossLivingEntity.super.getCustomTitle();
+    }
+
+    @Override
+    public Identifier getHandlerIdentifier() {
+        return MOD_ID.id("FireMonster");
     }
 }

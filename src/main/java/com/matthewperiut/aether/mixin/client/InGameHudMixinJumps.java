@@ -1,6 +1,6 @@
 package com.matthewperiut.aether.mixin.client;
 
-import com.matthewperiut.aether.util.MoaJumpsDisplay;
+import com.matthewperiut.aether.util.JumpsDisplay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiElement;
 import net.minecraft.client.gui.InGameHud;
@@ -17,6 +17,6 @@ public class InGameHudMixinJumps extends GuiElement {
 
     @Inject(method = "render", at = @At(value = "TAIL"))
     void injectFeathers(float f, boolean bl, int i, int j, CallbackInfo ci) {
-        MoaJumpsDisplay.gui(client, (InGameHud) (Object) this);
+        JumpsDisplay.gui(client, (InGameHud) (Object) this);
     }
 }

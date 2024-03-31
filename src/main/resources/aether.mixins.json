@@ -17,8 +17,8 @@
   "client": [
     "BiomeMixin",
     "ClientPlayHandlerMixin",
-    "client.InGameHudPoison",
     "client.InGameHudMixinJumps",
+    "client.InGameHudPoison",
     "client.WorldEventRendererMixin"
   ],
   "injectors": {

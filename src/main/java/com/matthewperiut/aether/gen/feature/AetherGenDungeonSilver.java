@@ -2,6 +2,7 @@ package com.matthewperiut.aether.gen.feature;
 
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.block.TreasureChest;
+import com.matthewperiut.aether.entity.living.EntityValkyrie;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 
@@ -273,10 +274,10 @@ public class AetherGenDungeonSilver extends AetherGenBuildings {
             this.addChandelier(world, i + 28, j, k + 19, 8);
             this.addSapling(world, random, i + 45, j + 1, k + 6);
             this.addSapling(world, random, i + 45, j + 1, k + 21);
-            // todo: entity EntityValkyrie valk = new EntityValkyrie(world, (double)i + 40.0, (double)j + 1.5, (double)k + 15.0, true);
-            // valk.setPosition((double)(i + 40), (double)(j + 2), (double)(k + 15));
-            // valk.setDungeon(i + 26, j, k + 5);
-            // world.spawnEntity(valk);
+            EntityValkyrie valk = new EntityValkyrie(world, (double) i + 40.0, (double) j + 1.5, (double) k + 15.0, true);
+            valk.setPosition((double) (i + 40), (double) (j + 2), (double) (k + 15));
+            valk.setDungeon(i + 26, j, k + 5);
+            world.spawnEntity(valk);
             this.setBlocks(this.lockedBlockID1, this.lockedBlockID1, 1);
             this.setMetadata(1, 1);
             this.addHollowBox(world, random, i + 41, j - 2, k + 13, 4, 4, 4);

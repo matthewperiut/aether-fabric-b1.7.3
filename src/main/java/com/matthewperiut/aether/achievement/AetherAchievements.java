@@ -38,11 +38,11 @@ public class AetherAchievements {
     private void registerAchievements(AchievementRegisterEvent event) {
         // works sp and mp
         enterAether = (new Achievement(acOff, "aether:enterAether", 0, 0, Block.GLOWSTONE, null)).register();
-        // todo: entities
+        // works sp and mp
         defeatBronze = (new Achievement(acOff + 1, "aether:defeatBronze", -2, 3, new ItemStack(AetherItems.Key, 1, 0), enterAether)).register();
-        // todo: entities
+        // works sp and mp
         defeatSilver = (new Achievement(acOff + 2, "aether:defeatSilver", 0, 4, new ItemStack(AetherItems.Key, 1, 1), enterAether)).register();
-        // definitely works sp, probably mp
+        // works sp and mp
         defeatGold = (new Achievement(acOff + 3, "aether:defeatGold", 2, 3, new ItemStack(AetherItems.Key, 1, 2), enterAether)).register();
         // works sp and mp
         enchanter = (new Achievement(acOff + 4, "aether:enchanter", 2, 1, AetherBlocks.Enchanter, enterAether)).register();
@@ -50,7 +50,7 @@ public class AetherAchievements {
         incubator = (new Achievement(acOff + 5, "aether:incubator", 2, -1, AetherBlocks.Incubator, enterAether)).register();
         // works sp and mp
         blueCloud = (new Achievement(acOff + 6, "aether:blueCloud", -2, -1, new ItemStack(AetherBlocks.Aercloud, 1, 1), enterAether)).register();
-        // todo: entities
+        // works sp and mp
         flyingPig = (new Achievement(acOff + 7, "aether:flyingPig", -2, 1, Item.SADDLE, enterAether)).register();
         // works sp and mp
         gravTools = (new Achievement(acOff + 8, "aether:gravTools", -1, -3, AetherItems.PickGravitite, enterAether)).register();

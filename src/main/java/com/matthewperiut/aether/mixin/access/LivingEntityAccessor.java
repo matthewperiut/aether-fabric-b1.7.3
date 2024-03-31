@@ -19,6 +19,12 @@ public interface LivingEntityAccessor {
     @Accessor("horizontalVelocity")
     float getHorizontalVelocity();
 
+    @Accessor("forwardVelocity")
+    void setForwardVelocity(float v);
+
+    @Accessor("horizontalVelocity")
+    void setHorizontalVelocity(float v);
+
     @Accessor("jumping")
     boolean getJumping();
 

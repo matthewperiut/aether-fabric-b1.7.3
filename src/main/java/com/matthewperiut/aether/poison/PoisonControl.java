@@ -1,5 +1,9 @@
 package com.matthewperiut.aether.poison;
 
+import com.matthewperiut.aether.entity.living.*;
+import com.matthewperiut.aether.entity.projectile.EntityFiroBall;
+import com.matthewperiut.aether.entity.projectile.EntityHomeShot;
+import com.matthewperiut.aether.entity.special.EntityMiniCloud;
 import com.matthewperiut.aether.mixin.access.EntityAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -26,10 +30,7 @@ public class PoisonControl {
 
     public PoisonControl(Entity parent) {
         this.parent = parent;
-
-        canPoison = true;
-        // todo: entity
-        //canPoison = !(entity instanceof EntitySlider) && !(entity instanceof EntitySentry) && !(entity instanceof EntityMiniCloud) && !(entity instanceof EntityFireMonster) && !(entity instanceof EntityAechorPlant) && !(entity instanceof EntityFiroBall) && !(entity instanceof EntityCockatrice) && !(entity instanceof EntityHomeShot);
+        canPoison = !(parent instanceof EntitySlider) && !(parent instanceof EntityMiniCloud) && !(parent instanceof EntitySentry) && !(parent instanceof EntityFireMonster) && !(parent instanceof EntityAechorPlant) && !(parent instanceof EntityFiroBall) && !(parent instanceof EntityCockatrice) && !(parent instanceof EntityHomeShot);
     }
 
     PoisonControl(Entity parent, boolean canPoison) {
