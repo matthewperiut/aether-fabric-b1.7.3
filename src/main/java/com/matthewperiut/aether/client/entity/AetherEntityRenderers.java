@@ -24,6 +24,7 @@ public class AetherEntityRenderers {
         event.renderers.put(EntityCockatrice.class, new RenderCockatrice(new ModelCockatrice(), 1.0F));
         event.renderers.put(EntityFlyingCow.class, new RenderFlyingCow(new ModelFlyingCow1(), new ModelFlyingCow2(), 0.7F));
         event.renderers.put(EntityMimic.class, new RenderMimic());
+        event.renderers.put(EntityMoa.class, new RenderMoa(new ModelMoa(), 1.0F));
 
         event.renderers.put(EntityWhirly.class, new RenderWhirly());
         event.renderers.put(EntityZephyr.class, new RenderZephyr());
@@ -51,7 +52,6 @@ public class AetherEntityRenderers {
         event.renderers.put(EntitySentry.class, new RenderSentry(new SlimeEntityModel(0), 0.2F));
         event.renderers.put(EntitySlider.class, new RenderSlider(new ModelSlider(0.0F, 12.0F), 1.5F));
         event.renderers.put(EntityValkyrie.class, new RenderValkyrie(new ModelValkyrie(), 0.3F));
-        event.renderers.put(EntityMoa.class, new RenderMoa(new ModelMoa(), 1.0F));
          */
     }
 }

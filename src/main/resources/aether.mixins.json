@@ -18,6 +18,7 @@
     "BiomeMixin",
     "ClientPlayHandlerMixin",
     "client.InGameHudPoison",
+    "client.InGameHudMixinJumps",
     "client.WorldEventRendererMixin"
   ],
   "injectors": {

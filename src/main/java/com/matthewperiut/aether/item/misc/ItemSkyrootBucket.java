@@ -1,6 +1,7 @@
 package com.matthewperiut.aether.item.misc;
 
 import com.matthewperiut.aether.entity.living.EntityAechorPlant;
+import com.matthewperiut.aether.entity.living.EntityFlyingCow;
 import com.matthewperiut.aether.item.AetherItems;
 import com.matthewperiut.aether.poison.AetherPoison;
 import net.minecraft.block.Block;
@@ -83,7 +84,7 @@ public class ItemSkyrootBucket extends TemplateItem {
         }
 
         if (movingobjectposition == null || movingobjectposition.type != HitType.field_789 || itemstack.getMeta() != 0 && itemstack.getMeta() != Block.FLOWING_WATER.id) {
-            if (itemstack.getMeta() == 0 && movingobjectposition != null && movingobjectposition.field_1989 != null && (movingobjectposition.field_1989 instanceof CowEntity)) {// todo: entity || movingobjectposition.field_1989 instanceof EntityFlyingCow)) {
+            if (itemstack.getMeta() == 0 && movingobjectposition != null && movingobjectposition.field_1989 != null && (movingobjectposition.field_1989 instanceof CowEntity || movingobjectposition.field_1989 instanceof EntityFlyingCow)) {
                 itemstack.setMeta(1);
                 return itemstack;
             }

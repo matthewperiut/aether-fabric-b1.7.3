@@ -27,6 +27,7 @@ public class AetherEntities {
         event.register(EntityFlyingCow.class, "FlyingCow");
         event.register(EntityMimic.class, "Mimic");
         event.register(EntityMiniCloud.class, "Minicloud");
+        event.register(EntityMoa.class, "Moa");
 
         event.register(EntityWhirly.class, "Whirlwind");
         event.register(EntityZephyr.class, "Zephyr");
@@ -79,6 +80,8 @@ public class AetherEntities {
         Registry.register(event.registry, MOD_ID.id("FlyingCow"), EntityFlyingCow::new);
         Registry.register(event.registry, MOD_ID.id("Mimic"), EntityMimic::new);
         Registry.register(event.registry, MOD_ID.id("Minicloud"), EntityMiniCloud::new);
+        Registry.register(event.registry, MOD_ID.id("Moa"), EntityMoa::new);
+
 
         Registry.register(event.registry, MOD_ID.id("Whirlwind"), EntityWhirly::new);
         Registry.register(event.registry, MOD_ID.id("Zephyr"), EntityZephyr::new);

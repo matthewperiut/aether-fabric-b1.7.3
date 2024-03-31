@@ -2,7 +2,9 @@ package com.matthewperiut.aether.blockentity.block;
 
 import com.matthewperiut.aether.achievement.AetherAchievements;
 import com.matthewperiut.aether.block.AetherBlocks;
+import com.matthewperiut.aether.entity.living.EntityMoa;
 import com.matthewperiut.aether.item.AetherItems;
+import com.matthewperiut.aether.util.MoaColour;
 import net.minecraft.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
@@ -121,9 +123,9 @@ public class BlockEntityIncubator extends BlockEntity implements Inventory {
 
         if (this.progress >= 6000) {
             if (this.IncubatorItemStacks[1] != null) {
-                // todo: entity EntityMoa moa = new EntityMoa(this.world, true, false, false, MoaColour.getColour(this.IncubatorItemStacks[1].getMeta()));
-                // moa.setPosition((double)this.x + 0.5, (double)this.y + 1.5, (double)this.z + 0.5);
-                // this.world.spawnEntity(moa);
+                EntityMoa moa = new EntityMoa(this.world, true, false, false, MoaColour.getColour(this.IncubatorItemStacks[1].getMeta()));
+                moa.setPosition((double) this.x + 0.5, (double) this.y + 1.5, (double) this.z + 0.5);
+                this.world.spawnEntity(moa);
             }
 
             PlayerEntity player = world.getClosestPlayer(x, y, z, 100);

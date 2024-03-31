@@ -42,7 +42,7 @@ public class AetherAchievements {
         defeatBronze = (new Achievement(acOff + 1, "aether:defeatBronze", -2, 3, new ItemStack(AetherItems.Key, 1, 0), enterAether)).register();
         // todo: entities
         defeatSilver = (new Achievement(acOff + 2, "aether:defeatSilver", 0, 4, new ItemStack(AetherItems.Key, 1, 1), enterAether)).register();
-        // todo: entities
+        // definitely works sp, probably mp
         defeatGold = (new Achievement(acOff + 3, "aether:defeatGold", 2, 3, new ItemStack(AetherItems.Key, 1, 2), enterAether)).register();
         // works sp and mp
         enchanter = (new Achievement(acOff + 4, "aether:enchanter", 2, 1, AetherBlocks.Enchanter, enterAether)).register();
