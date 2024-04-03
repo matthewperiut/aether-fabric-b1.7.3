@@ -13,6 +13,10 @@ import java.util.List;
 import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
 public class EntityAetherLightning extends LightningEntity implements EntitySpawnDataProvider {
+    public EntityAetherLightning(World var1) {
+        super(var1, 0, 0, 0);
+    }
+
     public EntityAetherLightning(World var1, double var2, double var4, double var6) {
         super(var1, var2, var4, var6);
     }
