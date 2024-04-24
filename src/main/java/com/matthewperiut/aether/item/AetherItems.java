@@ -225,7 +225,7 @@ public class AetherItems {
         GoldGlove = (new ItemGloves(Identifier.of(MOD_ID, "gold_glove"), 1, "aether:stationapi/textures/armor/Accessories.png", 10, 15396439)).setTranslationKey(MOD_ID, "gold_glove");
         DiamondGlove = (new ItemGloves(Identifier.of(MOD_ID, "diamond_glove"), 3, "aether:stationapi/textures/armor/Accessories.png", 10, 3402699)).setTranslationKey(MOD_ID, "diamond_glove");
         ZaniteGlove = (new ItemGloves(Identifier.of(MOD_ID, "zanite_glove"), 2, "aether:stationapi/textures/armor/Accessories.png", 10, 7412456)).setTranslationKey(MOD_ID, "zanite_glove");
-        GravititeGlove = (new ItemGloves(Identifier.of(MOD_ID, "gravitite_glove"), 3, "aether:stationapi/textures/armor/Accessories.png", 10, 15160027)).setTranslationKey(MOD_ID, "gravitite_glove");
+        GravititeGlove = (new ItemGravititeGlove(Identifier.of(MOD_ID, "gravitite_glove"), 3, "aether:stationapi/textures/armor/Accessories.png", 10, 15160027)).setTranslationKey(MOD_ID, "gravitite_glove");
         PhoenixGlove = (new ItemPhoenixGloves(Identifier.of(MOD_ID, "phoenix_glove"), 3, "aether:stationapi/textures/armor/Phoenix.png", 10, 16742144, false)).setTranslationKey(MOD_ID, "phoenix_glove");
         ObsidianGlove = (new ItemGloves(Identifier.of(MOD_ID, "obsidian_glove"), 4, "aether:stationapi/textures/armor/Accessories.png", 10, 1774663)).setTranslationKey(MOD_ID, "obsidian_glove");
         NeptuneGlove = (new ItemGloves(Identifier.of(MOD_ID, "neptune_glove"), 3, "aether:stationapi/textures/armor/Accessories.png", 10, 2512127)).setTranslationKey(MOD_ID, "neptune_glove");
