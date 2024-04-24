@@ -225,7 +225,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
 
                     if (this.crushed) {
                         this.world.playSound(this.x, this.y, this.z, "random.explode", 3.0F, (0.625F + (this.world.rand.nextFloat() - this.world.rand.nextFloat()) * 0.2F) * 0.7F);
-                        this.world.playSound(this, "aether.sound.bosses.slider.sliderCollide", 2.5F, 1.0F / (this.rand.nextFloat() * 0.2F + 0.9F));
+                        this.world.playSound(this, "aether:bosses.slider.slidercollide", 2.5F, 1.0F / (this.rand.nextFloat() * 0.2F + 0.9F));
                     }
 
                     this.stop();
@@ -307,7 +307,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
                     }
                 }
 
-                this.world.playSound(this, "aether.sound.bosses.slider.sliderMove", 2.5F, 1.0F / (this.rand.nextFloat() * 0.2F + 0.9F));
+                this.world.playSound(this, "aether:bosses.slider.slidermove", 2.5F, 1.0F / (this.rand.nextFloat() * 0.2F + 0.9F));
                 this.gotMovement = true;
             }
         }
@@ -337,7 +337,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
         if (this.awake && this.gotMovement) {
             boolean flag = entity.damage(this, 6);
             if (flag && entity instanceof LivingEntity) {
-                this.world.playSound(this, "aether.sound.bosses.slider.sliderCollide", 2.5F, 1.0F / (this.rand.nextFloat() * 0.2F + 0.9F));
+                this.world.playSound(this, "aether:bosses.slider.slidercollide", 2.5F, 1.0F / (this.rand.nextFloat() * 0.2F + 0.9F));
                 if (entity instanceof MobEntity || entity instanceof PlayerEntity) {
                     LivingEntity ek = (LivingEntity) entity;
                     ek.yVelocity += 0.35;
@@ -445,7 +445,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
                                     this.speedy *= 0.75F;
                                 }
                             } else {
-                                this.world.playSound(this, "aether.sound.bosses.slider.sliderAwaken", 2.5F, 1.0F / (this.rand.nextFloat() * 0.2F + 0.9F));
+                                this.world.playSound(this, "aether:bosses.slider.sliderawaken", 2.5F, 1.0F / (this.rand.nextFloat() * 0.2F + 0.9F));
                                 this.awake = true;
                                 this.target = e1;
                                 this.texture = "aether:stationapi/textures/mobs/sliderAwake.png";

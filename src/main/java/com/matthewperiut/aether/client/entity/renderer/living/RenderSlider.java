@@ -28,10 +28,10 @@ public class RenderSlider extends LivingEntityRenderer {
                 if (slider.criticalCondition()) {
                     this.bindTexture("aether:stationapi/textures/mobs/sliderAwakeGlow_red.png");
                 } else {
-                    this.bindTexture("aether:stationapi/textures/sliderAwakeGlow.png");
+                    this.bindTexture("aether:stationapi/textures/mobs/sliderAwakeGlow.png");
                 }
             } else {
-                this.bindTexture("aether:stationapi/textures/sliderSleepGlow.png");
+                this.bindTexture("aether:stationapi/textures/mobs/sliderSleepGlow.png");
             }
 
             float f1 = (1.0F - slider.getBrightnessAtEyes(1.0F)) * 0.5F;
