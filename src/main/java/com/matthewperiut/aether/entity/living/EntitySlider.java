@@ -82,7 +82,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
     }
 
     protected String getDeathSound() {
-        return "aether.sound.bosses.slider.sliderDeath";
+        return "aether:bosses.slider.sliderdeath";
     }
 
     public void writeAdditional(CompoundTag nbttagcompound) {
