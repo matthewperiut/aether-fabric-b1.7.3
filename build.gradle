@@ -67,6 +67,9 @@ dependencies {
     mappings "net.legacyfabric:beta-yarn:b1.7.3+build.4"
     modImplementation "babric:fabric-loader:${project.loader_version}"
 
+    implementation("io.github.llamalad7:mixinextras-fabric:${project.properties["mixinextras_version"]}")
+    annotationProcessor("io.github.llamalad7:mixinextras-fabric:${project.properties["mixinextras_version"]}")
+
     implementation "org.slf4j:slf4j-api:1.8.0-beta4"
     implementation "org.apache.logging.log4j:log4j-slf4j18-impl:2.16.0"
     modImplementation("net.modificationstation:StationAPI:${project.stapi_version}")
