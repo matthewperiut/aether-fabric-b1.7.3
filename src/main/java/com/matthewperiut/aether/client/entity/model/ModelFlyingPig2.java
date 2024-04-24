@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package com.matthewperiut.aether.client.entity.model;
 
 import com.matthewperiut.aether.entity.living.EntityPhyg;

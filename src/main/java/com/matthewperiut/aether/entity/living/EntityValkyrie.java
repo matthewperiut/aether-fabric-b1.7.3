@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package com.matthewperiut.aether.entity.living;
 
 import com.matthewperiut.accessoryapi.api.BossLivingEntity;
@@ -389,8 +384,10 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
         nbttagcompound.put("SafePos", this.toListTag(new double[]{this.safeX, this.safeY, this.safeZ}));
         nbttagcompound.put("IsCurrentBoss", isBoss);
         if (isBoss) {
-            if (!bossName.isEmpty()) {
-                nbttagcompound.put("BossName", this.bossName);
+            if (bossName != null) {
+                if (!bossName.isEmpty()) {
+                    nbttagcompound.put("BossName", this.bossName);
+                }
             }
         }
     }
@@ -419,6 +416,9 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
         }
         if (isBoss) {
             this.bossName = nbttagcompound.getString("BossName");
+            if (bossName == null) {
+                bossName = NameGen.gen();
+            }
         }
     }
 

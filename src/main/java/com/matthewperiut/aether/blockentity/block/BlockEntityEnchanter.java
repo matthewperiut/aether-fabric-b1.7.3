@@ -273,5 +273,4 @@ public class BlockEntityEnchanter extends BlockEntity implements Inventory {
             this.enchantPowerNeeded = i;
         }
     }
-
 }
