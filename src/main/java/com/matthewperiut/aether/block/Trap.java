@@ -41,7 +41,7 @@ public class Trap extends TemplateTranslucentBlock {
     public void onSteppedOn(World world, int i, int j, int k, Entity entity) {
         if (!world.isClient) {
             if (entity instanceof PlayerEntity) {
-                world.playSound((double) ((float) i + 0.5F), (double) ((float) j + 0.5F), (double) ((float) k + 0.5F), "aether:other.dungeontrap.activateTrap", 1.0F, 1.0F);
+                world.playSound((double) ((float) i + 0.5F), (double) ((float) j + 0.5F), (double) ((float) k + 0.5F), "aether:other.dungeontrap.activatetrap", 1.0F, 1.0F);
                 int x = MathHelper.floor((double) i);
                 int y = MathHelper.floor((double) j);
                 int z = MathHelper.floor((double) k);
