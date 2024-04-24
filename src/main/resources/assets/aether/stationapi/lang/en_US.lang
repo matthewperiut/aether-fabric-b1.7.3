@@ -171,8 +171,10 @@ item.cloud_parachute_gold.name=Golden Parachute
 tab.aetherBlocks.name=Aether Blocks
 tab.aetherItems.name=Aether Items
 
-gui.@.ascending=Ascending to the Aether
-gui.@.descending=Descending from the Aether
+gui.aether.ascending=Ascending to the Aether
+gui.aether.descending=Descending from the Aether
+gui.aether\:ascending=Ascending to the Aether
+gui.aether\:descending=Descending from the Aether
 
 tile.@.aether_portal.name=Aether Portal
 tile.@.aether_dirt.name=Aether Dirt

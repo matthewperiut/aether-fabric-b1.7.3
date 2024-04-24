@@ -50,7 +50,10 @@ abstract public class PlayerMixin extends Entity implements AetherPlayerBooks {
     }
 
     public void giveAetherBook() {
-        if (this.inventory.addStack(new ItemStack(AetherItems.LoreBook, 1, 2)))
-            hasGottenAetherBook = true;
+        ItemStack book = new ItemStack(AetherItems.LoreBook, 1, 2);
+        if (!hasGottenAetherBook) {
+            if (this.inventory.addStack(book))
+                hasGottenAetherBook = true;
+        }
     }
 }
