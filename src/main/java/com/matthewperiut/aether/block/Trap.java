@@ -57,7 +57,7 @@ public class Trap extends TemplateTranslucentBlock {
                         world.spawnEntity(entityvalk);
                 }
 
-                world.placeBlockWithMetaData(i, j, k, AetherBlocks.LockedDungeonStone.id, world.getBlockMeta(i, j, k));
+                world.placeBlockWithMetaData(i, j, k, AetherBlocks.DungeonStone.id, world.getBlockMeta(i, j, k));
             }
         }
     }
