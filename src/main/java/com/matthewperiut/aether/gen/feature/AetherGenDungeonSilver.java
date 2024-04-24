@@ -283,7 +283,7 @@ public class AetherGenDungeonSilver extends AetherGenBuildings {
             this.addHollowBox(world, random, i + 41, j - 2, k + 13, 4, 4, 4);
             x = i + 42 + random.nextInt(2);
             z = k + 14 + random.nextInt(2);
-            TreasureChest.PlaceTreasureChest(world, x, y, z, 2);
+            TreasureChest.PlaceTreasureChest(world, x, y - 13, z, 2);
             world.method_223(x, j - 1, z, 2);
             return true;
         }

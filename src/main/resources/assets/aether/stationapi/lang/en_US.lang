@@ -171,8 +171,6 @@ item.cloud_parachute_gold.name=Golden Parachute
 tab.aetherBlocks.name=Aether Blocks
 tab.aetherItems.name=Aether Items
 
-gui.aether.ascending=Ascending to the Aether
-gui.aether.descending=Descending from the Aether
 gui.aether\:ascending=Ascending to the Aether
 gui.aether\:descending=Descending from the Aether
 
@@ -343,5 +341,5 @@ item.@.neptune_glove.name=§aNeptune Gloves
 item.@.cloud_parachute.name=Cloud Parachute
 item.@.cloud_parachute_gold.name=Golden Parachute
 
-tab.@.aetherBlocks.name=Aether Blocks
-tab.@.aetherItems.name=Aether Items
+tab.aether\:aetherBlocks.name=Aether Blocks
+tab.aether\:aetherItems.name=Aether Items
