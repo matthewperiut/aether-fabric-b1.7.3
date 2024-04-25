@@ -16,6 +16,12 @@ public class ItemGravititeGlove extends ItemGloves {
     @Override
     public ItemStack tickWhileWorn(PlayerEntity player, ItemStack itemInstance) {
 
+        if (player.inventory.armor[0] == null ||
+            player.inventory.armor[1] == null ||
+            player.inventory.armor[2] == null ||
+            player.inventory.armor[3] == null)
+            return super.tickWhileWorn(player, itemInstance);
+
         // straight up (EntityAerbunny)
         if (!(player.passenger instanceof EntityAerbunny)) {
             if (!player.onGround && !player.method_1393()) {
