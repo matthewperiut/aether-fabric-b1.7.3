@@ -1,9 +1,6 @@
-# Babric STAPI Example Mod
-
-## Setup
-
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
-
-## License
-
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+# Aether Station API
+Ported Aether to Station API, using Babric (Fabric for b1.7.3).  
+Current State:  
+Feature Parity,  
+Lots of bugs to be fixed,  
+improvements to multiplayer needed  
