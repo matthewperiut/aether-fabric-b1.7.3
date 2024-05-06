@@ -8,12 +8,15 @@ import net.minecraft.util.io.CompoundTag;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.server.entity.EntitySpawnDataProvider;
+import net.modificationstation.stationapi.api.server.entity.HasTrackingParameters;
 import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.util.TriState;
 
 import java.util.List;
 
 import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
+@HasTrackingParameters(trackingDistance = 50, sendVelocity = TriState.TRUE, updatePeriod = 1)
 public class EntityFloatingBlock extends Entity implements EntitySpawnDataProvider {
     public int blockID;
     public int metadata;

@@ -4,6 +4,7 @@ import com.matthewperiut.aether.mixin.access.LivingEntityAccessor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.io.CompoundTag;
@@ -11,10 +12,13 @@ import net.minecraft.util.math.AxixAlignedBoundingBox;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.modificationstation.stationapi.api.server.entity.HasTrackingParameters;
+import net.modificationstation.stationapi.api.util.TriState;
 
 import java.util.List;
 
-public abstract class EntityProjectileBase extends Entity {
+@HasTrackingParameters(trackingDistance = 50, sendVelocity = TriState.TRUE, updatePeriod = 1)
+public abstract class EntityProjectileBase extends ArrowEntity {
     public float speed;
     public float slowdown;
     public float curvature;

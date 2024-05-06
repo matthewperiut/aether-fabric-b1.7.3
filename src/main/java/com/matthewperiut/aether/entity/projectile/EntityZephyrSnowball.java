@@ -9,12 +9,15 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.server.entity.EntitySpawnDataProvider;
+import net.modificationstation.stationapi.api.server.entity.HasTrackingParameters;
 import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.util.TriState;
 
 import java.util.List;
 
 import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
+@HasTrackingParameters(trackingDistance = 50, sendVelocity = TriState.TRUE, updatePeriod = 1)
 public class EntityZephyrSnowball extends Entity implements EntitySpawnDataProvider {
     private int ticksAlive = 0;
     private int field_9402_e = -1;

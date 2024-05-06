@@ -11,7 +11,10 @@ import net.minecraft.util.io.ListTag;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.modificationstation.stationapi.api.server.entity.HasTrackingParameters;
+import net.modificationstation.stationapi.api.util.TriState;
 
+@HasTrackingParameters(trackingDistance = 50, sendVelocity = TriState.TRUE, updatePeriod = 1)
 public class EntityFiroBall extends FlyingEntity {
     public float[] sinage;
     public double smotionX;
