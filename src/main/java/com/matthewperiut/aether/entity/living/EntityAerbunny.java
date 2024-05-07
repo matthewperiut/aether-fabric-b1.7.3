@@ -296,7 +296,7 @@ public class EntityAerbunny extends EntityAetherAnimal implements MobSpawnDataPr
         PlayerEntity player = world.getClosestPlayer(x, y, z, 10);
         if (player != null) {
             if (UtilSkyroot.sword(player)) {
-                this.dropItem(Item.STRING.id, 2);
+                this.dropItem(Item.STRING.id, 1);
                 return;
             }
         }
