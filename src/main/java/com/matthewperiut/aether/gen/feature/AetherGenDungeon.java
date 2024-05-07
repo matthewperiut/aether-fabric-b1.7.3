@@ -5,6 +5,7 @@ import com.matthewperiut.aether.entity.living.EntityFireMonster;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.feature.Feature;
+import net.modificationstation.stationapi.api.entity.player.PlayerHandler;
 
 import java.util.Random;
 

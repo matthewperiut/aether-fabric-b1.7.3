@@ -4,6 +4,7 @@
   "package": "com.matthewperiut.aether.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "AbstractBlockStateMixinZaniteAccessories",
     "CraftingResultSlotMixin",
     "EntityMixin",
     "LivingEntityMixin",
