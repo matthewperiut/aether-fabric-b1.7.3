@@ -10,7 +10,8 @@ public class UtilSkyroot {
         if (player.inventory == null)
             return false;
         if (player.inventory.getHeldItem() != null) {
-            return player.inventory.getHeldItem().getItem() == AetherItems.SwordSkyroot;
+            System.out.println(player.inventory.getHeldItem().getItem().id == AetherItems.SwordSkyroot.id);
+            return player.inventory.getHeldItem().getItem().id == AetherItems.SwordSkyroot.id;
         }
         return false;
     }
