@@ -32,7 +32,7 @@ public class AetherCreativeListener {
         aetherBlocks.addItem(new ItemStack(AetherBlocks.Aercloud, 1, 2));
         aetherBlocks.addItem(new ItemStack(AetherBlocks.Aerogel));
         aetherBlocks.addItem(new ItemStack(AetherBlocks.Log, 1, 1));
-        aetherBlocks.addItem(new ItemStack(AetherBlocks.Log, 1, 3));
+        aetherBlocks.addItem(new ItemStack(AetherBlocks.Log, 1, 2));
         aetherBlocks.addItem(new ItemStack(AetherBlocks.Plank));
         aetherBlocks.addItem(new ItemStack(AetherBlocks.SkyrootLeaves));
         aetherBlocks.addItem(new ItemStack(AetherBlocks.GoldenOakLeaves));

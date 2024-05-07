@@ -38,24 +38,19 @@ public class AetherLog extends TemplateBlock implements MetaNamedBlockItemProvid
     public void afterBreak(World world, PlayerEntity entityplayer, int x, int y, int z, int meta) {
         entityplayer.increaseStat(Stats.mineBlock[this.id], 1);
         ItemStack stack = new ItemStack(this.id, 1, 0);
-        if (UtilSkyroot.axe(entityplayer) && meta != 1) {
+        if (UtilSkyroot.axe(entityplayer) && meta == 1 || meta == 2) {
             stack.count *= 2;
         }
 
         world.spawnEntity(new ItemEntity(world, x, y, z, stack));
         ItemStack itemstack = entityplayer.inventory.getHeldItem();
-        if (itemstack != null && (itemstack.itemId == AetherItems.AxeZanite.id || itemstack.itemId == AetherItems.AxeGravitite.id || meta < 2)) {
-            if (meta > 1 && rand.nextBoolean()) {
-                stack = new ItemStack(AetherItems.GoldenAmber.id, 2 + rand.nextInt(2), 0);
+        if (itemstack != null && (itemstack.itemId == AetherItems.AxeZanite.id || itemstack.itemId == AetherItems.AxeGravitite.id)) {
+            if (meta > 1) {
+                stack = new ItemStack(AetherItems.GoldenAmber.id, rand.nextInt(4), 0);
                 world.spawnEntity(new ItemEntity(world, x, y, z, stack));
             }
 
         }
-    }
-
-    @Override
-    public void onBlockPlaced(World arg, int i, int j, int k) {
-        arg.setBlockMeta(i, j, k, 1);
     }
 
     public int[] getValidMetas() {
