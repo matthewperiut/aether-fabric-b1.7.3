@@ -1,7 +1,6 @@
 package com.matthewperiut.aether.gen.feature;
 
 import com.matthewperiut.aether.block.AetherBlocks;
-import com.matthewperiut.aether.block.TreasureChest;
 import com.matthewperiut.aether.entity.living.EntityValkyrie;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
@@ -283,7 +282,7 @@ public class AetherGenDungeonSilver extends AetherGenBuildings {
             this.addHollowBox(world, random, i + 41, j - 2, k + 13, 4, 4, 4);
             x = i + 42 + random.nextInt(2);
             z = k + 14 + random.nextInt(2);
-            TreasureChest.PlaceTreasureChest(world, x, y - 13, z, 2);
+            world.setBlockWithMetadata(x, y - 13, z + 1, AetherBlocks.TreasureChest.id, 3);
             world.method_223(x, j - 1, z, 2);
             return true;
         }

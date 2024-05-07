@@ -1,7 +1,6 @@
 package com.matthewperiut.aether.gen.feature;
 
 import com.matthewperiut.aether.block.AetherBlocks;
-import com.matthewperiut.aether.block.TreasureChest;
 import com.matthewperiut.aether.entity.living.EntitySlider;
 import net.minecraft.world.World;
 
@@ -36,45 +35,45 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
     }
 
     @Override
-    public boolean generate(final World level, final Random rand, final int x, final int y, final int z) {
+    public boolean generate(final World world, final Random rand, final int x, final int y, final int z) {
         this.replaceAir = true;
         this.replaceSolid = true;
         this.n = 0;
-        if (!this.isBoxSolid(level, x, y, z, 16, 12, 16) || !this.isBoxSolid(level, x + 20, y, z + 2, 12, 12, 12)) {
+        if (!this.isBoxSolid(world, x, y, z, 16, 12, 16) || !this.isBoxSolid(world, x + 20, y, z + 2, 12, 12, 12)) {
             return false;
         }
         this.setBlocks(this.lockedBlockID1, this.lockedBlockID2, 20);
-        this.addHollowBox(level, rand, x, y, z, 16, 12, 16);
-        this.addHollowBox(level, rand, x + 6, y - 2, z + 6, 4, 4, 4);
-        final EntitySlider slider = new EntitySlider(level);
+        this.addHollowBox(world, rand, x, y, z, 16, 12, 16);
+        this.addHollowBox(world, rand, x + 6, y - 2, z + 6, 4, 4, 4);
+        final EntitySlider slider = new EntitySlider(world);
         slider.setPosition(x + 8, y + 2, z + 8);
         slider.setDungeon(x, y, z);
-        level.spawnEntity(slider);
+        world.spawnEntity(slider);
         int x2 = x + 7 + rand.nextInt(2);
         int y2 = y - 1;
         int z2 = z + 7 + rand.nextInt(2);
-        TreasureChest.PlaceTreasureChest(level, x2, y2, z2, 1);
+        world.setBlockWithMetadata(x2, y2, z2, AetherBlocks.TreasureChest.id, 2);
         x2 = x + 20;
         y2 = y;
         z2 = z + 2;
-        if (!this.isBoxSolid(level, x2, y2, z2, 12, 12, 12)) {
+        if (!this.isBoxSolid(world, x2, y2, z2, 12, 12, 12)) {
             return true;
         }
         this.setBlocks(this.wallBlockID1, this.wallBlockID2, 20);
-        this.addHollowBox(level, rand, x2, y2, z2, 12, 12, 12);
+        this.addHollowBox(world, rand, x2, y2, z2, 12, 12, 12);
         this.setBlocks(this.corridorBlockID2, this.corridorBlockID1, 5);
         this.setMetadata(this.corridorMeta2, this.corridorMeta1);
-        this.addSquareTube(level, rand, x2 - 5, y2, z2 + 3, 6, 6, 6, 0);
+        this.addSquareTube(world, rand, x2 - 5, y2, z2 + 3, 6, 6, 6, 0);
         for (int p = x2 + 2; p < x2 + 10; p += 3) {
             for (int q = z2 + 2; q < z2 + 10; q += 3) {
-                level.setBlock(p, y, q, AetherBlocks.LockedDungeonStone.id);
+                world.setBlock(p, y, q, AetherBlocks.LockedDungeonStone.id);
             }
         }
         ++this.n;
-        this.generateNextRoom(level, rand, x2, y2, z2);
-        this.generateNextRoom(level, rand, x2, y2, z2);
+        this.generateNextRoom(world, rand, x2, y2, z2);
+        this.generateNextRoom(world, rand, x2, y2, z2);
         if (this.n > this.numRooms || !this.finished) {
-            this.endCorridor(level, rand, x2, y2, z2);
+            this.endCorridor(world, rand, x2, y2, z2);
         }
         return true;
     }

@@ -18,9 +18,7 @@ public class ItemCloudStaff extends TemplateItem {
     }
 
     private ItemStack useCloudStaff(ItemStack itemstack, World world, PlayerEntity entityplayer) {
-        System.out.println(this.cloudsExist(world, entityplayer));
         if (!this.cloudsExist(world, entityplayer)) {
-            System.out.println("ck2");
 
             EntityMiniCloud c1 = new EntityMiniCloud(world, entityplayer, false);
             EntityMiniCloud c2 = new EntityMiniCloud(world, entityplayer, true);
@@ -28,13 +26,11 @@ public class ItemCloudStaff extends TemplateItem {
             world.spawnEntity(c2);
             itemstack.applyDamage(1, null);
         }
-        System.out.println("ck3");
 
         return itemstack;
     }
 
     public ItemStack use(ItemStack itemstack, World world, PlayerEntity entityplayer) {
-        System.out.println("ck1");
         return world.isClient ? itemstack : useCloudStaff(itemstack, world, entityplayer);
     }
 

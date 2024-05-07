@@ -16,9 +16,10 @@ public abstract class LivingEntityMixin extends Entity {
         super(arg);
     }
 
-    @Shadow protected abstract void getDrops();
+    @Shadow
+    protected abstract void getDrops();
 
-    @Redirect(method = "onKilledBy", at= @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getDrops()V"))
+    @Redirect(method = "onKilledBy", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getDrops()V"))
     void killedByGetDrops(LivingEntity entity) {
 
         PlayerEntity player = world.getClosestPlayer(x, y, z, 10);
