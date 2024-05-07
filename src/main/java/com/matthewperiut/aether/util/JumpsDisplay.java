@@ -1,5 +1,6 @@
 package com.matthewperiut.aether.util;
 
+import com.matthewperiut.aether.entity.living.EntityFlyingCow;
 import com.matthewperiut.aether.entity.living.EntityMoa;
 import com.matthewperiut.aether.entity.living.EntityPhyg;
 import net.minecraft.client.Minecraft;
@@ -22,6 +23,9 @@ public class JumpsDisplay {
         } else if (client.player.vehicle instanceof EntityPhyg phyg) {
             maxJumps = phyg.jumps;
             jumps = maxJumps - phyg.jrem;
+        } else if (client.player.vehicle instanceof EntityFlyingCow cow) {
+            maxJumps = cow.jumps;
+            jumps = maxJumps - cow.jrem;
         } else {
             return;
         }
