@@ -22,7 +22,8 @@
       "com.matthewperiut.aether.entity.AetherEntities",
       "com.matthewperiut.aether.gen.portal.AetherPortalListener",
       "com.matthewperiut.aether.achievement.AetherAchievements",
-      "com.matthewperiut.aether.blockentity.AetherBlockEntities"
+      "com.matthewperiut.aether.blockentity.AetherBlockEntities",
+      "com.matthewperiut.aether.player.PlayerHandlerListener"
     ],
     "stationapi:event_bus_client": [
       "com.matthewperiut.aether.client.texture.AetherTextures",

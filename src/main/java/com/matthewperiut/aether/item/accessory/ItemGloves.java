@@ -3,14 +3,12 @@ package com.matthewperiut.aether.item.accessory;
 import com.matthewperiut.accessoryapi.api.render.AccessoryRenderer;
 import com.matthewperiut.accessoryapi.api.render.HasCustomRenderer;
 import com.matthewperiut.accessoryapi.api.render.builtin.GloveRenderer;
-import net.minecraft.entity.player.PlayerEntity;
-import net.modificationstation.stationapi.api.item.CustomArmorValue;
 import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.awt.*;
 import java.util.Optional;
 
-public class ItemGloves extends ItemMoreArmor implements HasCustomRenderer, CustomArmorValue {
+public class ItemGloves extends ItemMoreArmor implements HasCustomRenderer {
     AccessoryRenderer renderer;
 
     public ItemGloves(Identifier i, int j, String path, int l, int m) {
@@ -32,16 +30,5 @@ public class ItemGloves extends ItemMoreArmor implements HasCustomRenderer, Cust
             renderer = new GloveRenderer(texture).withColor(new Color(colour));
         else
             renderer = new GloveRenderer(texture);
-    }
-
-    @Override
-    public double modifyDamageDealt(PlayerEntity playerEntity, int armourSlot, int initialDamage, double currentAdjustedDamage) {
-        playerEntity.inventory.armor[armourSlot].applyDamage(1, playerEntity);
-        if (playerEntity.inventory.armor[armourSlot].getDamage() > playerEntity.inventory.armor[armourSlot].getDurability() - 2) {
-            playerEntity.inventory.armor[armourSlot] = null;
-        }
-
-        // todo: glove damage adjustments
-        return currentAdjustedDamage - (.1 * currentAdjustedDamage);
     }
 }

@@ -29,7 +29,6 @@ public class ZaniteAccessoryController {
             if (l != null) {
                 if (l.itemId == AetherItems.ZaniteRing.id || l.itemId == AetherItems.ZanitePendant.id) {
                     l.applyDamage(1, player);
-                    System.out.println(l.getDamage() + " / " + l.getDurability());
                     float additive = ((float) l.getDamage() / l.getDurability());
                     multiplier += additive;
                 }
@@ -50,7 +49,6 @@ public class ZaniteAccessoryController {
                 found = true;
                 d.ticks++;
                 miningSpeed *= (1.0f + d.multiplier);
-                System.out.println(d.multiplier);
             }
         }
         if (!found) {
