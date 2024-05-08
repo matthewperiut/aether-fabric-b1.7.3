@@ -25,12 +25,24 @@ public class ZaniteAccessoryController {
     private static float getMultiplier(PlayerEntity player) {
         float multiplier = 0;
         ItemStack[] list = AccessoryAccess.getAccessories(player);
-        for (ItemStack l : list) {
+        for (int i = 0; i < list.length; i++) {
+            ItemStack l = list[i];
             if (l != null) {
                 if (l.itemId == AetherItems.ZaniteRing.id || l.itemId == AetherItems.ZanitePendant.id) {
                     l.applyDamage(1, player);
-                    float additive = ((float) l.getDamage() / l.getDurability());
-                    multiplier += additive;
+                    if (l.getDamage() > l.getDurability() - 2) {
+                        for (int j = 0; j < player.inventory.armor.length; j++) {
+                            if (player.inventory.armor[j] == null)
+                                continue;
+                            if (player.inventory.armor[j].equals(l)) {
+                                player.inventory.armor[j] = null;
+                            }
+                        }
+                    }
+                    else {
+                        float additive = ((float) l.getDamage() / l.getDurability());
+                        multiplier += additive;
+                    }
                 }
             }
         }
