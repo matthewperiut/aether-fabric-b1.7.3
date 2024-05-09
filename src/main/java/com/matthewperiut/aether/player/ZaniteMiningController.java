@@ -69,7 +69,7 @@ public class ZaniteMiningController {
                             heldItem.getItem().id == AetherItems.AxeZanite.id ||
                             heldItem.getItem().id == AetherItems.ShovelZanite.id ||
                             heldItem.getItem().id == AetherItems.SwordZanite.id) {
-                        float additive = 2.f * (float) heldItem.getDamage() / heldItem.getDurability();
+                        float additive = (2.f * (float) heldItem.getDamage() / heldItem.getDurability()) - 0.5f;
                         tempExtraMultiplier += additive;
                     }
                 }

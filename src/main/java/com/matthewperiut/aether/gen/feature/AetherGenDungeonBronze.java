@@ -66,7 +66,7 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
         this.addSquareTube(world, rand, x2 - 5, y2, z2 + 3, 6, 6, 6, 0);
         for (int p = x2 + 2; p < x2 + 10; p += 3) {
             for (int q = z2 + 2; q < z2 + 10; q += 3) {
-                world.setBlock(p, y, q, AetherBlocks.LockedDungeonStone.id);
+                world.setBlock(p, y, q, AetherBlocks.Trap.id);
             }
         }
         ++this.n;
