@@ -38,7 +38,7 @@ public class AetherLog extends TemplateBlock implements MetaNamedBlockItemProvid
     public void afterBreak(World world, PlayerEntity entityplayer, int x, int y, int z, int meta) {
         entityplayer.increaseStat(Stats.mineBlock[this.id], 1);
         ItemStack stack = new ItemStack(this.id, 1, 0);
-        if (UtilSkyroot.axe(entityplayer) && meta == 1 || meta == 2) {
+        if (UtilSkyroot.axe(entityplayer) && meta == 1 || meta == 3) {
             stack.count *= 2;
         }
 
@@ -51,6 +51,14 @@ public class AetherLog extends TemplateBlock implements MetaNamedBlockItemProvid
             }
 
         }
+    }
+
+    @Override
+    public void onBlockPlaced(World arg, int i, int j, int k) {
+        int meta = arg.getBlockMeta(i,j,k);
+        if (meta % 2 != 0)
+            arg.setBlockMeta(i, j, k, meta+1);
+        super.onBlockPlaced(arg, i, j, k);
     }
 
     public int[] getValidMetas() {
