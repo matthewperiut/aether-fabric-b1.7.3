@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
 
-public class ZaniteAccessoryController {
+public class ZaniteMiningController {
     private static class PlayerData {
         public PlayerEntity player;
         public int ticks;
@@ -60,13 +60,26 @@ public class ZaniteAccessoryController {
                 }
                 found = true;
                 d.ticks++;
-                miningSpeed *= (1.0f + d.multiplier);
+
+                float tempExtraMultiplier = d.multiplier;
+                // temporary until stapi fix
+                ItemStack heldItem = d.player.getHeldItem();
+                if (heldItem != null) {
+                    if (heldItem.getItem().id == AetherItems.PickZanite.id ||
+                            heldItem.getItem().id == AetherItems.AxeZanite.id ||
+                            heldItem.getItem().id == AetherItems.ShovelZanite.id ||
+                            heldItem.getItem().id == AetherItems.SwordZanite.id) {
+                        float additive = 2.f * (float) heldItem.getDamage() / heldItem.getDurability();
+                        tempExtraMultiplier += additive;
+                    }
+                }
+
+                miningSpeed *= (1.0f + tempExtraMultiplier);
             }
         }
         if (!found) {
             data.add(new PlayerData(player, 0, getMultiplier(player)));
         }
-
 
         return miningSpeed;
     }

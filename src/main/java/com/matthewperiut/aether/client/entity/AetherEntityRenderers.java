@@ -17,8 +17,8 @@ import net.minecraft.client.render.entity.model.SlimeEntityModel;
 import net.modificationstation.stationapi.api.client.event.render.entity.EntityRendererRegisterEvent;
 
 public class AetherEntityRenderers {
-    @EventListener
-    public void registerEntityRenderers(EntityRendererRegisterEvent event) {
+      @EventListener
+      public void registerEntityRenderers(EntityRendererRegisterEvent event) {
         event.renderers.put(EntityAechorPlant.class, new RenderAechorPlant(new ModelAechorPlant(), 0.3F));
         event.renderers.put(EntityAerbunny.class, new RenderAerbunny(new ModelAerbunny(), 0.3F));
         event.renderers.put(EntityAerwhale.class, new RenderAerwhale());
