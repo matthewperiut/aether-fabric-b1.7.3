@@ -43,12 +43,12 @@ public class EntityDartGolden extends EntityProjectileBase implements EntitySpaw
 
     public void remove() {
         this.victim = null;
-        super.remove();
+        super.markDead();
     }
 
     public boolean onHitBlock() {
         this.curvature = 0.03F;
-        this.world.playSound(this, "random.drr", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
+        this.world.playSound(this, "random.drr", 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
         return this.victim == null;
     }
 

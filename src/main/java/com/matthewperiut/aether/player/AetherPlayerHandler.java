@@ -38,7 +38,7 @@ public class AetherPlayerHandler implements PlayerHandler
                 if (stack.itemId == AetherItems.GravititeGlove.id) {
                     // apply extra knockback
                     Vec3d dir = ((new Vec3d(player.x, player.y, player.z)).relativize(new Vec3d(entity.x, entity.y, entity.z))).normalize();
-                    entity.setVelocity(entity.xVelocity + dir.x, entity.yVelocity + dir.y, entity.zVelocity + dir.z);
+                    entity.setVelocityClient(entity.velocityX + dir.x, entity.velocityY + dir.y, entity.velocityZ + dir.z);
                 }
                 if (stack.itemId == AetherItems.PhoenixGlove.id) {
                     // set on fire

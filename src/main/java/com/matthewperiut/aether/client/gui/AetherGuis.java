@@ -7,7 +7,7 @@ import com.matthewperiut.aether.blockentity.block.BlockEntityTreasureChest;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.mine_diver.unsafeevents.listener.EventListener;
-import net.minecraft.client.gui.screen.container.ContainerScreen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.modificationstation.stationapi.api.event.registry.GuiHandlerRegistryEvent;
@@ -33,22 +33,22 @@ public class AetherGuis {
     }
 
     @Environment(EnvType.CLIENT)
-    public ContainerScreen openTreasureChest(PlayerEntity player, Inventory inventoryBase) {
+    public Screen openTreasureChest(PlayerEntity player, Inventory inventoryBase) {
         return new GuiTreasureChest(player.inventory, (BlockEntityTreasureChest) inventoryBase);
     }
 
     @Environment(EnvType.CLIENT)
-    public ContainerScreen openFreezer(PlayerEntity player, Inventory inventoryBase) {
+    public Screen openFreezer(PlayerEntity player, Inventory inventoryBase) {
         return new GuiFreezer(player.inventory, (BlockEntityFreezer) inventoryBase);
     }
 
     @Environment(EnvType.CLIENT)
-    public ContainerScreen openEnchanter(PlayerEntity player, Inventory inventoryBase) {
+    public Screen openEnchanter(PlayerEntity player, Inventory inventoryBase) {
         return new GuiEnchanter(player.inventory, (BlockEntityEnchanter) inventoryBase);
     }
 
     @Environment(EnvType.CLIENT)
-    public ContainerScreen openIncubator(PlayerEntity player, Inventory inventoryBase) {
+    public Screen openIncubator(PlayerEntity player, Inventory inventoryBase) {
         return new GuiIncubator(player.inventory, (BlockEntityIncubator) inventoryBase);
     }
 }

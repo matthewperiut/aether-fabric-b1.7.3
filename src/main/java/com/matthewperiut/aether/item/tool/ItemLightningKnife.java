@@ -10,13 +10,13 @@ import net.modificationstation.stationapi.api.util.Identifier;
 public class ItemLightningKnife extends TemplateItem {
     public ItemLightningKnife(Identifier i) {
         super(i);
-        this.maxStackSize = 16;
+        this.maxCount = 16;
     }
 
     public ItemStack use(ItemStack itemstack, World world, PlayerEntity entityplayer) {
         --itemstack.count;
-        if (!world.isClient) {
-            world.playSound(entityplayer, "aether:mob.dartshoot", 2.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
+        if (!world.isRemote) {
+            world.playSound(entityplayer, "aether:mob.dartshoot", 2.0F, 1.0F / (random.nextFloat() * 0.4F + 0.8F));
             world.spawnEntity(new EntityLightningKnife(world, entityplayer));
         }
 

@@ -11,14 +11,14 @@ public class NameGen {
     }
 
     public static String gen() {
-        Random rand = new Random();
-        String name = name1[rand.nextInt(name1.length)];
-        int middle = 2 + rand.nextInt(2);
+        Random random = new Random();
+        String name = name1[random.nextInt(name1.length)];
+        int middle = 2 + random.nextInt(2);
 
         for (int i = 0; i < middle; ++i) {
-            name = name + name2[rand.nextInt(name2.length)];
+            name = name + name2[random.nextInt(name2.length)];
         }
 
-        return name + name3[rand.nextInt(name3.length)];
+        return name + name3[random.nextInt(name3.length)];
     }
 }

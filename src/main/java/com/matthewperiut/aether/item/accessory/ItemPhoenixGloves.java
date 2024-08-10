@@ -1,6 +1,6 @@
 package com.matthewperiut.aether.item.accessory;
 
-import com.matthewperiut.aether.item.tool.ItemPhoenixArmour;
+import com.matthewperiut.aether.item.tool.ItemPhoenixArmor;
 import com.matthewperiut.aether.mixin.access.EntityAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
@@ -14,37 +14,37 @@ public class ItemPhoenixGloves extends ItemGloves {
         super(i, j, path, l, m, b);
     }
 
-    private boolean phoenixArmour(PlayerEntity player, int slot) {
+    private boolean phoenixArmor(PlayerEntity player, int slot) {
         if (player.inventory.armor[slot] != null) {
-            if (player.inventory.armor[slot].getItem() instanceof ItemPhoenixArmour) {
+            if (player.inventory.armor[slot].getItem() instanceof ItemPhoenixArmor) {
                 return true;
             }
         }
-        colouriseRender = false;
+        coloriseRender = false;
         return false;
     }
 
     @Override
     public ItemStack tickWhileWorn(PlayerEntity player, ItemStack itemInstance) {
-        if (player.isTouchingWater()) {
-            itemInstance.applyDamage(1, player);
+        if (player.isSubmergedInWater()) {
+            itemInstance.damage(1, player);
         }
 
-        if (phoenixArmour(player, 0) &&
-                phoenixArmour(player, 1) &&
-                phoenixArmour(player, 2) &&
-                phoenixArmour(player, 3)) {
-            ((EntityAccessor) player).setImmuneToFire(true);
+        if (phoenixArmor(player, 0) &&
+                phoenixArmor(player, 1) &&
+                phoenixArmor(player, 2) &&
+                phoenixArmor(player, 3)) {
+            ((EntityAccessor) player).setFireImmune(true);
 
             if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
                 boolean local = player.equals(((Minecraft) FabricLoader.getInstance().getGameInstance()).player);
-                player.world.addParticle("flame", player.x + rand.nextGaussian() / 5.0, player.y - (local ? 0.5 : 0) + rand.nextGaussian() / 5.0, player.z + rand.nextGaussian() / 3.0, 0.0, 0.0, 0.0);
+                player.world.addParticle("flame", player.x + random.nextGaussian() / 5.0, player.y - (local ? 0.5 : 0) + random.nextGaussian() / 5.0, player.z + random.nextGaussian() / 3.0, 0.0, 0.0, 0.0);
             }
         } else {
-            ((EntityAccessor) player).setImmuneToFire(false);
+            ((EntityAccessor) player).setFireImmune(false);
         }
 
-        if (itemInstance.getDamage() > itemInstance.getDurability() - 2) {
+        if (itemInstance.getDamage() > itemInstance.getMaxDamage() - 2) {
             itemInstance = null;
         }
 
@@ -53,7 +53,7 @@ public class ItemPhoenixGloves extends ItemGloves {
 
     @Override
     public void onAccessoryRemoved(PlayerEntity player, ItemStack accessory) {
-        ((EntityAccessor) player).setImmuneToFire(false);
+        ((EntityAccessor) player).setFireImmune(false);
 
         super.onAccessoryRemoved(player, accessory);
     }

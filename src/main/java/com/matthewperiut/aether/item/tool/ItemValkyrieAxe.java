@@ -3,7 +3,7 @@ package com.matthewperiut.aether.item.tool;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
-import net.minecraft.util.hit.HitType;
+import net.minecraft.util.hit.HitResultType;
 import net.modificationstation.stationapi.api.item.CustomReachProvider;
 import net.modificationstation.stationapi.api.template.item.TemplateAxeItem;
 import net.modificationstation.stationapi.api.util.Identifier;
@@ -15,7 +15,7 @@ public class ItemValkyrieAxe extends TemplateAxeItem implements CustomReachProvi
     }
 
     @Override
-    public double getReach(ItemStack itemStack, PlayerEntity player, HitType type, double currentReach) {
+    public double getReach(ItemStack itemStack, PlayerEntity player, HitResultType type, double currentReach) {
         return 10.f;
     }
 }

@@ -15,15 +15,15 @@ public interface EntityAccessor {
     @Accessor("fallDistance")
     void setFallDistance(float fallDistance);
 
-    @Invoker("isFlagSet")
-    boolean invokeIsFlagSet(int i);
+    @Invoker("getFlag")
+    boolean invokeGetFlag(int i);
 
-    @Accessor("immuneToFire")
-    void setImmuneToFire(boolean immune);
+    @Accessor("fireImmune")
+    void setFireImmune(boolean immune);
 
-    @Accessor("immuneToFire")
-    boolean isImmuneToFire();
+    @Accessor("fireImmune")
+    boolean isFireImmune();
 
-    @Accessor("rand")
-    Random getRand();
+    @Accessor("random")
+    Random getRandom();
 }

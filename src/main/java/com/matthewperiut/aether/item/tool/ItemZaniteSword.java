@@ -12,7 +12,7 @@ public class ItemZaniteSword extends TemplateSwordItem {
     }
 
     @Override
-    public float getStrengthOnBlock(ItemStack itemstack, Block block) { // just for cobwebs
-        return super.getStrengthOnBlock(itemstack, block) * (2.0F * (float) itemstack.getMeta() / (float) itemstack.getItem().getDurability() + 0.5F);
+    public float getMiningSpeedMultiplier(ItemStack stack, Block block) {// just for cobwebs
+        return super.getMiningSpeedMultiplier(stack, block) * (2.0F * (float) stack.getDamage() / (float) stack.getItem().getMaxDamage() + 0.5F);
     }
 }

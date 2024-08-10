@@ -12,21 +12,22 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
+
     public LivingEntityMixin(World arg) {
         super(arg);
     }
 
-    @Shadow
-    protected abstract void getDrops();
+    @Shadow protected abstract void drop();
 
-    @Redirect(method = "onKilledBy", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getDrops()V"))
+    @Redirect(method = "onKilledBy", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;drop()V"))
     void killedByGetDrops(LivingEntity entity) {
 
         PlayerEntity player = world.getClosestPlayer(x, y, z, 10);
         if (player != null)
             if (UtilSkyroot.sword(player)) {
-                getDrops();
+                drop();
             }
-        getDrops();
+
+        drop();
     }
 }

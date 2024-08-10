@@ -2,11 +2,11 @@ package com.matthewperiut.aether.client.entity.renderer.living;
 
 import com.matthewperiut.aether.client.entity.model.ModelValkyrie;
 import com.matthewperiut.aether.entity.living.EntityValkyrie;
-import net.minecraft.client.render.entity.BipedEntityRenderer;
+import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.LivingEntity;
 
-public class RenderValkyrie extends BipedEntityRenderer {
+public class RenderValkyrie extends LivingEntityRenderer {
     public ModelValkyrie mv1;
 
     public RenderValkyrie(BipedEntityModel model, float f) {
@@ -14,6 +14,7 @@ public class RenderValkyrie extends BipedEntityRenderer {
         this.mv1 = (ModelValkyrie) model;
     }
 
+    @Override
     protected void method_823(LivingEntity entityliving, float f) {
         EntityValkyrie v1 = (EntityValkyrie) entityliving;
         this.mv1.sinage = v1.sinage;

@@ -5,7 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "AbstractBlockStateMixinZaniteAccessories",
-    "CraftingResultSlotMixin",
+    "CraftingResultSlotMixinCraftingAchievementChecks",
     "EntityMixin",
     "LivingEntityMixin",
     "PlayerMixin",
@@ -18,9 +18,9 @@
   ],
   "client": [
     "BiomeMixin",
-    "ClientPlayHandlerMixin",
-    "client.InGameHudMixinJumps",
-    "client.InGameHudPoison",
+    "ClientPlayerEntityMixinPlayCustomAchievementSounds",
+    "client.InGameHudMixinJumpsDisplay",
+    "client.InGameHudPoisonDisplay",
     "client.WorldEventRendererMixin"
   ],
   "injectors": {

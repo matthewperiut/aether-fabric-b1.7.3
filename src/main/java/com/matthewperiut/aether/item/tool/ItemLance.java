@@ -7,7 +7,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
-import net.minecraft.util.hit.HitType;
+import net.minecraft.util.hit.HitResultType;
 import net.modificationstation.stationapi.api.item.CustomReachProvider;
 import net.modificationstation.stationapi.api.template.item.TemplateItem;
 import net.modificationstation.stationapi.api.util.Identifier;
@@ -17,8 +17,8 @@ public class ItemLance extends TemplateItem implements CustomReachProvider {
 
     public ItemLance(Identifier i, ToolMaterial enumtoolmaterial) {
         super(i);
-        this.maxStackSize = 1;
-        this.setDurability(enumtoolmaterial.getDurability());
+        this.maxCount = 1;
+        this.setMaxDamage(enumtoolmaterial.getDurability());
         this.weaponDamage = 4 + enumtoolmaterial.getAttackDamage() * 2;
     }
 
@@ -27,12 +27,12 @@ public class ItemLance extends TemplateItem implements CustomReachProvider {
     }
 
     public boolean postHit(ItemStack itemstack, LivingEntity entityliving, LivingEntity entityliving1) {
-        itemstack.applyDamage(1, entityliving1);
+        itemstack.damage(1, entityliving1);
         return true;
     }
 
     public boolean postMine(ItemStack itemstack, int i, int j, int k, int l, LivingEntity entityliving) {
-        itemstack.applyDamage(2, entityliving);
+        itemstack.damage(2, entityliving);
         return true;
     }
 
@@ -57,7 +57,7 @@ public class ItemLance extends TemplateItem implements CustomReachProvider {
     }
 
     @Override
-    public double getReach(ItemStack itemStack, PlayerEntity playerEntity, HitType hitType, double v) {
+    public double getReach(ItemStack itemStack, PlayerEntity playerEntity, HitResultType hitType, double v) {
         return 10.0F;
     }
 }

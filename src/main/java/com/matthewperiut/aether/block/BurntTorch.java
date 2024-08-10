@@ -18,7 +18,7 @@ public class BurntTorch extends TemplateTorchBlock {
     }
 
     @Override
-    public int getDropId(int i, Random random) {
+    public int getDroppedItemId(int i, Random random) {
         return Block.TORCH.id;
     }
 }

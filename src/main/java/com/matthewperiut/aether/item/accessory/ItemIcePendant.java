@@ -22,6 +22,6 @@ public class ItemIcePendant extends ItemIceAccessory implements HasCustomRendere
 
     @Override
     public void constructRenderer() {
-        renderer = new NecklaceRenderer(texture).withColor(new Color(colour));
+        renderer = new NecklaceRenderer(texture).withColor(new Color(color));
     }
 }

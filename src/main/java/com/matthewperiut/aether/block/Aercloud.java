@@ -5,7 +5,7 @@ import com.matthewperiut.aether.mixin.access.EntityAccessor;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.AxixAlignedBoundingBox;
+import net.minecraft.util.math.Box;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.block.MetaNamedBlockItemProvider;
@@ -22,28 +22,28 @@ public class Aercloud extends TemplateBlock implements MetaNamedBlockItemProvide
     public void onEntityCollision(World world, int i, int j, int k, Entity entity) {
         ((EntityAccessor) entity).setFallDistance(0.0F);
         if (world.getBlockMeta(i, j, k) == 1) {
-            entity.yVelocity = 2.0;
+            entity.velocityY = 2.0;
             if (entity instanceof PlayerEntity player) {
                 AetherAchievements.giveAchievement(AetherAchievements.blueCloud, player);
             }
-        } else if (entity.yVelocity < 0.0) {
-            entity.yVelocity *= 0.005;
+        } else if (entity.velocityY < 0.0) {
+            entity.velocityY *= 0.005;
         }
     }
 
-    public boolean isFullOpaque() {
+    public boolean isOpaque() {
         return false;
     }
 
-    public int getRenderPass() {
+    public int getRenderLayer() {
         return 1;
     }
 
-    protected int droppedMeta(int i) {
+    protected int getDroppedItemMeta(int i) {
         return i;
     }
 
-    public int getBaseColor(int i) {
+    public int getColor(int i) {
         if (i == 1) {
             return 3714284;
         } else {
@@ -52,15 +52,15 @@ public class Aercloud extends TemplateBlock implements MetaNamedBlockItemProvide
     }
 
     public int getColorMultiplier(BlockView iblockaccess, int i, int j, int k) {
-        return this.getBaseColor(iblockaccess.getBlockMeta(i, j, k));
+        return this.getColor(iblockaccess.getBlockMeta(i, j, k));
     }
 
-    public boolean isSideRendered(BlockView iblockaccess, int i, int j, int k, int l) {
-        return super.isSideRendered(iblockaccess, i, j, k, 1 - l);
+    public boolean isSideVisible(BlockView iblockaccess, int i, int j, int k, int l) {
+        return super.isSideVisible(iblockaccess, i, j, k, 1 - l);
     }
 
-    public AxixAlignedBoundingBox getCollisionShape(World world, int i, int j, int k) {
-        return world.getBlockMeta(i, j, k) == 1 ? AxixAlignedBoundingBox.createAndAddToList(i, j, k, i, j, k) : AxixAlignedBoundingBox.createAndAddToList(i, j, k, i + 1, j, k + 1);
+    public Box getCollisionShape(World world, int i, int j, int k) {
+        return world.getBlockMeta(i, j, k) == 1 ? Box.createCached(i, j, k, i, j, k) : Box.createCached(i, j, k, i + 1, j, k + 1);
     }
 
     public int[] getValidMetas() {

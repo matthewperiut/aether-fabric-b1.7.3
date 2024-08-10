@@ -1,6 +1,6 @@
 package com.matthewperiut.aether.mixin;
 
-import com.matthewperiut.aether.gen.dim.BareAetherTravelAgent;
+import com.matthewperiut.aether.gen.dim.NoPortalForcer;
 import com.matthewperiut.aether.item.AetherItems;
 import com.matthewperiut.aether.poison.AetherPoison;
 import com.matthewperiut.aether.poison.PoisonControl;
@@ -47,23 +47,23 @@ public abstract class EntityMixin implements AetherPoison {
     public World world;
 
     @Shadow
-    protected abstract void kill();
+    protected abstract void tickInVoid();
 
-    @Redirect(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;kill()V"))
+    @Redirect(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;tickInVoid()V"))
     public void kill(Entity instance) {
         if (instance instanceof PlayerEntity player) {
             @NotNull OptionalInt dimensionId = DimensionRegistry.INSTANCE.getLegacyId(MOD_ID.id("the_aether"));
             if (dimensionId.isPresent()) {
                 if (player.dimensionId == dimensionId.getAsInt()) {
                     if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
-                        if (!world.isClient) {
+                        if (!world.isRemote) {
                             // Client executes on client world
-                            DimensionHelper.switchDimension(player, VanillaDimensions.OVERWORLD, 1, new BareAetherTravelAgent());
+                            DimensionHelper.switchDimension(player, VanillaDimensions.OVERWORLD, 1, new NoPortalForcer());
                             VoidUtil.teleport(player, player.x, 200, player.z);
                         }
                     } else {
                         // Server executes on server world
-                        DimensionHelper.switchDimension(player, VanillaDimensions.OVERWORLD, 1, new BareAetherTravelAgent());
+                        DimensionHelper.switchDimension(player, VanillaDimensions.OVERWORLD, 1, new NoPortalForcer());
                         VoidUtil.teleport(player, player.x, 200, player.z);
                     }
 
@@ -85,6 +85,6 @@ public abstract class EntityMixin implements AetherPoison {
                 }
             }
         }
-        kill();
+        tickInVoid();
     }
 }

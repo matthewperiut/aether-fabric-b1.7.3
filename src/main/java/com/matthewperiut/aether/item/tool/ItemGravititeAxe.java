@@ -18,7 +18,7 @@ public class ItemGravititeAxe extends TemplateAxeItem {
 
     @Override
     public boolean useOnBlock(ItemStack item, PlayerEntity player, World world, int x, int y, int z, int side) {
-        if (!world.isClient) {
+        if (!world.isRemote) {
             BlockState b = world.getBlockState(x, y, z);
 
             TagKey<Block> tag = this.getEffectiveBlocks(item);
@@ -27,7 +27,7 @@ public class ItemGravititeAxe extends TemplateAxeItem {
                 final int metadata = world.getBlockMeta(x, y, z);
                 final EntityFloatingBlock floating = new EntityFloatingBlock(world, x + 0.5f, y + 0.5f, z + 0.5f, blockID, metadata);
                 world.spawnEntity(floating);
-                item.applyDamage(1, player);
+                item.damage(1, player);
             }
 
             return super.useOnBlock(item, player, world, x, y, z, side);

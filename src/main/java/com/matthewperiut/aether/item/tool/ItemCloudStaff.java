@@ -13,8 +13,8 @@ import java.util.List;
 public class ItemCloudStaff extends TemplateItem {
     public ItemCloudStaff(Identifier i) {
         super(i);
-        this.maxStackSize = 1;
-        this.setDurability(60);
+        this.maxCount = 1;
+        this.setMaxDamage(60);
     }
 
     private ItemStack useCloudStaff(ItemStack itemstack, World world, PlayerEntity entityplayer) {
@@ -24,14 +24,14 @@ public class ItemCloudStaff extends TemplateItem {
             EntityMiniCloud c2 = new EntityMiniCloud(world, entityplayer, true);
             world.spawnEntity(c1);
             world.spawnEntity(c2);
-            itemstack.applyDamage(1, null);
+            itemstack.damage(1, null);
         }
 
         return itemstack;
     }
 
     public ItemStack use(ItemStack itemstack, World world, PlayerEntity entityplayer) {
-        return world.isClient ? itemstack : useCloudStaff(itemstack, world, entityplayer);
+        return world.isRemote ? itemstack : useCloudStaff(itemstack, world, entityplayer);
     }
 
     private boolean cloudsExist(World world, PlayerEntity entityplayer) {

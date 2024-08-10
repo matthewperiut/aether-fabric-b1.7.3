@@ -20,7 +20,7 @@ public class ItemAetherRecord extends TemplateMusicDiscItem {
     public boolean useOnBlock(ItemStack arg, PlayerEntity arg2, World arg3, int i, int j, int k, int l) {
         boolean result = super.useOnBlock(arg, arg2, arg3, i, j, k, l);
         if (FabricLoader.getInstance().getEnvironmentType().equals(EnvType.CLIENT)) {
-            ((Minecraft) FabricLoader.getInstance().getGameInstance()).overlay.showJukeboxMessage(jukeboxMessage);
+            ((Minecraft) FabricLoader.getInstance().getGameInstance()).inGameHud.setRecordPlayingOverlay(jukeboxMessage);
         }
         return result;
     }

@@ -1,15 +1,15 @@
 package com.matthewperiut.aether.blockentity.container;
 
 import com.matthewperiut.aether.blockentity.block.BlockEntityIncubator;
-import net.minecraft.container.Container;
-import net.minecraft.container.ContainerListener;
-import net.minecraft.container.slot.Slot;
+import net.minecraft.class_633;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.slot.Slot;
 
-public class ContainerIncubator extends Container {
+public class ContainerIncubator extends ScreenHandler {
     private final BlockEntityIncubator incubator;
     private int burnTime = 0;
     private int itemBurnTime = 0;
@@ -32,22 +32,25 @@ public class ContainerIncubator extends Container {
 
     }
 
+    @Override
     protected void insertItem(ItemStack itemstack, int i, int j, boolean flag) {
     }
 
     @Override
-    public void tick() {
-        super.tick();
+    public void sendContentUpdates() {
+        super.sendContentUpdates();
 
         for (int i = 0; i < this.listeners.size(); ++i) {
-            ContainerListener icrafting = (ContainerListener) this.listeners.get(i);
+            // class_633 -> ScreenHandlerListener
+            class_633 icrafting = (class_633) this.listeners.get(i);
 
+            // method_2099 -> onUpdateProperty
             if (this.burnTime != this.incubator.progress) {
-                icrafting.updateProperty(this, 0, this.incubator.progress);
+                icrafting.method_2099(this, 0, this.incubator.progress);
             }
 
             if (this.itemBurnTime != this.incubator.torchPower) {
-                icrafting.updateProperty(this, 1, this.incubator.torchPower);
+                icrafting.method_2099(this, 1, this.incubator.torchPower);
             }
         }
 
@@ -66,15 +69,17 @@ public class ContainerIncubator extends Container {
         }
     }
 
-    public boolean canUse(PlayerEntity entityplayer) {
-        return this.incubator.canPlayerUse(entityplayer);
+    @Override
+    public boolean canUse(PlayerEntity player) {
+        return this.incubator.canPlayerUse(player);
     }
 
-    public ItemStack transferSlot(int i) {
+    @Override
+    public ItemStack quickMove(int i) {
         ItemStack itemstack = null;
         Slot slot = (Slot) this.slots.get(i);
-        if (slot != null && slot.hasItem()) {
-            ItemStack itemstack1 = slot.getItem();
+        if (slot != null && slot.hasStack()) {
+            ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
             if (i == 2) {
                 this.insertItem(itemstack1, 3, 39, true);
@@ -96,7 +101,7 @@ public class ContainerIncubator extends Container {
                 return null;
             }
 
-            slot.onCrafted(itemstack1);
+            slot.onTakeItem(itemstack1);
         }
 
         return itemstack;

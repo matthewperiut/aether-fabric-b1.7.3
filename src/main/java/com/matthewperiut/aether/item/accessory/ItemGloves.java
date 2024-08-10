@@ -26,8 +26,8 @@ public class ItemGloves extends ItemMoreArmor implements HasCustomRenderer {
 
     @Override
     public void constructRenderer() {
-        if (colouriseRender)
-            renderer = new GloveRenderer(texture).withColor(new Color(colour));
+        if (coloriseRender)
+            renderer = new GloveRenderer(texture).withColor(new Color(color));
         else
             renderer = new GloveRenderer(texture);
     }

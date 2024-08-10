@@ -10,11 +10,11 @@ public class ZaniteBlock extends TemplateBlock {
         super(blockID, j, Material.STONE);
     }
 
-    public int getBaseColor(int i) {
+    public int getColor(int i) {
         return 10066431;
     }
 
     public int getColorMultiplier(BlockView iblockaccess, int i, int j, int k) {
-        return this.getBaseColor(iblockaccess.getBlockMeta(i, j, k));
+        return this.getColor(iblockaccess.getBlockMeta(i, j, k));
     }
 }

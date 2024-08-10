@@ -35,7 +35,7 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
     }
 
     @Override
-    public boolean generate(final World world, final Random rand, final int x, final int y, final int z) {
+    public boolean generate(final World world, final Random random, final int x, final int y, final int z) {
         this.replaceAir = true;
         this.replaceSolid = true;
         this.n = 0;
@@ -43,16 +43,16 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
             return false;
         }
         this.setBlocks(this.lockedBlockID1, this.lockedBlockID2, 20);
-        this.addHollowBox(world, rand, x, y, z, 16, 12, 16);
-        this.addHollowBox(world, rand, x + 6, y - 2, z + 6, 4, 4, 4);
+        this.addHollowBox(world, random, x, y, z, 16, 12, 16);
+        this.addHollowBox(world, random, x + 6, y - 2, z + 6, 4, 4, 4);
         final EntitySlider slider = new EntitySlider(world);
         slider.setPosition(x + 8, y + 2, z + 8);
         slider.setDungeon(x, y, z);
         world.spawnEntity(slider);
-        int x2 = x + 7 + rand.nextInt(2);
+        int x2 = x + 7 + random.nextInt(2);
         int y2 = y - 1;
-        int z2 = z + 7 + rand.nextInt(2);
-        world.setBlockWithMetadata(x2, y2, z2, AetherBlocks.TreasureChest.id, 2);
+        int z2 = z + 7 + random.nextInt(2);
+        world.setBlock(x2, y2, z2, AetherBlocks.TreasureChest.id, 2);
         x2 = x + 20;
         y2 = y;
         z2 = z + 2;
@@ -60,20 +60,20 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
             return true;
         }
         this.setBlocks(this.wallBlockID1, this.wallBlockID2, 20);
-        this.addHollowBox(world, rand, x2, y2, z2, 12, 12, 12);
+        this.addHollowBox(world, random, x2, y2, z2, 12, 12, 12);
         this.setBlocks(this.corridorBlockID2, this.corridorBlockID1, 5);
         this.setMetadata(this.corridorMeta2, this.corridorMeta1);
-        this.addSquareTube(world, rand, x2 - 5, y2, z2 + 3, 6, 6, 6, 0);
+        this.addSquareTube(world, random, x2 - 5, y2, z2 + 3, 6, 6, 6, 0);
         for (int p = x2 + 2; p < x2 + 10; p += 3) {
             for (int q = z2 + 2; q < z2 + 10; q += 3) {
                 world.setBlock(p, y, q, AetherBlocks.Trap.id);
             }
         }
         ++this.n;
-        this.generateNextRoom(world, rand, x2, y2, z2);
-        this.generateNextRoom(world, rand, x2, y2, z2);
+        this.generateNextRoom(world, random, x2, y2, z2);
+        this.generateNextRoom(world, random, x2, y2, z2);
         if (this.n > this.numRooms || !this.finished) {
-            this.endCorridor(world, rand, x2, y2, z2);
+            this.endCorridor(world, random, x2, y2, z2);
         }
         System.out.println(x + " " + y + " " + z);
         return true;
@@ -114,7 +114,7 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
             for (int q = y; q < y + 8; ++q) {
                 for (int r = z; r < z + 12; ++r) {
                     if (world.getBlockId(p, q, r) == this.wallBlockID1 && random.nextInt(100) == 0) {
-                        world.setBlockInChunk(p, q, r, AetherBlocks.LockedDungeonStone.id);
+                        world.setBlockWithoutNotifyingNeighbors(p, q, r, AetherBlocks.LockedDungeonStone.id);
                     }
                 }
             }

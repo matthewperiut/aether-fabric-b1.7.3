@@ -1,7 +1,7 @@
 package com.matthewperiut.aether.block;
 
 import com.matthewperiut.aether.item.AetherItems;
-import net.minecraft.entity.block.ChestBlockEntity;
+import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -12,11 +12,11 @@ import net.modificationstation.stationapi.api.util.Identifier;
 import java.util.Random;
 
 public class AetherChest extends TemplateChestBlock {
-    Random rand;
+    Random random;
 
     public AetherChest(Identifier identifier) {
         super(identifier);
-        rand = new Random();
+        random = new Random();
     }
 
     private ItemStack getNormalLootSilver(final Random random) {
@@ -57,7 +57,7 @@ public class AetherChest extends TemplateChestBlock {
             }
             case 10: {
                 if (random.nextInt(10) == 0) {
-                    return new ItemStack(Item.byId[Item.RECORD_13.id + random.nextInt(2)]);
+                    return new ItemStack(Item.ITEMS[Item.RECORD_THIRTEEN.id + random.nextInt(2)]);
                 }
                 break;
             }
@@ -126,7 +126,7 @@ public class AetherChest extends TemplateChestBlock {
                 return new ItemStack(AetherItems.Bucket);
             case 11:
                 if (random.nextInt(10) == 0) {
-                    return new ItemStack(Item.byId[Item.RECORD_13.id + random.nextInt(2)]);
+                    return new ItemStack(Item.ITEMS[Item.RECORD_THIRTEEN.id + random.nextInt(2)]);
                 }
                 break;
             case 12:
@@ -155,25 +155,25 @@ public class AetherChest extends TemplateChestBlock {
         world.setBlock(x, y, z, CHEST.id);
 
         final ChestBlockEntity chest = (ChestBlockEntity) world.getBlockEntity(x, y, z);
-        for (int i = 0; i < 3 + rand.nextInt(3); ++i) {
-            final ItemStack item = this.getNormalLoot(rand, meta);
-            chest.setInventoryItem(rand.nextInt(chest.getInventorySize()), item);
+        for (int i = 0; i < 3 + random.nextInt(3); ++i) {
+            final ItemStack stack = this.getNormalLoot(random, meta);
+            chest.setStack(random.nextInt(chest.size()), stack);
         }
     }
 
     @Override
-    public boolean canUse(World world, int x, int y, int z, PlayerEntity player) {
+    public boolean onUse(World world, int x, int y, int z, PlayerEntity player) {
         replaceChest(world, x, y, z);
-        return CHEST.canUse(world, x, y, z, player);
+        return CHEST.onUse(world, x, y, z, player);
     }
 
     @Override
-    public void onBlockPlaced(World arg, int i, int j, int k) {
+    public void onPlaced(World arg, int i, int j, int k) {
 
     }
 
     @Override
-    public void onBlockRemoved(World arg, int i, int j, int k) {
+    public void onBreak(World world, int x, int y, int z) {
 
     }
 }

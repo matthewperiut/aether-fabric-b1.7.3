@@ -11,7 +11,7 @@ public class RenderPhyg extends LivingEntityRenderer {
 
     public RenderPhyg(EntityModel modelbase, EntityModel modelbase1, float f) {
         super(modelbase, f);
-        this.setModel(modelbase1);
+        this.method_815(modelbase1);
         this.wingmodel = modelbase1;
     }
 

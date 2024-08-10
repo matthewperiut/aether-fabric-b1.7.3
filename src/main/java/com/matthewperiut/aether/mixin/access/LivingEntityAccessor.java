@@ -7,22 +7,24 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(LivingEntity.class)
 public interface LivingEntityAccessor {
-    @Invoker("setSize")
-    void invokeSetSize(float f, float g);
+    @Invoker("setBoundingBoxSpacing")
+    void invokeSetBoundingBoxSpacing(float f, float g);
 
-    @Invoker("getDrops")
-    void invokeGetDrops();
+    @Invoker("drop")
+    void invokeDrop();
 
-    @Accessor("forwardVelocity")
+    // ForwardVelocity is field_1029
+    @Accessor("field_1029")
     float getForwardVelocity();
 
-    @Accessor("horizontalVelocity")
+    // HorizontalVelocity is field_1060
+    @Accessor("field_1060")
     float getHorizontalVelocity();
 
-    @Accessor("forwardVelocity")
+    @Accessor("field_1029")
     void setForwardVelocity(float v);
 
-    @Accessor("horizontalVelocity")
+    @Accessor("field_1060")
     void setHorizontalVelocity(float v);
 
     @Accessor("jumping")

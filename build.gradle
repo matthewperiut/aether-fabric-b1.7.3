@@ -20,27 +20,38 @@ loom {
 }
 
 repositories {
-    maven {
-        name = 'Froge'
-        url = 'https://maven.minecraftforge.net/'
-    }
+    // Add repositories to retrieve artifacts from in here.
+    // You should only use this when depending on other mods because
+    // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
+    // See https://docs.gradle.org/current/userguide/declaring_repositories.html
+    // for more information about repositories.
+
+    // Used for the fabric toolchain in this project.
     maven {
         name = 'Babric'
         url = 'https://maven.glass-launcher.net/babric'
     }
-    maven {
-        name = 'Glass Snapshots'
-        url = 'https://maven.glass-launcher.net/snapshots'
-    }
+    // Used for mappings.
     maven {
         name = 'Glass Releases'
         url = 'https://maven.glass-launcher.net/releases'
     }
+    // Used for StationAPI and HowManyItems.
+    maven {
+        name = 'Glass Snapshots'
+        url = 'https://maven.glass-launcher.net/snapshots'
+    }
+    // Used for a StationAPI dependency.
+    maven {
+        name = 'Froge'
+        url 'https://maven.minecraftforge.net/'
+    }
+    // Used for projects that do not have a maven repository, but do have a GitHub repository with working build scripts.
     maven {
         name = 'Jitpack'
-        url = 'https://jitpack.io/'
+        url = 'https://jitpack.io'
     }
-    mavenCentral()
+    // Used for another StationAPI dependency
     exclusiveContent {
         forRepository {
             maven {
@@ -52,20 +63,13 @@ repositories {
             includeGroup "maven.modrinth"
         }
     }
-    maven {
-        name 'Legacy Fabric'
-        url "https://repo.legacyfabric.net/repository/legacyfabric/"
-        content {
-            includeGroup 'net.legacyfabric'
-            includeGroup 'net.legacyfabric.legacy-fabric-api'
-        }
-    }
+    mavenCentral()
 }
 
 dependencies {
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.legacyfabric:beta-yarn:b1.7.3+build.4"
+    mappings "net.glasslauncher:biny:${project.yarn_mappings}:v2"
     modImplementation "babric:fabric-loader:${project.loader_version}"
 
     implementation "org.slf4j:slf4j-api:1.8.0-beta4"
@@ -73,21 +77,24 @@ dependencies {
     implementation("io.github.llamalad7:mixinextras-fabric:${mixinextras_version}")
     annotationProcessor("io.github.llamalad7:mixinextras-fabric:${mixinextras_version}")
     implementation "blue.endless:jankson:1.2.1"
+    implementation 'com.google.guava:guava:33.2.1-jre'
 
     modImplementation "net.modificationstation:StationAPI:${project.stapi_version}"
     modImplementation("net.glasslauncher.mods:GlassConfigAPI:${project.gcapi_version}") { transitive false }
     modImplementation("com.github.calmilamsy:ModMenu:${project.modmenu_version}") { transitive false }
     modImplementation("com.github.matthewperiut:spc-babric:${spc_version}") { transitive false }
     modImplementation("com.github.matthewperiut:accessory-api:${project.accessory_version}") { transitive false }
-    modImplementation("net.glasslauncher:HowManyItems-Fabric-Unofficial:${project.hmi_version}") {transitive false }
-    modImplementation("com.github.paulevsGitch:BHCreative:${project.bhcreative_version}") { transitive false }
+    modImplementation("net.glasslauncher:HowManyItems-Fabric-Unofficial:${project.howmanyitems_version}") {transitive false }
+    modImplementation("maven.modrinth:bh-creative:${project.bhcreative_version}") { transitive false }
 
     // Runtime Dependencies
     modRuntimeOnly "com.github.GeyserMC:MCAuthLib:d9d773e5d50327c33898c65cd545a4f6ef3ba1b5" // needed for mojang fix
     modRuntimeOnly ("maven.modrinth:mojangfix-stationapi-edition:${mojang_fix_stapi_version}") { transitive false }
-    modRuntimeOnly ("com.github.matthewperiut:gambac:${gambac_version}") { transitive false }
-    modRuntimeOnly ("com.github.matthewperiut:thirdpersonfix-fabric-b1.7.3:82717b1f41") { transitive false }
-    modRuntimeOnly ("com.github.matthewperiut:stapi-fast-intro:d2eeeb0e57") { transitive false }
+    modRuntimeOnly ("maven.modrinth:thirdpersonfix-babric:${thirdpersonfix_version}") { transitive false }
+    modRuntimeOnly ("maven.modrinth:gambac:${gambac_version}") { transitive false }
+
+    // Runtime Convenience
+    modRuntimeOnly ("com.github.matthewperiut:stapi-fast-intro:17a7ed0dc4") { transitive false }
 }
 
 processResources {
@@ -96,6 +103,12 @@ processResources {
     filesMatching("fabric.mod.json") {
         expand "version": project.version
     }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    // Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
+    // Loom also requires J17.
+    it.options.release = 17
 }
 
 java {
@@ -107,7 +120,7 @@ java {
 
 jar {
     from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}" }
+        rename { "${it}_${project.archivesBaseName}"}
     }
 }
 

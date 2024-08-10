@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(TorchBlock.class)
 public class TorchMixin {
-    @Redirect(method = "onBlockPlaced(Lnet/minecraft/world/World;III)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;setBlockMeta(IIII)V"))
+    @Redirect(method = "onPlaced(Lnet/minecraft/world/World;III)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;setBlockMeta(IIII)V"))
     void setBlockMetaReplace(World world, int x, int y, int z, int meta) {
         if (world.dimension instanceof AetherDimension && world.getBlockId(x, y, z) == Block.TORCH.id) {
             world.setBlock(x, y, z, AetherBlocks.BurntTorch.id);

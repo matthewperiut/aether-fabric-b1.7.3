@@ -16,8 +16,8 @@ public class ItemSwordGravitite extends TemplateSwordItem {
     @Override
     public boolean postHit(final ItemStack itemstack, final LivingEntity damageSource, final LivingEntity damageTarget) {
         if (damageTarget != null && damageTarget instanceof PlayerEntity && (damageSource.hurtTime > 0 || damageSource.deathTime > 0)) {
-            ++damageSource.yVelocity;
-            itemstack.applyDamage(1, damageTarget);
+            ++damageSource.velocityY;
+            itemstack.damage(1, damageTarget);
         }
         return true;
     }

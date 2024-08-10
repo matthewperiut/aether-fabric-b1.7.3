@@ -10,16 +10,16 @@ import net.modificationstation.stationapi.api.util.Identifier;
 public class ItemLifeShard extends TemplateItem {
     public ItemLifeShard(Identifier i) {
         super(i);
-        this.maxStackSize = 1;
+        this.maxCount = 1;
     }
 
     public ItemStack use(ItemStack itemstack, World world, PlayerEntity entityplayer) {
-        if (world.isClient)
+        if (world.isRemote)
             return itemstack;
         if (itemstack.count > 0) {
             --itemstack.count;
             ((PlayerExtraHP) entityplayer).setExtraHP(((PlayerExtraHP) entityplayer).getExtraHP() + 2);
-            entityplayer.addHealth(2);
+            entityplayer.heal(2);
         }
         return itemstack;
     }

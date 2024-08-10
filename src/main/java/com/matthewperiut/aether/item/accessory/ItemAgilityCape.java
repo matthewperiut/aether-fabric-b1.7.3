@@ -12,11 +12,11 @@ public class ItemAgilityCape extends ItemCape {
 
     @Override
     public void onAccessoryAdded(PlayerEntity player, ItemStack accessory) {
-        player.field_1641 = 1.0f;
+        player.stepHeight = 1.0f;
     }
 
     @Override
     public void onAccessoryRemoved(PlayerEntity player, ItemStack accessory) {
-        player.field_1641 = 0.5f;
+        player.stepHeight = 0.5f;
     }
 }

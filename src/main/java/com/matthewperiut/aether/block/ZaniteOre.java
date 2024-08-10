@@ -12,7 +12,7 @@ public class ZaniteOre extends TemplateBlock {
         super(blockID, Material.STONE);
     }
 
-    public int getDropId(int i, Random random) {
+    public int getDroppedItemId(int i, Random random) {
         return AetherItems.Zanite.id;
     }
 }

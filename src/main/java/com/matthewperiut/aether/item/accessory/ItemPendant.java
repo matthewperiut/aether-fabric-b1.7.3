@@ -22,6 +22,6 @@ public class ItemPendant extends ItemMoreArmor implements HasCustomRenderer {
 
     @Override
     public void constructRenderer() {
-        renderer = new NecklaceRenderer(texture).withColor(new Color(colour));
+        renderer = new NecklaceRenderer(texture).withColor(new Color(color));
     }
 }

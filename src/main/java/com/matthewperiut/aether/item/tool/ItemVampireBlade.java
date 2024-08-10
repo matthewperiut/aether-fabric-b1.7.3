@@ -18,8 +18,8 @@ public class ItemVampireBlade extends TemplateItem {
 
     public ItemVampireBlade(Identifier i) {
         super(i);
-        this.maxStackSize = 1;
-        this.setDurability(ToolMaterial.DIAMOND.getDurability());
+        this.maxCount = 1;
+        this.setMaxDamage(ToolMaterial.DIAMOND.getDurability());
         this.weaponDamage = 4 + ToolMaterial.DIAMOND.getAttackDamage() * 2;
     }
 
@@ -33,12 +33,12 @@ public class ItemVampireBlade extends TemplateItem {
             ++player.health;
         }
 
-        itemstack.applyDamage(1, entityliving1);
+        itemstack.damage(1, entityliving1);
         return true;
     }
 
     public boolean postMine(ItemStack itemstack, int i, int j, int k, int l, LivingEntity entityliving) {
-        itemstack.applyDamage(2, entityliving);
+        itemstack.damage(2, entityliving);
         return true;
     }
 

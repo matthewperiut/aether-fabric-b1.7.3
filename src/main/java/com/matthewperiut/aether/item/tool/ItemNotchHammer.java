@@ -16,8 +16,8 @@ public class ItemNotchHammer extends TemplateItem {
 
     public ItemNotchHammer(Identifier i) {
         super(i);
-        this.maxStackSize = 1;
-        this.setDurability(ToolMaterial.IRON.getDurability());
+        this.maxCount = 1;
+        this.setMaxDamage(ToolMaterial.IRON.getDurability());
         this.weaponDamage = 4 + ToolMaterial.IRON.getAttackDamage() * 2;
     }
 
@@ -26,12 +26,12 @@ public class ItemNotchHammer extends TemplateItem {
     }
 
     public boolean postHit(ItemStack itemstack, LivingEntity entityliving, LivingEntity entityliving1) {
-        itemstack.applyDamage(1, entityliving1);
+        itemstack.damage(1, entityliving1);
         return true;
     }
 
     public boolean postMine(ItemStack itemstack, int i, int j, int k, int l, LivingEntity entityliving) {
-        itemstack.applyDamage(2, entityliving);
+        itemstack.damage(2, entityliving);
         return true;
     }
 
@@ -40,9 +40,9 @@ public class ItemNotchHammer extends TemplateItem {
     }
 
     public ItemStack use(ItemStack itemstack, World world, PlayerEntity entityplayer) {
-        itemstack.applyDamage(1, entityplayer);
-        world.playSound(entityplayer, "mob.ghast.fireball", 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
-        if (!world.isClient) {
+        itemstack.damage(1, entityplayer);
+        world.playSound(entityplayer, "mob.ghast.fireball", 1.0F, 1.0F / (random.nextFloat() * 0.4F + 0.8F));
+        if (!world.isRemote) {
             EntityNotchWave notchwave = new EntityNotchWave(world, entityplayer);
             world.spawnEntity(notchwave);
         }

@@ -13,16 +13,16 @@ public class ItemGummieSwet extends TemplateItem {
 
     public ItemGummieSwet(Identifier i) {
         super(i);
-        this.maxStackSize = 64;
+        this.maxCount = 64;
         this.damZero = false;
         this.damOne = false;
         this.healAmount = 20;
-        this.setHasSubItems(true);
+        this.setHasSubtypes(true);
     }
 
     public ItemStack use(ItemStack itemstack, World world, PlayerEntity entityplayer) {
         --itemstack.count;
-        entityplayer.addHealth(this.healAmount);
+        entityplayer.heal(this.healAmount);
         return itemstack;
     }
 
@@ -30,12 +30,12 @@ public class ItemGummieSwet extends TemplateItem {
         return this.healAmount;
     }
 
-    public int getNameColor(int damage) {
+    public int getColorMultiplier(int damage) {
         return damage == 1 ? 16777087 : 8765927;
     }
 
     public String getTranslationKey(ItemStack stack) {
-        int i = stack.getMeta();
+        int i = stack.getDamage();
         if (i > 1) {
             i = 1;
         }

@@ -11,10 +11,10 @@ public class ItemDart extends TemplateItem {
 
     public ItemDart(Identifier itemID) {
         super(itemID);
-        this.setHasSubItems(true);
+        this.setHasSubtypes(true);
     }
 
-    public int getTexturePosition(int damage) {
+    public int getTextureId(int damage) {
         if (damage == 0) {
             return sprGolden;
         } else if (damage == 1) {
@@ -25,7 +25,7 @@ public class ItemDart extends TemplateItem {
     }
 
     public String getTranslationKey(ItemStack stack) {
-        int i = stack.getMeta();
+        int i = stack.getDamage();
         if (i > 2) {
             i = 2;
         }

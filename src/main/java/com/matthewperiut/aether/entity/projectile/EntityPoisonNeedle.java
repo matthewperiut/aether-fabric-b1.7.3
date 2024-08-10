@@ -44,7 +44,7 @@ public class EntityPoisonNeedle extends EntityProjectileBase implements EntitySp
     public boolean onHitTarget(Entity target) {
         if (target instanceof AetherPoison poison) {
             poison.getPoison().afflictPoison();
-            removed = false;
+            dead = false;
             despawnTime = PoisonControl.maxPoisonTime;
             remove();
         }
@@ -53,7 +53,7 @@ public class EntityPoisonNeedle extends EntityProjectileBase implements EntitySp
 
     public void remove() {
         this.victim = null;
-        super.remove();
+        super.markDead();
     }
 
     public boolean onHitBlock() {
@@ -66,10 +66,10 @@ public class EntityPoisonNeedle extends EntityProjectileBase implements EntitySp
 
     public void tick(Minecraft client) {
         super.tick();
-        if (!this.removed) {
+        if (!this.dead) {
             if (this.victim != null) {
-                if (this.victim.removed || this.despawnTime == 0) {
-                    this.remove();
+                if (this.victim.dead || this.despawnTime == 0) {
+                    this.markDead();
                     return;
                 }
                 --this.despawnTime;

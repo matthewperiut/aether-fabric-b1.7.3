@@ -11,7 +11,7 @@ public class RenderAechorPlant extends LivingEntityRenderer {
 
     public RenderAechorPlant(ModelAechorPlant mb, float f) {
         super(mb, f);
-        this.setModel(mb);
+        this.method_815(mb);
         this.xd = mb;
     }
 
@@ -35,7 +35,7 @@ public class RenderAechorPlant extends LivingEntityRenderer {
         this.xd.sinage2 = f3;
         float f2 = 0.625F + (float) b1.size / 6.0F;
         this.xd.size = f2;
-        this.field_2678 = f2 - 0.25F;
+        this.shadowRadius = f2 - 0.25F;
     }
 
     protected boolean a(EntityAechorPlant entityaechorplant, int i, float f) {

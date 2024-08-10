@@ -2,7 +2,7 @@ package com.matthewperiut.aether.block;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.AxixAlignedBoundingBox;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.template.block.TemplateBlock;
@@ -12,15 +12,16 @@ import java.util.Random;
 
 public class AmbrosiumTorch extends TemplateBlock {
     public AmbrosiumTorch(Identifier identifier) {
-        super(identifier, Material.DOODADS);
-        this.setTicksRandomly(true);
+        super(identifier, Material.PISTON_BREAKABLE);
+        this.setTickRandomly(true);
     }
 
-    public AxixAlignedBoundingBox getCollisionShape(World world, int i, int j, int k) {
+    @Override
+    public Box getCollisionShape(World world, int x, int y, int z) {
         return null;
     }
 
-    public boolean isFullOpaque() {
+    public boolean isOpaque() {
         return false;
     }
 
@@ -44,7 +45,7 @@ public class AmbrosiumTorch extends TemplateBlock {
         }
     }
 
-    public void onBlockPlaced(World world, int i, int j, int k, int l) {
+    public void onPlaced(World world, int i, int j, int k, int l) {
         int i1 = world.getBlockMeta(i, j, k);
         if (l == 1 && world.method_1783(i, j - 1, k)) {
             i1 = 5;
@@ -69,15 +70,15 @@ public class AmbrosiumTorch extends TemplateBlock {
         world.setBlockMeta(i, j, k, i1);
     }
 
-    public void onScheduledTick(World world, int i, int j, int k, Random random) {
-        super.onScheduledTick(world, i, j, k, random);
+    public void onTick(World world, int i, int j, int k, Random random) {
+        super.onTick(world, i, j, k, random);
         if (world.getBlockMeta(i, j, k) == 0) {
-            this.onBlockPlaced(world, i, j, k);
+            this.onPlaced(world, i, j, k);
         }
 
     }
 
-    public void onBlockPlaced(World world, int i, int j, int k) {
+    public void onPlaced(World world, int i, int j, int k) {
         if (world.method_1783(i - 1, j, k)) {
             world.setBlockMeta(i, j, k, 1);
         } else if (world.method_1783(i + 1, j, k)) {
@@ -93,7 +94,7 @@ public class AmbrosiumTorch extends TemplateBlock {
         this.dropTorchIfCantStay(world, i, j, k);
     }
 
-    public void onAdjacentBlockUpdate(World world, int i, int j, int k, int l) {
+    public void neighborUpdate(World world, int i, int j, int k, int l) {
         if (this.dropTorchIfCantStay(world, i, j, k)) {
             int i1 = world.getBlockMeta(i, j, k);
             boolean flag = !world.method_1783(i - 1, j, k) && i1 == 1;
@@ -115,7 +116,7 @@ public class AmbrosiumTorch extends TemplateBlock {
             }
 
             if (flag) {
-                this.drop(world, i, j, k, world.getBlockMeta(i, j, k));
+                this.dropStacks(world, i, j, k, world.getBlockMeta(i, j, k));
                 world.setBlock(i, j, k, 0);
             }
         }
@@ -124,31 +125,12 @@ public class AmbrosiumTorch extends TemplateBlock {
 
     private boolean dropTorchIfCantStay(World world, int i, int j, int k) {
         if (!this.canPlaceAt(world, i, j, k)) {
-            this.drop(world, i, j, k, world.getBlockMeta(i, j, k));
+            this.dropStacks(world, i, j, k, world.getBlockMeta(i, j, k));
             world.setBlock(i, j, k, 0);
             return false;
         } else {
             return true;
         }
-    }
-
-    public HitResult method_1564(World world, int i, int j, int k, Vec3d vec3d, Vec3d vec3d1) {
-        int l = world.getBlockMeta(i, j, k) & 7;
-        float f = 0.15F;
-        if (l == 1) {
-            this.setBoundingBox(0.0F, 0.2F, 0.5F - f, f * 2.0F, 0.8F, 0.5F + f);
-        } else if (l == 2) {
-            this.setBoundingBox(1.0F - f * 2.0F, 0.2F, 0.5F - f, 1.0F, 0.8F, 0.5F + f);
-        } else if (l == 3) {
-            this.setBoundingBox(0.5F - f, 0.2F, 0.0F, 0.5F + f, 0.8F, f * 2.0F);
-        } else if (l == 4) {
-            this.setBoundingBox(0.5F - f, 0.2F, 1.0F - f * 2.0F, 0.5F + f, 0.8F, 1.0F);
-        } else {
-            float f1 = 0.1F;
-            this.setBoundingBox(0.5F - f1, 0.0F, 0.5F - f1, 0.5F + f1, 0.6F, 0.5F + f1);
-        }
-
-        return super.method_1564(world, i, j, k, vec3d, vec3d1);
     }
 
     public void randomDisplayTick(World world, int i, int j, int k, Random random) {

@@ -10,15 +10,18 @@ public class Aerogel extends TemplateBlock {
         super(identifier, Material.STONE);
     }
 
-    public boolean isFullOpaque() {
+    @Override
+    public boolean isOpaque() {
         return false;
     }
 
-    public int getRenderPass() {
+    @Override
+    public int getRenderLayer() {
         return 1;
     }
 
-    public boolean isSideRendered(BlockView iblockaccess, int i, int j, int k, int l) {
-        return super.isSideRendered(iblockaccess, i, j, k, 1 - l);
+    @Override
+    public boolean isSideVisible(BlockView blockView, int x, int y, int z, int side) {
+        return super.isSideVisible(blockView, x, y, z, 1 - side);
     }
 }

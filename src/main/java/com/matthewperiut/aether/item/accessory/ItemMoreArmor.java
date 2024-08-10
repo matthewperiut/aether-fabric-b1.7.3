@@ -12,9 +12,9 @@ public class ItemMoreArmor extends TemplateItem implements Accessory {
     public final int armorType;
     public final int damageReduceAmount;
     public final int renderIndex;
-    protected final int colour;
+    protected final int color;
     public String texture;
-    public boolean colouriseRender;
+    public boolean coloriseRender;
 
     public ItemMoreArmor(Identifier i, int j, int k, int l, int col) {
         super(i);
@@ -22,10 +22,10 @@ public class ItemMoreArmor extends TemplateItem implements Accessory {
         this.armorType = l;
         this.renderIndex = k;
         this.damageReduceAmount = damageReduceAmountArray[l];
-        this.setDurability(maxDamageArray[l] * 3 << j);
-        this.maxStackSize = 1;
-        this.colour = col;
-        this.colouriseRender = true;
+        this.setMaxDamage(maxDamageArray[l] * 3 << j);
+        this.maxCount = 1;
+        this.color = col;
+        this.coloriseRender = true;
     }
 
     public ItemMoreArmor(Identifier i, int j, int k, int l) {
@@ -44,7 +44,7 @@ public class ItemMoreArmor extends TemplateItem implements Accessory {
 
     public ItemMoreArmor(Identifier i, int j, String path, int l, int m, boolean flag) {
         this(i, j, path, l, m);
-        this.colouriseRender = flag;
+        this.coloriseRender = flag;
     }
 
     public boolean isTypeValid(int i) {
@@ -65,8 +65,9 @@ public class ItemMoreArmor extends TemplateItem implements Accessory {
         return i < 4 || i == 6 || i == 10;
     }
 
-    public int getNameColor(int i) {
-        return this.colour;
+    @Override
+    public int getColorMultiplier(int color) {
+        return this.color;
     }
 
     @Override

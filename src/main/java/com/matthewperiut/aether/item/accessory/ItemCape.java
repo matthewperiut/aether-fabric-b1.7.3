@@ -28,6 +28,6 @@ public class ItemCape extends ItemMoreArmor implements HasCustomRenderer {
 
     @Override
     public void constructRenderer() {
-        renderer = new CapeRenderer(texture).withColor(new Color(colour));
+        renderer = new CapeRenderer(texture).withColor(new Color(color));
     }
 }

@@ -1,15 +1,15 @@
 package com.matthewperiut.aether.blockentity.container;
 
-import net.minecraft.client.inventory.ClientInventory;
-import net.minecraft.container.Container;
-import net.minecraft.container.slot.Slot;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.PlayerInventory;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.slot.Slot;
 
-public class ContainerLore extends Container {
-    public Inventory loreSlot = new ClientInventory("Lore Item", 1);
+public class ContainerLore extends ScreenHandler {
+    public Inventory loreSlot = new SimpleInventory("Lore Item", 1);
 
     public ContainerLore(PlayerInventory inventoryplayer) {
         this.addSlot(new Slot(this.loreSlot, 0, 82, 66));
@@ -27,27 +27,31 @@ public class ContainerLore extends Container {
 
     }
 
+    @Override
     protected void insertItem(ItemStack itemstack, int i, int j, boolean flag) {
     }
 
-    public void onClosed(PlayerEntity entityplayer) {
-        super.onClosed(entityplayer);
-        ItemStack itemstack = this.loreSlot.getInventoryItem(0);
+    @Override
+    public void onClosed(PlayerEntity player) {
+        super.onClosed(player);
+        ItemStack itemstack = this.loreSlot.getStack(0);
         if (itemstack != null) {
-            entityplayer.dropItem(itemstack);
+            player.dropItem(itemstack);
         }
 
     }
 
-    public boolean canUse(PlayerEntity entityplayer) {
+    @Override
+    public boolean canUse(PlayerEntity player) {
         return true;
     }
 
-    public ItemStack transferSlot(int i) {
+    @Override
+    public ItemStack quickMove(int i) {
         ItemStack itemstack = null;
         Slot slot = (Slot) this.slots.get(i);
-        if (slot != null && slot.hasItem()) {
-            ItemStack itemstack1 = slot.getItem();
+        if (slot != null && slot.hasStack()) {
+            ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
             if (i == 0) {
                 this.insertItem(itemstack1, 10, 46, true);
@@ -69,7 +73,7 @@ public class ContainerLore extends Container {
                 return null;
             }
 
-            slot.onCrafted(itemstack1);
+            slot.onTakeItem(itemstack1);
         }
 
         return itemstack;

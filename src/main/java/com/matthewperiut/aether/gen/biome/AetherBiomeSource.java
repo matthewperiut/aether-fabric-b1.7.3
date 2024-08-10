@@ -2,7 +2,7 @@ package com.matthewperiut.aether.gen.biome;
 
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.BiomeSource;
+import net.minecraft.world.biome.source.BiomeSource;
 
 import java.util.Arrays;
 
@@ -17,8 +17,9 @@ public class AetherBiomeSource extends BiomeSource {
     }
 
     @Override
-    public Biome getBiomeInChunk(ChunkPos arg) {
-        return super.getBiomeInChunk(arg);
+    public Biome method_1789(ChunkPos arg) {
+        // method_1789 -> getBiome
+        return super.method_1789(arg);
     }
 
     @Override
@@ -31,21 +32,24 @@ public class AetherBiomeSource extends BiomeSource {
         return temperature;
     }
 
+    // method_1790 > getTemperatures
     @Override
-    public double[] getTemperatures(double[] temperatures, int x, int z, int xSize, int zSize) {
+    public double[] method_1790(double[] temperatures, int x, int z, int xSize, int zSize) {
         if (temperatures == null || temperatures.length < xSize * zSize)
             temperatures = new double[xSize * zSize];
         Arrays.fill(temperatures, 0, xSize * zSize, temperature);
         return temperatures;
     }
 
-    @Override
-    public Biome[] getBiomes(Biome[] biomes, int x, int z, int xSize, int zSize) {
+    @Override // method_1791 > getBiomes
+    public Biome[] method_1791(Biome[] biomes, int x, int z, int xSize, int zSize) {
+
+        // field_2235 > temperatureNoises
         if (biomes == null || biomes.length < xSize * zSize)
             biomes = new Biome[xSize * zSize];
-        if (temperatureNoises == null || temperatureNoises.length < xSize * zSize) {
-            temperatureNoises = new double[xSize * zSize];
-            rainfallNoises = new double[xSize * zSize];
+        if (field_2235 == null || field_2235.length < xSize * zSize) {
+            field_2235 = new double[xSize * zSize];
+            field_2236 = new double[xSize * zSize];
         }
         Arrays.fill(biomes, 0, xSize * zSize, biome);
         return biomes;

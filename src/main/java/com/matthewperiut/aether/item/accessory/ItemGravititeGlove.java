@@ -29,9 +29,9 @@ public class ItemGravititeGlove extends ItemGloves {
                         player.inventory.armor[1].itemId == AetherItems.GravititePlatelegs.id &&
                         player.inventory.armor[0].itemId == AetherItems.GravititeBoots.id) {
                     ((EntityAccessor) player).setFallDistance(0.0F);
-                    player.yVelocity += 0.05000000074505806;
-                    //if (player.yVelocity < -0.22499999403953552 && ((LivingEntityAccessor) player).getJumping()) {
-                    //    player.yVelocity = 0.125;
+                    player.velocityY += 0.05000000074505806;
+                    //if (player.velocityY < -0.22499999403953552 && ((LivingEntityAccessor) player).getJumping()) {
+                    //    player.velocityY = 0.125;
                     //}
                 }
             }

@@ -17,15 +17,7 @@ public class DungeonBlock extends TemplateBlock implements MetaNamedBlockItemPro
         super(identifier, Material.STONE);
     }
 
-    public static int func_21034_c(int i) {
-        return ~i & 15;
-    }
-
-    public static int func_21035_d(int i) {
-        return ~i & 15;
-    }
-
-    public int getTextureForSide(int i, int j) {
+    public int getTexture(int i, int j) {
         if (j == 2) {
             return this.isLit() ? sprGoldLit : sprGold;
         } else if (j == 1) {
@@ -39,7 +31,7 @@ public class DungeonBlock extends TemplateBlock implements MetaNamedBlockItemPro
         return this.id == AetherBlocks.LightDungeonStone.id || this.id == AetherBlocks.LockedLightDungeonStone.id;
     }
 
-    protected int droppedMeta(int i) {
+    protected int getDroppedItemMeta(int i) {
         return i;
     }
 

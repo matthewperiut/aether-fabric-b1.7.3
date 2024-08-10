@@ -40,29 +40,29 @@ public class RenderDartGolden extends EntityRenderer {
             GL11.glScalef(f10, f10, f10);
             GL11.glTranslatef(-4.0F, 0.0F, 0.0F);
             GL11.glNormal3f(f10, 0.0F, 0.0F);
-            tessellator.start();
+            tessellator.startQuads();
             tessellator.vertex(-7.0, -2.0, -2.0, (double) f6, (double) f8);
             tessellator.vertex(-7.0, -2.0, 2.0, (double) f7, (double) f8);
             tessellator.vertex(-7.0, 2.0, 2.0, (double) f7, (double) f9);
             tessellator.vertex(-7.0, 2.0, -2.0, (double) f6, (double) f9);
-            tessellator.tessellate();
+            tessellator.draw();
             GL11.glNormal3f(-f10, 0.0F, 0.0F);
-            tessellator.start();
+            tessellator.startQuads();
             tessellator.vertex(-7.0, 2.0, -2.0, (double) f6, (double) f8);
             tessellator.vertex(-7.0, 2.0, 2.0, (double) f7, (double) f8);
             tessellator.vertex(-7.0, -2.0, 2.0, (double) f7, (double) f9);
             tessellator.vertex(-7.0, -2.0, -2.0, (double) f6, (double) f9);
-            tessellator.tessellate();
+            tessellator.draw();
 
             for (int j = 0; j < 5; ++j) {
                 GL11.glRotatef(72.0F, 1.0F, 0.0F, 0.0F);
                 GL11.glNormal3f(0.0F, 0.0F, f10);
-                tessellator.start();
+                tessellator.startQuads();
                 tessellator.vertex(-8.0, -2.0, 0.0, (double) f2, (double) f4);
                 tessellator.vertex(8.0, -2.0, 0.0, (double) f3, (double) f4);
                 tessellator.vertex(8.0, 2.0, 0.0, (double) f3, (double) f5);
                 tessellator.vertex(-8.0, 2.0, 0.0, (double) f2, (double) f5);
-                tessellator.tessellate();
+                tessellator.draw();
             }
 
             GL11.glDisable(32826);

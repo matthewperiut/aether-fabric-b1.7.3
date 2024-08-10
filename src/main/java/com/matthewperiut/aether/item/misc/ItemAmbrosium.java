@@ -12,12 +12,12 @@ public class ItemAmbrosium extends TemplateItem {
     public ItemAmbrosium(Identifier identifier, int healAmount) {
         super(identifier);
         this.healAmount = healAmount;
-        this.maxStackSize = 64;
+        this.maxCount = 64;
     }
 
     public ItemStack use(ItemStack itemstack, World world, PlayerEntity entityplayer) {
         --itemstack.count;
-        entityplayer.addHealth(this.healAmount);
+        entityplayer.heal(this.healAmount);
         return itemstack;
     }
 

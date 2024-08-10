@@ -15,7 +15,7 @@ public class ClientPoison {
     }
 
     public static void flashColor(Minecraft mc, String file, float a) {
-        ScreenScaler scaledresolution = new ScreenScaler(mc.options, mc.actualWidth, mc.actualHeight);
+        ScreenScaler scaledresolution = new ScreenScaler(mc.options, mc.displayWidth, mc.displayHeight);
         int width = scaledresolution.getScaledWidth();
         int height = scaledresolution.getScaledHeight();
         GL11.glEnable(3042);
@@ -26,12 +26,12 @@ public class ClientPoison {
         GL11.glDisable(3008);
         GL11.glBindTexture(3553, mc.textureManager.getTextureId(file));
         Tessellator tessellator = Tessellator.INSTANCE;
-        tessellator.start();
+        tessellator.startQuads();
         tessellator.vertex(0.0, (double) height, -90.0, 0.0, 1.0);
         tessellator.vertex((double) width, (double) height, -90.0, 1.0, 1.0);
         tessellator.vertex((double) width, 0.0, -90.0, 1.0, 0.0);
         tessellator.vertex(0.0, 0.0, -90.0, 0.0, 0.0);
-        tessellator.tessellate();
+        tessellator.draw();
         GL11.glDepthMask(true);
         GL11.glEnable(2929);
         GL11.glEnable(3008);

@@ -3,7 +3,7 @@ package com.matthewperiut.aether.gen.feature;
 import com.matthewperiut.aether.block.AetherBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
-import net.minecraft.world.feature.Feature;
+import net.minecraft.world.gen.feature.Feature;
 
 import java.util.Random;
 
@@ -56,9 +56,9 @@ public class AetherGenLiquids extends Feature {
 
                     if (l == 3 && i1 == 1) {
                         world.setBlock(i, j, k, this.liquidBlockId);
-                        world.field_197 = true;
-                        Block.BY_ID[this.liquidBlockId].onScheduledTick(world, i, j, k, random);
-                        world.field_197 = false;
+                        world.pauseTicking = true;
+                        Block.BLOCKS[this.liquidBlockId].onTick(world, i, j, k, random);
+                        world.pauseTicking = false;
                     }
 
                     return true;

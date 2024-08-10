@@ -15,12 +15,12 @@ public class ItemPigSlayer extends TemplateSwordItem {
 
     public ItemPigSlayer(Identifier i) {
         super(i, ToolMaterial.IRON);
-        this.setDurability(0);
+        this.setMaxDamage(0);
     }
 
     public boolean postHit(ItemStack itemstack, LivingEntity entityliving, LivingEntity entityliving1) {
         if (entityliving != null && entityliving1 != null) {
-            String s = EntityRegistry.getStringId(entityliving);
+            String s = EntityRegistry.getId(entityliving);
             if (!s.equals("") && s.toLowerCase().contains("pig")) {
                 if (entityliving.health > 0) {
                     entityliving.health = 1;
@@ -29,15 +29,15 @@ public class ItemPigSlayer extends TemplateSwordItem {
                 }
 
                 for (int j = 0; j < 20; ++j) {
-                    double d = rand.nextGaussian() * 0.02;
-                    double d1 = rand.nextGaussian() * 0.02;
-                    double d2 = rand.nextGaussian() * 0.02;
+                    double d = random.nextGaussian() * 0.02;
+                    double d1 = random.nextGaussian() * 0.02;
+                    double d2 = random.nextGaussian() * 0.02;
                     double d3 = 5.0;
-                    entityliving.world.addParticle("flame", entityliving.x + rand.nextFloat() * entityliving.width * 2.0F - (double) entityliving.width - d * d3, entityliving.y + (rand.nextFloat() * entityliving.height) - d1 * d3, entityliving.z + (double) (rand.nextFloat() * entityliving.width * 2.0F) - (double) entityliving.width - d2 * d3, d, d1, d2);
+                    entityliving.world.addParticle("flame", entityliving.x + random.nextFloat() * entityliving.width * 2.0F - (double) entityliving.width - d * d3, entityliving.y + (random.nextFloat() * entityliving.height) - d1 * d3, entityliving.z + (double) (random.nextFloat() * entityliving.width * 2.0F) - (double) entityliving.width - d2 * d3, d, d1, d2);
                 }
 
-                ((LivingEntityAccessor) entityliving).invokeGetDrops();
-                entityliving.removed = true;
+                ((LivingEntityAccessor) entityliving).invokeDrop();
+                entityliving.dead = true;
             }
 
             return true;

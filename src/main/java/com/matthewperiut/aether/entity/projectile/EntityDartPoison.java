@@ -40,7 +40,7 @@ public class EntityDartPoison extends EntityDartGolden {
     public boolean onHitTarget(Entity target) {
         if (target instanceof AetherPoison poison) {
             poison.getPoison().afflictPoison();
-            removed = false;
+            dead = false;
             despawnTime = PoisonControl.maxPoisonTime;
             remove();
         }
@@ -49,10 +49,10 @@ public class EntityDartPoison extends EntityDartGolden {
 
     public void tick() {
         super.tick();
-        if (!this.removed) {
+        if (!this.dead) {
             if (this.victim != null) {
-                if (this.victim.removed || this.despawnTime == 0) {
-                    this.remove();
+                if (this.victim.dead || this.despawnTime == 0) {
+                    this.markDead();
                     return;
                 }
                 --this.despawnTime;

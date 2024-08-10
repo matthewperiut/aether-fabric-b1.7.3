@@ -7,8 +7,8 @@ import net.fabricmc.api.EnvironmentInterface;
 import net.minecraft.block.Block;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.chunk.ChunkManager;
 import net.minecraft.world.dimension.Dimension;
-import net.minecraft.world.source.WorldSource;
 import net.modificationstation.stationapi.api.client.world.dimension.TravelMessageProvider;
 import net.modificationstation.stationapi.api.util.Identifier;
 
@@ -20,24 +20,25 @@ public class AetherDimension extends Dimension implements TravelMessageProvider 
             ENTERING_MESSAGE = "gui." + Identifier.of(MOD_ID, "ascending"),
             LEAVING_MESSAGE = "gui." + Identifier.of(MOD_ID, "descending");
 
-    private final float[] colours = new float[4];
+    private final float[] colors = new float[4];
 
     public AetherDimension(int serialId) {
         id = serialId;
     }
 
-    @Override
-    protected void initBiomeSource() {
+    @Override // method_1769 > initBiomeSource
+    protected void method_1769() {
         biomeSource = new AetherBiomeSource(1);
     }
 
+    // method_1772 > createChunkManager
     @Override
-    public WorldSource createWorldSource() {
+    public ChunkManager method_1772() {
         return new ChunkProviderAether(world, world.getSeed());
     }
 
-    @Override
-    public float getSunPosition(long time, float delta) {
+    @Override // get Sun Pos?
+    public float getFogColor(long time, float delta) {
 //        boolean hasKilledGold = ModLoader.getMinecraftInstance().statFileWriter.hasAchievementUnlocked(AetherAchievements.defeatGold);
 //        if(hasKilledGold)
 //        {
@@ -66,8 +67,9 @@ public class AetherDimension extends Dimension implements TravelMessageProvider 
 //        }
     }
 
+    // method_1761 > sun horizon colors
     @Override
-    public float[] getSunHorizonColor(float time, float delta) {
+    public float[] method_1761(float time, float delta) {
         float f2 = 0.4F;
         float f3 = MathHelper.cos(time * 3.141593F * 2.0F) - 0.0F;
         float f4 = -0F;
@@ -75,17 +77,17 @@ public class AetherDimension extends Dimension implements TravelMessageProvider 
             float f5 = ((f3 - f4) / f2) * 0.5F + 0.5F;
             float f6 = 1.0F - (1.0F - MathHelper.sin(f5 * 3.141593F)) * 0.99F;
             f6 *= f6;
-            colours[0] = f5 * 0.3F + 0.1F;
-            colours[1] = f5 * f5 * 0.7F + 0.2F;
-            colours[2] = f5 * f5 * 0.7F + 0.2F;
-            colours[3] = f6;
-            return colours;
+            colors[0] = f5 * 0.3F + 0.1F;
+            colors[1] = f5 * f5 * 0.7F + 0.2F;
+            colors[2] = f5 * f5 * 0.7F + 0.2F;
+            colors[3] = f6;
+            return colors;
         } else
             return null;
     }
 
     @Override
-    public Vec3d getSkyColor(float time, float delta) {
+    public Vec3d getFogColor(float time, float delta) {
         int i = 0x8080a0;
         float f2 = MathHelper.cos(time * 3.141593F * 2.0F) * 2.0F + 0.5F;
         if (f2 < 0.0F)
@@ -98,27 +100,27 @@ public class AetherDimension extends Dimension implements TravelMessageProvider 
         f3 *= f2 * 0.94F + 0.06F;
         f4 *= f2 * 0.94F + 0.06F;
         f5 *= f2 * 0.91F + 0.09F;
-        return Vec3d.from(f3, f4, f5);
+        return Vec3d.create(f3, f4, f5);
     }
 
-    @Override
-    public boolean hasPaleSky() {
+    @Override // pale sky
+    public boolean method_1763() {
         return false;
     }
 
-    @Override
-    public float getCloudHeight() {
+    @Override // cloud height
+    public float method_1764() {
         return 8;
     }
 
-    @Override
-    public boolean canSpawnOn(int x, int y) {
-        int var3 = this.world.getSurfaceBlockId(x, y);
-        return var3 != 0 && Block.BY_ID[var3].material.blocksMovement();
+    @Override // can spawn on
+    public boolean method_1770(int x, int y) {
+        int var3 = this.world.getSpawnBlockId(x, y);
+        return var3 != 0 && Block.BLOCKS[var3].material.blocksMovement();
     }
 
-    @Override
-    public boolean canPlayerSleep() {
+    @Override // can sleep
+    public boolean method_1766() {
         return false;
     }
 

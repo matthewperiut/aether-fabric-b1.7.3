@@ -19,11 +19,11 @@ public class ItemDartShooter extends TemplateItem {
 
     public ItemDartShooter(Identifier i) {
         super(i);
-        this.setHasSubItems(true);
-        this.maxStackSize = 1;
+        this.setHasSubtypes(true);
+        this.maxCount = 1;
     }
 
-    public int getTexturePosition(int damage) {
+    public int getTextureId(int damage) {
         if (damage == 0) {
             return sprNormal;
         } else if (damage == 1) {
@@ -34,15 +34,15 @@ public class ItemDartShooter extends TemplateItem {
     }
 
     public String getTranslationKey(ItemStack stack) {
-        int i = stack.getMeta();
+        int i = stack.getDamage();
         return this.getTranslationKey() + i;
     }
 
     public ItemStack use(ItemStack itemstack, World world, PlayerEntity entityplayer) {
-        int consume = this.consumeItem(entityplayer, AetherItems.Dart.id, itemstack.getMeta());
+        int consume = this.consumeItem(entityplayer, AetherItems.Dart.id, itemstack.getDamage());
         if (consume != -1) {
-            world.playSound(entityplayer, "aether:other.dartshooter.shootdart", 2.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
-            if (!world.isClient) {
+            world.playSound(entityplayer, "aether:other.dartshooter.shootdart", 2.0F, 1.0F / (random.nextFloat() * 0.4F + 0.8F));
+            if (!world.isRemote) {
                 EntityDartGolden dart = null;
                 if (consume == 1) {
                     dart = new EntityDartPoison(world, entityplayer);
@@ -66,17 +66,17 @@ public class ItemDartShooter extends TemplateItem {
     private int consumeItem(PlayerEntity player, int itemID, int maxDamage) {
         Inventory inv = player.inventory;
 
-        for (int i = 0; i < inv.getInventorySize(); ++i) {
-            ItemStack stack = inv.getInventoryItem(i);
+        for (int i = 0; i < inv.size(); ++i) {
+            ItemStack stack = inv.getStack(i);
             if (stack != null) {
-                int damage = stack.getMeta();
-                if (stack.itemId == itemID && stack.getMeta() == maxDamage) {
+                int damage = stack.getDamage();
+                if (stack.itemId == itemID && stack.getDamage() == maxDamage) {
                     --stack.count;
                     if (stack.count == 0) {
                         stack = null;
                     }
 
-                    inv.setInventoryItem(i, stack);
+                    inv.setStack(i, stack);
                     return damage;
                 }
             }

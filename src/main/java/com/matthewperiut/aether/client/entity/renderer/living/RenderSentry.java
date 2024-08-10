@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 public class RenderSentry extends LivingEntityRenderer {
     public RenderSentry(EntityModel modelbase, float f) {
         super(modelbase, f);
-        this.setModel(modelbase);
+        this.method_815(modelbase);
     }
 
     protected void method_823(LivingEntity entityliving, float f) {
