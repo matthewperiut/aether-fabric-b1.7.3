@@ -1,38 +1,22 @@
 package com.matthewperiut.aether;
 
-import com.matthewperiut.aether.block.TreasureChest;
-import com.matthewperiut.aether.optional.AetherSummonEntities;
-import com.matthewperiut.spc.api.Command;
-import com.matthewperiut.spc.api.CommandRegistry;
-import com.matthewperiut.spc.util.SharedCommandSource;
+import com.matthewperiut.aether.optional.AetherSPCSupport;
 import net.fabricmc.loader.api.FabricLoader;
 import net.mine_diver.unsafeevents.listener.EventListener;
-import net.minecraft.entity.player.PlayerEntity;
 import net.modificationstation.stationapi.api.event.mod.InitEvent;
 
 public class Aether {
 
+    public static boolean OLDSTAPI = false;
+
     @EventListener
     private static void init(InitEvent initEvent) {
         if (FabricLoader.getInstance().isModLoaded("spc")) {
-            AetherSummonEntities.register();
-            CommandRegistry.add(new Command() {
-                @Override
-                public void command(SharedCommandSource commandSource, String[] parameters) {
-                    PlayerEntity p = commandSource.getPlayer();
-                    TreasureChest.PlaceTreasureChest(p.world, (int) p.x, (int) p.y, (int) p.z, Integer.parseInt(parameters[1]));
-                }
-
-                @Override
-                public String name() {
-                    return "test";
-                }
-
-                @Override
-                public void manual(SharedCommandSource commandSource) {
-
-                }
-            });
+            AetherSPCSupport.init();
+        }
+        String stapi_version = String.valueOf(FabricLoader.getInstance().getModContainer("station-api-base").get().getMetadata().getVersion());
+        if (stapi_version.equals("2.0-alpha.2-1.0.0") || stapi_version.equals("2.0-alpha.1.1-1.0.0") || stapi_version.equals("2.0-alpha.1-1.0.0")) {
+            OLDSTAPI = true;
         }
     }
 }

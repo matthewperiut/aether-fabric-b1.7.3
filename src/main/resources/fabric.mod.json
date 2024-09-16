@@ -42,6 +42,7 @@
   "accessWidener": "aether.accessWidener",
   "depends": {
     "minecraft": "1.0.0-beta.7.3",
-    "accessoryapi": ">=0.6.0"
+    "accessoryapi": ">=0.6.0",
+    "stationapi": [">=2.0-alpha.1", ">=2.0-alpha.1.1"]
   }
 }

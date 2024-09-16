@@ -75,7 +75,6 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
         if (this.n > this.numRooms || !this.finished) {
             this.endCorridor(world, rand, x2, y2, z2);
         }
-        System.out.println(x + " " + y + " " + z);
         return true;
     }
 

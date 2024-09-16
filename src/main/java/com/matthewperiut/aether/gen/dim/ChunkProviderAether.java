@@ -1,8 +1,10 @@
 package com.matthewperiut.aether.gen.dim;
 
+import com.matthewperiut.aether.Aether;
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.gen.biome.AetherBiomes;
 import com.matthewperiut.aether.gen.feature.*;
+import com.matthewperiut.aether.optional.StapiNewCaveImpl;
 import net.minecraft.block.Block;
 import net.minecraft.block.FallingBlock;
 import net.minecraft.util.ProgressListener;
@@ -49,6 +51,9 @@ public class ChunkProviderAether implements WorldSource {
 
     public ChunkProviderAether(World world, long l) {
         this.worldObj = world;
+        if (!Aether.OLDSTAPI) {
+            StapiNewCaveImpl.giveStapiWhatItWants(mapGenCaves, world);
+        }
         this.random = new Random(l);
         this.noiseGenerator1 = new PerlinOctaveNoise(this.random, 16);
         this.noiseGenerator2 = new PerlinOctaveNoise(this.random, 16);

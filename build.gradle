@@ -80,7 +80,7 @@ dependencies {
     modImplementation("com.github.matthewperiut:spc-babric:${spc_version}") { transitive false }
     modImplementation("com.github.matthewperiut:accessory-api:${project.accessory_version}") { transitive false }
     modImplementation("net.glasslauncher:HowManyItems-Fabric-Unofficial:${project.hmi_version}") {transitive false }
-    modImplementation("com.github.paulevsGitch:BHCreative:${project.bhcreative_version}") { transitive false }
+    modImplementation("maven.modrinth:bh-creative:${project.bhcreative_version}") { transitive false }
 
     // Runtime Dependencies
     modRuntimeOnly "com.github.GeyserMC:MCAuthLib:d9d773e5d50327c33898c65cd545a4f6ef3ba1b5" // needed for mojang fix
