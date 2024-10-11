@@ -1,8 +1,7 @@
 package com.matthewperiut.aether.gen.feature;
 
 import net.minecraft.world.World;
-import net.minecraft.world.feature.Feature;
-
+import net.minecraft.world.gen.feature.Feature;
 import java.util.Random;
 
 public class AetherGenBuildings extends Feature {
@@ -40,9 +39,9 @@ public class AetherGenBuildings extends Feature {
         for (int x = i; x < i + length; ++x) {
             if ((this.replaceAir || world.getBlockId(x, j, k) != 0) && (this.replaceSolid || world.getBlockId(x, j, k) == 0)) {
                 if (random.nextInt(this.chance) == 0) {
-                    world.setBlockWithMetadata(x, j, k, this.blockID2, this.meta2);
+                    world.setBlockWithoutNotifyingNeighbors(x, j, k, this.blockID2, this.meta2);
                 } else {
-                    world.setBlockWithMetadata(x, j, k, this.blockID1, this.meta1);
+                    world.setBlockWithoutNotifyingNeighbors(x, j, k, this.blockID1, this.meta1);
                 }
             }
         }
@@ -53,9 +52,9 @@ public class AetherGenBuildings extends Feature {
         for (int y = j; y < j + length; ++y) {
             if ((this.replaceAir || world.getBlockId(i, y, k) != 0) && (this.replaceSolid || world.getBlockId(i, y, k) == 0)) {
                 if (random.nextInt(this.chance) == 0) {
-                    world.setBlockWithMetadata(i, y, k, this.blockID2, this.meta2);
+                    world.setBlockWithoutNotifyingNeighbors(i, y, k, this.blockID2, this.meta2);
                 } else {
-                    world.setBlockWithMetadata(i, y, k, this.blockID1, this.meta1);
+                    world.setBlockWithoutNotifyingNeighbors(i, y, k, this.blockID1, this.meta1);
                 }
             }
         }
@@ -66,9 +65,9 @@ public class AetherGenBuildings extends Feature {
         for (int z = k; z < k + length; ++z) {
             if ((this.replaceAir || world.getBlockId(i, j, z) != 0) && (this.replaceSolid || world.getBlockId(i, j, z) == 0)) {
                 if (random.nextInt(this.chance) == 0) {
-                    world.setBlockWithMetadata(i, j, z, this.blockID2, this.meta2);
+                    world.setBlockWithoutNotifyingNeighbors(i, j, z, this.blockID2, this.meta2);
                 } else {
-                    world.setBlockWithMetadata(i, j, z, this.blockID1, this.meta1);
+                    world.setBlockWithoutNotifyingNeighbors(i, j, z, this.blockID1, this.meta1);
                 }
             }
         }
@@ -80,9 +79,9 @@ public class AetherGenBuildings extends Feature {
             for (int z = k; z < k + dk; ++z) {
                 if ((this.replaceAir || world.getBlockId(i, y, z) != 0) && (this.replaceSolid || world.getBlockId(i, y, z) == 0)) {
                     if (random.nextInt(this.chance) == 0) {
-                        world.setBlockWithMetadata(i, y, z, this.blockID2, this.meta2);
+                        world.setBlockWithoutNotifyingNeighbors(i, y, z, this.blockID2, this.meta2);
                     } else {
-                        world.setBlockWithMetadata(i, y, z, this.blockID1, this.meta1);
+                        world.setBlockWithoutNotifyingNeighbors(i, y, z, this.blockID1, this.meta1);
                     }
                 }
             }
@@ -95,9 +94,9 @@ public class AetherGenBuildings extends Feature {
             for (int z = k; z < k + dk; ++z) {
                 if ((this.replaceAir || world.getBlockId(x, j, z) != 0) && (this.replaceSolid || world.getBlockId(x, j, z) == 0)) {
                     if (random.nextInt(this.chance) == 0) {
-                        world.setBlockWithMetadata(x, j, z, this.blockID2, this.meta2);
+                        world.setBlockWithoutNotifyingNeighbors(x, j, z, this.blockID2, this.meta2);
                     } else {
-                        world.setBlockWithMetadata(x, j, z, this.blockID1, this.meta1);
+                        world.setBlockWithoutNotifyingNeighbors(x, j, z, this.blockID1, this.meta1);
                     }
                 }
             }
@@ -110,9 +109,9 @@ public class AetherGenBuildings extends Feature {
             for (int y = j; y < j + dj; ++y) {
                 if ((this.replaceAir || world.getBlockId(x, y, k) != 0) && (this.replaceSolid || world.getBlockId(x, y, k) == 0)) {
                     if (random.nextInt(this.chance) == 0) {
-                        world.setBlockWithMetadata(x, y, k, this.blockID2, this.meta2);
+                        world.setBlockWithoutNotifyingNeighbors(x, y, k, this.blockID2, this.meta2);
                     } else {
-                        world.setBlockWithMetadata(x, y, k, this.blockID1, this.meta1);
+                        world.setBlockWithoutNotifyingNeighbors(x, y, k, this.blockID1, this.meta1);
                     }
                 }
             }
@@ -163,9 +162,9 @@ public class AetherGenBuildings extends Feature {
                 for (int z = k; z < k + dk; ++z) {
                     if ((this.replaceAir || world.getBlockId(x, y, z) != 0) && (this.replaceSolid || world.getBlockId(x, y, z) == 0)) {
                         if (random.nextInt(this.chance) == 0) {
-                            world.setBlockWithMetadata(x, y, z, this.blockID2, this.meta2);
+                            world.setBlockWithoutNotifyingNeighbors(x, y, z, this.blockID2, this.meta2);
                         } else {
-                            world.setBlockWithMetadata(x, y, z, this.blockID1, this.meta1);
+                            world.setBlockWithoutNotifyingNeighbors(x, y, z, this.blockID1, this.meta1);
                         }
                     }
                 }

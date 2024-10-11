@@ -42,8 +42,8 @@ public class ItemIceAccessory extends ItemMoreArmor {
         }
 
         if (froze) {
-            itemInstance.applyDamage(1, player);
-            if (itemInstance.getDamage() > itemInstance.getDurability() - 2) {
+            itemInstance.damage(1, player);
+            if (itemInstance.getDamage2() > itemInstance.getMaxDamage() - 2) {
                 itemInstance = null;
             }
         }

@@ -23,7 +23,7 @@ public class AetherLog extends TemplateBlock implements MetaNamedBlockItemProvid
         super(identifier, sprSide, Material.WOOD);
     }
 
-    public int getTextureForSide(int i, int j) {
+    public int getTexture(int i, int j) {
         if (i <= 1 && j <= 3) {
             return sprTop;
         } else {
@@ -31,19 +31,19 @@ public class AetherLog extends TemplateBlock implements MetaNamedBlockItemProvid
         }
     }
 
-    public int getDropCount(Random random) {
+    public int getDroppedItemCount(Random random) {
         return 0;
     }
 
     public void afterBreak(World world, PlayerEntity entityplayer, int x, int y, int z, int meta) {
-        entityplayer.increaseStat(Stats.mineBlock[this.id], 1);
+        entityplayer.increaseStat(Stats.MINE_BLOCK[this.id], 1);
         ItemStack stack = new ItemStack(this.id, 1, 0);
         if (UtilSkyroot.axe(entityplayer) && meta == 1 || meta == 3) {
             stack.count *= 2;
         }
 
         world.spawnEntity(new ItemEntity(world, x, y, z, stack));
-        ItemStack itemstack = entityplayer.inventory.getHeldItem();
+        ItemStack itemstack = entityplayer.inventory.getSelectedItem();
         if (itemstack != null && (itemstack.itemId == AetherItems.AxeZanite.id || itemstack.itemId == AetherItems.AxeGravitite.id)) {
             if (meta > 1) {
                 stack = new ItemStack(AetherItems.GoldenAmber.id, rand.nextInt(4), 0);
@@ -54,11 +54,11 @@ public class AetherLog extends TemplateBlock implements MetaNamedBlockItemProvid
     }
 
     @Override
-    public void onBlockPlaced(World arg, int i, int j, int k) {
+    public void onPlaced(World arg, int i, int j, int k) {
         int meta = arg.getBlockMeta(i,j,k);
         if (meta % 2 != 0)
             arg.setBlockMeta(i, j, k, meta+1);
-        super.onBlockPlaced(arg, i, j, k);
+        super.onPlaced(arg, i, j, k);
     }
 
     public int[] getValidMetas() {

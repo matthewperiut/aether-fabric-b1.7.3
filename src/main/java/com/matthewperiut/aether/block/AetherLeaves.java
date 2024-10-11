@@ -21,15 +21,15 @@ public class AetherLeaves extends TemplateTranslucentBlock {
     public AetherLeaves(Identifier identifier, boolean golden) {
         super(identifier, golden ? sprGoldenOak : sprSkyroot, Material.LEAVES, false);
         this.golden = golden;
-        this.setTicksRandomly(true);
+        this.setTickRandomly(true);
     }
 
     @Override
-    public int getTextureForSide(int i) {
+    public int getTexture(int i) {
         return golden ? sprGoldenOak : sprSkyroot;
     }
 
-    public int getDropCount(Random random) {
+    public int getDroppedItemCount(Random random) {
         if (this.id == AetherBlocks.GoldenOakLeaves.id) {
             return random.nextInt(60) != 0 ? 0 : 1;
         } else {
@@ -37,7 +37,7 @@ public class AetherLeaves extends TemplateTranslucentBlock {
         }
     }
 
-    public int getDropId(int i, Random random) {
+    public int getDroppedItemId(int i, Random random) {
         if (this.id == AetherBlocks.SkyrootLeaves.id) {
             return AetherBlocks.SkyrootSapling.id;
         } else {
@@ -45,17 +45,17 @@ public class AetherLeaves extends TemplateTranslucentBlock {
         }
     }
 
-    public void onBlockRemoved(World world, int i, int j, int k) {
+    public void onBreak(World world, int i, int j, int k) {
         int l = 1;
         int i1 = l + 1;
-        if (world.method_155(i - i1, j - i1, k - i1, i + i1, j + i1, k + i1)) {
+        if (world.isRegionLoaded(i - i1, j - i1, k - i1, i + i1, j + i1, k + i1)) {
             for (int j1 = -l; j1 <= l; ++j1) {
                 for (int k1 = -l; k1 <= l; ++k1) {
                     for (int l1 = -l; l1 <= l; ++l1) {
                         int i2 = world.getBlockId(i + j1, j + k1, k + l1);
                         if (i2 == this.id) {
                             int j2 = world.getBlockMeta(i + j1, j + k1, k + l1);
-                            world.method_223(i + j1, j + k1, k + l1, j2 | 8);
+                            world.setBlockMetaWithoutNotifyingNeighbors(i + j1, j + k1, k + l1, j2 | 8);
                         }
                     }
                 }
@@ -64,8 +64,8 @@ public class AetherLeaves extends TemplateTranslucentBlock {
 
     }
 
-    public void onScheduledTick(World arg, int i, int j, int k, Random random) {
-        if (!arg.isClient) {
+    public void onTick(World arg, int i, int j, int k, Random random) {
+        if (!arg.isRemote) {
             int var6 = arg.getBlockMeta(i, j, k);
             if ((var6 & 8) != 0) {
                 byte var7 = 4;
@@ -78,7 +78,7 @@ public class AetherLeaves extends TemplateTranslucentBlock {
                 }
 
                 int var12;
-                if (arg.method_155(i - var8, j - var8, k - var8, i + var8, j + var8, k + var8)) {
+                if (arg.isRegionLoaded(i - var8, j - var8, k - var8, i + var8, j + var8, k + var8)) {
                     var12 = -var7;
 
                     label111:
@@ -149,7 +149,7 @@ public class AetherLeaves extends TemplateTranslucentBlock {
 
                 var12 = this.blocks[var11 * var10 + var11 * var9 + var11];
                 if (var12 >= 0) {
-                    arg.method_223(i, j, k, var6 & -9);
+                    arg.setBlockMetaWithoutNotifyingNeighbors(i, j, k, var6 & -9);
                 } else {
                     this.dropAndRemove(arg, i, j, k);
                 }
@@ -159,29 +159,29 @@ public class AetherLeaves extends TemplateTranslucentBlock {
     }
 
     private void dropAndRemove(World arg, int i, int j, int k) {
-        this.drop(arg, i, j, k, arg.getBlockMeta(i, j, k));
+        this.dropStacks(arg, i, j, k, arg.getBlockMeta(i, j, k));
         arg.setBlock(i, j, k, 0);
     }
 
-    protected int droppedMeta(int i) {
+    protected int getDroppedItemMeta(int i) {
         return i & 3;
     }
 
-    public boolean isFullOpaque() {
+    public boolean isOpaque() {
         return false;
     }
 
     public void afterBreak(World world, PlayerEntity entityplayer, int i, int j, int k, int l) {
-        if (!world.isClient && entityplayer.getHeldItem() != null && entityplayer.getHeldItem().itemId == Item.SHEARS.id) {
-            entityplayer.increaseStat(Stats.mineBlock[this.id], 1);
-            this.drop(world, i, j, k, new ItemStack(this.id, 1, l & 3));
+        if (!world.isRemote && entityplayer.getHand() != null && entityplayer.getHand().itemId == Item.SHEARS.id) {
+            entityplayer.increaseStat(Stats.MINE_BLOCK[this.id], 1);
+            this.dropStack(world, i, j, k, new ItemStack(this.id, 1, l & 3));
         } else {
             super.afterBreak(world, entityplayer, i, j, k, l);
         }
 
     }
 
-    public boolean isSideRendered(BlockView iblockaccess, int i, int j, int k, int l) {
+    public boolean isSideVisible(BlockView iblockaccess, int i, int j, int k, int l) {
         iblockaccess.getBlockId(i, j, k);
         return true;
     }

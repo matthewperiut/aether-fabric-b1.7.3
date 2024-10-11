@@ -29,7 +29,7 @@ public class RenderZephyr extends LivingEntityRenderer {
         GL11.glScalef(6.0F, 6.0F, 6.0F);
     }
 
-    protected void method_823(LivingEntity entityliving, float f) {
+    protected void applyScale(LivingEntity entityliving, float f) {
         this.func_4014_a((EntityZephyr) entityliving, f);
     }
 }

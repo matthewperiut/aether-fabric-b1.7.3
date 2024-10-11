@@ -2,8 +2,7 @@ package com.matthewperiut.aether.gen.feature;
 
 import com.matthewperiut.aether.block.AetherBlocks;
 import net.minecraft.world.World;
-import net.minecraft.world.feature.Feature;
-
+import net.minecraft.world.gen.feature.Feature;
 import java.util.Random;
 
 public class AetherGenGoldenOak extends Feature {
@@ -19,7 +18,7 @@ public class AetherGenGoldenOak extends Feature {
             j += slant;
             k += directionZ;
             if (world.getBlockId(i, j, k) == AetherBlocks.GoldenOakLeaves.id) {
-                world.setBlockWithMetadata(i, j, k, AetherBlocks.Log.id, 2);
+                world.setBlockWithoutNotifyingNeighbors(i, j, k, AetherBlocks.Log.id, 2);
             }
         }
 
@@ -36,7 +35,7 @@ public class AetherGenGoldenOak extends Feature {
                 for (int y = j + 5; y < j + 12; ++y) {
                     for (int z = k - 3; z < k + 4; ++z) {
                         if ((x - i) * (x - i) + (y - j - 8) * (y - j - 8) + (z - k) * (z - k) < 12 + random.nextInt(5) && world.getBlockId(x, y, z) == 0) {
-                            world.setBlockInChunk(x, y, z, AetherBlocks.GoldenOakLeaves.id);
+                            world.setBlockWithoutNotifyingNeighbors(x, y, z, AetherBlocks.GoldenOakLeaves.id);
                         }
                     }
                 }
@@ -47,7 +46,7 @@ public class AetherGenGoldenOak extends Feature {
                     this.branch(world, random, i, j + x, k, x / 4 - 1);
                 }
 
-                world.setBlockWithMetadata(i, j + x, k, AetherBlocks.Log.id, 2);
+                world.setBlockWithoutNotifyingNeighbors(i, j + x, k, AetherBlocks.Log.id, 2);
             }
 
             return true;

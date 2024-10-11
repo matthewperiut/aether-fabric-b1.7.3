@@ -4,7 +4,7 @@ import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.entity.living.EntityFireMonster;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
-import net.minecraft.world.feature.Feature;
+import net.minecraft.world.gen.feature.Feature;
 import net.modificationstation.stationapi.api.entity.player.PlayerHandler;
 
 import java.util.Random;
@@ -19,7 +19,7 @@ public class AetherGenDungeon extends Feature {
     public int truey;
 
     private int floors() {
-        return Block.DOUBLE_STONE_SLAB.id;
+        return Block.DOUBLE_SLAB.id;
     }
 
     private int walls() {
@@ -62,16 +62,16 @@ public class AetherGenDungeon extends Feature {
                         if (i == a || -i == a || k == a || -k == a) {
                             this.setBlock(world, random, x + i, y + j, z + k, this.walls(), 2, this.ceilings(), 2, 10);
                         } else {
-                            world.setBlockInChunk(x + i, y + j, z + k, 0);
+                            world.setBlockWithoutNotifyingNeighbors(x + i, y + j, z + k, 0);
                             if (j == -2 && (i == a - 1 || -i == a - 1 || k == a - 1 || -k == a - 1) && (i % 3 == 0 || k % 3 == 0)) {
-                                world.setBlockInChunk(x + i, y + j + 2, z + k, this.torches());
+                                world.setBlockWithoutNotifyingNeighbors(x + i, y + j + 2, z + k, this.torches());
                             }
                         }
                     } else {
                         this.setBlock(world, random, x + i, y + j, z + k, this.walls(), 2, this.ceilings(), 2, 10);
                         if ((i == a - 2 || -i == a - 2) && (k == a - 2 || -k == a - 2)) {
-                            world.setBlockInChunk(x + i, y + j + 1, z + k, Block.NETHERRACK.id);
-                            world.setBlockInChunk(x + i, y + j + 2, z + k, Block.FIRE.id);
+                            world.setBlockWithoutNotifyingNeighbors(x + i, y + j + 1, z + k, Block.NETHERRACK.id);
+                            world.setBlockWithoutNotifyingNeighbors(x + i, y + j + 2, z + k, Block.FIRE.id);
                         }
                     }
                 }
@@ -102,16 +102,16 @@ public class AetherGenDungeon extends Feature {
                         } else if (m < 1) {
                             if (l == wid) {
                                 if (k2 < 2 && k2 > -2 && m < 0) {
-                                    world.setBlockInChunk(x + a2, y + m, z + b, this.doors());
+                                    world.setBlockWithoutNotifyingNeighbors(x + a2, y + m, z + b, this.doors());
                                 } else {
                                     this.setBlock(world, random, x + a2, y + m, z + b, this.walls(), 2, this.ceilings(), 2, 10);
                                 }
                             } else if (k2 == 3 || k2 == -3) {
                                 this.setBlock(world, random, x + a2, y + m, z + b, AetherBlocks.Holystone.id, 0, AetherBlocks.Holystone.id, 2, 5);
                             } else {
-                                world.setBlockInChunk(x + a2, y + m, z + b, 0);
+                                world.setBlockWithoutNotifyingNeighbors(x + a2, y + m, z + b, 0);
                                 if (m == -1 && (k2 == 2 || k2 == -2) && (l - wid - 2) % 3 == 0) {
-                                    world.setBlockInChunk(x + a2, y + m, z + b, this.torches());
+                                    world.setBlockWithoutNotifyingNeighbors(x + a2, y + m, z + b, this.torches());
                                 }
                             }
                         } else if (l == wid) {
@@ -135,13 +135,13 @@ public class AetherGenDungeon extends Feature {
                             } else if (l == wid + 5) {
                                 this.setBlock(world, random, x + a2, y + m, z + b, this.walls(), 2, this.ceilings(), 2, 10);
                             } else if (l == wid + 4 && k2 == 0 && m == -2) {
-                                world.setBlockWithMetadata(x + a2, y + m, z + b, AetherBlocks.TreasureChest.id, 4);
+                                world.setBlockWithoutNotifyingNeighbors(x + a2, y + m, z + b, AetherBlocks.TreasureChest.id, 4);
                             } else if (k2 == 3 || k2 == -3) {
                                 this.setBlock(world, random, x + a2, y + m, z + b, this.walls(), 2, this.ceilings(), 2, 10);
                             } else {
-                                world.setBlockInChunk(x + a2, y + m, z + b, 0);
+                                world.setBlockWithoutNotifyingNeighbors(x + a2, y + m, z + b, 0);
                                 if (m == -1 && (k2 == 2 || k2 == -2) && (l - wid - 2) % 3 == 0) {
-                                    world.setBlockInChunk(x + a2, y + m, z + b, this.torches());
+                                    world.setBlockWithoutNotifyingNeighbors(x + a2, y + m, z + b, this.torches());
                                 }
                             }
                         } else {
@@ -161,9 +161,9 @@ public class AetherGenDungeon extends Feature {
 
     private void setBlock(final World world, final Random random, final int i, final int j, final int k, final int block1, final int meta1, final int block2, final int meta2, final int chance) {
         if (random.nextInt(chance) == 0) {
-            world.setBlockWithMetadata(i, j, k, block2, meta2);
+            world.setBlockWithoutNotifyingNeighbors(i, j, k, block2, meta2);
         } else {
-            world.setBlockWithMetadata(i, j, k, block1, meta1);
+            world.setBlockWithoutNotifyingNeighbors(i, j, k, block1, meta1);
         }
     }
 }

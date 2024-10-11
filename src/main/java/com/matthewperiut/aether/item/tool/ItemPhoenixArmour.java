@@ -13,12 +13,12 @@ public class ItemPhoenixArmour extends ItemColouredArmour implements TickableInA
 
     @Override
     public ItemStack tickWhileWorn(PlayerEntity player, ItemStack itemInstance) {
-        if (player.isTouchingWater()) {
-            itemInstance.applyDamage(1, player);
+        if (player.isWet()) {
+            itemInstance.damage(1, player);
         }
 
-        if (itemInstance.getDamage() > itemInstance.getDurability() - 2) {
-            switch (armorSlot) {
+        if (itemInstance.getDamage2() > itemInstance.getMaxDamage() - 2) {
+            switch (equipmentSlot) {
                 case 0 -> {
                     return new ItemStack(AetherItems.ObsidianHelm, 1);
                 }

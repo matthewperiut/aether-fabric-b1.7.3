@@ -6,34 +6,34 @@ import com.matthewperiut.aether.gen.biome.AetherBiomes;
 import com.matthewperiut.aether.gen.feature.*;
 import com.matthewperiut.aether.optional.StapiNewCaveImpl;
 import net.minecraft.block.Block;
-import net.minecraft.block.FallingBlock;
-import net.minecraft.util.ProgressListener;
-import net.minecraft.util.noise.PerlinOctaveNoise;
+import net.minecraft.block.SandBlock;
+import net.minecraft.client.gui.screen.LoadingDisplay;
+import net.minecraft.util.math.noise.OctavePerlinNoiseSampler;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.feature.Feature;
-import net.minecraft.world.feature.LakeFeature;
-import net.minecraft.world.gen.Carver;
-import net.minecraft.world.gen.OverworldCarver;
-import net.minecraft.world.source.WorldSource;
+import net.minecraft.world.chunk.ChunkSource;
+import net.minecraft.world.gen.Generator;
+import net.minecraft.world.gen.carver.CaveWorldCarver;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.LakeFeature;
 import net.modificationstation.stationapi.impl.world.chunk.FlattenedChunk;
 
 import java.util.Random;
 
-public class ChunkProviderAether implements WorldSource {
+public class ChunkProviderAether implements ChunkSource {
     public static int gumCount;
     private final Random random;
-    private final PerlinOctaveNoise noiseGenerator1;
-    private final PerlinOctaveNoise noiseGenerator2;
-    private final PerlinOctaveNoise noiseGenerator3;
-    private final PerlinOctaveNoise noiseGenerator4;
-    private final PerlinOctaveNoise noiseGenerator5;
+    private final OctavePerlinNoiseSampler noiseGenerator1;
+    private final OctavePerlinNoiseSampler noiseGenerator2;
+    private final OctavePerlinNoiseSampler noiseGenerator3;
+    private final OctavePerlinNoiseSampler noiseGenerator4;
+    private final OctavePerlinNoiseSampler noiseGenerator5;
     private final World worldObj;
-    private final Carver mapGenCaves = new OverworldCarver();
-    public PerlinOctaveNoise noiseGenerator6;
-    public PerlinOctaveNoise noiseGenerator7;
-    public PerlinOctaveNoise noiseGenerator8;
+    private final Generator mapGenCaves = new CaveWorldCarver();
+    public OctavePerlinNoiseSampler noiseGenerator6;
+    public OctavePerlinNoiseSampler noiseGenerator7;
+    public OctavePerlinNoiseSampler noiseGenerator8;
     public byte topAetherBlock;
     public byte fillerAetherBlock;
     double[] field_28093_d;
@@ -55,14 +55,14 @@ public class ChunkProviderAether implements WorldSource {
             StapiNewCaveImpl.giveStapiWhatItWants(mapGenCaves, world);
         }
         this.random = new Random(l);
-        this.noiseGenerator1 = new PerlinOctaveNoise(this.random, 16);
-        this.noiseGenerator2 = new PerlinOctaveNoise(this.random, 16);
-        this.noiseGenerator3 = new PerlinOctaveNoise(this.random, 8);
-        this.noiseGenerator4 = new PerlinOctaveNoise(this.random, 4);
-        this.noiseGenerator5 = new PerlinOctaveNoise(this.random, 4);
-        this.noiseGenerator6 = new PerlinOctaveNoise(this.random, 10);
-        this.noiseGenerator7 = new PerlinOctaveNoise(this.random, 16);
-        this.noiseGenerator8 = new PerlinOctaveNoise(this.random, 8);
+        this.noiseGenerator1 = new OctavePerlinNoiseSampler(this.random, 16);
+        this.noiseGenerator2 = new OctavePerlinNoiseSampler(this.random, 16);
+        this.noiseGenerator3 = new OctavePerlinNoiseSampler(this.random, 8);
+        this.noiseGenerator4 = new OctavePerlinNoiseSampler(this.random, 4);
+        this.noiseGenerator5 = new OctavePerlinNoiseSampler(this.random, 4);
+        this.noiseGenerator6 = new OctavePerlinNoiseSampler(this.random, 10);
+        this.noiseGenerator7 = new OctavePerlinNoiseSampler(this.random, 16);
+        this.noiseGenerator8 = new OctavePerlinNoiseSampler(this.random, 8);
     }
 
     public void func_28071_a(int i, int j, byte[] abyte0, Biome[] abiomegenbase, double[] ad) {
@@ -127,9 +127,9 @@ public class ChunkProviderAether implements WorldSource {
 
     public void func_28072_a(int i, int j, byte[] abyte0, Biome[] abiomegenbase) {
         double d = 0.03125;
-        this.field_28079_r = this.noiseGenerator4.sample(this.field_28079_r, i * 16, j * 16, 0.0, 16, 16, 1, d, d, 1.0);
-        this.field_28078_s = this.noiseGenerator4.sample(this.field_28078_s, i * 16, 109.0134, j * 16, 16, 1, 16, d, 1.0, d);
-        this.field_28077_t = this.noiseGenerator5.sample(this.field_28077_t, i * 16, j * 16, 0.0, 16, 16, 1, d * 2.0, d * 2.0, d * 2.0);
+        this.field_28079_r = this.noiseGenerator4.create(this.field_28079_r, i * 16, j * 16, 0.0, 16, 16, 1, d, d, 1.0);
+        this.field_28078_s = this.noiseGenerator4.create(this.field_28078_s, i * 16, 109.0134, j * 16, 16, 1, 16, d, 1.0, d);
+        this.field_28077_t = this.noiseGenerator5.create(this.field_28077_t, i * 16, j * 16, 0.0, 16, 16, 1, d * 2.0, d * 2.0, d * 2.0);
 
         for (int k = 0; k < 16; ++k) {
             for (int l = 0; l < 16; ++l) {
@@ -190,16 +190,16 @@ public class ChunkProviderAether implements WorldSource {
         this.random.setSeed((long) i * 341873128712L + (long) j * 132897987541L);
         byte[] abyte0 = new byte['耀'];
         Chunk chunk = new Chunk(this.worldObj, abyte0, i, j);
-        this.field_28075_v = this.worldObj.method_1781().getBiomes(this.field_28075_v, i * 16, j * 16, 16, 16);
-        double[] ad = this.worldObj.method_1781().temperatureNoises;
+        this.field_28075_v = this.worldObj.method_1781().getBiomesInArea(this.field_28075_v, i * 16, j * 16, 16, 16);
+        double[] ad = this.worldObj.method_1781().temperatureMap;
         this.func_28071_a(i, j, abyte0, this.field_28075_v, ad);
         this.func_28072_a(i, j, abyte0, this.field_28075_v);
-        this.mapGenCaves.generate(this, this.worldObj, i, j, abyte0);
-        chunk.generateHeightmap();
+        this.mapGenCaves.place(this, this.worldObj, i, j, abyte0);
+        chunk.populateHeightMap();
 
         FlattenedChunk flattenedChunk = new FlattenedChunk(worldObj, i, j);
         flattenedChunk.fromLegacy(chunk.blocks);
-        flattenedChunk.generateHeightmap();
+        flattenedChunk.populateHeightMap();
 
         return flattenedChunk;
     }
@@ -211,14 +211,14 @@ public class ChunkProviderAether implements WorldSource {
 
         double d = 684.412;
         double d1 = 684.412;
-        double[] ad1 = this.worldObj.method_1781().temperatureNoises;
-        double[] ad2 = this.worldObj.method_1781().rainfallNoises;
-        this.field_28090_g = this.noiseGenerator6.sample(this.field_28090_g, i, k, l, j1, 1.121, 1.121, 0.5);
-        this.field_28089_h = this.noiseGenerator7.sample(this.field_28089_h, i, k, l, j1, 200.0, 200.0, 0.5);
+        double[] ad1 = this.worldObj.method_1781().temperatureMap;
+        double[] ad2 = this.worldObj.method_1781().downfallMap;
+        this.field_28090_g = this.noiseGenerator6.create(this.field_28090_g, i, k, l, j1, 1.121, 1.121, 0.5);
+        this.field_28089_h = this.noiseGenerator7.create(this.field_28089_h, i, k, l, j1, 200.0, 200.0, 0.5);
         d *= 2.0;
-        this.field_28093_d = this.noiseGenerator3.sample(this.field_28093_d, i, j, k, l, i1, j1, d / 80.0, d1 / 160.0, d / 80.0);
-        this.field_28092_e = this.noiseGenerator1.sample(this.field_28092_e, i, j, k, l, i1, j1, d, d1, d);
-        this.field_28091_f = this.noiseGenerator2.sample(this.field_28091_f, i, j, k, l, i1, j1, d, d1, d);
+        this.field_28093_d = this.noiseGenerator3.create(this.field_28093_d, i, j, k, l, i1, j1, d / 80.0, d1 / 160.0, d / 80.0);
+        this.field_28092_e = this.noiseGenerator1.create(this.field_28092_e, i, j, k, l, i1, j1, d, d1, d);
+        this.field_28091_f = this.noiseGenerator2.create(this.field_28091_f, i, j, k, l, i1, j1, d, d1, d);
         int k1 = 0;
         int l1 = 0;
         int i2 = 16 / l;
@@ -306,8 +306,8 @@ public class ChunkProviderAether implements WorldSource {
         return true;
     }
 
-    public void decorate(WorldSource ichunkprovider, int i, int j) {
-        FallingBlock.fallInstantly = true;
+    public void decorate(ChunkSource ichunkprovider, int i, int j) {
+        SandBlock.fallInstantly = true;
         int k = i * 16;
         int l = j * 16;
         Biome biomegenbase = this.worldObj.method_1781().getBiome(k + 16, l + 16);
@@ -337,7 +337,7 @@ public class ChunkProviderAether implements WorldSource {
             k4 = k + this.random.nextInt(16) + 8;
             l7 = this.random.nextInt(128);
             k17 = l + this.random.nextInt(16) + 8;
-            (new LakeFeature(Block.STILL_WATER.id)).generate(this.worldObj, this.random, k4, l7, k17);
+            (new LakeFeature(Block.WATER.id)).generate(this.worldObj, this.random, k4, l7, k17);
         }
 
         for (k4 = 0; k4 < 20; ++k4) {
@@ -488,8 +488,8 @@ public class ChunkProviderAether implements WorldSource {
             j20 = k + this.random.nextInt(16) + 8;
             l21 = l + this.random.nextInt(16) + 8;
             Feature worldgenerator = random.nextInt(100) == 0 ? new AetherGenGoldenOak() : new AetherGenSkyroot();
-            worldgenerator.setScale(1.0, 1.0, 1.0);
-            worldgenerator.generate(this.worldObj, this.random, j20, this.worldObj.getHeight(j20, l21), l21);
+            worldgenerator.prepare(1.0, 1.0, 1.0);
+            worldgenerator.generate(this.worldObj, this.random, j20, this.worldObj.getTopY(j20, l21), l21);
         }
 
         for (k17 = 0; k17 < 50; ++k17) {
@@ -499,10 +499,10 @@ public class ChunkProviderAether implements WorldSource {
             (new AetherGenLiquids(Block.FLOWING_WATER.id)).generate(this.worldObj, this.random, j20, l21, l22);
         }
 
-        FallingBlock.fallInstantly = false;
+        SandBlock.fallInstantly = false;
     }
 
-    public boolean saveChunks(boolean flag, ProgressListener iprogressupdate) {
+    public boolean save(boolean flag, LoadingDisplay iprogressupdate) {
         return true;
     }
 
@@ -514,15 +514,15 @@ public class ChunkProviderAether implements WorldSource {
         return true;
     }
 
-    public String toString() {
+    public String getDebugInfo() {
         return "RandomLevelSource";
     }
 
-    public boolean unloadOldestChunks() {
+    public boolean tick() {
         return false;
     }
 
-    public boolean isClean() {
+    public boolean canSave() {
         return true;
     }
 }

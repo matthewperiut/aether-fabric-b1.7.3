@@ -5,11 +5,11 @@ import com.matthewperiut.aether.mixin.access.PlayerEntityAccessor;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.number.BedMagicNumbers;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.SleepAttemptResult;
 import net.minecraft.item.Item;
-import net.minecraft.util.SleepStatus;
-import net.minecraft.util.Vec3i;
+import net.minecraft.util.math.Facings;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.template.block.TemplateBlock;
@@ -61,7 +61,7 @@ public class AetherBed extends TemplateBlock {
 
             for (int l2 = l1; l2 <= j2; ++l2) {
                 for (int i3 = i2; i3 <= k2; ++i3) {
-                    if (world.canSuffocate(l2, j - 1, i3) && world.isAir(l2, j, i3) && world.isAir(l2, j + 1, i3)) {
+                    if (world.shouldSuffocate(l2, j - 1, i3) && world.isAir(l2, j, i3) && world.isAir(l2, j + 1, i3)) {
                         if (l <= 0) {
                             return new Vec3i(l2, j, i3);
                         }
@@ -75,8 +75,8 @@ public class AetherBed extends TemplateBlock {
         return null;
     }
 
-    public boolean canUse(World world, int i, int j, int k, PlayerEntity entityplayer) {
-        if (world.isClient) {
+    public boolean onUse(World world, int i, int j, int k, PlayerEntity entityplayer) {
+        if (world.isRemote) {
             return true;
         } else {
             int l = world.getBlockMeta(i, j, k);
@@ -97,8 +97,8 @@ public class AetherBed extends TemplateBlock {
 
                 while (iterator.hasNext()) {
                     PlayerEntity entityplayer2 = (PlayerEntity) iterator.next();
-                    if (entityplayer2.isLyingOnBed()) {
-                        Vec3i chunkcoordinates = entityplayer2.bedPosition;
+                    if (entityplayer2.isSleeping()) {
+                        Vec3i chunkcoordinates = entityplayer2.sleepingPos;
                         if (chunkcoordinates.x == i && chunkcoordinates.y == j && chunkcoordinates.z == k) {
                             entityplayer1 = entityplayer2;
                         }
@@ -113,12 +113,12 @@ public class AetherBed extends TemplateBlock {
                 setBedOccupied(world, i, j, k, false);
             }
 
-            SleepStatus enumstatus = this.sleepInBedAt(entityplayer, i, j, k);
-            if (enumstatus == SleepStatus.field_2660) {
+            SleepAttemptResult enumstatus = this.sleepInBedAt(entityplayer, i, j, k);
+            if (enumstatus == SleepAttemptResult.OK) {
                 setBedOccupied(world, i, j, k, true);
                 return true;
             } else {
-                if (enumstatus == SleepStatus.DAY_TIME) {
+                if (enumstatus == SleepAttemptResult.NOT_POSSIBLE_NOW) {
                     entityplayer.sendMessage("tile.bed.noSleep");
                 }
 
@@ -127,32 +127,32 @@ public class AetherBed extends TemplateBlock {
         }
     }
 
-    public SleepStatus sleepInBedAt(PlayerEntity player, int i, int j, int k) {
+    public SleepAttemptResult sleepInBedAt(PlayerEntity player, int i, int j, int k) {
         World worldObj = player.world;
-        if (!worldObj.isClient) {
+        if (!worldObj.isRemote) {
             label49:
             {
-                if (!player.isLyingOnBed() && player.isAlive()) {
-                    if (worldObj.isDaylight()) {
-                        return SleepStatus.DAY_TIME;
+                if (!player.isSleeping() && player.isAlive()) {
+                    if (worldObj.canMonsterSpawn()) {
+                        return SleepAttemptResult.NOT_POSSIBLE_NOW;
                     }
 
                     if (!(Math.abs(player.x - (double) i) > 3.0) && !(Math.abs(player.y - (double) j) > 2.0) && !(Math.abs(player.z - (double) k) > 3.0)) {
                         break label49;
                     }
 
-                    return SleepStatus.field_2663;
+                    return SleepAttemptResult.TOO_FAR_AWAY;
                 }
 
-                return SleepStatus.YOU_SLEEPING_OR_DEAD;
+                return SleepAttemptResult.OTHER_PROBLEM;
             }
         }
 
         ((LivingEntityAccessor) player).invokeSetSize(0.2F, 0.2F);
         player.standingEyeHeight = 0.2F;
-        if (worldObj.isBlockLoaded(i, j, k)) {
+        if (worldObj.isPosLoaded(i, j, k)) {
             int l = worldObj.getBlockMeta(i, j, k);
-            int i1 = BedBlock.orientationOnly(l);
+            int i1 = BedBlock.getDirection(l);
             float f = 0.5F;
             float f1 = 0.5F;
             switch (i1) {
@@ -176,49 +176,49 @@ public class AetherBed extends TemplateBlock {
         }
 
         ((PlayerEntityAccessor) player).setLyingOnBed(true);
-        player.xVelocity = player.zVelocity = player.yVelocity = 0.0;
-        if (!worldObj.isClient) {
-            worldObj.onPlayerDisconnect();
+        player.velocityX = player.velocityZ = player.velocityY = 0.0;
+        if (!worldObj.isRemote) {
+            worldObj.updateSleepingPlayers();
         }
 
-        return SleepStatus.field_2660;
+        return SleepAttemptResult.OK;
     }
 
     private void func_22052_e(PlayerEntity player, int i) {
-        player.field_509 = 0.0F;
-        player.field_510 = 0.0F;
+        player.sleepOffsetX = 0.0F;
+        player.sleepOffsetZ = 0.0F;
         switch (i) {
             case 0:
-                player.field_510 = -1.8F;
+                player.sleepOffsetZ = -1.8F;
                 break;
             case 1:
-                player.field_509 = 1.8F;
+                player.sleepOffsetX = 1.8F;
                 break;
             case 2:
-                player.field_510 = 1.8F;
+                player.sleepOffsetZ = 1.8F;
                 break;
             case 3:
-                player.field_509 = -1.8F;
+                player.sleepOffsetX = -1.8F;
         }
 
     }
 
-    public int getTextureForSide(int i, int j) {
+    public int getTexture(int i, int j) {
         if (i == 0) {
-            return Block.WOOD.texture;
+            return Block.PLANKS.textureId;
         } else {
             int k = getDirectionFromMetadata(j);
-            int l = BedMagicNumbers.field_794[k][i];
+            int l = Facings.BED_FACINGS[k][i];
             if (isBlockFootOfBed(j)) {
                 if (l == 2) {
-                    return this.texture + 2 + 16;
+                    return this.textureId + 2 + 16;
                 } else {
-                    return l != 5 && l != 4 ? this.texture + 1 : this.texture + 1 + 16;
+                    return l != 5 && l != 4 ? this.textureId + 1 : this.textureId + 1 + 16;
                 }
             } else if (l == 3) {
-                return this.texture - 1 + 16;
+                return this.textureId - 1 + 16;
             } else {
-                return l != 5 && l != 4 ? this.texture : this.texture + 16;
+                return l != 5 && l != 4 ? this.textureId : this.textureId + 16;
             }
         }
     }
@@ -231,7 +231,7 @@ public class AetherBed extends TemplateBlock {
         return false;
     }
 
-    public boolean isFullOpaque() {
+    public boolean isOpaque() {
         return false;
     }
 
@@ -239,7 +239,7 @@ public class AetherBed extends TemplateBlock {
         this.setBounds();
     }
 
-    public void onAdjacentBlockUpdate(World world, int i, int j, int k, int l) {
+    public void neighborUpdate(World world, int i, int j, int k, int l) {
         int i1 = world.getBlockMeta(i, j, k);
         int j1 = getDirectionFromMetadata(i1);
         if (isBlockFootOfBed(i1)) {
@@ -248,14 +248,14 @@ public class AetherBed extends TemplateBlock {
             }
         } else if (world.getBlockId(i + headBlockToFootBlockMap[j1][0], j, k + headBlockToFootBlockMap[j1][1]) != this.id) {
             world.setBlock(i, j, k, 0);
-            if (!world.isClient) {
-                this.drop(world, i, j, k, i1);
+            if (!world.isRemote) {
+                this.dropStacks(world, i, j, k, i1);
             }
         }
 
     }
 
-    public int getDropId(int i, Random random) {
+    public int getDroppedItemId(int i, Random random) {
         return isBlockFootOfBed(i) ? 0 : Item.BED.id;
     }
 
@@ -263,14 +263,14 @@ public class AetherBed extends TemplateBlock {
         this.setBoundingBox(0.0F, 0.0F, 0.0F, 1.0F, 0.5625F, 1.0F);
     }
 
-    public void beforeDestroyedByExplosion(World world, int i, int j, int k, int l, float f) {
+    public void dropStacks(World world, int i, int j, int k, int l, float f) {
         if (!isBlockFootOfBed(l)) {
-            super.beforeDestroyedByExplosion(world, i, j, k, l, f);
+            super.dropStacks(world, i, j, k, l, f);
         }
 
     }
 
-    public int getPistonPushMode() {
+    public int getPistonBehavior() {
         return 1;
     }
 }

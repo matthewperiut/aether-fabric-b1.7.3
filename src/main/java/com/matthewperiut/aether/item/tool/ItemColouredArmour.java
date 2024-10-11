@@ -18,7 +18,7 @@ public class ItemColouredArmour extends TemplateArmorItem implements ArmorTextur
     }
 
     @Override
-    public int getNameColor(int i) {
+    public int getColorMultiplier(int i) {
         return this.color;
     }
 

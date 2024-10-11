@@ -2,17 +2,17 @@ package com.matthewperiut.aether.client.entity.renderer.special;
 
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.entity.special.EntityCloudParachute;
-import net.minecraft.client.render.block.BlockRenderer;
+import net.minecraft.client.render.block.BlockRenderManager;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 
 public class RenderCloudParachute extends EntityRenderer {
-    private BlockRenderer renderBlocks = new BlockRenderer();
+    private BlockRenderManager renderBlocks = new BlockRenderManager();
 
     public RenderCloudParachute() {
-        this.field_2678 = 0.5F;
+        this.shadowRadius = 0.5F;
     }
 
     public void renderCloud(EntityCloudParachute entitycloud, double d, double d1, double d2, float f, float f1) {

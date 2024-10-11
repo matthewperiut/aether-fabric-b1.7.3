@@ -7,7 +7,7 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.io.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
@@ -24,15 +24,15 @@ public class EntitySheepuff extends EntityAetherAnimal implements MobSpawnDataPr
     public EntitySheepuff(World world) {
         super(world);
         this.texture = "aether:stationapi/textures/mobs/sheepuff.png";
-        this.setSize(0.9F, 1.3F);
-        this.setFleeceColor(getRandomFleeceColor(this.rand));
+        this.setBoundingBoxSpacing(0.9F, 1.3F);
+        this.setFleeceColor(getRandomFleeceColor(this.random));
         this.amountEaten = 0;
     }
 
     public EntitySheepuff(World world, int color) {
         super(world);
         this.texture = "aether:stationapi/textures/mobs/sheepuff.png";
-        this.setSize(0.9F, 1.3F);
+        this.setBoundingBoxSpacing(0.9F, 1.3F);
         this.setFleeceColor(color);
         this.amountEaten = 0;
     }
@@ -42,48 +42,48 @@ public class EntitySheepuff extends EntityAetherAnimal implements MobSpawnDataPr
         this.dataTracker.startTracking(16, (byte) 0);
     }
 
-    protected void getDrops() {
+    protected void dropItems() {
         if (!this.getSheared()) {
-            this.dropItem(new ItemStack(Block.WOOL.id, 1 + this.rand.nextInt(2), this.getFleeceColor()), 0.0F);
+            this.dropItem(new ItemStack(Block.WOOL.id, 1 + this.random.nextInt(2), this.getFleeceColor()), 0.0F);
         }
 
     }
 
     public boolean interact(PlayerEntity entityplayer) {
-        ItemStack itemstack = entityplayer.inventory.getHeldItem();
+        ItemStack itemstack = entityplayer.inventory.getSelectedItem();
         int colour;
         if (itemstack != null && itemstack.itemId == Item.SHEARS.id && !this.getSheared()) {
-            if (!this.world.isClient) {
+            if (!this.world.isRemote) {
                 int j;
                 ItemEntity entityitem;
                 if (this.getPuffed()) {
                     this.setPuffed(false);
-                    colour = 2 + this.rand.nextInt(3);
+                    colour = 2 + this.random.nextInt(3);
 
                     for (j = 0; j < colour; ++j) {
                         entityitem = this.dropItem(new ItemStack(Block.WOOL.id, 1, this.getFleeceColor()), 1.0F);
-                        entityitem.yVelocity += (double) (this.rand.nextFloat() * 0.05F);
-                        entityitem.xVelocity += (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F);
-                        entityitem.zVelocity += (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F);
+                        entityitem.velocityY += (double) (this.random.nextFloat() * 0.05F);
+                        entityitem.velocityX += (double) ((this.random.nextFloat() - this.random.nextFloat()) * 0.1F);
+                        entityitem.velocityZ += (double) ((this.random.nextFloat() - this.random.nextFloat()) * 0.1F);
                     }
                 } else {
                     this.setSheared(true);
-                    colour = 2 + this.rand.nextInt(3);
+                    colour = 2 + this.random.nextInt(3);
 
                     for (j = 0; j < colour; ++j) {
                         entityitem = this.dropItem(new ItemStack(Block.WOOL.id, 1, this.getFleeceColor()), 1.0F);
-                        entityitem.yVelocity += (double) (this.rand.nextFloat() * 0.05F);
-                        entityitem.xVelocity += (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F);
-                        entityitem.zVelocity += (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F);
+                        entityitem.velocityY += (double) (this.random.nextFloat() * 0.05F);
+                        entityitem.velocityX += (double) ((this.random.nextFloat() - this.random.nextFloat()) * 0.1F);
+                        entityitem.velocityZ += (double) ((this.random.nextFloat() - this.random.nextFloat()) * 0.1F);
                     }
                 }
             }
 
-            itemstack.applyDamage(1, entityplayer);
+            itemstack.damage(1, entityplayer);
         }
 
-        if (itemstack != null && itemstack.itemId == Item.DYE_POWDER.id && !this.getSheared()) {
-            colour = WoolBlock.getColor(itemstack.getMeta());
+        if (itemstack != null && itemstack.itemId == Item.DYE.id && !this.getSheared()) {
+            colour = WoolBlock.getBlockMeta(itemstack.getDamage());
             if (this.getFleeceColor() != colour) {
                 if (this.getPuffed() && itemstack.count >= 2) {
                     this.setFleeceColor(colour);
@@ -100,11 +100,11 @@ public class EntitySheepuff extends EntityAetherAnimal implements MobSpawnDataPr
 
     protected void jump() {
         if (this.getPuffed()) {
-            this.yVelocity = 1.8;
-            this.xVelocity += this.rand.nextGaussian() * 0.5;
-            this.zVelocity += this.rand.nextGaussian() * 0.5;
+            this.velocityY = 1.8;
+            this.velocityX += this.random.nextGaussian() * 0.5;
+            this.velocityZ += this.random.nextGaussian() * 0.5;
         } else {
-            this.yVelocity = 0.41999998688697815;
+            this.velocityY = 0.41999998688697815;
         }
 
     }
@@ -113,12 +113,12 @@ public class EntitySheepuff extends EntityAetherAnimal implements MobSpawnDataPr
         super.tick();
         if (this.getPuffed()) {
             this.fallDistance = 0.0F;
-            if (this.yVelocity < -0.05) {
-                this.yVelocity = -0.05;
+            if (this.velocityY < -0.05) {
+                this.velocityY = -0.05;
             }
         }
 
-        if (this.rand.nextInt(100) == 0) {
+        if (this.random.nextInt(100) == 0) {
             int x = MathHelper.floor(this.x);
             int y = MathHelper.floor(this.y);
             int z = MathHelper.floor(this.z);
@@ -141,21 +141,21 @@ public class EntitySheepuff extends EntityAetherAnimal implements MobSpawnDataPr
 
     }
 
-    public void writeAdditional(CompoundTag nbttagcompound) {
-        super.writeAdditional(nbttagcompound);
-        nbttagcompound.put("Sheared", this.getSheared());
-        nbttagcompound.put("Puffed", this.getPuffed());
-        nbttagcompound.put("Color", (byte) this.getFleeceColor());
+    public void writeNbt(NbtCompound nbttagcompound) {
+        super.writeNbt(nbttagcompound);
+        nbttagcompound.putBoolean("Sheared", this.getSheared());
+        nbttagcompound.putBoolean("Puffed", this.getPuffed());
+        nbttagcompound.putByte("Color", (byte) this.getFleeceColor());
     }
 
-    public void readAdditional(CompoundTag nbttagcompound) {
-        super.readAdditional(nbttagcompound);
+    public void readNbt(NbtCompound nbttagcompound) {
+        super.readNbt(nbttagcompound);
         this.setSheared(nbttagcompound.getBoolean("Sheared"));
         this.setPuffed(nbttagcompound.getBoolean("Puffed"));
         this.setFleeceColor(nbttagcompound.getByte("Color"));
     }
 
-    protected String getAmbientSound() {
+    protected String getRandomSound() {
         return "mob.sheep";
     }
 
@@ -173,7 +173,7 @@ public class EntitySheepuff extends EntityAetherAnimal implements MobSpawnDataPr
 
     public void setFleeceColor(int i) {
         byte byte0 = this.dataTracker.getByte(16);
-        this.dataTracker.setInt(16, (byte) (byte0 & 240 | i & 15));
+        this.dataTracker.set(16, (byte) (byte0 & 240 | i & 15));
     }
 
     public boolean getSheared() {
@@ -183,9 +183,9 @@ public class EntitySheepuff extends EntityAetherAnimal implements MobSpawnDataPr
     public void setSheared(boolean flag) {
         byte byte0 = this.dataTracker.getByte(16);
         if (flag) {
-            this.dataTracker.setInt(16, (byte) (byte0 | 16));
+            this.dataTracker.set(16, (byte) (byte0 | 16));
         } else {
-            this.dataTracker.setInt(16, (byte) (byte0 & -17));
+            this.dataTracker.set(16, (byte) (byte0 & -17));
         }
 
     }
@@ -197,9 +197,9 @@ public class EntitySheepuff extends EntityAetherAnimal implements MobSpawnDataPr
     public void setPuffed(boolean flag) {
         byte byte0 = this.dataTracker.getByte(16);
         if (flag) {
-            this.dataTracker.setInt(16, (byte) (byte0 | 32));
+            this.dataTracker.set(16, (byte) (byte0 | 32));
         } else {
-            this.dataTracker.setInt(16, (byte) (byte0 & -33));
+            this.dataTracker.set(16, (byte) (byte0 & -33));
         }
 
     }

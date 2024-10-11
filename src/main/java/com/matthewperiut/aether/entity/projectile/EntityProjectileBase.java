@@ -6,9 +6,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.io.CompoundTag;
-import net.minecraft.util.math.AxixAlignedBoundingBox;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -45,22 +45,22 @@ public abstract class EntityProjectileBase extends ArrowEntity {
 
     public EntityProjectileBase(World world, double d, double d1, double d2) {
         this(world);
-        this.method_1338(d, d1, d2, this.yaw, this.pitch);
+        this.setPositionAndAngles(d, d1, d2, this.yaw, this.pitch);
     }
 
     public EntityProjectileBase(World world, LivingEntity entityliving) {
         this(world);
         this.owner = entityliving;
         this.shotByPlayer = entityliving instanceof PlayerEntity;
-        this.setPositionAndAngles(entityliving.x, entityliving.y + (double) entityliving.getStandingEyeHeight(), entityliving.z, entityliving.yaw, entityliving.pitch);
+        this.setPositionAndAnglesKeepPrevAngles(entityliving.x, entityliving.y + (double) entityliving.getEyeHeight(), entityliving.z, entityliving.yaw, entityliving.pitch);
         this.x -= (double) (MathHelper.cos(this.yaw / 180.0F * 3.141593F) * 0.16F);
         this.y -= 0.10000000149011612;
         this.z -= (double) (MathHelper.sin(this.yaw / 180.0F * 3.141593F) * 0.16F);
-        this.method_1338(this.x, this.y, this.z, this.yaw, this.pitch);
-        this.xVelocity = (double) (-MathHelper.sin(this.yaw / 180.0F * 3.141593F) * MathHelper.cos(this.pitch / 180.0F * 3.141593F));
-        this.zVelocity = (double) (MathHelper.cos(this.yaw / 180.0F * 3.141593F) * MathHelper.cos(this.pitch / 180.0F * 3.141593F));
-        this.yVelocity = (double) (-MathHelper.sin(this.pitch / 180.0F * 3.141593F));
-        this.setArrowHeading(this.xVelocity, this.yVelocity, this.zVelocity, this.speed, this.precision);
+        this.setPositionAndAngles(this.x, this.y, this.z, this.yaw, this.pitch);
+        this.velocityX = (double) (-MathHelper.sin(this.yaw / 180.0F * 3.141593F) * MathHelper.cos(this.pitch / 180.0F * 3.141593F));
+        this.velocityZ = (double) (MathHelper.cos(this.yaw / 180.0F * 3.141593F) * MathHelper.cos(this.pitch / 180.0F * 3.141593F));
+        this.velocityY = (double) (-MathHelper.sin(this.pitch / 180.0F * 3.141593F));
+        this.setArrowHeading(this.velocityX, this.velocityY, this.velocityZ, this.speed, this.precision);
     }
 
     protected void initDataTracker() {
@@ -71,7 +71,7 @@ public abstract class EntityProjectileBase extends ArrowEntity {
         this.inGround = false;
         this.arrowShake = 0;
         this.ticksFlying = 0;
-        this.setSize(0.5F, 0.5F);
+        this.setBoundingBoxSpacing(0.5F, 0.5F);
         this.standingEyeHeight = 0.0F;
         this.hitBox = 0.3F;
         this.speed = 1.0F;
@@ -83,9 +83,9 @@ public abstract class EntityProjectileBase extends ArrowEntity {
         this.item = null;
     }
 
-    public void remove() {
+    public void markDead() {
         this.owner = null;
-        super.remove();
+        super.markDead();
     }
 
     public void setArrowHeading(double d, double d1, double d2, float f, float f1) {
@@ -93,25 +93,25 @@ public abstract class EntityProjectileBase extends ArrowEntity {
         d /= (double) f2;
         d1 /= (double) f2;
         d2 /= (double) f2;
-        d += this.rand.nextGaussian() * 0.007499999832361937 * (double) f1;
-        d1 += this.rand.nextGaussian() * 0.007499999832361937 * (double) f1;
-        d2 += this.rand.nextGaussian() * 0.007499999832361937 * (double) f1;
+        d += this.random.nextGaussian() * 0.007499999832361937 * (double) f1;
+        d1 += this.random.nextGaussian() * 0.007499999832361937 * (double) f1;
+        d2 += this.random.nextGaussian() * 0.007499999832361937 * (double) f1;
         d *= (double) f;
         d1 *= (double) f;
         d2 *= (double) f;
-        this.xVelocity = d;
-        this.yVelocity = d1;
-        this.zVelocity = d2;
+        this.velocityX = d;
+        this.velocityY = d1;
+        this.velocityZ = d2;
         float f3 = MathHelper.sqrt(d * d + d2 * d2);
         this.prevYaw = this.yaw = (float) (Math.atan2(d, d2) * 180.0 / 3.1415927410125732);
         this.prevPitch = this.pitch = (float) (Math.atan2(d1, (double) f3) * 180.0 / 3.1415927410125732);
         this.ticksInGround = 0;
     }
 
-    public void setVelocity(double d, double d1, double d2) {
-        this.xVelocity = d;
-        this.yVelocity = d1;
-        this.zVelocity = d2;
+    public void setVelocityClient(double d, double d1, double d2) {
+        this.velocityX = d;
+        this.velocityY = d1;
+        this.velocityZ = d2;
         if (this.prevPitch == 0.0F && this.prevYaw == 0.0F) {
             float f = MathHelper.sqrt(d * d + d2 * d2);
             this.prevYaw = this.yaw = (float) (Math.atan2(d, d2) * 180.0 / 3.1415927410125732);
@@ -123,9 +123,9 @@ public abstract class EntityProjectileBase extends ArrowEntity {
     public void tick() {
         super.tick();
         if (this.prevPitch == 0.0F && this.prevYaw == 0.0F) {
-            float f = MathHelper.sqrt(this.xVelocity * this.xVelocity + this.zVelocity * this.zVelocity);
-            this.prevYaw = this.yaw = (float) (Math.atan2(this.xVelocity, this.zVelocity) * 180.0 / 3.1415927410125732);
-            this.prevPitch = this.pitch = (float) (Math.atan2(this.yVelocity, (double) f) * 180.0 / 3.1415927410125732);
+            float f = MathHelper.sqrt(this.velocityX * this.velocityX + this.velocityZ * this.velocityZ);
+            this.prevYaw = this.yaw = (float) (Math.atan2(this.velocityX, this.velocityZ) * 180.0 / 3.1415927410125732);
+            this.prevPitch = this.pitch = (float) (Math.atan2(this.velocityY, (double) f) * 180.0 / 3.1415927410125732);
         }
 
         if (this.arrowShake > 0) {
@@ -139,16 +139,16 @@ public abstract class EntityProjectileBase extends ArrowEntity {
                 ++this.ticksInGround;
                 this.tickInGround();
                 if (this.ticksInGround == this.ttlInGround) {
-                    this.remove();
+                    this.markDead();
                 }
 
                 return;
             }
 
             this.inGround = false;
-            this.xVelocity *= (double) (this.rand.nextFloat() * 0.2F);
-            this.yVelocity *= (double) (this.rand.nextFloat() * 0.2F);
-            this.zVelocity *= (double) (this.rand.nextFloat() * 0.2F);
+            this.velocityX *= (double) (this.random.nextFloat() * 0.2F);
+            this.velocityY *= (double) (this.random.nextFloat() * 0.2F);
+            this.velocityZ *= (double) (this.random.nextFloat() * 0.2F);
             this.ticksInGround = 0;
             this.ticksFlying = 0;
         } else {
@@ -156,27 +156,27 @@ public abstract class EntityProjectileBase extends ArrowEntity {
         }
 
         this.tickFlying();
-        Vec3d vec3d = Vec3d.from(this.x, this.y, this.z);
-        Vec3d vec3d1 = Vec3d.from(this.x + this.xVelocity, this.y + this.yVelocity, this.z + this.zVelocity);
-        HitResult movingobjectposition = this.world.method_160(vec3d, vec3d1);
-        vec3d = Vec3d.from(this.x, this.y, this.z);
-        vec3d1 = Vec3d.from(this.x + this.xVelocity, this.y + this.yVelocity, this.z + this.zVelocity);
+        Vec3d vec3d = Vec3d.createCached(this.x, this.y, this.z);
+        Vec3d vec3d1 = Vec3d.createCached(this.x + this.velocityX, this.y + this.velocityY, this.z + this.velocityZ);
+        HitResult movingobjectposition = this.world.raycast(vec3d, vec3d1);
+        vec3d = Vec3d.createCached(this.x, this.y, this.z);
+        vec3d1 = Vec3d.createCached(this.x + this.velocityX, this.y + this.velocityY, this.z + this.velocityZ);
         if (movingobjectposition != null) {
-            vec3d1 = Vec3d.from(movingobjectposition.field_1988.x, movingobjectposition.field_1988.y, movingobjectposition.field_1988.z);
+            vec3d1 = Vec3d.createCached(movingobjectposition.pos.x, movingobjectposition.pos.y, movingobjectposition.pos.z);
         }
 
         Entity entity = null;
-        List list = this.world.getEntities(this, this.boundingBox.duplicateAndExpand(this.xVelocity, this.yVelocity, this.zVelocity).expand(1.0, 1.0, 1.0));
+        List list = this.world.getEntities(this, this.boundingBox.stretch(this.velocityX, this.velocityY, this.velocityZ).expand(1.0, 1.0, 1.0));
         double d = 0.0;
 
         for (int j = 0; j < list.size(); ++j) {
             Entity entity1 = (Entity) list.get(j);
             if (this.canBeShot(entity1)) {
                 float f4 = this.hitBox;
-                AxixAlignedBoundingBox axisalignedbb = entity1.boundingBox.expand((double) f4, (double) f4, (double) f4);
-                HitResult movingobjectposition1 = axisalignedbb.method_89(vec3d, vec3d1);
+                Box axisalignedbb = entity1.boundingBox.expand((double) f4, (double) f4, (double) f4);
+                HitResult movingobjectposition1 = axisalignedbb.raycast(vec3d, vec3d1);
                 if (movingobjectposition1 != null) {
-                    double d1 = vec3d.distanceTo(movingobjectposition1.field_1988);
+                    double d1 = vec3d.distanceTo(movingobjectposition1.pos);
                     if (d1 < d || d == 0.0) {
                         entity = entity1;
                         d = d1;
@@ -190,30 +190,30 @@ public abstract class EntityProjectileBase extends ArrowEntity {
         }
 
         if (movingobjectposition != null && this.onHit()) {
-            Entity ent = movingobjectposition.field_1989;
+            Entity ent = movingobjectposition.entity;
             if (ent != null) {
                 if (this.onHitTarget(ent)) {
                     if (ent instanceof LivingEntity && !(ent instanceof PlayerEntity)) {
-                        ((LivingEntityAccessor) ent).set1058(0);
+                        ((LivingEntityAccessor) ent).setPrevHealth(0);
                     }
 
                     ent.damage(this.owner, this.dmg);
-                    this.remove();
+                    this.markDead();
                 }
             } else {
-                this.xTile = movingobjectposition.x;
-                this.yTile = movingobjectposition.y;
-                this.zTile = movingobjectposition.z;
+                this.xTile = movingobjectposition.blockX;
+                this.yTile = movingobjectposition.blockY;
+                this.zTile = movingobjectposition.blockZ;
                 this.inTile = this.world.getBlockId(this.xTile, this.yTile, this.zTile);
                 this.inData = this.world.getBlockMeta(this.xTile, this.yTile, this.zTile);
                 if (this.onHitBlock(movingobjectposition)) {
-                    this.xVelocity = (double) ((float) (movingobjectposition.field_1988.x - this.x));
-                    this.yVelocity = (double) ((float) (movingobjectposition.field_1988.y - this.y));
-                    this.zVelocity = (double) ((float) (movingobjectposition.field_1988.z - this.z));
-                    float f1 = MathHelper.sqrt(this.xVelocity * this.xVelocity + this.yVelocity * this.yVelocity + this.zVelocity * this.zVelocity);
-                    this.x -= this.xVelocity / (double) f1 * 0.05000000074505806;
-                    this.y -= this.yVelocity / (double) f1 * 0.05000000074505806;
-                    this.z -= this.zVelocity / (double) f1 * 0.05000000074505806;
+                    this.velocityX = (double) ((float) (movingobjectposition.pos.x - this.x));
+                    this.velocityY = (double) ((float) (movingobjectposition.pos.y - this.y));
+                    this.velocityZ = (double) ((float) (movingobjectposition.pos.z - this.z));
+                    float f1 = MathHelper.sqrt(this.velocityX * this.velocityX + this.velocityY * this.velocityY + this.velocityZ * this.velocityZ);
+                    this.x -= this.velocityX / (double) f1 * 0.05000000074505806;
+                    this.y -= this.velocityY / (double) f1 * 0.05000000074505806;
+                    this.z -= this.velocityZ / (double) f1 * 0.05000000074505806;
                     this.inGround = true;
                     this.arrowShake = 7;
                 } else {
@@ -223,14 +223,14 @@ public abstract class EntityProjectileBase extends ArrowEntity {
             }
         }
 
-        this.x += this.xVelocity;
-        this.y += this.yVelocity;
-        this.z += this.zVelocity;
+        this.x += this.velocityX;
+        this.y += this.velocityY;
+        this.z += this.velocityZ;
         this.handleMotionUpdate();
-        float f2 = MathHelper.sqrt(this.xVelocity * this.xVelocity + this.zVelocity * this.zVelocity);
-        this.yaw = (float) (Math.atan2(this.xVelocity, this.zVelocity) * 180.0 / 3.1415927410125732);
+        float f2 = MathHelper.sqrt(this.velocityX * this.velocityX + this.velocityZ * this.velocityZ);
+        this.yaw = (float) (Math.atan2(this.velocityX, this.velocityZ) * 180.0 / 3.1415927410125732);
 
-        for (this.pitch = (float) (Math.atan2(this.yVelocity, (double) f2) * 180.0 / 3.1415927410125732); this.pitch - this.prevPitch < -180.0F; this.prevPitch -= 360.0F) {
+        for (this.pitch = (float) (Math.atan2(this.velocityY, (double) f2) * 180.0 / 3.1415927410125732); this.pitch - this.prevPitch < -180.0F; this.prevPitch -= 360.0F) {
         }
 
         while (this.pitch - this.prevPitch >= 180.0F) {
@@ -247,38 +247,38 @@ public abstract class EntityProjectileBase extends ArrowEntity {
 
         this.pitch = this.prevPitch + (this.pitch - this.prevPitch) * 0.2F;
         this.yaw = this.prevYaw + (this.yaw - this.prevYaw) * 0.2F;
-        this.method_1338(this.x, this.y, this.z, this.yaw, this.pitch);
+        this.setPositionAndAngles(this.x, this.y, this.z, this.yaw, this.pitch);
     }
 
     public void handleMotionUpdate() {
         float slow = this.slowdown;
-        if (this.method_1393()) {
+        if (this.checkWaterCollisions()) {
             for (int k = 0; k < 4; ++k) {
                 float f6 = 0.25F;
-                this.world.addParticle("bubble", this.x - this.xVelocity * (double) f6, this.y - this.yVelocity * (double) f6, this.z - this.zVelocity * (double) f6, this.xVelocity, this.yVelocity, this.zVelocity);
+                this.world.addParticle("bubble", this.x - this.velocityX * (double) f6, this.y - this.velocityY * (double) f6, this.z - this.velocityZ * (double) f6, this.velocityX, this.velocityY, this.velocityZ);
             }
 
             slow *= 0.8F;
         }
 
-        this.xVelocity *= (double) slow;
-        this.yVelocity *= (double) slow;
-        this.zVelocity *= (double) slow;
-        this.yVelocity -= (double) this.curvature;
+        this.velocityX *= (double) slow;
+        this.velocityY *= (double) slow;
+        this.velocityZ *= (double) slow;
+        this.velocityY -= (double) this.curvature;
     }
 
-    public void writeAdditional(CompoundTag nbttagcompound) {
-        nbttagcompound.put("xTile", (short) this.xTile);
-        nbttagcompound.put("yTile", (short) this.yTile);
-        nbttagcompound.put("zTile", (short) this.zTile);
-        nbttagcompound.put("inTile", (byte) this.inTile);
-        nbttagcompound.put("inData", (byte) this.inData);
-        nbttagcompound.put("shake", (byte) this.arrowShake);
-        nbttagcompound.put("inGround", (byte) (this.inGround ? 1 : 0));
-        nbttagcompound.put("player", this.shotByPlayer);
+    public void writeNbt(NbtCompound nbttagcompound) {
+        nbttagcompound.putShort("xTile", (short) this.xTile);
+        nbttagcompound.putShort("yTile", (short) this.yTile);
+        nbttagcompound.putShort("zTile", (short) this.zTile);
+        nbttagcompound.putByte("inTile", (byte) this.inTile);
+        nbttagcompound.putByte("inData", (byte) this.inData);
+        nbttagcompound.putByte("shake", (byte) this.arrowShake);
+        nbttagcompound.putByte("inGround", (byte) (this.inGround ? 1 : 0));
+        nbttagcompound.putBoolean("player", this.shotByPlayer);
     }
 
-    public void readAdditional(CompoundTag nbttagcompound) {
+    public void readNbt(NbtCompound nbttagcompound) {
         this.xTile = nbttagcompound.getShort("xTile");
         this.yTile = nbttagcompound.getShort("yTile");
         this.zTile = nbttagcompound.getShort("zTile");
@@ -289,13 +289,13 @@ public abstract class EntityProjectileBase extends ArrowEntity {
         this.shotByPlayer = nbttagcompound.getBoolean("player");
     }
 
-    public void onPlayerCollision(PlayerEntity entityplayer) {
+    public void onPlayerInteraction(PlayerEntity entityplayer) {
         if (this.item != null) {
-            if (!this.world.isClient) {
+            if (!this.world.isRemote) {
                 if (this.inGround && this.shotByPlayer && this.arrowShake <= 0 && entityplayer.inventory.addStack(this.item.copy())) {
-                    this.world.playSound(this, "random.pop", 0.2F, ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
-                    entityplayer.onItemPickup(this, 1);
-                    this.remove();
+                    this.world.playSound(this, "random.pop", 0.2F, ((this.random.nextFloat() - this.random.nextFloat()) * 0.7F + 1.0F) * 2.0F);
+                    entityplayer.sendPickup(this, 1);
+                    this.markDead();
                 }
 
             }
@@ -303,7 +303,7 @@ public abstract class EntityProjectileBase extends ArrowEntity {
     }
 
     public boolean canBeShot(Entity ent) {
-        return ent.method_1356() && (ent != this.owner || this.ticksFlying >= 5) && (!(ent instanceof LivingEntity) || ((LivingEntity) ent).deathTime <= 0);
+        return ent.isCollidable() && (ent != this.owner || this.ticksFlying >= 5) && (!(ent instanceof LivingEntity) || ((LivingEntity) ent).deathTicks <= 0);
     }
 
     public boolean onHit() {
@@ -311,7 +311,7 @@ public abstract class EntityProjectileBase extends ArrowEntity {
     }
 
     public boolean onHitTarget(Entity target) {
-        this.world.playSound(this, "random.drr", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
+        this.world.playSound(this, "random.drr", 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
         return true;
     }
 
@@ -326,11 +326,11 @@ public abstract class EntityProjectileBase extends ArrowEntity {
     }
 
     public boolean onHitBlock() {
-        this.world.playSound(this, "random.drr", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
+        this.world.playSound(this, "random.drr", 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
         return true;
     }
 
-    public float getEyeHeight() {
+    public float getShadowRadius() {
         return 0.0F;
     }
 }

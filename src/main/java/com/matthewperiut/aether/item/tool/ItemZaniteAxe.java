@@ -12,7 +12,7 @@ public class ItemZaniteAxe extends TemplateAxeItem {
     }
 
     @Override
-    public float getStrengthOnBlock(ItemStack itemstack, Block block) {
-        return super.getStrengthOnBlock(itemstack, block) * (2.0F * (float) itemstack.getMeta() / (float) itemstack.getItem().getDurability() + 0.5F);
+    public float getMiningSpeedMultiplier(ItemStack itemstack, Block block) {
+        return super.getMiningSpeedMultiplier(itemstack, block) * (2.0F * (float) itemstack.getDamage() / (float) itemstack.getItem().getMaxDamage() + 0.5F);
     }
 }

@@ -17,16 +17,15 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Shadow
-    protected abstract void getDrops();
+    protected abstract void dropItems();
 
-    @Redirect(method = "onKilledBy", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getDrops()V"))
+    @Redirect(method = "onKilledBy", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;dropItems()V"))
     void killedByGetDrops(LivingEntity entity) {
-
         PlayerEntity player = world.getClosestPlayer(x, y, z, 10);
         if (player != null)
             if (UtilSkyroot.sword(player)) {
-                getDrops();
+                dropItems();
             }
-        getDrops();
+        dropItems();
     }
 }

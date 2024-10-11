@@ -1,6 +1,6 @@
 package com.matthewperiut.aether.entity.living;
 
-import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.mob.MonsterEntity;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
 import net.modificationstation.stationapi.api.util.Identifier;
@@ -14,16 +14,16 @@ public class EntityFireMinion extends MonsterEntity implements MobSpawnDataProvi
         this.movementSpeed = 1.5F;
         this.attackDamage = 5;
         this.health = 40;
-        this.immuneToFire = true;
+        this.fireImmune = true;
     }
 
     public void tick() {
         super.tick();
         if (this.health > 0) {
             for (int j = 0; j < 4; ++j) {
-                double a = (double) (this.rand.nextFloat() - 0.5F);
-                double b = (double) this.rand.nextFloat();
-                double c = (double) (this.rand.nextFloat() - 0.5F);
+                double a = (double) (this.random.nextFloat() - 0.5F);
+                double b = (double) this.random.nextFloat();
+                double c = (double) (this.random.nextFloat() - 0.5F);
                 double d = this.x + a * b;
                 double e = this.boundingBox.minY + b - 0.5;
                 double f = this.z + c * b;

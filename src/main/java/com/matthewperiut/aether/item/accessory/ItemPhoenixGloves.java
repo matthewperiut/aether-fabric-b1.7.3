@@ -26,8 +26,8 @@ public class ItemPhoenixGloves extends ItemGloves {
 
     @Override
     public ItemStack tickWhileWorn(PlayerEntity player, ItemStack itemInstance) {
-        if (player.isTouchingWater()) {
-            itemInstance.applyDamage(1, player);
+        if (player.isWet()) {
+            itemInstance.damage(1, player);
         }
 
         if (phoenixArmour(player, 0) &&
@@ -38,13 +38,13 @@ public class ItemPhoenixGloves extends ItemGloves {
 
             if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
                 boolean local = player.equals(((Minecraft) FabricLoader.getInstance().getGameInstance()).player);
-                player.world.addParticle("flame", player.x + rand.nextGaussian() / 5.0, player.y - (local ? 0.5 : 0) + rand.nextGaussian() / 5.0, player.z + rand.nextGaussian() / 3.0, 0.0, 0.0, 0.0);
+                player.world.addParticle("flame", player.x + random.nextGaussian() / 5.0, player.y - (local ? 0.5 : 0) + random.nextGaussian() / 5.0, player.z + random.nextGaussian() / 3.0, 0.0, 0.0, 0.0);
             }
         } else {
             ((EntityAccessor) player).setImmuneToFire(false);
         }
 
-        if (itemInstance.getDamage() > itemInstance.getDurability() - 2) {
+        if (itemInstance.getDamage2() > itemInstance.getMaxDamage() - 2) {
             itemInstance = null;
         }
 

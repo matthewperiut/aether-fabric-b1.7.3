@@ -4,13 +4,13 @@ import com.matthewperiut.aether.achievement.AetherAchievements;
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.entity.living.EntityMoa;
 import com.matthewperiut.aether.item.AetherItems;
-import com.matthewperiut.aether.util.MoaColour;
-import net.minecraft.entity.BlockEntity;
+import com.matthewperiut.aether.util.MoaColor;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.io.CompoundTag;
-import net.minecraft.util.io.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 
 public class BlockEntityIncubator extends BlockEntity implements Inventory {
     public int torchPower;
@@ -20,15 +20,15 @@ public class BlockEntityIncubator extends BlockEntity implements Inventory {
     public BlockEntityIncubator() {
     }
 
-    public int getInventorySize() {
+    public int size() {
         return this.IncubatorItemStacks.length;
     }
 
-    public ItemStack getInventoryItem(int i) {
+    public ItemStack getStack(int i) {
         return this.IncubatorItemStacks[i];
     }
 
-    public ItemStack takeInventoryItem(int i, int j) {
+    public ItemStack removeStack(int i, int j) {
         if (this.IncubatorItemStacks[i] != null) {
             ItemStack itemstack1;
             if (this.IncubatorItemStacks[i].count <= j) {
@@ -48,25 +48,25 @@ public class BlockEntityIncubator extends BlockEntity implements Inventory {
         }
     }
 
-    public void setInventoryItem(int i, ItemStack itemstack) {
+    public void setStack(int i, ItemStack itemstack) {
         this.IncubatorItemStacks[i] = itemstack;
-        if (itemstack != null && itemstack.count > this.getMaxItemCount()) {
-            itemstack.count = this.getMaxItemCount();
+        if (itemstack != null && itemstack.count > this.getMaxCountPerStack()) {
+            itemstack.count = this.getMaxCountPerStack();
         }
 
     }
 
-    public String getContainerName() {
+    public String getName() {
         return "Incubator";
     }
 
-    public void readNBT(CompoundTag nbttagcompound) {
-        super.readNBT(nbttagcompound);
-        ListTag nbttaglist = nbttagcompound.getListTag("Items");
-        this.IncubatorItemStacks = new ItemStack[this.getInventorySize()];
+    public void readNbt(NbtCompound nbttagcompound) {
+        super.readNbt(nbttagcompound);
+        NbtList nbttaglist = nbttagcompound.getList("Items");
+        this.IncubatorItemStacks = new ItemStack[this.size()];
 
         for (int i = 0; i < nbttaglist.size(); ++i) {
-            CompoundTag nbttagcompound1 = (CompoundTag) nbttaglist.get(i);
+            NbtCompound nbttagcompound1 = (NbtCompound) nbttaglist.get(i);
             byte byte0 = nbttagcompound1.getByte("Slot");
             if (byte0 >= 0 && byte0 < this.IncubatorItemStacks.length) {
                 this.IncubatorItemStacks[byte0] = new ItemStack(nbttagcompound1);
@@ -76,16 +76,16 @@ public class BlockEntityIncubator extends BlockEntity implements Inventory {
         this.progress = nbttagcompound.getShort("BurnTime");
     }
 
-    public void writeNBT(CompoundTag nbttagcompound) {
-        super.writeNBT(nbttagcompound);
-        nbttagcompound.put("BurnTime", (short) this.progress);
-        ListTag nbttaglist = new ListTag();
+    public void writeNbt(NbtCompound nbttagcompound) {
+        super.writeNbt(nbttagcompound);
+        nbttagcompound.putShort("BurnTime", (short) this.progress);
+        NbtList nbttaglist = new NbtList();
 
         for (int i = 0; i < this.IncubatorItemStacks.length; ++i) {
             if (this.IncubatorItemStacks[i] != null) {
-                CompoundTag nbttagcompound1 = new CompoundTag();
-                nbttagcompound1.put("Slot", (byte) i);
-                this.IncubatorItemStacks[i].writeNBT(nbttagcompound1);
+                NbtCompound nbttagcompound1 = new NbtCompound();
+                nbttagcompound1.putByte("Slot", (byte) i);
+                this.IncubatorItemStacks[i].writeNbt(nbttagcompound1);
                 nbttaglist.add(nbttagcompound1);
             }
         }
@@ -93,7 +93,7 @@ public class BlockEntityIncubator extends BlockEntity implements Inventory {
         nbttagcompound.put("Items", nbttaglist);
     }
 
-    public int getMaxItemCount() {
+    public int getMaxCountPerStack() {
         return 64;
     }
 
@@ -112,7 +112,7 @@ public class BlockEntityIncubator extends BlockEntity implements Inventory {
     public void tick() {
         if (this.torchPower > 0) {
             --this.torchPower;
-            if (this.getInventoryItem(1) != null) {
+            if (this.getStack(1) != null) {
                 ++this.progress;
             }
         }
@@ -123,7 +123,7 @@ public class BlockEntityIncubator extends BlockEntity implements Inventory {
 
         if (this.progress >= 6000) {
             if (this.IncubatorItemStacks[1] != null) {
-                EntityMoa moa = new EntityMoa(this.world, true, false, false, MoaColour.getColour(this.IncubatorItemStacks[1].getMeta()));
+                EntityMoa moa = new EntityMoa(this.world, true, false, false, MoaColor.getColour(this.IncubatorItemStacks[1].getDamage()));
                 moa.setPosition((double) this.x + 0.5, (double) this.y + 1.5, (double) this.z + 0.5);
                 this.world.spawnEntity(moa);
             }
@@ -131,13 +131,13 @@ public class BlockEntityIncubator extends BlockEntity implements Inventory {
             PlayerEntity player = world.getClosestPlayer(x, y, z, 100);
             if (player != null)
                 AetherAchievements.giveAchievement(AetherAchievements.incubator, player);
-            this.takeInventoryItem(1, 1);
+            this.removeStack(1, 1);
             this.progress = 0;
         }
 
-        if (this.torchPower <= 0 && this.IncubatorItemStacks[1] != null && this.IncubatorItemStacks[1].itemId == AetherItems.MoaEgg.id && this.getInventoryItem(0) != null && this.getInventoryItem(0).itemId == AetherBlocks.AmbrosiumTorch.id) {
+        if (this.torchPower <= 0 && this.IncubatorItemStacks[1] != null && this.IncubatorItemStacks[1].itemId == AetherItems.MoaEgg.id && this.getStack(0) != null && this.getStack(0).itemId == AetherBlocks.AmbrosiumTorch.id) {
             this.torchPower += 1000;
-            this.takeInventoryItem(0, 1);
+            this.removeStack(0, 1);
         }
 
     }
@@ -146,7 +146,7 @@ public class BlockEntityIncubator extends BlockEntity implements Inventory {
         if (this.world.getBlockEntity(this.x, this.y, this.z) != this) {
             return false;
         } else {
-            return entityplayer.squaredDistanceTo((double) this.x + 0.5, (double) this.y + 0.5, (double) this.z + 0.5) <= 64.0;
+            return entityplayer.getSquaredDistance((double) this.x + 0.5, (double) this.y + 0.5, (double) this.z + 0.5) <= 64.0;
         }
     }
 }

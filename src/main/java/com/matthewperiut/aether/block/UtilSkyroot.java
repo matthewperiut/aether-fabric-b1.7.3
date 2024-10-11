@@ -9,8 +9,8 @@ public class UtilSkyroot {
             return false;
         if (player.inventory == null)
             return false;
-        if (player.inventory.getHeldItem() != null) {
-            return player.inventory.getHeldItem().getItem().id == AetherItems.SwordSkyroot.id;
+        if (player.inventory.getSelectedItem() != null) {
+            return player.inventory.getSelectedItem().getItem().id == AetherItems.SwordSkyroot.id;
         }
         return false;
     }
@@ -20,8 +20,8 @@ public class UtilSkyroot {
             return false;
         if (player.inventory == null)
             return false;
-        if (player.inventory.getHeldItem() != null) {
-            return player.inventory.getHeldItem().getItem() == AetherItems.PickSkyroot;
+        if (player.inventory.getSelectedItem() != null) {
+            return player.inventory.getSelectedItem().getItem() == AetherItems.PickSkyroot;
         }
         return false;
     }
@@ -31,8 +31,8 @@ public class UtilSkyroot {
             return false;
         if (player.inventory == null)
             return false;
-        if (player.inventory.getHeldItem() != null) {
-            return player.inventory.getHeldItem().getItem() == AetherItems.AxeSkyroot;
+        if (player.inventory.getSelectedItem() != null) {
+            return player.inventory.getSelectedItem().getItem() == AetherItems.AxeSkyroot;
         }
         return false;
     }
@@ -42,8 +42,8 @@ public class UtilSkyroot {
             return false;
         if (player.inventory == null)
             return false;
-        if (player.inventory.getHeldItem() != null) {
-            return player.inventory.getHeldItem().getItem() == AetherItems.ShovelSkyroot;
+        if (player.inventory.getSelectedItem() != null) {
+            return player.inventory.getSelectedItem().getItem() == AetherItems.ShovelSkyroot;
         }
         return false;
     }

@@ -9,13 +9,13 @@ import com.matthewperiut.aether.mixin.access.LivingEntityAccessor;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.entity.PlayerRenderer;
+import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.util.ScreenScaler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.PlayerInventory;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.util.Identifier;
@@ -50,14 +50,14 @@ public class ItemRepShield extends ItemMoreArmor implements HasCustomRenderer {
     }
 
     public void repShieldUpdate(final World world, PlayerEntity player, final ItemStack shieldItem) {
-        if (world != null && !world.isClient) {
+        if (world != null && !world.isRemote) {
             final PlayerInventory inv = player.inventory;
             if ((player.onGround || (player.vehicle != null && player.vehicle.onGround)) && ((LivingEntityAccessor) player).getForwardVelocity() == 0.0f && ((LivingEntityAccessor) player).getHorizontalVelocity() == 0.0f) {
                 final List list2 = world.getEntities(player, player.boundingBox.expand(4.0, 4.0, 4.0));
-                for (int j = 0; j < list2.size() && shieldItem != null && shieldItem.getDamage() < 500; ++j) {
+                for (int j = 0; j < list2.size() && shieldItem != null && shieldItem.getDamage2() < 500; ++j) {
                     final Entity entity = (Entity) list2.get(j);
                     boolean flag2 = false;
-                    if (entity instanceof EntityFlamingArrow proj && entity.distanceTo(player) < 2.5f && (entity.prevX != entity.x || entity.prevY != entity.y || entity.prevZ != entity.z)) {
+                    if (entity instanceof EntityFlamingArrow proj && entity.getDistance(player) < 2.5f && (entity.prevX != entity.x || entity.prevY != entity.y || entity.prevZ != entity.z)) {
                         if (proj.owner == null || proj.owner != player) {
                             final Entity dick = proj.owner;
                             proj.owner = player;
@@ -78,23 +78,23 @@ public class ItemRepShield extends ItemMoreArmor implements HasCustomRenderer {
                             a /= -d;
                             b /= -d;
                             c /= -d;
-                            proj.xVelocity = a * 0.75;
-                            proj.yVelocity = b * 0.75 + 0.05;
-                            proj.zVelocity = c * 0.75;
+                            proj.velocityX = a * 0.75;
+                            proj.velocityY = b * 0.75 + 0.05;
+                            proj.velocityZ = c * 0.75;
                             //method_1291
-                            proj.setArrowHeading(proj.xVelocity, proj.yVelocity, proj.zVelocity, 0.8f, 0.5f);
-                            world.playSound(proj, "note.snare", 1.0f, ((rand.nextFloat() - rand.nextFloat()) * 0.4f + 0.8f) * 1.1f);
+                            proj.setArrowHeading(proj.velocityX, proj.velocityY, proj.velocityZ, 0.8f, 0.5f);
+                            world.playSound(proj, "note.snare", 1.0f, ((random.nextFloat() - random.nextFloat()) * 0.4f + 0.8f) * 1.1f);
                             for (int k = 0; k < 12; ++k) {
-                                double d2 = -proj.xVelocity * 0.15000000596046448 + (rand.nextFloat() - 0.5f) * 0.05f;
-                                double e1 = -proj.yVelocity * 0.15000000596046448 + (rand.nextFloat() - 0.5f) * 0.05f;
-                                double f1 = -proj.zVelocity * 0.15000000596046448 + (rand.nextFloat() - 0.5f) * 0.05f;
+                                double d2 = -proj.velocityX * 0.15000000596046448 + (random.nextFloat() - 0.5f) * 0.05f;
+                                double e1 = -proj.velocityY * 0.15000000596046448 + (random.nextFloat() - 0.5f) * 0.05f;
+                                double f1 = -proj.velocityZ * 0.15000000596046448 + (random.nextFloat() - 0.5f) * 0.05f;
                                 d2 *= 0.625;
                                 e1 *= 0.625;
                                 f1 *= 0.625;
                                 world.addParticle("flame", proj.x, proj.y, proj.z, d2, e1, f1);
                             }
                         }
-                    } else if ((entity instanceof EntityProjectileBase projectile) && entity.distanceTo(player) < 2.5f && (entity.prevX != entity.x || entity.prevY != entity.y || entity.prevZ != entity.z)) {
+                    } else if ((entity instanceof EntityProjectileBase projectile) && entity.getDistance(player) < 2.5f && (entity.prevX != entity.x || entity.prevY != entity.y || entity.prevZ != entity.z)) {
                         if (projectile.owner == null || projectile.owner != player) {
                             final Entity dick = projectile.owner;
                             projectile.owner = player;
@@ -115,22 +115,22 @@ public class ItemRepShield extends ItemMoreArmor implements HasCustomRenderer {
                             a /= -d;
                             b /= -d;
                             c /= -d;
-                            projectile.xVelocity = a * 0.75;
-                            projectile.yVelocity = b * 0.75 + 0.15;
-                            projectile.zVelocity = c * 0.75;
-                            projectile.setArrowHeading(projectile.xVelocity, projectile.yVelocity, projectile.zVelocity, 0.8f, 0.5f);
-                            world.playSound(projectile, "note.snare", 1.0f, ((rand.nextFloat() - rand.nextFloat()) * 0.4f + 0.8f) * 1.1f);
+                            projectile.velocityX = a * 0.75;
+                            projectile.velocityY = b * 0.75 + 0.15;
+                            projectile.velocityZ = c * 0.75;
+                            projectile.setArrowHeading(projectile.velocityX, projectile.velocityY, projectile.velocityZ, 0.8f, 0.5f);
+                            world.playSound(projectile, "note.snare", 1.0f, ((random.nextFloat() - random.nextFloat()) * 0.4f + 0.8f) * 1.1f);
                             for (int k = 0; k < 12; ++k) {
-                                double d2 = -projectile.xVelocity * 0.15000000596046448 + (rand.nextFloat() - 0.5f) * 0.05f;
-                                double e1 = -projectile.yVelocity * 0.15000000596046448 + (rand.nextFloat() - 0.5f) * 0.05f;
-                                double f1 = -projectile.zVelocity * 0.15000000596046448 + (rand.nextFloat() - 0.5f) * 0.05f;
+                                double d2 = -projectile.velocityX * 0.15000000596046448 + (random.nextFloat() - 0.5f) * 0.05f;
+                                double e1 = -projectile.velocityY * 0.15000000596046448 + (random.nextFloat() - 0.5f) * 0.05f;
+                                double f1 = -projectile.velocityZ * 0.15000000596046448 + (random.nextFloat() - 0.5f) * 0.05f;
                                 d2 *= 0.625;
                                 e1 *= 0.625;
                                 f1 *= 0.625;
                                 world.addParticle("flame", projectile.x, projectile.y, projectile.z, d2, e1, f1);
                             }
                         }
-                    } else if (entity instanceof EntityFlamingArrow proj && entity.distanceTo(player) < 2.5f && (entity.prevX != entity.x || entity.prevY != entity.y || entity.prevZ != entity.z)) {
+                    } else if (entity instanceof EntityFlamingArrow proj && entity.getDistance(player) < 2.5f && (entity.prevX != entity.x || entity.prevY != entity.y || entity.prevZ != entity.z)) {
                         if (proj.owner == null || proj.owner != player) {
                             final Entity dick = proj.owner;
                             proj.owner = player;
@@ -151,16 +151,16 @@ public class ItemRepShield extends ItemMoreArmor implements HasCustomRenderer {
                             a /= -d;
                             b /= -d;
                             c /= -d;
-                            proj.xVelocity = a * 0.75;
-                            proj.yVelocity = b * 0.75 + 0.05;
-                            proj.zVelocity = c * 0.75;
+                            proj.velocityX = a * 0.75;
+                            proj.velocityY = b * 0.75 + 0.05;
+                            proj.velocityZ = c * 0.75;
                             //method_1291
-                            proj.setArrowHeading(proj.xVelocity, proj.yVelocity, proj.zVelocity, 0.8f, 0.5f);
-                            world.playSound(proj, "note.snare", 1.0f, ((rand.nextFloat() - rand.nextFloat()) * 0.4f + 0.8f) * 1.1f);
+                            proj.setArrowHeading(proj.velocityX, proj.velocityY, proj.velocityZ, 0.8f, 0.5f);
+                            world.playSound(proj, "note.snare", 1.0f, ((random.nextFloat() - random.nextFloat()) * 0.4f + 0.8f) * 1.1f);
                             for (int k = 0; k < 12; ++k) {
-                                double d2 = -proj.xVelocity * 0.15000000596046448 + (rand.nextFloat() - 0.5f) * 0.05f;
-                                double e1 = -proj.yVelocity * 0.15000000596046448 + (rand.nextFloat() - 0.5f) * 0.05f;
-                                double f1 = -proj.zVelocity * 0.15000000596046448 + (rand.nextFloat() - 0.5f) * 0.05f;
+                                double d2 = -proj.velocityX * 0.15000000596046448 + (random.nextFloat() - 0.5f) * 0.05f;
+                                double e1 = -proj.velocityY * 0.15000000596046448 + (random.nextFloat() - 0.5f) * 0.05f;
+                                double f1 = -proj.velocityZ * 0.15000000596046448 + (random.nextFloat() - 0.5f) * 0.05f;
                                 d2 *= 0.625;
                                 e1 *= 0.625;
                                 f1 *= 0.625;
@@ -168,8 +168,8 @@ public class ItemRepShield extends ItemMoreArmor implements HasCustomRenderer {
                             }
                         }
                         if (flag2 && shieldItem != null) {
-                            shieldItem.applyDamage(1, null);
-                            if (shieldItem.getDamage() >= 500) {
+                            shieldItem.damage(1, null);
+                            if (shieldItem.getDamage2() >= 500) {
                                 player.inventory.armor[6] = null;
                             }
                         }
@@ -183,16 +183,16 @@ public class ItemRepShield extends ItemMoreArmor implements HasCustomRenderer {
         static HashMap<PlayerEntity, ShouldRender> prevPos = new HashMap<>();
         BipedEntityModel modelEnergyShield = new BipedEntityModel(1.25F);
 
-        public void renderThirdPerson(PlayerEntity player, PlayerRenderer renderer, ItemStack ItemStack, double x, double y, double z, float h, float v) {
-            final ItemStack itemstack = player.inventory.getHeldItem();
-            modelEnergyShield.swingingRight = (itemstack != null);
-            modelEnergyShield.sneaking = player.method_1373();
+        public void renderThirdPerson(PlayerEntity player, PlayerEntityRenderer renderer, ItemStack ItemStack, double x, double y, double z, float h, float v) {
+            final ItemStack itemstack = player.inventory.getSelectedItem();
+            modelEnergyShield.rightArmPose = (itemstack != null);
+            modelEnergyShield.sneaking = player.isSneaking();
             double d3 = y - player.standingEyeHeight;
-            if (player.method_1373() && !(player instanceof PlayerEntity)) {
+            if (player.isSneaking() && !(player instanceof PlayerEntity)) {
                 d3 -= 0.125;
             }
             doRenderEnergyShield(player, renderer, modelEnergyShield, x, d3, z, h, v);
-            modelEnergyShield.swingingRight = false;
+            modelEnergyShield.rightArmPose = false;
             modelEnergyShield.sneaking = false;
         }
 
@@ -214,12 +214,12 @@ public class ItemRepShield extends ItemMoreArmor implements HasCustomRenderer {
             GL11.glEnable(3042);
             GL11.glBindTexture(3553, minecraft.textureManager.getTextureId("aether:stationapi/textures/other/shieldEffect.png"));
             final Tessellator tessellator = Tessellator.INSTANCE;
-            tessellator.start();
+            tessellator.startQuads();
             tessellator.vertex(0.0, scaledHeight, -90.0, 0.0, 1.0);
             tessellator.vertex(scaledWidth, scaledHeight, -90.0, 1.0, 1.0);
             tessellator.vertex(scaledWidth, 0.0, -90.0, 1.0, 0.0);
             tessellator.vertex(0.0, 0.0, -90.0, 0.0, 0.0);
-            tessellator.tessellate();
+            tessellator.draw();
             GL11.glDepthMask(true);
             GL11.glEnable(2929);
             GL11.glEnable(3008);
@@ -228,13 +228,13 @@ public class ItemRepShield extends ItemMoreArmor implements HasCustomRenderer {
             GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         }
 
-        private void doRenderEnergyShield(final LivingEntity entityliving, PlayerRenderer playerRenderer, BipedEntityModel modelEnergyShield, final double d, final double d1, final double d2, final float f, final float f1) {
+        private void doRenderEnergyShield(final LivingEntity entityliving, PlayerEntityRenderer playerRenderer, BipedEntityModel modelEnergyShield, final double d, final double d1, final double d2, final float f, final float f1) {
             GL11.glPushMatrix();
             GL11.glEnable(2884);
             modelEnergyShield.handSwingProgress = ((LivingEntityRendererAccessor) playerRenderer).invoke820(entityliving, f1);
-            modelEnergyShield.isRiding = entityliving.hasVehicle();
+            modelEnergyShield.riding = entityliving.hasVehicle();
             try {
-                final float f2 = entityliving.field_1013 + (entityliving.field_1012 - entityliving.field_1013) * f1;
+                final float f2 = entityliving.lastBodyYaw + (entityliving.bodyYaw - entityliving.lastBodyYaw) * f1;
                 final float f3 = entityliving.prevYaw + (entityliving.yaw - entityliving.prevYaw) * f1;
                 final float f4 = entityliving.prevPitch + (entityliving.pitch - entityliving.prevPitch) * f1;
                 ((LivingEntityRendererAccessor) playerRenderer).invoke826(entityliving, d, d1, d2);
@@ -245,8 +245,8 @@ public class ItemRepShield extends ItemMoreArmor implements HasCustomRenderer {
                 GL11.glScalef(-1.0f, -1.0f, 1.0f);
                 ((LivingEntityRendererAccessor) playerRenderer).invoke823(entityliving, f1);
                 GL11.glTranslatef(0.0f, -24.0f * f6 - 0.0078125f, 0.0f);
-                float f7 = entityliving.field_1048 + (entityliving.limbDistance - entityliving.field_1048) * f1;
-                final float f8 = entityliving.field_1050 - entityliving.limbDistance * (1.0f - f1);
+                float f7 = entityliving.lastWalkAnimationSpeed + (entityliving.walkAnimationSpeed - entityliving.lastWalkAnimationSpeed) * f1;
+                final float f8 = entityliving.walkAnimationProgress - entityliving.walkAnimationSpeed * (1.0f - f1);
                 if (f7 > 1.0f) {
                     f7 = 1.0f;
                 }
@@ -264,7 +264,7 @@ public class ItemRepShield extends ItemMoreArmor implements HasCustomRenderer {
             GL11.glPopMatrix();
         }
 
-        protected boolean setEnergyShieldBrightness(final PlayerEntity player, PlayerRenderer playerRenderer, final int i, final float f) {
+        protected boolean setEnergyShieldBrightness(final PlayerEntity player, PlayerEntityRenderer playerRenderer, final int i, final float f) {
             if (i != 0) return false;
 
             if (prevPos.containsKey(player)) {

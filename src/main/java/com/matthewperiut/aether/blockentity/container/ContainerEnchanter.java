@@ -1,15 +1,15 @@
 package com.matthewperiut.aether.blockentity.container;
 
 import com.matthewperiut.aether.blockentity.block.BlockEntityEnchanter;
-import net.minecraft.container.Container;
-import net.minecraft.container.ContainerListener;
-import net.minecraft.container.slot.FurnaceOutputSlot;
-import net.minecraft.container.slot.Slot;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.PlayerInventory;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerListener;
+import net.minecraft.screen.slot.FurnaceOutputSlot;
+import net.minecraft.screen.slot.Slot;
 
-public class ContainerEnchanter extends Container {
+public class ContainerEnchanter extends ScreenHandler {
     private final BlockEntityEnchanter enchanter;
     private int cookTime = 0;
     private int burnTime = 0;
@@ -37,21 +37,21 @@ public class ContainerEnchanter extends Container {
     protected void insertItem(ItemStack itemstack, int i, int j, boolean flag) {
     }
 
-    public void tick() {
-        super.tick();
+    public void sendContentUpdates() {
+        super.sendContentUpdates();
 
         for (int i = 0; i < this.listeners.size(); ++i) {
-            ContainerListener icrafting = (ContainerListener) this.listeners.get(i);
+            ScreenHandlerListener icrafting = (ScreenHandlerListener) this.listeners.get(i);
             if (this.cookTime != this.enchanter.enchantTimeForItem) {
-                icrafting.updateProperty(this, 0, this.enchanter.enchantTimeForItem);
+                icrafting.onPropertyUpdate(this, 0, this.enchanter.enchantTimeForItem);
             }
 
             if (this.burnTime != this.enchanter.enchantProgress) {
-                icrafting.updateProperty(this, 1, this.enchanter.enchantProgress);
+                icrafting.onPropertyUpdate(this, 1, this.enchanter.enchantProgress);
             }
 
             if (this.itemBurnTime != this.enchanter.enchantPowerRemaining) {
-                icrafting.updateProperty(this, 2, this.enchanter.enchantPowerRemaining);
+                icrafting.onPropertyUpdate(this, 2, this.enchanter.enchantPowerRemaining);
             }
         }
 
@@ -79,11 +79,11 @@ public class ContainerEnchanter extends Container {
         return this.enchanter.canPlayerUse(entityplayer);
     }
 
-    public ItemStack transferSlot(int i) {
+    public ItemStack quickMove(int i) {
         ItemStack itemstack = null;
         Slot slot = (Slot) this.slots.get(i);
-        if (slot != null && slot.hasItem()) {
-            ItemStack itemstack1 = slot.getItem();
+        if (slot != null && slot.hasStack()) {
+            ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
             if (i == 2) {
                 this.insertItem(itemstack1, 3, 39, true);
@@ -105,7 +105,7 @@ public class ContainerEnchanter extends Container {
                 return null;
             }
 
-            slot.onCrafted(itemstack1);
+            slot.onTakeItem(itemstack1);
         }
 
         return itemstack;

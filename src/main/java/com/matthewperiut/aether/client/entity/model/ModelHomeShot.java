@@ -1,11 +1,11 @@
 package com.matthewperiut.aether.client.entity.model;
 
-import net.minecraft.client.model.Cuboid;
+import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.EntityModel;
 import org.lwjgl.opengl.GL11;
 
 public class ModelHomeShot extends EntityModel {
-    public Cuboid[] head;
+    public ModelPart[] head;
     public float[] sinage;
     private static final float sponge = 57.295773F;
 
@@ -19,14 +19,14 @@ public class ModelHomeShot extends EntityModel {
 
     public ModelHomeShot(float f, float f1) {
         this.sinage = new float[3];
-        this.head = new Cuboid[3];
-        this.head[0] = new Cuboid(0, 0);
-        this.head[1] = new Cuboid(32, 0);
-        this.head[2] = new Cuboid(0, 16);
+        this.head = new ModelPart[3];
+        this.head[0] = new ModelPart(0, 0);
+        this.head[1] = new ModelPart(32, 0);
+        this.head[2] = new ModelPart(0, 16);
 
         for (int i = 0; i < 3; ++i) {
-            this.head[i].method_1818(-4.0F, -4.0F, -4.0F, 8, 8, 8, f);
-            this.head[i].setRotationPoint(0.0F, 0.0F + f1, 0.0F);
+            this.head[i].addCuboid(-4.0F, -4.0F, -4.0F, 8, 8, 8, f);
+            this.head[i].setPivot(0.0F, 0.0F + f1, 0.0F);
         }
 
     }

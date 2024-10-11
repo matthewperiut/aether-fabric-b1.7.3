@@ -30,7 +30,7 @@ public class BlockFloating extends TemplateBlock {
         } else if (l == Block.FIRE.id) {
             return true;
         } else {
-            Material material = Block.BY_ID[l].material;
+            Material material = Block.BLOCKS[l].material;
             if (material == Material.WATER) {
                 return true;
             } else {
@@ -39,16 +39,16 @@ public class BlockFloating extends TemplateBlock {
         }
     }
 
-    public void onBlockPlaced(World world, int i, int j, int k) {
-        world.method_216(i, j, k, this.id, this.getTickrate());
+    public void onPlaced(World world, int i, int j, int k) {
+        world.scheduleBlockUpdate(i, j, k, this.id, this.getTickRate());
     }
 
-    public void onAdjacentBlockUpdate(World world, int i, int j, int k, int l) {
-        world.method_216(i, j, k, this.id, this.getTickrate());
+    public void neighborUpdate(World world, int i, int j, int k, int l) {
+        world.scheduleBlockUpdate(i, j, k, this.id, this.getTickRate());
     }
 
-    public void onScheduledTick(World world, int i, int j, int k, Random random) {
-        if (!this.enchanted || this.enchanted && world.method_263(i, j, k)) {
+    public void onTick(World world, int i, int j, int k, Random random) {
+        if (!this.enchanted || this.enchanted && world.canTransferPower(i, j, k)) {
             this.tryToFall(world, i, j, k);
         }
 
@@ -57,7 +57,7 @@ public class BlockFloating extends TemplateBlock {
     private void tryToFall(World world, int i, int j, int k) {
         if (canFallAbove(world, i, j + 1, k) && j < 128) {
             byte byte0 = 32;
-            if (!fallInstantly && world.method_155(i - byte0, j - byte0, k - byte0, i + byte0, j + byte0, k + byte0)) {
+            if (!fallInstantly && world.isRegionLoaded(i - byte0, j - byte0, k - byte0, i + byte0, j + byte0, k + byte0)) {
                 EntityFloatingBlock floating = new EntityFloatingBlock(world, (double) ((float) i + 0.5F), (double) ((float) j + 0.5F), (double) ((float) k + 0.5F), this.id);
                 world.spawnEntity(floating);
             } else {
@@ -75,7 +75,7 @@ public class BlockFloating extends TemplateBlock {
 
     }
 
-    public int getTickrate() {
+    public int getTickRate() {
         return 3;
     }
 }

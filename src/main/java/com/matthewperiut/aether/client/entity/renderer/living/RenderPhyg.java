@@ -11,7 +11,7 @@ public class RenderPhyg extends LivingEntityRenderer {
 
     public RenderPhyg(EntityModel modelbase, EntityModel modelbase1, float f) {
         super(modelbase, f);
-        this.setModel(modelbase1);
+        this.setDecorationModel(modelbase1);
         this.wingmodel = modelbase1;
     }
 
@@ -25,7 +25,7 @@ public class RenderPhyg extends LivingEntityRenderer {
         }
     }
 
-    protected boolean render(LivingEntity entityliving, int i, float f) {
+    protected boolean bindTexture(LivingEntity entityliving, int i, float f) {
         return this.setWoolColorAndRender((EntityPhyg) entityliving, i, f);
     }
 }

@@ -5,7 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.FlyingEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.io.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
@@ -26,15 +26,15 @@ public class EntityMiniCloud extends FlyingEntity implements MobSpawnDataProvide
     public EntityMiniCloud(World world) {
         super(world);
         this.texture = "aether:stationapi/textures/mobs/minicloud.png";
-        this.setSize(0.0F, 0.0F);
-        this.field_1642 = true;
-        this.field_1643 = 1.75F;
+        this.setBoundingBoxSpacing(0.0F, 0.0F);
+        this.noClip = true;
+        this.pushSpeedReduction = 1.75F;
     }
 
     public EntityMiniCloud(World world, PlayerEntity ep, boolean flag) {
         super(world);
         this.texture = "aether:stationapi/textures/mobs/minicloud.png";
-        this.setSize(0.5F, 0.45F);
+        this.setBoundingBoxSpacing(0.5F, 0.45F);
         this.dude = ep;
         this.toLeft = flag;
         this.lifeSpan = 3600;
@@ -42,16 +42,16 @@ public class EntityMiniCloud extends FlyingEntity implements MobSpawnDataProvide
         this.setPosition(this.targetX, this.targetY, this.targetZ);
         this.pitch = this.dude.pitch;
         this.yaw = this.dude.yaw;
-        this.field_1643 = 1.75F;
-        this.onSpawnedFromSpawner();
+        this.pushSpeedReduction = 1.75F;
+        this.animateSpawn();
     }
 
-    public boolean shouldRenderAtDistance(double d) {
+    public boolean shouldRender(double d) {
         return true;
     }
 
     public void getTargetPos() {
-        if (this.distanceTo(this.dude) > 2.0F) {
+        if (this.getDistance(this.dude) > 2.0F) {
             this.targetX = this.dude.x;
             this.targetY = this.dude.y - 0.10000000149011612;
             this.targetZ = this.dude.z;
@@ -83,39 +83,39 @@ public class EntityMiniCloud extends FlyingEntity implements MobSpawnDataProvide
         double b = this.targetY - this.y;
         double c = this.targetZ - this.z;
         double d = Math.sqrt(a * a + b * b + c * c) * 3.25;
-        this.xVelocity = (this.xVelocity + a / d) / 2.0;
-        this.yVelocity = (this.yVelocity + b / d) / 2.0;
-        this.zVelocity = (this.zVelocity + c / d) / 2.0;
+        this.velocityX = (this.velocityX + a / d) / 2.0;
+        this.velocityY = (this.velocityY + b / d) / 2.0;
+        this.velocityZ = (this.velocityZ + c / d) / 2.0;
         Math.atan2(a, c);
     }
 
     protected Entity findPlayer() {
-        return this.world.getClosestPlayerTo(this, 16.0);
+        return this.world.getClosestPlayer(this, 16.0);
     }
 
-    public void writeAdditional(CompoundTag nbttagcompound) {
-        super.writeAdditional(nbttagcompound);
-        nbttagcompound.put("LifeSpan", (short) this.lifeSpan);
-        nbttagcompound.put("ShotTimer", (short) this.shotTimer);
+    public void writeNbt(NbtCompound nbttagcompound) {
+        super.writeNbt(nbttagcompound);
+        nbttagcompound.putShort("LifeSpan", (short) this.lifeSpan);
+        nbttagcompound.putShort("ShotTimer", (short) this.shotTimer);
         this.gotPlayer = this.dude != null;
-        nbttagcompound.put("GotPlayer", this.gotPlayer);
-        nbttagcompound.put("ToLeft", this.toLeft);
+        nbttagcompound.putBoolean("GotPlayer", this.gotPlayer);
+        nbttagcompound.putBoolean("ToLeft", this.toLeft);
     }
 
-    public void readAdditional(CompoundTag nbttagcompound) {
-        super.readAdditional(nbttagcompound);
+    public void readNbt(NbtCompound nbttagcompound) {
+        super.readNbt(nbttagcompound);
         this.lifeSpan = nbttagcompound.getShort("LifeSpan");
         this.shotTimer = nbttagcompound.getShort("ShotTimer");
         this.gotPlayer = nbttagcompound.getBoolean("GotPlayer");
         this.toLeft = nbttagcompound.getBoolean("ToLeft");
     }
 
-    public void tickHandSwing() {
-        super.tickHandSwing();
+    public void tickLiving() {
+        super.tickLiving();
         --this.lifeSpan;
         if (this.lifeSpan <= 0) {
-            this.onSpawnedFromSpawner();
-            this.removed = true;
+            this.animateSpawn();
+            this.dead = true;
         } else {
             if (this.shotTimer > 0) {
                 --this.shotTimer;
@@ -126,12 +126,12 @@ public class EntityMiniCloud extends FlyingEntity implements MobSpawnDataProvide
                 this.dude = (LivingEntity) this.findPlayer();
             }
 
-            if (this.dude != null && !this.dude.removed) {
+            if (this.dude != null && this.dude.isAlive()) {
                 this.getTargetPos();
                 if (this.atShoulder()) {
-                    this.xVelocity *= 0.65;
-                    this.yVelocity *= 0.65;
-                    this.zVelocity *= 0.65;
+                    this.velocityX *= 0.65;
+                    this.velocityY *= 0.65;
+                    this.velocityZ *= 0.65;
                     this.yaw = this.dude.yaw + (this.toLeft ? 1.0F : -1.0F);
                     this.pitch = this.dude.pitch;
                     if (this.shotTimer <= 0 && this.dude instanceof PlayerEntity && ((PlayerEntity) this.dude).handSwinging) {
@@ -141,7 +141,7 @@ public class EntityMiniCloud extends FlyingEntity implements MobSpawnDataProvide
                         double c = this.z + Math.cos((double) spanish / -57.29577319531843) * 1.6;
                         EntityFiroBall eh = new EntityFiroBall(this.world, a, b, c, true, true);
                         this.world.spawnEntity(eh);
-                        Vec3d vec3d = this.getRotation();
+                        Vec3d vec3d = this.getLookVector();
                         if (vec3d != null) {
                             eh.smotionX = vec3d.x * 1.5;
                             eh.smotionY = vec3d.y * 1.5;
@@ -149,7 +149,7 @@ public class EntityMiniCloud extends FlyingEntity implements MobSpawnDataProvide
                         }
 
                         eh.smacked = true;
-                        this.world.playSound(this, "aether:mob.zephyr.zephyrshoot", 0.75F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+                        this.world.playSound(this, "aether:mob.zephyr.zephyrshoot", 0.75F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
                         this.shotTimer = 40;
                     }
                 } else {
@@ -157,8 +157,8 @@ public class EntityMiniCloud extends FlyingEntity implements MobSpawnDataProvide
                 }
 
             } else {
-                this.onSpawnedFromSpawner();
-                this.removed = true;
+                this.animateSpawn();
+                this.dead = true;
             }
         }
     }

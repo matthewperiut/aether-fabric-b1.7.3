@@ -7,8 +7,8 @@ import net.fabricmc.api.EnvironmentInterface;
 import net.minecraft.block.Block;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.chunk.ChunkSource;
 import net.minecraft.world.dimension.Dimension;
-import net.minecraft.world.source.WorldSource;
 import net.modificationstation.stationapi.api.client.world.dimension.TravelMessageProvider;
 import net.modificationstation.stationapi.api.util.Identifier;
 
@@ -32,12 +32,12 @@ public class AetherDimension extends Dimension implements TravelMessageProvider 
     }
 
     @Override
-    public WorldSource createWorldSource() {
+    public ChunkSource createChunkGenerator() {
         return new ChunkProviderAether(world, world.getSeed());
     }
 
     @Override
-    public float getSunPosition(long time, float delta) {
+    public float getTimeOfDay(long time, float delta) {
 //        boolean hasKilledGold = ModLoader.getMinecraftInstance().statFileWriter.hasAchievementUnlocked(AetherAchievements.defeatGold);
 //        if(hasKilledGold)
 //        {
@@ -67,7 +67,7 @@ public class AetherDimension extends Dimension implements TravelMessageProvider 
     }
 
     @Override
-    public float[] getSunHorizonColor(float time, float delta) {
+    public float[] getBackgroundColor(float time, float delta) {
         float f2 = 0.4F;
         float f3 = MathHelper.cos(time * 3.141593F * 2.0F) - 0.0F;
         float f4 = -0F;
@@ -85,7 +85,7 @@ public class AetherDimension extends Dimension implements TravelMessageProvider 
     }
 
     @Override
-    public Vec3d getSkyColor(float time, float delta) {
+    public Vec3d getFogColor(float time, float delta) {
         int i = 0x8080a0;
         float f2 = MathHelper.cos(time * 3.141593F * 2.0F) * 2.0F + 0.5F;
         if (f2 < 0.0F)
@@ -98,11 +98,11 @@ public class AetherDimension extends Dimension implements TravelMessageProvider 
         f3 *= f2 * 0.94F + 0.06F;
         f4 *= f2 * 0.94F + 0.06F;
         f5 *= f2 * 0.91F + 0.09F;
-        return Vec3d.from(f3, f4, f5);
+        return Vec3d.createCached(f3, f4, f5);
     }
 
     @Override
-    public boolean hasPaleSky() {
+    public boolean hasGround() {
         return false;
     }
 
@@ -112,13 +112,13 @@ public class AetherDimension extends Dimension implements TravelMessageProvider 
     }
 
     @Override
-    public boolean canSpawnOn(int x, int y) {
-        int var3 = this.world.getSurfaceBlockId(x, y);
-        return var3 != 0 && Block.BY_ID[var3].material.blocksMovement();
+    public boolean isValidSpawnPoint(int x, int y) {
+        int var3 = this.world.getSpawnBlockId(x, y);
+        return var3 != 0 && Block.BLOCKS[var3].material.blocksMovement();
     }
 
     @Override
-    public boolean canPlayerSleep() {
+    public boolean hasWorldSpawn() {
         return false;
     }
 

@@ -11,13 +11,13 @@ import net.modificationstation.stationapi.api.util.Identifier;
 public class ItemPhoenixBow extends TemplateItem {
     public ItemPhoenixBow(Identifier i) {
         super(i);
-        this.maxStackSize = 1;
+        this.maxCount = 1;
     }
 
     public ItemStack use(ItemStack itemstack, World world, PlayerEntity entityplayer) {
-        if (entityplayer.inventory.removeItem(Item.ARROW.id)) {
-            world.playSound(entityplayer, "mob.ghast.fireball", 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
-            if (!world.isClient) {
+        if (entityplayer.inventory.remove(Item.ARROW.id)) {
+            world.playSound(entityplayer, "mob.ghast.fireball", 1.0F, 1.0F / (random.nextFloat() * 0.4F + 0.8F));
+            if (!world.isRemote) {
                 world.spawnEntity(new EntityFlamingArrow(world, entityplayer));
             }
         }

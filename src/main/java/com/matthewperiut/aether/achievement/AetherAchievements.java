@@ -3,11 +3,11 @@ package com.matthewperiut.aether.achievement;
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.item.AetherItems;
 import net.mine_diver.unsafeevents.listener.EventListener;
+import net.minecraft.achievement.Achievement;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stat.achievement.Achievement;
 import net.modificationstation.stationapi.api.client.gui.screen.achievement.AchievementPage;
 import net.modificationstation.stationapi.api.event.achievement.AchievementRegisterEvent;
 import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
@@ -37,27 +37,27 @@ public class AetherAchievements {
     @EventListener
     private void registerAchievements(AchievementRegisterEvent event) {
         // works sp and mp
-        enterAether = (new Achievement(acOff, "aether:enterAether", 0, 0, Block.GLOWSTONE, null)).register();
+        enterAether = (new Achievement(acOff, "aether:enterAether", 0, 0, Block.GLOWSTONE, null)).addStat();
         // works sp and mp
-        defeatBronze = (new Achievement(acOff + 1, "aether:defeatBronze", -2, 3, new ItemStack(AetherItems.Key, 1, 0), enterAether)).register();
+        defeatBronze = (new Achievement(acOff + 1, "aether:defeatBronze", -2, 3, new ItemStack(AetherItems.Key, 1, 0), enterAether)).addStat();
         // works sp and mp
-        defeatSilver = (new Achievement(acOff + 2, "aether:defeatSilver", 0, 4, new ItemStack(AetherItems.Key, 1, 1), enterAether)).register();
+        defeatSilver = (new Achievement(acOff + 2, "aether:defeatSilver", 0, 4, new ItemStack(AetherItems.Key, 1, 1), enterAether)).addStat();
         // works sp and mp
-        defeatGold = (new Achievement(acOff + 3, "aether:defeatGold", 2, 3, new ItemStack(AetherItems.Key, 1, 2), enterAether)).register();
+        defeatGold = (new Achievement(acOff + 3, "aether:defeatGold", 2, 3, new ItemStack(AetherItems.Key, 1, 2), enterAether)).addStat();
         // works sp and mp
-        enchanter = (new Achievement(acOff + 4, "aether:enchanter", 2, 1, AetherBlocks.Enchanter, enterAether)).register();
+        enchanter = (new Achievement(acOff + 4, "aether:enchanter", 2, 1, AetherBlocks.Enchanter, enterAether)).addStat();
         // works sp and mp
-        incubator = (new Achievement(acOff + 5, "aether:incubator", 2, -1, AetherBlocks.Incubator, enterAether)).register();
+        incubator = (new Achievement(acOff + 5, "aether:incubator", 2, -1, AetherBlocks.Incubator, enterAether)).addStat();
         // works sp and mp
-        blueCloud = (new Achievement(acOff + 6, "aether:blueCloud", -2, -1, new ItemStack(AetherBlocks.Aercloud, 1, 1), enterAether)).register();
+        blueCloud = (new Achievement(acOff + 6, "aether:blueCloud", -2, -1, new ItemStack(AetherBlocks.Aercloud, 1, 1), enterAether)).addStat();
         // works sp and mp
-        flyingPig = (new Achievement(acOff + 7, "aether:flyingPig", -2, 1, Item.SADDLE, enterAether)).register();
+        flyingPig = (new Achievement(acOff + 7, "aether:flyingPig", -2, 1, Item.SADDLE, enterAether)).addStat();
         // works sp and mp
-        gravTools = (new Achievement(acOff + 8, "aether:gravTools", -1, -3, AetherItems.PickGravitite, enterAether)).register();
+        gravTools = (new Achievement(acOff + 8, "aether:gravTools", -1, -3, AetherItems.PickGravitite, enterAether)).addStat();
         // works sp
-        lore = (new Achievement(acOff + 9, "aether:lore", 1, -3, Item.BOOK, enterAether)).register();
+        lore = (new Achievement(acOff + 9, "aether:lore", 1, -3, Item.BOOK, enterAether)).addStat();
         // works sp
-        loreception = (new Achievement(acOff + 10, "aether:loreception", 1, -5, Item.BOOK, lore)).register();
+        loreception = (new Achievement(acOff + 10, "aether:loreception", 1, -5, Item.BOOK, lore)).addStat();
         event.achievements.add(AetherAchievements.enterAether);/*, "Hostile Paradise", "Ascend to the Aether");*/
         event.achievements.add(AetherAchievements.defeatBronze);/*, "Like a Bossaru!", "Defeat the bronze boss");*/
         event.achievements.add(AetherAchievements.defeatSilver);/*, "Dethroned", "Defeat the silver boss");*/

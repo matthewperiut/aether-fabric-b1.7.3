@@ -14,7 +14,7 @@ public class RenderFiroBall extends LivingEntityRenderer {
         this.shotty = (ModelHomeShot) ms;
     }
 
-    public void method_823(LivingEntity el, float f) {
+    public void applyScale(LivingEntity el, float f) {
         EntityFiroBall hs = (EntityFiroBall) el;
 
         for (int i = 0; i < 3; ++i) {

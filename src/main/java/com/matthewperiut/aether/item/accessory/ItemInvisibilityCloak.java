@@ -21,9 +21,9 @@ public class ItemInvisibilityCloak extends ItemMoreArmor implements Accessory {
 
     @Override
     public ItemStack tickWhileWorn(PlayerEntity player, ItemStack itemInstance) {
-        if (player.field_1645 % 300 == 0) {
-            itemInstance.applyDamage(1, player);
-            if (itemInstance.getDamage() > itemInstance.getDurability() - 2) {
+        if (player.age % 300 == 0) {
+            itemInstance.damage(1, player);
+            if (itemInstance.getDamage2() > itemInstance.getMaxDamage() - 2) {
                 itemInstance = null;
             }
         }

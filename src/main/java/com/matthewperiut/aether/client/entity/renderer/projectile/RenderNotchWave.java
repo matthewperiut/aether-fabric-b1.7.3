@@ -19,15 +19,15 @@ public class RenderNotchWave extends EntityRenderer {
         float f7 = 1.0F;
         float f8 = 0.5F;
         float f9 = 0.25F;
-        GL11.glRotatef(180.0F - this.dispatcher.field_2497, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(-this.dispatcher.field_2498, 1.0F, 0.0F, 0.0F);
-        tessellator.start();
-        tessellator.setNormal(0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(180.0F - this.dispatcher.yaw, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(-this.dispatcher.pitch, 1.0F, 0.0F, 0.0F);
+        tessellator.startQuads();
+        tessellator.normal(0.0F, 1.0F, 0.0F);
         tessellator.vertex((double) (0.0F - f8), (double) (0.0F - f9), 0.0, 0.0, 0.0);
         tessellator.vertex((double) (f7 - f8), (double) (0.0F - f9), 0.0, 0.0, 1.0);
         tessellator.vertex((double) (f7 - f8), (double) (1.0F - f9), 0.0, 1.0, 1.0);
         tessellator.vertex((double) (0.0F - f8), (double) (1.0F - f9), 0.0, 1.0, 0.0);
-        tessellator.tessellate();
+        tessellator.draw();
         GL11.glDisable(32826);
         GL11.glPopMatrix();
     }

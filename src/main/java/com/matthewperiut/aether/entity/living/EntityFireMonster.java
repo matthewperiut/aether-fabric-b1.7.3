@@ -17,11 +17,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.FlyingEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.entity.player.ServerPlayerEntity;
-import net.minecraft.util.io.CompoundTag;
-import net.minecraft.util.math.AxixAlignedBoundingBox;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
@@ -57,8 +57,8 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
     public EntityFireMonster(World world) {
         super(world);
         this.texture = "aether:stationapi/textures/mobs/firemonster.png";
-        this.setSize(2.25F, 2.5F);
-        this.field_1642 = true;
+        this.setBoundingBoxSpacing(2.25F, 2.5F);
+        this.noClip = true;
         this.orgX = MathHelper.floor(this.x);
         this.orgY = MathHelper.floor(this.boundingBox.minY) + 1;
         this.orgZ = MathHelper.floor(this.z);
@@ -66,25 +66,25 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
         this.health = 50;
         this.speedness = 0.5 - (double) this.health / 70.0 * 0.2;
         this.direction = 0;
-        this.entCount = this.rand.nextInt(6);
+        this.entCount = this.random.nextInt(6);
         this.bossName = NameGen.gen();
     }
 
     public EntityFireMonster(World world, int x, int y, int z, int rad, int dir) {
         super(world);
         this.texture = "aether:stationapi/textures/mobs/firemonster.png";
-        this.setSize(2.25F, 2.5F);
+        this.setBoundingBoxSpacing(2.25F, 2.5F);
         this.setPosition((double) x + 0.5, (double) y, (double) z + 0.5);
         this.wideness = rad - 2;
         this.orgX = x;
         this.orgY = y;
         this.orgZ = z;
-        this.field_1642 = true;
-        this.rotary = (double) this.rand.nextFloat() * 360.0;
+        this.noClip = true;
+        this.rotary = (double) this.random.nextFloat() * 360.0;
         this.health = 50;
         this.speedness = 0.5 - (double) this.health / 70.0 * 0.2;
         this.direction = dir;
-        this.entCount = this.rand.nextInt(6);
+        this.entCount = this.random.nextInt(6);
         this.bossName = NameGen.gen();
     }
 
@@ -95,9 +95,9 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
     public void tick() {
         super.tick();
         if (this.health > 0) {
-            double a = (double) (this.rand.nextFloat() - 0.5F);
-            double b = (double) this.rand.nextFloat();
-            double c = (double) (this.rand.nextFloat() - 0.5F);
+            double a = (double) (this.random.nextFloat() - 0.5F);
+            double b = (double) this.random.nextFloat();
+            double c = (double) (this.random.nextFloat() - 0.5F);
             double d = this.x + a * b;
             double e = this.boundingBox.minY + b - 0.5;
             double f = this.z + c * b;
@@ -124,12 +124,12 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
     }
 
     protected Entity findPlayerToAttack() {
-        PlayerEntity entityplayer = this.world.getClosestPlayerTo(this, 32.0);
-        return entityplayer != null && this.method_928(entityplayer) ? entityplayer : null;
+        PlayerEntity entityplayer = this.world.getClosestPlayer(this, 32.0);
+        return entityplayer != null && this.canSee(entityplayer) ? entityplayer : null;
     }
 
-    public void tickHandSwing() {
-        super.tickHandSwing();
+    public void tickLiving() {
+        super.tickLiving();
         if (this.gotTarget && this.target == null) {
             this.target = this.findPlayerToAttack();
             this.gotTarget = false;
@@ -139,22 +139,22 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
             this.setPosition((double) this.orgX + 0.5, (double) this.orgY, (double) this.orgZ + 0.5);
             this.setDoor(0);
         } else {
-            this.field_1012 = this.yaw;
+            this.bodyYaw = this.yaw;
             this.setPosition(this.x, (double) this.orgY, this.z);
-            this.yVelocity = 0.0;
+            this.velocityY = 0.0;
             boolean pool = false;
-            if (this.xVelocity > 0.0 && (int) Math.floor(this.x) > this.orgX + this.wideness) {
+            if (this.velocityX > 0.0 && (int) Math.floor(this.x) > this.orgX + this.wideness) {
                 this.rotary = 360.0 - this.rotary;
                 pool = true;
-            } else if (this.xVelocity < 0.0 && (int) Math.floor(this.x) < this.orgX - this.wideness) {
+            } else if (this.velocityX < 0.0 && (int) Math.floor(this.x) < this.orgX - this.wideness) {
                 this.rotary = 360.0 - this.rotary;
                 pool = true;
             }
 
-            if (this.zVelocity > 0.0 && (int) Math.floor(this.z) > this.orgZ + this.wideness) {
+            if (this.velocityZ > 0.0 && (int) Math.floor(this.z) > this.orgZ + this.wideness) {
                 this.rotary = 180.0 - this.rotary;
                 pool = true;
-            } else if (this.zVelocity < 0.0 && (int) Math.floor(this.z) < this.orgZ - this.wideness) {
+            } else if (this.velocityZ < 0.0 && (int) Math.floor(this.z) < this.orgZ - this.wideness) {
                 this.rotary = 180.0 - this.rotary;
                 pool = true;
             }
@@ -170,29 +170,29 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
             }
 
             double crazy = this.rotary / 57.295772552490234;
-            this.xVelocity = Math.sin(crazy) * this.speedness;
-            this.zVelocity = Math.cos(crazy) * this.speedness;
+            this.velocityX = Math.sin(crazy) * this.speedness;
+            this.velocityZ = Math.cos(crazy) * this.speedness;
             ++this.motionTimer;
             if (this.motionTimer >= 20 || pool) {
                 this.motionTimer = 0;
-                if (this.rand.nextInt(3) == 0) {
-                    this.rotary += (double) (this.rand.nextFloat() - this.rand.nextFloat()) * 60.0;
+                if (this.random.nextInt(3) == 0) {
+                    this.rotary += (double) (this.random.nextFloat() - this.random.nextFloat()) * 60.0;
                 }
             }
 
             ++this.flameCount;
-            if (this.flameCount == 40 && this.rand.nextInt(2) == 0) {
+            if (this.flameCount == 40 && this.random.nextInt(2) == 0) {
                 this.poopFire();
             } else if (this.flameCount >= 55 + this.health / 2 && this.target != null && this.target instanceof LivingEntity) {
                 this.makeFireBall(1);
                 this.flameCount = 0;
             }
 
-            if (this.target != null && this.target.removed) {
+            if (this.target != null && this.target.dead) {
                 this.setPosition((double) this.orgX + 0.5, (double) this.orgY, (double) this.orgZ + 0.5);
-                this.xVelocity = 0.0;
-                this.yVelocity = 0.0;
-                this.zVelocity = 0.0;
+                this.velocityX = 0.0;
+                this.velocityY = 0.0;
+                this.velocityZ = 0.0;
                 this.target = null;
                 this.chatLine("§cSuch is the fate of a being who opposes the might of the sun.");
                 this.setDoor(0);
@@ -224,7 +224,7 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
             int b = this.orgY - 2 + i;
             if (this.world.getMaterial(x, b, z) == Material.WATER) {
                 this.world.setBlock(x, b, z, 0);
-                this.world.playSound((double) ((float) x + 0.5F), (double) ((float) b + 0.5F), (double) ((float) z + 0.5F), "random.fizz", 0.5F, 2.6F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.8F);
+                this.world.playSound((double) ((float) x + 0.5F), (double) ((float) b + 0.5F), (double) ((float) z + 0.5F), "random.fizz", 0.5F, 2.6F + (this.random.nextFloat() - this.random.nextFloat()) * 0.8F);
 
                 for (int l = 0; l < 8; ++l) {
                     this.world.addParticle("largesmoke", (double) x + Math.random(), (double) b + 0.75, (double) z + Math.random(), 0.0, 0.0, 0.0);
@@ -235,16 +235,16 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
     }
 
     public void makeFireBall(int shots) {
-        this.world.playSound(this, "mob.ghast.fireball", 5.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+        this.world.playSound(this, "mob.ghast.fireball", 5.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
         boolean flag = false;
         ++this.ballCount;
-        if (this.ballCount >= 3 + this.rand.nextInt(3)) {
+        if (this.ballCount >= 3 + this.random.nextInt(3)) {
             flag = true;
             this.ballCount = 0;
         }
 
         for (int i = 0; i < shots; ++i) {
-            EntityFiroBall e1 = new EntityFiroBall(this.world, this.x - this.xVelocity / 2.0, this.y, this.z - this.zVelocity / 2.0, flag);
+            EntityFiroBall e1 = new EntityFiroBall(this.world, this.x - this.velocityX / 2.0, this.y, this.z - this.velocityZ / 2.0, flag);
             this.world.spawnEntity(e1);
         }
 
@@ -260,24 +260,24 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
 
     }
 
-    public void writeAdditional(CompoundTag nbttagcompound) {
-        super.writeAdditional(nbttagcompound);
-        nbttagcompound.put("OriginX", (short) this.orgX);
-        nbttagcompound.put("OriginY", (short) this.orgY);
-        nbttagcompound.put("OriginZ", (short) this.orgZ);
-        nbttagcompound.put("Wideness", (short) this.wideness);
-        nbttagcompound.put("FlameCount", (short) this.flameCount);
-        nbttagcompound.put("BallCount", (short) this.ballCount);
-        nbttagcompound.put("ChatLog", (short) this.chatLog);
-        nbttagcompound.put("Rotary", (float) this.rotary);
+    public void writeNbt(NbtCompound nbttagcompound) {
+        super.writeNbt(nbttagcompound);
+        nbttagcompound.putShort("OriginX", (short) this.orgX);
+        nbttagcompound.putShort("OriginY", (short) this.orgY);
+        nbttagcompound.putShort("OriginZ", (short) this.orgZ);
+        nbttagcompound.putShort("Wideness", (short) this.wideness);
+        nbttagcompound.putShort("FlameCount", (short) this.flameCount);
+        nbttagcompound.putShort("BallCount", (short) this.ballCount);
+        nbttagcompound.putShort("ChatLog", (short) this.chatLog);
+        nbttagcompound.putFloat("Rotary", (float) this.rotary);
         this.gotTarget = this.target != null;
-        nbttagcompound.put("GotTarget", this.gotTarget);
-        nbttagcompound.put("IsCurrentBoss", this.isBoss);
-        nbttagcompound.put("BossName", this.bossName);
+        nbttagcompound.putBoolean("GotTarget", this.gotTarget);
+        nbttagcompound.putBoolean("IsCurrentBoss", this.isBoss);
+        nbttagcompound.putString("BossName", this.bossName);
     }
 
-    public void readAdditional(CompoundTag nbttagcompound) {
-        super.readAdditional(nbttagcompound);
+    public void readNbt(NbtCompound nbttagcompound) {
+        super.readNbt(nbttagcompound);
         this.orgX = nbttagcompound.getShort("OriginX");
         this.orgY = nbttagcompound.getShort("OriginY");
         this.orgZ = nbttagcompound.getShort("OriginZ");
@@ -302,13 +302,13 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
     @Environment(EnvType.CLIENT)
     public void chatLineClient(String s) {
         Minecraft mc = ((Minecraft) FabricLoader.getInstance().getGameInstance());
-        mc.overlay.addChatMessage(s);
+        mc.inGameHud.addChatMessage(s);
     }
 
     @Environment(EnvType.SERVER)
     public void chatLineServer(String s) {
         MinecraftServer mc = ((MinecraftServer) FabricLoader.getInstance().getGameInstance());
-        List<PlayerEntity> playersNearby = world.getEntities(PlayerEntity.class, AxixAlignedBoundingBox.create(this.x - areaOfEffect, this.y - areaOfEffect, z - areaOfEffect, this.x + areaOfEffect, this.y + areaOfEffect, z + areaOfEffect));
+        List<PlayerEntity> playersNearby = world.collectEntitiesByClass(PlayerEntity.class, Box.create(this.x - areaOfEffect, this.y - areaOfEffect, z - areaOfEffect, this.x + areaOfEffect, this.y + areaOfEffect, z + areaOfEffect));
         for (PlayerEntity player : playersNearby) {
             ((ServerPlayerEntity) player).sendMessage(s);
         }
@@ -385,10 +385,10 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
         }
     }
 
-    public void accelerate(double d, double d1, double d2) {
+    public void addVelocity(double d, double d1, double d2) {
     }
 
-    public void method_925(Entity entity, int i, double d, double d1) {
+    public void applyKnockback(Entity entity, int i, double d, double d1) {
     }
 
     public boolean damage(Entity e, int i) {
@@ -399,7 +399,7 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
                 this.hurtness = 15;
                 this.texture = "aether:stationapi/textures/mobs/firemonsterHurt.png";
                 EntityFireMinion minion = new EntityFireMinion(this.world);
-                minion.setPositionAndAngles(this.x, this.y, this.z, this.yaw, 0.0F);
+                minion.setPositionAndAnglesKeepPrevAngles(this.x, this.y, this.z, this.yaw, 0.0F);
                 this.world.spawnEntity(minion);
                 this.world.spawnEntity(minion);
                 this.world.spawnEntity(minion);
@@ -417,7 +417,7 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
         }
     }
 
-    protected void getDrops() {
+    protected void dropItems() {
         this.dropItem(new ItemStack(AetherItems.Key, 1, 2), 0.0F);
     }
 
@@ -427,13 +427,13 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
         if (this.direction / 2 == 0) {
             for (y = this.orgY - 1; y < this.orgY + 2; ++y) {
                 for (z = this.orgZ - 1; z < this.orgZ + 2; ++z) {
-                    this.world.setBlockWithMetadata(this.orgX + (this.direction == 0 ? -11 : 11), y, z, ID, 2);
+                    this.world.setBlockWithoutNotifyingNeighbors(this.orgX + (this.direction == 0 ? -11 : 11), y, z, ID, 2);
                 }
             }
         } else {
             for (y = this.orgY - 1; y < this.orgY + 2; ++y) {
                 for (z = this.orgX - 1; z < this.orgX + 2; ++z) {
-                    this.world.setBlockWithMetadata(z, y, this.orgZ + (this.direction == 3 ? 11 : -11), ID, 2);
+                    this.world.setBlockWithoutNotifyingNeighbors(z, y, this.orgZ + (this.direction == 3 ? 11 : -11), ID, 2);
                 }
             }
         }
@@ -446,18 +446,18 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
         if (this.direction / 2 == 0) {
             for (x = this.orgY - 1; x < this.orgY + 2; ++x) {
                 for (y = this.orgZ - 1; y < this.orgZ + 2; ++y) {
-                    this.world.setBlockInChunk(this.orgX + (this.direction == 0 ? 11 : -11), x, y, 0);
+                    this.world.setBlockWithoutNotifyingNeighbors(this.orgX + (this.direction == 0 ? 11 : -11), x, y, 0);
                 }
             }
         } else {
             for (x = this.orgY - 1; x < this.orgY + 2; ++x) {
                 for (y = this.orgX - 1; y < this.orgX + 2; ++y) {
-                    this.world.setBlockInChunk(y, x, this.orgZ + (this.direction == 3 ? -11 : 11), 0);
+                    this.world.setBlockWithoutNotifyingNeighbors(y, x, this.orgZ + (this.direction == 3 ? -11 : 11), 0);
                 }
             }
         }
 
-        List<PlayerEntity> playersNearby = world.getEntities(PlayerEntity.class, AxixAlignedBoundingBox.create(this.x - areaOfEffect, this.y - areaOfEffect, z - areaOfEffect, this.x + areaOfEffect, this.y + areaOfEffect, z + areaOfEffect));
+        List<PlayerEntity> playersNearby = world.collectEntitiesByClass(PlayerEntity.class, Box.create(this.x - areaOfEffect, this.y - areaOfEffect, z - areaOfEffect, this.x + areaOfEffect, this.y + areaOfEffect, z + areaOfEffect));
         for (PlayerEntity player : playersNearby) {
             AetherAchievements.giveAchievement(AetherAchievements.defeatGold, player);
         }
@@ -467,11 +467,11 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
                 for (int z = this.orgZ - 20; z < this.orgZ + 20; ++z) {
                     int id = this.world.getBlockId(x, y, z);
                     if (id == AetherBlocks.LockedDungeonStone.id) {
-                        this.world.setBlockWithMetadata(x, y, z, AetherBlocks.DungeonStone.id, this.world.getBlockMeta(x, y, z));
+                        this.world.setBlockWithoutNotifyingNeighbors(x, y, z, AetherBlocks.DungeonStone.id, this.world.getBlockMeta(x, y, z));
                     }
 
                     if (id == AetherBlocks.LockedLightDungeonStone.id) {
-                        this.world.setBlockWithMetadata(x, y, z, AetherBlocks.LightDungeonStone.id, this.world.getBlockMeta(x, y, z));
+                        this.world.setBlockWithoutNotifyingNeighbors(x, y, z, AetherBlocks.LightDungeonStone.id, this.world.getBlockMeta(x, y, z));
                     }
                 }
             }

@@ -14,17 +14,17 @@ public class Quicksoil extends TemplateBlock {
     }
 
     public void afterBreak(World world, PlayerEntity entityplayer, int i, int j, int k, int l) {
-        entityplayer.increaseStat(Stats.mineBlock[this.id], 1);
+        entityplayer.increaseStat(Stats.MINE_BLOCK[this.id], 1);
         if (l == 0 && UtilSkyroot.shovel(entityplayer)) {
-            this.drop(world, i, j, k, l);
+            this.dropStacks(world, i, j, k, l);
         }
 
-        this.drop(world, i, j, k, l);
+        this.dropStacks(world, i, j, k, l);
     }
 
     @Override
-    public void onBlockPlaced(World arg, int i, int j, int k) {
+    public void onPlaced(World arg, int i, int j, int k) {
         arg.setBlockMeta(i,j,k,1);
-        super.onBlockPlaced(arg, i, j, k);
+        super.onPlaced(arg, i, j, k);
     }
 }

@@ -3,8 +3,8 @@ package com.matthewperiut.aether.block;
 import com.matthewperiut.aether.blockentity.block.BlockEntityEnchanter;
 import com.matthewperiut.aether.blockentity.container.ContainerEnchanter;
 import net.minecraft.block.Block;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.BlockEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -35,31 +35,31 @@ public class Enchanter extends TemplateBlockWithEntity {
         world.setBlockEntity(i, j, k, tileentity);
     }
 
-    public void onBlockPlaced(World world, int i, int j, int k) {
-        super.onBlockPlaced(world, i, j, k);
+    public void onPlaced(World world, int i, int j, int k) {
+        super.onPlaced(world, i, j, k);
         this.setDefaultDirection(world, i, j, k);
     }
 
     private void setDefaultDirection(World world, int i, int j, int k) {
-        if (!world.isClient) {
+        if (!world.isRemote) {
             int l = world.getBlockId(i, j, k - 1);
             int i1 = world.getBlockId(i, j, k + 1);
             int j1 = world.getBlockId(i - 1, j, k);
             int k1 = world.getBlockId(i + 1, j, k);
             byte byte0 = 3;
-            if (Block.FULL_OPAQUE[l] && !Block.FULL_OPAQUE[i1]) {
+            if (Block.BLOCKS_OPAQUE[l] && !Block.BLOCKS_OPAQUE[i1]) {
                 byte0 = 3;
             }
 
-            if (Block.FULL_OPAQUE[i1] && !Block.FULL_OPAQUE[l]) {
+            if (Block.BLOCKS_OPAQUE[i1] && !Block.BLOCKS_OPAQUE[l]) {
                 byte0 = 2;
             }
 
-            if (Block.FULL_OPAQUE[j1] && !Block.FULL_OPAQUE[k1]) {
+            if (Block.BLOCKS_OPAQUE[j1] && !Block.BLOCKS_OPAQUE[k1]) {
                 byte0 = 5;
             }
 
-            if (Block.FULL_OPAQUE[k1] && !Block.FULL_OPAQUE[j1]) {
+            if (Block.BLOCKS_OPAQUE[k1] && !Block.BLOCKS_OPAQUE[j1]) {
                 byte0 = 4;
             }
 
@@ -68,7 +68,7 @@ public class Enchanter extends TemplateBlockWithEntity {
     }
 
     public void randomDisplayTick(World world, int i, int j, int k, Random random) {
-        if (world.isClient) {
+        if (world.isRemote) {
             BlockEntityEnchanter tileentity = (BlockEntityEnchanter) world.getBlockEntity(i, j, k);
             if (tileentity.isBurning()) {
                 float f = (float) i + 0.5F;
@@ -82,16 +82,16 @@ public class Enchanter extends TemplateBlockWithEntity {
         }
     }
 
-    public int getTextureForSide(int i) {
+    public int getTexture(int i) {
         if (i == 1) {
-            return this.texture;
+            return this.textureId;
         } else {
-            return i == 0 ? this.texture : sideTexture;
+            return i == 0 ? this.textureId : sideTexture;
         }
     }
 
-    public boolean canUse(World world, int i, int j, int k, PlayerEntity player) {
-        if (world.isClient) {
+    public boolean onUse(World world, int i, int j, int k, PlayerEntity player) {
+        if (world.isRemote) {
             return true;
         } else {
             BlockEntityEnchanter tileentityEnchanter = (BlockEntityEnchanter) world.getBlockEntity(i, j, k);
@@ -104,7 +104,7 @@ public class Enchanter extends TemplateBlockWithEntity {
         return new BlockEntityEnchanter();
     }
 
-    public void afterPlaced(World world, int i, int j, int k, LivingEntity entityliving) {
+    public void onPlaced(World world, int i, int j, int k, LivingEntity entityliving) {
         int l = MathHelper.floor((double) (entityliving.yaw * 4.0F / 360.0F) + 0.5) & 3;
         if (l == 0) {
             world.setBlockMeta(i, j, k, 2);
@@ -124,11 +124,11 @@ public class Enchanter extends TemplateBlockWithEntity {
 
     }
 
-    public void onBlockRemoved(World world, int i, int j, int k) {
+    public void onBreak(World world, int i, int j, int k) {
         BlockEntityEnchanter tileentityEnchanter = (BlockEntityEnchanter) world.getBlockEntity(i, j, k);
 
-        for (int l = 0; l < tileentityEnchanter.getInventorySize(); ++l) {
-            ItemStack itemstack = tileentityEnchanter.getInventoryItem(l);
+        for (int l = 0; l < tileentityEnchanter.size(); ++l) {
+            ItemStack itemstack = tileentityEnchanter.getStack(l);
             if (itemstack != null) {
                 float f = this.EnchanterRand.nextFloat() * 0.8F + 0.1F;
                 float f1 = this.EnchanterRand.nextFloat() * 0.8F + 0.1F;
@@ -141,16 +141,16 @@ public class Enchanter extends TemplateBlockWithEntity {
                     }
 
                     itemstack.count -= i1;
-                    ItemEntity entityitem = new ItemEntity(world, (float) i + f, (float) j + f1, (float) k + f2, new ItemStack(itemstack.itemId, i1, itemstack.getMeta()));
+                    ItemEntity entityitem = new ItemEntity(world, (float) i + f, (float) j + f1, (float) k + f2, new ItemStack(itemstack.itemId, i1, itemstack.getDamage()));
                     float f3 = 0.05F;
-                    entityitem.xVelocity = (float) this.EnchanterRand.nextGaussian() * f3;
-                    entityitem.yVelocity = (float) this.EnchanterRand.nextGaussian() * f3 + 0.2F;
-                    entityitem.zVelocity = (float) this.EnchanterRand.nextGaussian() * f3;
+                    entityitem.velocityX = (float) this.EnchanterRand.nextGaussian() * f3;
+                    entityitem.velocityY = (float) this.EnchanterRand.nextGaussian() * f3 + 0.2F;
+                    entityitem.velocityZ = (float) this.EnchanterRand.nextGaussian() * f3;
                     world.spawnEntity(entityitem);
                 }
             }
         }
 
-        super.onBlockRemoved(world, i, j, k);
+        super.onBreak(world, i, j, k);
     }
 }

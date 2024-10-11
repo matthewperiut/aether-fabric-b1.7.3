@@ -9,10 +9,10 @@ import org.lwjgl.opengl.GL11;
 public class RenderSentry extends LivingEntityRenderer {
     public RenderSentry(EntityModel modelbase, float f) {
         super(modelbase, f);
-        this.setModel(modelbase);
+        this.setDecorationModel(modelbase);
     }
 
-    protected void method_823(LivingEntity entityliving, float f) {
+    protected void applyScale(LivingEntity entityliving, float f) {
         float f1 = 1.75F;
         GL11.glScalef(f1, f1, f1);
     }
@@ -35,7 +35,7 @@ public class RenderSentry extends LivingEntityRenderer {
         }
     }
 
-    protected boolean render(LivingEntity entityliving, int i, float f) {
+    protected boolean bindTexture(LivingEntity entityliving, int i, float f) {
         return this.a((EntitySentry) entityliving, i, f);
     }
 }

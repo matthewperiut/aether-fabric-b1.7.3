@@ -5,8 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
-import net.minecraft.world.feature.Feature;
-
+import net.minecraft.world.gen.feature.Feature;
 import java.util.Random;
 
 public class AetherGenLakes extends Feature {
@@ -59,7 +58,7 @@ public class AetherGenLakes extends Feature {
                     flag1 = !aflag[(i2 * 16 + i3) * 8 + i4] && (i2 < 15 && aflag[((i2 + 1) * 16 + i3) * 8 + i4] || i2 > 0 && aflag[((i2 - 1) * 16 + i3) * 8 + i4] || i3 < 15 && aflag[(i2 * 16 + i3 + 1) * 8 + i4] || i3 > 0 && aflag[(i2 * 16 + (i3 - 1)) * 8 + i4] || i4 < 7 && aflag[(i2 * 16 + i3) * 8 + i4 + 1] || i4 > 0 && aflag[(i2 * 16 + i3) * 8 + (i4 - 1)]);
                     if (flag1) {
                         Material material = world.getMaterial(i + i2, j + i4, k + i3);
-                        if (i4 >= 4 && material.isLiquid()) {
+                        if (i4 >= 4 && material.isFluid()) {
                             return false;
                         }
 
@@ -75,7 +74,7 @@ public class AetherGenLakes extends Feature {
             for (i3 = 0; i3 < 16; ++i3) {
                 for (i4 = 0; i4 < 8; ++i4) {
                     if (aflag[(i2 * 16 + i3) * 8 + i4]) {
-                        world.setBlockInChunk(i + i2, j + i4, k + i3, i4 < 4 ? this.field_15235_a : 0);
+                        world.setBlockWithoutNotifyingNeighbors(i + i2, j + i4, k + i3, i4 < 4 ? this.field_15235_a : 0);
                     }
                 }
             }
@@ -84,20 +83,20 @@ public class AetherGenLakes extends Feature {
         for (i2 = 0; i2 < 16; ++i2) {
             for (i3 = 0; i3 < 16; ++i3) {
                 for (i4 = 4; i4 < 8; ++i4) {
-                    if (aflag[(i2 * 16 + i3) * 8 + i4] && world.getBlockId(i + i2, j + i4 - 1, k + i3) == AetherBlocks.Dirt.id && world.method_164(LightType.field_2757, i + i2, j + i4, k + i3) > 0) {
-                        world.setBlockInChunk(i + i2, j + i4 - 1, k + i3, AetherBlocks.Grass.id);
+                    if (aflag[(i2 * 16 + i3) * 8 + i4] && world.getBlockId(i + i2, j + i4 - 1, k + i3) == AetherBlocks.Dirt.id && world.getBrightness(LightType.SKY, i + i2, j + i4, k + i3) > 0) {
+                        world.setBlockWithoutNotifyingNeighbors(i + i2, j + i4 - 1, k + i3, AetherBlocks.Grass.id);
                     }
                 }
             }
         }
 
-        if (Block.BY_ID[this.field_15235_a].material == Material.LAVA) {
+        if (Block.BLOCKS[this.field_15235_a].material == Material.LAVA) {
             for (i2 = 0; i2 < 16; ++i2) {
                 for (i3 = 0; i3 < 16; ++i3) {
                     for (i4 = 0; i4 < 8; ++i4) {
                         flag1 = !aflag[(i2 * 16 + i3) * 8 + i4] && (i2 < 15 && aflag[((i2 + 1) * 16 + i3) * 8 + i4] || i2 > 0 && aflag[((i2 - 1) * 16 + i3) * 8 + i4] || i3 < 15 && aflag[(i2 * 16 + i3 + 1) * 8 + i4] || i3 > 0 && aflag[(i2 * 16 + (i3 - 1)) * 8 + i4] || i4 < 7 && aflag[(i2 * 16 + i3) * 8 + i4 + 1] || i4 > 0 && aflag[(i2 * 16 + i3) * 8 + (i4 - 1)]);
                         if (flag1 && (i4 < 4 || random.nextInt(2) != 0) && world.getMaterial(i + i2, j + i4, k + i3).isSolid()) {
-                            world.setBlockWithMetadata(i + i2, j + i4, k + i3, AetherBlocks.Holystone.id, 0);
+                            world.setBlockWithoutNotifyingNeighbors(i + i2, j + i4, k + i3, AetherBlocks.Holystone.id, 0);
                         }
                     }
                 }

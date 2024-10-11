@@ -31,22 +31,22 @@ public class RenderLightningKnife extends EntityRenderer {
         GL11.glEnable(32826);
         float f8 = 0.0625F;
         GL11.glTranslatef(-0.5F, 0.0F, -0.5F);
-        tessellator.start();
-        tessellator.setNormal(0.0F, 0.0F, 1.0F);
+        tessellator.startQuads();
+        tessellator.normal(0.0F, 0.0F, 1.0F);
         tessellator.vertex(0.0, 0.0, 0.0, (double) texMaxX, (double) texMaxY);
         tessellator.vertex((double) f4, 0.0, 0.0, (double) texMinX, (double) texMaxY);
         tessellator.vertex((double) f4, 0.0, 1.0, (double) texMinX, (double) texMinY);
         tessellator.vertex(0.0, 0.0, 1.0, (double) texMaxX, (double) texMinY);
-        tessellator.tessellate();
-        tessellator.start();
-        tessellator.setNormal(0.0F, 0.0F, -1.0F);
+        tessellator.draw();
+        tessellator.startQuads();
+        tessellator.normal(0.0F, 0.0F, -1.0F);
         tessellator.vertex(0.0, (double) (0.0F - f8), 1.0, (double) texMaxX, (double) texMinY);
         tessellator.vertex((double) f4, (double) (0.0F - f8), 1.0, (double) texMinX, (double) texMinY);
         tessellator.vertex((double) f4, (double) (0.0F - f8), 0.0, (double) texMinX, (double) texMaxY);
         tessellator.vertex(0.0, (double) (0.0F - f8), 0.0, (double) texMaxX, (double) texMaxY);
-        tessellator.tessellate();
-        tessellator.start();
-        tessellator.setNormal(-1.0F, 0.0F, 0.0F);
+        tessellator.draw();
+        tessellator.startQuads();
+        tessellator.normal(-1.0F, 0.0F, 0.0F);
 
         int l;
         float f12;
@@ -62,9 +62,9 @@ public class RenderLightningKnife extends EntityRenderer {
             tessellator.vertex((double) f20, (double) (0.0F - f8), 1.0, (double) f16, (double) texMinY);
         }
 
-        tessellator.tessellate();
-        tessellator.start();
-        tessellator.setNormal(1.0F, 0.0F, 0.0F);
+        tessellator.draw();
+        tessellator.startQuads();
+        tessellator.normal(1.0F, 0.0F, 0.0F);
 
         for (l = 0; l < 16; ++l) {
             f12 = (float) l / 16.0F;
@@ -76,9 +76,9 @@ public class RenderLightningKnife extends EntityRenderer {
             tessellator.vertex((double) f20, (double) (0.0F - f8), 0.0, (double) f16, (double) texMaxY);
         }
 
-        tessellator.tessellate();
-        tessellator.start();
-        tessellator.setNormal(0.0F, 1.0F, 0.0F);
+        tessellator.draw();
+        tessellator.startQuads();
+        tessellator.normal(0.0F, 1.0F, 0.0F);
 
         for (l = 0; l < 16; ++l) {
             f12 = (float) l / 16.0F;
@@ -90,9 +90,9 @@ public class RenderLightningKnife extends EntityRenderer {
             tessellator.vertex(0.0, (double) (0.0F - f8), (double) f20, (double) texMaxX, (double) f16);
         }
 
-        tessellator.tessellate();
-        tessellator.start();
-        tessellator.setNormal(0.0F, -1.0F, 0.0F);
+        tessellator.draw();
+        tessellator.startQuads();
+        tessellator.normal(0.0F, -1.0F, 0.0F);
 
         for (l = 0; l < 16; ++l) {
             f12 = (float) l / 16.0F;
@@ -104,7 +104,7 @@ public class RenderLightningKnife extends EntityRenderer {
             tessellator.vertex((double) f4, (double) (0.0F - f8), (double) f20, (double) texMinX, (double) f16);
         }
 
-        tessellator.tessellate();
+        tessellator.draw();
         GL11.glDisable(32826);
         GL11.glPopMatrix();
     }

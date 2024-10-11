@@ -11,10 +11,10 @@ public class ItemGoldenFeather extends ItemMoreArmor {
     }
 
     public static void slowFall(PlayerEntity player) {
-        if (player.yVelocity < 0) {
-            if (player.method_1373()) // isSneaking
-                player.yVelocity *= 0.9;
-            else player.yVelocity *= 0.6;
+        if (player.velocityY < 0) {
+            if (player.isSneaking()) // isSneaking
+                player.velocityY *= 0.9;
+            else player.velocityY *= 0.6;
 
             ((EntityAccessor) (player)).setFallDistance(-1.0F);
         }
@@ -24,9 +24,9 @@ public class ItemGoldenFeather extends ItemMoreArmor {
     public ItemStack tickWhileWorn(PlayerEntity playerBase, ItemStack itemStack) {
         if (!playerBase.onGround) {
             slowFall(playerBase);
-            if (playerBase.field_1645 % 120 == 0) {
-                itemStack.applyDamage(1, playerBase);
-                if (itemStack.getDamage() > itemStack.getDurability() - 2) {
+            if (playerBase.age % 120 == 0) {
+                itemStack.damage(1, playerBase);
+                if (itemStack.getDamage2() > itemStack.getMaxDamage() - 2) {
                     itemStack = null;
                 }
             }

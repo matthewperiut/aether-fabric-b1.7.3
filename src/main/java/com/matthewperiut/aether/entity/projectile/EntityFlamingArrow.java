@@ -6,9 +6,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.io.CompoundTag;
-import net.minecraft.util.math.AxixAlignedBoundingBox;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -37,14 +37,14 @@ public class EntityFlamingArrow extends Entity implements EntitySpawnDataProvide
 
     public EntityFlamingArrow(World world) {
         super(world);
-        this.setSize(0.5F, 0.5F);
+        this.setBoundingBoxSpacing(0.5F, 0.5F);
         this.fireTicks = 1;
     }
 
     public EntityFlamingArrow(World world, double d, double d1, double d2) {
         super(world);
-        this.setSize(0.5F, 0.5F);
-        this.method_1338(d, d1, d2, this.yaw, this.pitch);
+        this.setBoundingBoxSpacing(0.5F, 0.5F);
+        this.setPositionAndAngles(d, d1, d2, this.yaw, this.pitch);
         this.standingEyeHeight = 0.0F;
     }
 
@@ -52,17 +52,17 @@ public class EntityFlamingArrow extends Entity implements EntitySpawnDataProvide
         super(world);
         this.owner = entityliving;
         this.doesArrowBelongToPlayer = entityliving instanceof PlayerEntity;
-        this.setSize(0.5F, 0.5F);
-        this.setPositionAndAngles(entityliving.x, entityliving.y + (double) entityliving.getStandingEyeHeight(), entityliving.z, entityliving.yaw, entityliving.pitch);
+        this.setBoundingBoxSpacing(0.5F, 0.5F);
+        this.setPositionAndAnglesKeepPrevAngles(entityliving.x, entityliving.y + (double) entityliving.getEyeHeight(), entityliving.z, entityliving.yaw, entityliving.pitch);
         this.x -= (double) (MathHelper.cos(this.yaw / 180.0F * 3.141593F) * 0.16F);
         this.y -= 0.10000000149011612;
         this.z -= (double) (MathHelper.sin(this.yaw / 180.0F * 3.141593F) * 0.16F);
-        this.method_1338(this.x, this.y, this.z, this.yaw, this.pitch);
+        this.setPositionAndAngles(this.x, this.y, this.z, this.yaw, this.pitch);
         this.standingEyeHeight = 0.0F;
-        this.xVelocity = (double) (-MathHelper.sin(this.yaw / 180.0F * 3.141593F) * MathHelper.cos(this.pitch / 180.0F * 3.141593F));
-        this.zVelocity = (double) (MathHelper.cos(this.yaw / 180.0F * 3.141593F) * MathHelper.cos(this.pitch / 180.0F * 3.141593F));
-        this.yVelocity = (double) (-MathHelper.sin(this.pitch / 180.0F * 3.141593F));
-        this.setArrowHeading(this.xVelocity, this.yVelocity, this.zVelocity, 1.5F, 1.0F);
+        this.velocityX = (double) (-MathHelper.sin(this.yaw / 180.0F * 3.141593F) * MathHelper.cos(this.pitch / 180.0F * 3.141593F));
+        this.velocityZ = (double) (MathHelper.cos(this.yaw / 180.0F * 3.141593F) * MathHelper.cos(this.pitch / 180.0F * 3.141593F));
+        this.velocityY = (double) (-MathHelper.sin(this.pitch / 180.0F * 3.141593F));
+        this.setArrowHeading(this.velocityX, this.velocityY, this.velocityZ, 1.5F, 1.0F);
     }
 
     protected void initDataTracker() {
@@ -73,32 +73,32 @@ public class EntityFlamingArrow extends Entity implements EntitySpawnDataProvide
         d /= (double) f2;
         d1 /= (double) f2;
         d2 /= (double) f2;
-        d += this.rand.nextGaussian() * 0.007499999832361937 * (double) f1;
-        d1 += this.rand.nextGaussian() * 0.007499999832361937 * (double) f1;
-        d2 += this.rand.nextGaussian() * 0.007499999832361937 * (double) f1;
+        d += this.random.nextGaussian() * 0.007499999832361937 * (double) f1;
+        d1 += this.random.nextGaussian() * 0.007499999832361937 * (double) f1;
+        d2 += this.random.nextGaussian() * 0.007499999832361937 * (double) f1;
         d *= (double) f;
         d1 *= (double) f;
         d2 *= (double) f;
-        this.xVelocity = d;
-        this.yVelocity = d1;
-        this.zVelocity = d2;
+        this.velocityX = d;
+        this.velocityY = d1;
+        this.velocityZ = d2;
         float f3 = MathHelper.sqrt(d * d + d2 * d2);
         this.prevYaw = this.yaw = (float) (Math.atan2(d, d2) * 180.0 / 3.1415927410125732);
         this.prevPitch = this.pitch = (float) (Math.atan2(d1, (double) f3) * 180.0 / 3.1415927410125732);
         this.ticksInGround = 0;
     }
 
-    public void setVelocity(double d, double d1, double d2) {
-        this.xVelocity = d;
-        this.yVelocity = d1;
-        this.zVelocity = d2;
+    public void setVelocityClient(double d, double d1, double d2) {
+        this.velocityX = d;
+        this.velocityY = d1;
+        this.velocityZ = d2;
         if (this.prevPitch == 0.0F && this.prevYaw == 0.0F) {
             float f = MathHelper.sqrt(d * d + d2 * d2);
             this.prevYaw = this.yaw = (float) (Math.atan2(d, d2) * 180.0 / 3.1415927410125732);
             this.prevPitch = this.pitch = (float) (Math.atan2(d1, (double) f) * 180.0 / 3.1415927410125732);
             this.prevPitch = this.pitch;
             this.prevYaw = this.yaw;
-            this.setPositionAndAngles(this.x, this.y, this.z, this.yaw, this.pitch);
+            this.setPositionAndAnglesKeepPrevAngles(this.x, this.y, this.z, this.yaw, this.pitch);
             this.ticksInGround = 0;
         }
 
@@ -107,16 +107,16 @@ public class EntityFlamingArrow extends Entity implements EntitySpawnDataProvide
     public void tick() {
         super.tick();
         if (this.prevPitch == 0.0F && this.prevYaw == 0.0F) {
-            float f = MathHelper.sqrt(this.xVelocity * this.xVelocity + this.zVelocity * this.zVelocity);
-            this.prevYaw = this.yaw = (float) (Math.atan2(this.xVelocity, this.zVelocity) * 180.0 / 3.1415927410125732);
-            this.prevPitch = this.pitch = (float) (Math.atan2(this.yVelocity, (double) f) * 180.0 / 3.1415927410125732);
+            float f = MathHelper.sqrt(this.velocityX * this.velocityX + this.velocityZ * this.velocityZ);
+            this.prevYaw = this.yaw = (float) (Math.atan2(this.velocityX, this.velocityZ) * 180.0 / 3.1415927410125732);
+            this.prevPitch = this.pitch = (float) (Math.atan2(this.velocityY, (double) f) * 180.0 / 3.1415927410125732);
         }
 
         int i = this.world.getBlockId(this.xTile, this.yTile, this.zTile);
         if (i > 0) {
-            Block.BY_ID[i].updateBoundingBox(this.world, this.xTile, this.yTile, this.zTile);
-            AxixAlignedBoundingBox axisalignedbb = Block.BY_ID[i].getCollisionShape(this.world, this.xTile, this.yTile, this.zTile);
-            if (axisalignedbb != null && axisalignedbb.contains(Vec3d.from(this.x, this.y, this.z))) {
+            Block.BLOCKS[i].updateBoundingBox(this.world, this.xTile, this.yTile, this.zTile);
+            Box axisalignedbb = Block.BLOCKS[i].getCollisionShape(this.world, this.xTile, this.yTile, this.zTile);
+            if (axisalignedbb != null && axisalignedbb.contains(Vec3d.createCached(this.x, this.y, this.z))) {
                 this.inGround = true;
             }
         }
@@ -131,43 +131,43 @@ public class EntityFlamingArrow extends Entity implements EntitySpawnDataProvide
             if (j == this.inTile && k == this.field_28019_h) {
                 ++this.ticksInGround;
                 if (this.ticksInGround == 1200) {
-                    this.remove();
+                    this.markDead();
                 }
 
             } else {
                 this.inGround = false;
-                this.xVelocity *= (double) (this.rand.nextFloat() * 0.2F);
-                this.yVelocity *= (double) (this.rand.nextFloat() * 0.2F);
-                this.zVelocity *= (double) (this.rand.nextFloat() * 0.2F);
+                this.velocityX *= (double) (this.random.nextFloat() * 0.2F);
+                this.velocityY *= (double) (this.random.nextFloat() * 0.2F);
+                this.velocityZ *= (double) (this.random.nextFloat() * 0.2F);
                 this.ticksInGround = 0;
                 this.ticksInAir = 0;
             }
         } else {
-            this.world.addParticle(this.rand.nextBoolean() ? "flame" : "smoke", this.x, this.y, this.z, 0.0, 0.0, 0.0);
+            this.world.addParticle(this.random.nextBoolean() ? "flame" : "smoke", this.x, this.y, this.z, 0.0, 0.0, 0.0);
             ++this.ticksInAir;
-            Vec3d vec3d = Vec3d.from(this.x, this.y, this.z);
-            Vec3d vec3d1 = Vec3d.from(this.x + this.xVelocity, this.y + this.yVelocity, this.z + this.zVelocity);
-            HitResult movingobjectposition = this.world.method_162(vec3d, vec3d1, false, true);
-            vec3d = Vec3d.from(this.x, this.y, this.z);
-            vec3d1 = Vec3d.from(this.x + this.xVelocity, this.y + this.yVelocity, this.z + this.zVelocity);
+            Vec3d vec3d = Vec3d.createCached(this.x, this.y, this.z);
+            Vec3d vec3d1 = Vec3d.createCached(this.x + this.velocityX, this.y + this.velocityY, this.z + this.velocityZ);
+            HitResult movingobjectposition = this.world.raycast(vec3d, vec3d1, false, true);
+            vec3d = Vec3d.createCached(this.x, this.y, this.z);
+            vec3d1 = Vec3d.createCached(this.x + this.velocityX, this.y + this.velocityY, this.z + this.velocityZ);
             if (movingobjectposition != null) {
-                vec3d1 = Vec3d.from(movingobjectposition.field_1988.x, movingobjectposition.field_1988.y, movingobjectposition.field_1988.z);
+                vec3d1 = Vec3d.createCached(movingobjectposition.pos.x, movingobjectposition.pos.y, movingobjectposition.pos.z);
             }
 
             Entity entity = null;
-            List list = this.world.getEntities(this, this.boundingBox.duplicateAndExpand(this.xVelocity, this.yVelocity, this.zVelocity).expand(1.0, 1.0, 1.0));
+            List list = this.world.getEntities(this, this.boundingBox.stretch(this.velocityX, this.velocityY, this.velocityZ).expand(1.0, 1.0, 1.0));
             double d = 0.0;
 
             int x;
             float f5;
             for (x = 0; x < list.size(); ++x) {
                 Entity entity1 = (Entity) list.get(x);
-                if (entity1.method_1356() && (entity1 != this.owner || this.ticksInAir >= 5)) {
+                if (entity1.isCollidable() && (entity1 != this.owner || this.ticksInAir >= 5)) {
                     f5 = 0.3F;
-                    AxixAlignedBoundingBox axisalignedbb1 = entity1.boundingBox.expand((double) f5, (double) f5, (double) f5);
-                    HitResult movingobjectposition1 = axisalignedbb1.method_89(vec3d, vec3d1);
+                    Box axisalignedbb1 = entity1.boundingBox.expand((double) f5, (double) f5, (double) f5);
+                    HitResult movingobjectposition1 = axisalignedbb1.raycast(vec3d, vec3d1);
                     if (movingobjectposition1 != null) {
-                        double d1 = vec3d.distanceTo(movingobjectposition1.field_1988);
+                        double d1 = vec3d.distanceTo(movingobjectposition1.pos);
                         if (d1 < d || d == 0.0) {
                             entity = entity1;
                             d = d1;
@@ -185,37 +185,37 @@ public class EntityFlamingArrow extends Entity implements EntitySpawnDataProvide
             if (movingobjectposition != null) {
                 int y;
                 int z;
-                if (movingobjectposition.field_1989 != null) {
-                    if (movingobjectposition.field_1989.damage(this.owner, 4)) {
-                        this.world.playSound(this, "random.drr", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
-                        movingobjectposition.field_1989.fireTicks = 100;
-                        x = MathHelper.floor(movingobjectposition.field_1989.boundingBox.minX);
-                        y = MathHelper.floor(movingobjectposition.field_1989.boundingBox.minY);
-                        z = MathHelper.floor(movingobjectposition.field_1989.boundingBox.minZ);
+                if (movingobjectposition.entity != null) {
+                    if (movingobjectposition.entity.damage(this.owner, 4)) {
+                        this.world.playSound(this, "random.drr", 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
+                        movingobjectposition.entity.fireTicks = 100;
+                        x = MathHelper.floor(movingobjectposition.entity.boundingBox.minX);
+                        y = MathHelper.floor(movingobjectposition.entity.boundingBox.minY);
+                        z = MathHelper.floor(movingobjectposition.entity.boundingBox.minZ);
                         this.world.setBlock(x, y, z, 51);
-                        this.remove();
+                        this.markDead();
                     } else {
-                        this.xVelocity *= -0.10000000149011612;
-                        this.yVelocity *= -0.10000000149011612;
-                        this.zVelocity *= -0.10000000149011612;
+                        this.velocityX *= -0.10000000149011612;
+                        this.velocityY *= -0.10000000149011612;
+                        this.velocityZ *= -0.10000000149011612;
                         this.yaw += 180.0F;
                         this.prevYaw += 180.0F;
                         this.ticksInAir = 0;
                     }
                 } else {
-                    this.xTile = movingobjectposition.x;
-                    this.yTile = movingobjectposition.y;
-                    this.zTile = movingobjectposition.z;
+                    this.xTile = movingobjectposition.blockX;
+                    this.yTile = movingobjectposition.blockY;
+                    this.zTile = movingobjectposition.blockZ;
                     this.inTile = this.world.getBlockId(this.xTile, this.yTile, this.zTile);
                     this.field_28019_h = this.world.getBlockMeta(this.xTile, this.yTile, this.zTile);
-                    this.xVelocity = (double) ((float) (movingobjectposition.field_1988.x - this.x));
-                    this.yVelocity = (double) ((float) (movingobjectposition.field_1988.y - this.y));
-                    this.zVelocity = (double) ((float) (movingobjectposition.field_1988.z - this.z));
-                    f1 = MathHelper.sqrt(this.xVelocity * this.xVelocity + this.yVelocity * this.yVelocity + this.zVelocity * this.zVelocity);
-                    this.x -= this.xVelocity / (double) f1 * 0.05000000074505806;
-                    this.y -= this.yVelocity / (double) f1 * 0.05000000074505806;
-                    this.z -= this.zVelocity / (double) f1 * 0.05000000074505806;
-                    this.world.playSound(this, "random.drr", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
+                    this.velocityX = (double) ((float) (movingobjectposition.pos.x - this.x));
+                    this.velocityY = (double) ((float) (movingobjectposition.pos.y - this.y));
+                    this.velocityZ = (double) ((float) (movingobjectposition.pos.z - this.z));
+                    f1 = MathHelper.sqrt(this.velocityX * this.velocityX + this.velocityY * this.velocityY + this.velocityZ * this.velocityZ);
+                    this.x -= this.velocityX / (double) f1 * 0.05000000074505806;
+                    this.y -= this.velocityY / (double) f1 * 0.05000000074505806;
+                    this.z -= this.velocityZ / (double) f1 * 0.05000000074505806;
+                    this.world.playSound(this, "random.drr", 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
                     y = MathHelper.floor(this.x);
                     z = MathHelper.floor(this.y);
                     i1 = MathHelper.floor(this.z);
@@ -225,13 +225,13 @@ public class EntityFlamingArrow extends Entity implements EntitySpawnDataProvide
                 }
             }
 
-            this.x += this.xVelocity;
-            this.y += this.yVelocity;
-            this.z += this.zVelocity;
-            f1 = MathHelper.sqrt(this.xVelocity * this.xVelocity + this.zVelocity * this.zVelocity);
-            this.yaw = (float) (Math.atan2(this.xVelocity, this.zVelocity) * 180.0 / 3.1415927410125732);
+            this.x += this.velocityX;
+            this.y += this.velocityY;
+            this.z += this.velocityZ;
+            f1 = MathHelper.sqrt(this.velocityX * this.velocityX + this.velocityZ * this.velocityZ);
+            this.yaw = (float) (Math.atan2(this.velocityX, this.velocityZ) * 180.0 / 3.1415927410125732);
 
-            for (this.pitch = (float) (Math.atan2(this.yVelocity, (double) f1) * 180.0 / 3.1415927410125732); this.pitch - this.prevPitch < -180.0F; this.prevPitch -= 360.0F) {
+            for (this.pitch = (float) (Math.atan2(this.velocityY, (double) f1) * 180.0 / 3.1415927410125732); this.pitch - this.prevPitch < -180.0F; this.prevPitch -= 360.0F) {
             }
 
             while (this.pitch - this.prevPitch >= 180.0F) {
@@ -250,35 +250,35 @@ public class EntityFlamingArrow extends Entity implements EntitySpawnDataProvide
             this.yaw = this.prevYaw + (this.yaw - this.prevYaw) * 0.2F;
             float f3 = 0.99F;
             f5 = 0.03F;
-            if (this.method_1334()) {
+            if (this.isSubmergedInWater()) {
                 for (i1 = 0; i1 < 4; ++i1) {
                     float f6 = 0.25F;
-                    this.world.addParticle("bubble", this.x - this.xVelocity * (double) f6, this.y - this.yVelocity * (double) f6, this.z - this.zVelocity * (double) f6, this.xVelocity, this.yVelocity, this.zVelocity);
+                    this.world.addParticle("bubble", this.x - this.velocityX * (double) f6, this.y - this.velocityY * (double) f6, this.z - this.velocityZ * (double) f6, this.velocityX, this.velocityY, this.velocityZ);
                 }
 
                 f3 = 0.8F;
             }
 
-            this.xVelocity *= (double) f3;
-            this.yVelocity *= (double) f3;
-            this.zVelocity *= (double) f3;
-            this.yVelocity -= (double) f5;
-            this.method_1338(this.x, this.y, this.z, this.yaw, this.pitch);
+            this.velocityX *= (double) f3;
+            this.velocityY *= (double) f3;
+            this.velocityZ *= (double) f3;
+            this.velocityY -= (double) f5;
+            this.setPositionAndAngles(this.x, this.y, this.z, this.yaw, this.pitch);
         }
     }
 
-    public void writeAdditional(CompoundTag nbttagcompound) {
-        nbttagcompound.put("xTile", (short) this.xTile);
-        nbttagcompound.put("yTile", (short) this.yTile);
-        nbttagcompound.put("zTile", (short) this.zTile);
-        nbttagcompound.put("inTile", (byte) this.inTile);
-        nbttagcompound.put("inData", (byte) this.field_28019_h);
-        nbttagcompound.put("shake", (byte) this.arrowShake);
-        nbttagcompound.put("inGround", (byte) (this.inGround ? 1 : 0));
-        nbttagcompound.put("player", this.doesArrowBelongToPlayer);
+    public void writeNbt(NbtCompound nbttagcompound) {
+        nbttagcompound.putShort("xTile", (short) this.xTile);
+        nbttagcompound.putShort("yTile", (short) this.yTile);
+        nbttagcompound.putShort("zTile", (short) this.zTile);
+        nbttagcompound.putByte("inTile", (byte) this.inTile);
+        nbttagcompound.putByte("inData", (byte) this.field_28019_h);
+        nbttagcompound.putByte("shake", (byte) this.arrowShake);
+        nbttagcompound.putByte("inGround", (byte) (this.inGround ? 1 : 0));
+        nbttagcompound.putBoolean("player", this.doesArrowBelongToPlayer);
     }
 
-    public void readAdditional(CompoundTag nbttagcompound) {
+    public void readNbt(NbtCompound nbttagcompound) {
         this.xTile = nbttagcompound.getShort("xTile");
         this.yTile = nbttagcompound.getShort("yTile");
         this.zTile = nbttagcompound.getShort("zTile");
@@ -289,18 +289,18 @@ public class EntityFlamingArrow extends Entity implements EntitySpawnDataProvide
         this.doesArrowBelongToPlayer = nbttagcompound.getBoolean("player");
     }
 
-    public void onPlayerCollision(PlayerEntity entityplayer) {
-        if (!this.world.isClient) {
+    public void onPlayerInteraction(PlayerEntity entityplayer) {
+        if (!this.world.isRemote) {
             if (this.inGround && this.doesArrowBelongToPlayer && this.arrowShake <= 0 && entityplayer.inventory.addStack(new ItemStack(Item.ARROW, 1))) {
-                this.world.playSound(this, "random.pop", 0.2F, ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
-                entityplayer.onItemPickup(this, 1);
-                this.remove();
+                this.world.playSound(this, "random.pop", 0.2F, ((this.random.nextFloat() - this.random.nextFloat()) * 0.7F + 1.0F) * 2.0F);
+                entityplayer.sendPickup(this, 1);
+                this.markDead();
             }
 
         }
     }
 
-    public float getEyeHeight() {
+    public float getShadowRadius() {
         return 0.0F;
     }
 

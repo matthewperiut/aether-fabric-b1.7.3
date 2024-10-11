@@ -13,13 +13,13 @@ public class ItemCloudParachute extends TemplateItem {
 
     public ItemCloudParachute(Identifier i, boolean golden) {
         super(i);
-        this.setTexturePosition(tex);
-        this.maxStackSize = 1;
-        this.setDurability(golden ? 20 : 0);
+        this.setTextureId(tex);
+        this.maxCount = 1;
+        this.setMaxDamage(golden ? 20 : 0);
     }
 
     @Override
-    public int getTexturePosition(int i) {
+    public int getTextureId(int i) {
         return tex;
     }
 
@@ -30,20 +30,20 @@ public class ItemCloudParachute extends TemplateItem {
             }
 
             if (this.id == AetherItems.CloudParachuteGold.id) {
-                itemstack.applyDamage(1, entityplayer);
+                itemstack.damage(1, entityplayer);
             } else {
                 --itemstack.count;
             }
 
-            world.playSound(entityplayer, "cloud", 1.0F, 1.0F / (rand.nextFloat() * 0.1F + 0.95F));
-            if (!world.isClient) {
+            world.playSound(entityplayer, "cloud", 1.0F, 1.0F / (random.nextFloat() * 0.1F + 0.95F));
+            if (!world.isRemote) {
                 world.spawnEntity(new EntityCloudParachute(world, entityplayer, this.id == AetherItems.CloudParachuteGold.id));
             }
         }
         return itemstack;
     }
 
-    public int getNameColor(int i) {
+    public int getColorMultiplier(int i) {
         return this.id == AetherItems.CloudParachuteGold.id ? 16777087 : 16777215;
     }
 }

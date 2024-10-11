@@ -1,7 +1,7 @@
 package com.matthewperiut.aether.blockentity.block;
 
-import net.minecraft.entity.block.ChestBlockEntity;
-import net.minecraft.util.io.CompoundTag;
+import net.minecraft.block.entity.ChestBlockEntity;
+import net.minecraft.nbt.NbtCompound;
 
 public class BlockEntityTreasureChest extends ChestBlockEntity {
     public int rarity = 0;
@@ -11,14 +11,14 @@ public class BlockEntityTreasureChest extends ChestBlockEntity {
     }
 
     @Override
-    public void readNBT(CompoundTag arg) {
-        super.readNBT(arg);
+    public void readNbt(NbtCompound arg) {
+        super.readNbt(arg);
         rarity = arg.getInt("rarity");
     }
 
     @Override
-    public void writeNBT(CompoundTag arg) {
-        super.writeNBT(arg);
-        arg.put("rarity", rarity);
+    public void writeNbt(NbtCompound arg) {
+        super.writeNbt(arg);
+        arg.putInt("rarity", rarity);
     }
 }

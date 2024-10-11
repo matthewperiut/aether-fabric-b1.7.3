@@ -3,14 +3,13 @@ package com.matthewperiut.aether.blockentity.block;
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.block.Block;
-import net.minecraft.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.io.CompoundTag;
-import net.minecraft.util.io.ListTag;
-
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,15 +40,15 @@ public class BlockEntityFreezer extends BlockEntity implements Inventory {
         frozen.add(new Frozen(from, to, i));
     }
 
-    public int getInventorySize() {
+    public int size() {
         return this.frozenItemStacks.length;
     }
 
-    public ItemStack getInventoryItem(int i) {
+    public ItemStack getStack(int i) {
         return this.frozenItemStacks[i];
     }
 
-    public ItemStack takeInventoryItem(int i, int j) {
+    public ItemStack removeStack(int i, int j) {
         if (this.frozenItemStacks[i] != null) {
             ItemStack itemstack1;
             if (this.frozenItemStacks[i].count <= j) {
@@ -69,25 +68,25 @@ public class BlockEntityFreezer extends BlockEntity implements Inventory {
         }
     }
 
-    public void setInventoryItem(int i, ItemStack itemstack) {
+    public void setStack(int i, ItemStack itemstack) {
         this.frozenItemStacks[i] = itemstack;
-        if (itemstack != null && itemstack.count > this.getMaxItemCount()) {
-            itemstack.count = this.getMaxItemCount();
+        if (itemstack != null && itemstack.count > this.getMaxCountPerStack()) {
+            itemstack.count = this.getMaxCountPerStack();
         }
 
     }
 
-    public String getContainerName() {
+    public String getName() {
         return "Freezer";
     }
 
-    public void readNBT(CompoundTag nbttagcompound) {
-        super.readNBT(nbttagcompound);
-        ListTag nbttaglist = nbttagcompound.getListTag("Items");
-        this.frozenItemStacks = new ItemStack[this.getInventorySize()];
+    public void readNbt(NbtCompound nbttagcompound) {
+        super.readNbt(nbttagcompound);
+        NbtList nbttaglist = nbttagcompound.getList("Items");
+        this.frozenItemStacks = new ItemStack[this.size()];
 
         for (int i = 0; i < nbttaglist.size(); ++i) {
-            CompoundTag nbttagcompound1 = (CompoundTag) nbttaglist.get(i);
+            NbtCompound nbttagcompound1 = (NbtCompound) nbttaglist.get(i);
             byte byte0 = nbttagcompound1.getByte("Slot");
             if (byte0 >= 0 && byte0 < this.frozenItemStacks.length) {
                 this.frozenItemStacks[byte0] = new ItemStack(nbttagcompound1);
@@ -98,17 +97,17 @@ public class BlockEntityFreezer extends BlockEntity implements Inventory {
         this.frozenTimeForItem = nbttagcompound.getShort("CookTime");
     }
 
-    public void writeNBT(CompoundTag nbttagcompound) {
-        super.writeNBT(nbttagcompound);
-        nbttagcompound.put("BurnTime", (short) this.frozenProgress);
-        nbttagcompound.put("CookTime", (short) this.frozenTimeForItem);
-        ListTag nbttaglist = new ListTag();
+    public void writeNbt(NbtCompound nbttagcompound) {
+        super.writeNbt(nbttagcompound);
+        nbttagcompound.putShort("BurnTime", (short) this.frozenProgress);
+        nbttagcompound.putShort("CookTime", (short) this.frozenTimeForItem);
+        NbtList nbttaglist = new NbtList();
 
         for (int i = 0; i < this.frozenItemStacks.length; ++i) {
             if (this.frozenItemStacks[i] != null) {
-                CompoundTag nbttagcompound1 = new CompoundTag();
-                nbttagcompound1.put("Slot", (byte) i);
-                this.frozenItemStacks[i].writeNBT(nbttagcompound1);
+                NbtCompound nbttagcompound1 = new NbtCompound();
+                nbttagcompound1.putByte("Slot", (byte) i);
+                this.frozenItemStacks[i].writeNbt(nbttagcompound1);
                 nbttaglist.add(nbttagcompound1);
             }
         }
@@ -116,7 +115,7 @@ public class BlockEntityFreezer extends BlockEntity implements Inventory {
         nbttagcompound.put("Items", nbttaglist);
     }
 
-    public int getMaxItemCount() {
+    public int getMaxCountPerStack() {
         return 64;
     }
 
@@ -147,19 +146,19 @@ public class BlockEntityFreezer extends BlockEntity implements Inventory {
 
         if (this.currentFrozen != null && this.frozenProgress >= this.currentFrozen.frozenPowerNeeded) {
             if (this.frozenItemStacks[2] == null) {
-                this.setInventoryItem(2, new ItemStack(this.currentFrozen.frozenTo.getItem(), 1, this.currentFrozen.frozenTo.getMeta()));
+                this.setStack(2, new ItemStack(this.currentFrozen.frozenTo.getItem(), 1, this.currentFrozen.frozenTo.getDamage()));
             } else {
-                this.setInventoryItem(2, new ItemStack(this.currentFrozen.frozenTo.getItem(), this.getInventoryItem(2).count + 1, this.currentFrozen.frozenTo.getMeta()));
+                this.setStack(2, new ItemStack(this.currentFrozen.frozenTo.getItem(), this.getStack(2).count + 1, this.currentFrozen.frozenTo.getDamage()));
             }
 
-            if (this.getInventoryItem(0).itemId != Item.WATER_BUCKET.id && this.getInventoryItem(0).itemId != Item.LAVA_BUCKET.id) {
-                if (this.getInventoryItem(0).itemId == AetherItems.Bucket.id) {
-                    this.setInventoryItem(0, new ItemStack(AetherItems.Bucket));
+            if (this.getStack(0).itemId != Item.WATER_BUCKET.id && this.getStack(0).itemId != Item.LAVA_BUCKET.id) {
+                if (this.getStack(0).itemId == AetherItems.Bucket.id) {
+                    this.setStack(0, new ItemStack(AetherItems.Bucket));
                 } else {
-                    this.takeInventoryItem(0, 1);
+                    this.removeStack(0, 1);
                 }
             } else {
-                this.setInventoryItem(0, new ItemStack(Item.BUCKET));
+                this.setStack(0, new ItemStack(Item.BUCKET));
             }
 
             this.frozenProgress = 0;
@@ -167,20 +166,20 @@ public class BlockEntityFreezer extends BlockEntity implements Inventory {
             this.frozenTimeForItem = 0;
         }
 
-        if (this.frozenPowerRemaining <= 0 && this.currentFrozen != null && this.getInventoryItem(1) != null && this.getInventoryItem(1).itemId == AetherBlocks.Icestone.id) {
+        if (this.frozenPowerRemaining <= 0 && this.currentFrozen != null && this.getStack(1) != null && this.getStack(1).itemId == AetherBlocks.Icestone.id) {
             this.frozenPowerRemaining += 500;
-            this.takeInventoryItem(1, 1);
+            this.removeStack(1, 1);
         }
 
         if (this.currentFrozen == null) {
-            ItemStack itemstack = this.getInventoryItem(0);
+            ItemStack itemstack = this.getStack(0);
 
             for (int i = 0; i < frozen.size(); ++i) {
-                if (itemstack != null && frozen.get(i) != null && itemstack.itemId == frozen.get(i).frozenFrom.itemId && itemstack.getMeta() == frozen.get(i).frozenFrom.getMeta()) {
+                if (itemstack != null && frozen.get(i) != null && itemstack.itemId == frozen.get(i).frozenFrom.itemId && itemstack.getDamage() == frozen.get(i).frozenFrom.getDamage()) {
                     if (this.frozenItemStacks[2] == null) {
                         this.currentFrozen = frozen.get(i);
                         this.frozenTimeForItem = this.currentFrozen.frozenPowerNeeded;
-                    } else if (this.frozenItemStacks[2].itemId == frozen.get(i).frozenTo.itemId && frozen.get(i).frozenTo.getItem().getMaxStackSize() > this.frozenItemStacks[2].count) {
+                    } else if (this.frozenItemStacks[2].itemId == frozen.get(i).frozenTo.itemId && frozen.get(i).frozenTo.getItem().getMaxCount() > this.frozenItemStacks[2].count) {
                         this.currentFrozen = frozen.get(i);
                         this.frozenTimeForItem = this.currentFrozen.frozenPowerNeeded;
                     }
@@ -194,7 +193,7 @@ public class BlockEntityFreezer extends BlockEntity implements Inventory {
         if (this.world.getBlockEntity(this.x, this.y, this.z) != this) {
             return false;
         } else {
-            return entityplayer.squaredDistanceTo((double) this.x + 0.5, (double) this.y + 0.5, (double) this.z + 0.5) <= 64.0;
+            return entityplayer.getSquaredDistance((double) this.x + 0.5, (double) this.y + 0.5, (double) this.z + 0.5) <= 64.0;
         }
     }
 

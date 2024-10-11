@@ -4,10 +4,9 @@ import com.matthewperiut.aether.block.AetherBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.decoration.MushroomDecoration;
-import net.minecraft.world.feature.Feature;
-import net.minecraft.world.feature.LakeFeature;
-
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.LakeFeature;
+import net.minecraft.world.gen.feature.PlantPatchFeature;
 import java.util.Random;
 
 public class AetherGenGumdrop extends Feature {
@@ -68,27 +67,27 @@ public class AetherGenGumdrop extends Feature {
                     k4 = MathHelper.floor((double) i3 * (1.0 + (double) l2 / ((double) l * 10.0)) / (double) f);
                     if (Math.sqrt(k3 * k3 + i4 * i4 + k4 * k4) <= (double) l) {
                         if (AetherBlocks.isGood(world.getBlockId(i2 + i, l2 + j + 1, i3 + k), world.getBlockMeta(i2 + i, l2 + j + 1, i3 + k)) && (double) l2 > (double) MathHelper.floor((double) l / 5.0)) {
-                            world.setBlockInChunk(i2 + i, l2 + j, i3 + k, AetherBlocks.Grass.id);
-                            world.setBlockInChunk(i2 + i, l2 + j - 1, i3 + k, AetherBlocks.Dirt.id);
-                            world.setBlockInChunk(i2 + i, l2 + j - (1 + random.nextInt(2)), i3 + k, AetherBlocks.Dirt.id);
+                            world.setBlockWithoutNotifyingNeighbors(i2 + i, l2 + j, i3 + k, AetherBlocks.Grass.id);
+                            world.setBlockWithoutNotifyingNeighbors(i2 + i, l2 + j - 1, i3 + k, AetherBlocks.Dirt.id);
+                            world.setBlockWithoutNotifyingNeighbors(i2 + i, l2 + j - (1 + random.nextInt(2)), i3 + k, AetherBlocks.Dirt.id);
                             if (l2 >= l / 2) {
                                 j5 = random.nextInt(48);
                                 if (j5 < 2) {
                                     (new AetherGenGoldenOak()).generate(world, random, i2 + i, l2 + j + 1, i3 + k);
                                 } else if (j5 == 3) {
                                     if (random.nextInt(2) == 0) {
-                                        (new LakeFeature(Block.STILL_WATER.id)).generate(world, random, i2 + i + random.nextInt(3) - random.nextInt(3), l2 + j, i3 + k + random.nextInt(3) - random.nextInt(3));
+                                        (new LakeFeature(Block.WATER.id)).generate(world, random, i2 + i + random.nextInt(3) - random.nextInt(3), l2 + j, i3 + k + random.nextInt(3) - random.nextInt(3));
                                     }
                                 } else if (j5 == 4) {
                                     if (random.nextInt(2) == 0) {
-                                        (new MushroomDecoration(Block.DANDELION.id)).generate(world, random, i2 + i + random.nextInt(3) - random.nextInt(3), l2 + j + 1, i3 + k + random.nextInt(3) - random.nextInt(3));
+                                        (new PlantPatchFeature(Block.DANDELION.id)).generate(world, random, i2 + i + random.nextInt(3) - random.nextInt(3), l2 + j + 1, i3 + k + random.nextInt(3) - random.nextInt(3));
                                     } else {
-                                        (new MushroomDecoration(Block.ROSE.id)).generate(world, random, i2 + i + random.nextInt(3) - random.nextInt(3), l2 + j + 1, i3 + k + random.nextInt(3) - random.nextInt(3));
+                                        (new PlantPatchFeature(Block.ROSE.id)).generate(world, random, i2 + i + random.nextInt(3) - random.nextInt(3), l2 + j + 1, i3 + k + random.nextInt(3) - random.nextInt(3));
                                     }
                                 }
                             }
                         } else if (AetherBlocks.isGood(world.getBlockId(i2 + i, l2 + j, i3 + k), world.getBlockMeta(i2 + i, l2 + j, i3 + k))) {
-                            world.setBlockWithMetadata(i2 + i, l2 + j, i3 + k, AetherBlocks.Holystone.id, 0);
+                            world.setBlockWithoutNotifyingNeighbors(i2 + i, l2 + j, i3 + k, AetherBlocks.Holystone.id, 0);
                         }
                     }
                 }
@@ -154,19 +153,19 @@ public class AetherGenGumdrop extends Feature {
                     int k3 = MathHelper.floor((double) i2 / (double) f);
                     if (Math.sqrt(k2 * k2 + i3 * i3 + k3 * k3) <= (double) l) {
                         if (AetherBlocks.isGood(world.getBlockId(i1 + i, k1 + j + 1, i2 + k), world.getBlockMeta(i1 + i, k1 + j + 1, i2 + k)) && (double) k1 > (double) MathHelper.floor((double) l / 5.0)) {
-                            world.setBlockInChunk(i1 + i, k1 + j, i2 + k, AetherBlocks.Grass.id);
-                            world.setBlockInChunk(i1 + i, k1 + j - 1, i2 + k, AetherBlocks.Dirt.id);
-                            world.setBlockInChunk(i1 + i, k1 + j - (1 + random.nextInt(2)), i2 + k, AetherBlocks.Dirt.id);
+                            world.setBlockWithoutNotifyingNeighbors(i1 + i, k1 + j, i2 + k, AetherBlocks.Grass.id);
+                            world.setBlockWithoutNotifyingNeighbors(i1 + i, k1 + j - 1, i2 + k, AetherBlocks.Dirt.id);
+                            world.setBlockWithoutNotifyingNeighbors(i1 + i, k1 + j - (1 + random.nextInt(2)), i2 + k, AetherBlocks.Dirt.id);
                             if (k1 >= l / 2) {
                                 int l3 = random.nextInt(64);
                                 if (l3 == 0) {
                                     (new AetherGenGoldenOak()).generate(world, random, i1 + i, k1 + j + 1, i2 + k);
                                 } else if (l3 == 5 && random.nextInt(3) == 0) {
-                                    (new LakeFeature(Block.STILL_WATER.id)).generate(world, random, i1 + i + random.nextInt(3) - random.nextInt(3), k1 + j, i2 + k + random.nextInt(3) - random.nextInt(3));
+                                    (new LakeFeature(Block.WATER.id)).generate(world, random, i1 + i + random.nextInt(3) - random.nextInt(3), k1 + j, i2 + k + random.nextInt(3) - random.nextInt(3));
                                 }
                             }
                         } else if (AetherBlocks.isGood(world.getBlockId(i1 + i, k1 + j, i2 + k), world.getBlockMeta(i1 + i, k1 + j, i2 + k))) {
-                            world.setBlockWithMetadata(i1 + i, k1 + j, i2 + k, AetherBlocks.Holystone.id, 0);
+                            world.setBlockWithoutNotifyingNeighbors(i1 + i, k1 + j, i2 + k, AetherBlocks.Holystone.id, 0);
                         }
                     }
                 }

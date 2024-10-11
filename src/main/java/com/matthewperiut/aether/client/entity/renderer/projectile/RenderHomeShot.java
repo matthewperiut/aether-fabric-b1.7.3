@@ -14,7 +14,7 @@ public class RenderHomeShot extends LivingEntityRenderer {
         this.shotty = (ModelHomeShot) ms;
     }
 
-    public void method_823(LivingEntity el, float f) {
+    public void applyScale(LivingEntity el, float f) {
         EntityHomeShot hs = (EntityHomeShot) el;
 
         for (int i = 0; i < 3; ++i) {

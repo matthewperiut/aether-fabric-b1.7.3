@@ -5,7 +5,7 @@ import net.minecraft.entity.FlyingEntity;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.io.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.server.entity.HasTrackingParameters;
 import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
@@ -29,13 +29,13 @@ public class EntityHomeShot extends FlyingEntity implements MobSpawnDataProvider
         this.texture = "aether:stationapi/textures/mobs/electroball.png";
         this.lifeSpan = 200;
         this.life = this.lifeSpan;
-        this.setSize(0.7F, 0.7F);
+        this.setBoundingBoxSpacing(0.7F, 0.7F);
         this.firstRun = true;
         this.sinage = new float[3];
-        this.immuneToFire = true;
+        this.fireImmune = true;
 
         for (int i = 0; i < 3; ++i) {
-            this.sinage[i] = this.rand.nextFloat() * 6.0F;
+            this.sinage[i] = this.random.nextFloat() * 6.0F;
         }
 
     }
@@ -45,14 +45,14 @@ public class EntityHomeShot extends FlyingEntity implements MobSpawnDataProvider
         this.texture = "aether:stationapi/textures/mobs/electroball.png";
         this.lifeSpan = 200;
         this.life = this.lifeSpan;
-        this.setSize(0.7F, 0.7F);
+        this.setBoundingBoxSpacing(0.7F, 0.7F);
         this.setPosition(x, y, z);
         this.target = ep;
         this.sinage = new float[3];
-        this.immuneToFire = true;
+        this.fireImmune = true;
 
         for (int i = 0; i < 3; ++i) {
-            this.sinage[i] = this.rand.nextFloat() * 6.0F;
+            this.sinage[i] = this.random.nextFloat() * 6.0F;
         }
 
     }
@@ -65,38 +65,38 @@ public class EntityHomeShot extends FlyingEntity implements MobSpawnDataProvider
             this.firstRun = false;
         }
 
-        if (this.target != null && !this.target.removed && this.target.health > 0) {
+        if (this.target != null && this.target.isAlive()) {
             if (this.life <= 0) {
                 LightningEntity thunder = new LightningEntity(this.world, this.x, this.y, this.z);
                 this.world.spawnEntity(thunder);
-                this.removed = true;
+                this.dead = true;
             } else {
                 this.updateAnims();
                 this.faceIt();
                 this.moveIt(this.target, 0.02);
             }
         } else {
-            this.removed = true;
+            this.dead = true;
         }
 
     }
 
     public void moveIt(Entity e1, double sped) {
         double angle1 = (double) (this.yaw / 57.295773F);
-        this.xVelocity -= Math.sin(angle1) * sped;
-        this.zVelocity += Math.cos(angle1) * sped;
+        this.velocityX -= Math.sin(angle1) * sped;
+        this.velocityZ += Math.cos(angle1) * sped;
         double a = e1.y - 0.75;
         if (a < this.boundingBox.minY - 0.5) {
-            this.yVelocity -= sped / 2.0;
+            this.velocityY -= sped / 2.0;
         } else if (a > this.boundingBox.minY + 0.5) {
-            this.yVelocity += sped / 2.0;
+            this.velocityY += sped / 2.0;
         } else {
-            this.yVelocity += (a - this.boundingBox.minY) * (sped / 2.0);
+            this.velocityY += (a - this.boundingBox.minY) * (sped / 2.0);
         }
 
         if (this.onGround) {
             this.onGround = false;
-            this.yVelocity = 0.10000000149011612;
+            this.velocityY = 0.10000000149011612;
         }
 
     }
@@ -117,13 +117,13 @@ public class EntityHomeShot extends FlyingEntity implements MobSpawnDataProvider
 
     }
 
-    public void writeAdditional(CompoundTag nbttagcompound) {
-        super.writeAdditional(nbttagcompound);
-        nbttagcompound.put("LifeLeft", (short) this.life);
+    public void writeNbt(NbtCompound nbttagcompound) {
+        super.writeNbt(nbttagcompound);
+        nbttagcompound.putShort("LifeLeft", (short) this.life);
     }
 
-    public void readAdditional(CompoundTag nbttagcompound) {
-        super.readAdditional(nbttagcompound);
+    public void readNbt(NbtCompound nbttagcompound) {
+        super.readNbt(nbttagcompound);
         this.life = nbttagcompound.getShort("LifeLeft");
     }
 
@@ -134,20 +134,20 @@ public class EntityHomeShot extends FlyingEntity implements MobSpawnDataProvider
         double d = Math.sqrt(a * a + b * b + c * c);
         if (d > 0.125) {
             double e = 0.125 / d;
-            this.xVelocity *= e;
-            this.yVelocity *= e;
-            this.zVelocity *= e;
+            this.velocityX *= e;
+            this.velocityY *= e;
+            this.velocityZ *= e;
         }
 
     }
 
     public Entity findPlayerToAttack() {
-        PlayerEntity entityplayer = this.world.getClosestPlayerTo(this, 16.0);
-        return entityplayer != null && this.method_928(entityplayer) ? entityplayer : null;
+        PlayerEntity entityplayer = this.world.getClosestPlayer(this, 16.0);
+        return entityplayer != null && this.canSee(entityplayer) ? entityplayer : null;
     }
 
-    public void method_1353(Entity entity) {
-        super.method_1353(entity);
+    public void onCollision(Entity entity) {
+        super.onCollision(entity);
         if (entity != null && this.target != null && entity == this.target) {
             boolean flag = entity.damage(this, 1);
             if (flag) {

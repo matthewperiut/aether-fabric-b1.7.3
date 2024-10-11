@@ -7,10 +7,10 @@ import com.matthewperiut.aether.mixin.access.EntityAccessor;
 import com.matthewperiut.aether.mixin.access.LivingEntityAccessor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.mob.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.util.io.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
@@ -34,26 +34,26 @@ public class EntityCockatrice extends MonsterEntity implements MobSpawnDataProvi
 
     public EntityCockatrice(World world) {
         super(world);
-        this.field_1641 = 1.0F;
+        this.stepHeight = 1.0F;
         this.jrem = 0;
         this.jumps = 3;
         this.texture = "aether:stationapi/textures/mobs/Cockatrice.png";
-        this.setSize(1.0F, 2.0F);
+        this.setBoundingBoxSpacing(1.0F, 2.0F);
         this.health = 20;
-        this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
+        this.timeUntilNextEgg = this.random.nextInt(6000) + 6000;
     }
 
     public boolean canSpawn() {
         int i = MathHelper.floor(this.x);
         int j = MathHelper.floor(this.boundingBox.minY);
         int k = MathHelper.floor(this.z);
-        return this.rand.nextInt(25) == 0 && this.getPathfindingFavour(i, j, k) >= 0.0F && this.world.canSpawnEntity(this.boundingBox) && this.world.method_190(this, this.boundingBox).size() == 0 && !this.world.method_218(this.boundingBox) && this.world.getBlockId(i, j - 1, k) != AetherBlocks.DungeonStone.id && this.world.getBlockId(i, j - 1, k) != AetherBlocks.LightDungeonStone.id && this.world.getBlockId(i, j - 1, k) != AetherBlocks.LockedDungeonStone.id && this.world.getBlockId(i, j - 1, k) != AetherBlocks.LockedLightDungeonStone.id && this.world.getBlockId(i, j - 1, k) != AetherBlocks.Holystone.id && this.world.difficulty > 0;
+        return this.random.nextInt(25) == 0 && this.getPathfindingFavor(i, j, k) >= 0.0F && this.world.canSpawnEntity(this.boundingBox) && this.world.getEntityCollisions(this, this.boundingBox).size() == 0 && !this.world.isBoxSubmergedInFluid(this.boundingBox) && this.world.getBlockId(i, j - 1, k) != AetherBlocks.DungeonStone.id && this.world.getBlockId(i, j - 1, k) != AetherBlocks.LightDungeonStone.id && this.world.getBlockId(i, j - 1, k) != AetherBlocks.LockedDungeonStone.id && this.world.getBlockId(i, j - 1, k) != AetherBlocks.LockedLightDungeonStone.id && this.world.getBlockId(i, j - 1, k) != AetherBlocks.Holystone.id && this.world.difficulty > 0;
     }
 
     public void tick() {
         super.tick();
-        this.field_1622 = this.passenger instanceof PlayerEntity;
-        if (!this.world.isClient && this.gotrider) {
+        this.ignoreFrustumCull = this.passenger instanceof PlayerEntity;
+        if (!this.world.isRemote && this.gotrider) {
             if (this.passenger != null) {
                 return;
             }
@@ -62,41 +62,41 @@ public class EntityCockatrice extends MonsterEntity implements MobSpawnDataProvi
             int i = 0;
             if (i < list.size()) {
                 Entity entity = (Entity) list.get(i);
-                entity.startRiding(this);
+                entity.setVehicle(this);
             }
 
             this.gotrider = false;
         }
 
-        if (!this.world.isClient && this.world.difficulty == 0) {
-            this.remove();
+        if (!this.world.isRemote && this.world.difficulty == 0) {
+            this.markDead();
         }
 
     }
 
-    protected void tryAttack(Entity entity, float f) {
+    protected void attack(Entity entity, float f) {
         if (f < 10.0F) {
             double d = entity.x - this.x;
             double d1 = entity.z - this.z;
-            if (this.attackTime == 0) {
+            if (this.attackCooldown == 0) {
                 EntityPoisonNeedle entityarrow = new EntityPoisonNeedle(this.world, this);
                 ++entityarrow.y;
-                double d2 = entity.y + (double) entity.getStandingEyeHeight() - 0.20000000298023224 - entityarrow.y;
+                double d2 = entity.y + (double) entity.getEyeHeight() - 0.20000000298023224 - entityarrow.y;
                 float f1 = MathHelper.sqrt(d * d + d1 * d1) * 0.2F;
-                this.world.playSound(this, "aether:other.dartshooter.shootdart", 1.0F, 1.0F / (this.rand.nextFloat() * 0.4F + 0.8F));
+                this.world.playSound(this, "aether:other.dartshooter.shootdart", 1.0F, 1.0F / (this.random.nextFloat() * 0.4F + 0.8F));
                 this.world.spawnEntity(entityarrow);
                 entityarrow.setArrowHeading(d, d2 + (double) f1, d1, 0.6F, 12.0F);
-                this.attackTime = 30;
+                this.attackCooldown = 30;
             }
 
             this.yaw = (float) (Math.atan2(d1, d) * 180.0 / 3.1415927410125732) - 90.0F;
-            this.field_663 = true;
+            this.movementBlocked = true;
         }
 
     }
 
-    public void updateDespawnCounter() {
-        super.updateDespawnCounter();
+    public void tickMovement() {
+        super.tickMovement();
         this.field_756_e = this.field_752_b;
         this.field_757_d = this.destPos;
         this.destPos = (float) ((double) this.destPos + (double) (this.onGround ? -1 : 4) * 0.05);
@@ -119,22 +119,22 @@ public class EntityCockatrice extends MonsterEntity implements MobSpawnDataProvi
         }
 
         this.field_755_h = (float) ((double) this.field_755_h * 0.9);
-        if (!this.onGround && this.yVelocity < 0.0) {
+        if (!this.onGround && this.velocityY < 0.0) {
             if (this.passenger == null) {
-                this.yVelocity *= 0.6;
+                this.velocityY *= 0.6;
             } else {
-                this.yVelocity *= 0.6375;
+                this.velocityY *= 0.6375;
             }
         }
 
         this.field_752_b += this.field_755_h * 2.0F;
-        if (!this.world.isClient && --this.timeUntilNextEgg <= 0) {
-            this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
+        if (!this.world.isRemote && --this.timeUntilNextEgg <= 0) {
+            this.timeUntilNextEgg = this.random.nextInt(6000) + 6000;
         }
 
     }
 
-    protected void handleFallDamage(float f) {
+    protected void onLanding(float f) {
     }
 
     public boolean damage(Entity entity, int i) {
@@ -142,19 +142,19 @@ public class EntityCockatrice extends MonsterEntity implements MobSpawnDataProvi
             return false;
         } else {
             boolean flag = super.damage(entity, i);
-            if (flag && this.passenger != null && (this.health <= 0 || this.rand.nextInt(3) == 0)) {
-                this.passenger.startRiding(this);
+            if (flag && this.passenger != null && (this.health <= 0 || this.random.nextInt(3) == 0)) {
+                this.passenger.setVehicle(this);
             }
 
             return flag;
         }
     }
 
-    public void tickHandSwing() {
-        if (!this.world.isClient) {
+    public void tickLiving() {
+        if (!this.world.isRemote) {
             if (this.passenger != null && this.passenger instanceof LivingEntity) {
-                this.forwardVelocity = 0.0F;
-                this.horizontalVelocity = 0.0F;
+                this.forwardSpeed = 0.0F;
+                this.sidewaysSpeed = 0.0F;
                 this.jumping = false;
                 ((EntityAccessor) this.passenger).setFallDistance(0.0F);
                 this.prevYaw = this.yaw = this.passenger.yaw;
@@ -165,35 +165,35 @@ public class EntityCockatrice extends MonsterEntity implements MobSpawnDataProvi
                 float f5;
                 if (((LivingEntityAccessor) entityliving).getForwardVelocity() > 0.1F) {
                     f5 = entityliving.yaw * f1;
-                    this.xVelocity += (double) ((LivingEntityAccessor) entityliving).getForwardVelocity() * -Math.sin((double) f5) * 0.17499999701976776;
-                    this.zVelocity += (double) ((LivingEntityAccessor) entityliving).getForwardVelocity() * Math.cos((double) f5) * 0.17499999701976776;
+                    this.velocityX += (double) ((LivingEntityAccessor) entityliving).getForwardVelocity() * -Math.sin((double) f5) * 0.17499999701976776;
+                    this.velocityZ += (double) ((LivingEntityAccessor) entityliving).getForwardVelocity() * Math.cos((double) f5) * 0.17499999701976776;
                 } else if (((LivingEntityAccessor) entityliving).getForwardVelocity() < -0.1F) {
                     f5 = entityliving.yaw * f1;
-                    this.xVelocity += (double) ((LivingEntityAccessor) entityliving).getForwardVelocity() * -Math.sin((double) f5) * 0.17499999701976776;
-                    this.zVelocity += (double) ((LivingEntityAccessor) entityliving).getForwardVelocity() * Math.cos((double) f5) * 0.17499999701976776;
+                    this.velocityX += (double) ((LivingEntityAccessor) entityliving).getForwardVelocity() * -Math.sin((double) f5) * 0.17499999701976776;
+                    this.velocityZ += (double) ((LivingEntityAccessor) entityliving).getForwardVelocity() * Math.cos((double) f5) * 0.17499999701976776;
                 }
 
                 if (((LivingEntityAccessor) entityliving).getHorizontalVelocity() > 0.1F) {
                     f5 = entityliving.yaw * f1;
-                    this.xVelocity += (double) ((LivingEntityAccessor) entityliving).getHorizontalVelocity() * Math.cos((double) f5) * 0.17499999701976776;
-                    this.zVelocity += (double) ((LivingEntityAccessor) entityliving).getHorizontalVelocity() * Math.sin((double) f5) * 0.17499999701976776;
+                    this.velocityX += (double) ((LivingEntityAccessor) entityliving).getHorizontalVelocity() * Math.cos((double) f5) * 0.17499999701976776;
+                    this.velocityZ += (double) ((LivingEntityAccessor) entityliving).getHorizontalVelocity() * Math.sin((double) f5) * 0.17499999701976776;
                 } else if (((LivingEntityAccessor) entityliving).getHorizontalVelocity() < -0.1F) {
                     f5 = entityliving.yaw * f1;
-                    this.xVelocity += (double) ((LivingEntityAccessor) entityliving).getHorizontalVelocity() * Math.cos((double) f5) * 0.17499999701976776;
-                    this.zVelocity += (double) ((LivingEntityAccessor) entityliving).getHorizontalVelocity() * Math.sin((double) f5) * 0.17499999701976776;
+                    this.velocityX += (double) ((LivingEntityAccessor) entityliving).getHorizontalVelocity() * Math.cos((double) f5) * 0.17499999701976776;
+                    this.velocityZ += (double) ((LivingEntityAccessor) entityliving).getHorizontalVelocity() * Math.sin((double) f5) * 0.17499999701976776;
                 }
 
                 if (this.onGround && ((LivingEntityAccessor) entityliving).getJumping()) {
                     this.onGround = false;
-                    this.yVelocity = 0.875;
+                    this.velocityY = 0.875;
                     this.jpress = true;
                     --this.jrem;
-                } else if (this.method_1393() && ((LivingEntityAccessor) entityliving).getJumping()) {
-                    this.yVelocity = 0.5;
+                } else if (this.checkWaterCollisions() && ((LivingEntityAccessor) entityliving).getJumping()) {
+                    this.velocityY = 0.5;
                     this.jpress = true;
                     --this.jrem;
                 } else if (this.jrem > 0 && !this.jpress && ((LivingEntityAccessor) entityliving).getJumping()) {
-                    this.yVelocity = 0.75;
+                    this.velocityY = 0.75;
                     this.jpress = true;
                     --this.jrem;
                 }
@@ -202,38 +202,38 @@ public class EntityCockatrice extends MonsterEntity implements MobSpawnDataProvi
                     this.jpress = false;
                 }
 
-                double d = Math.abs(Math.sqrt(this.xVelocity * this.xVelocity + this.zVelocity * this.zVelocity));
+                double d = Math.abs(Math.sqrt(this.velocityX * this.velocityX + this.velocityZ * this.velocityZ));
                 if (d > 0.375) {
                     double d1 = 0.375 / d;
-                    this.xVelocity *= d1;
-                    this.zVelocity *= d1;
+                    this.velocityX *= d1;
+                    this.velocityZ *= d1;
                 }
 
             } else {
-                super.tickHandSwing();
+                super.tickLiving();
             }
         }
     }
 
-    public void writeAdditional(CompoundTag nbttagcompound) {
-        super.writeAdditional(nbttagcompound);
-        nbttagcompound.put("Jumps", (short) this.jumps);
-        nbttagcompound.put("Remaining", (short) this.jrem);
+    public void writeNbt(NbtCompound nbttagcompound) {
+        super.writeNbt(nbttagcompound);
+        nbttagcompound.putShort("Jumps", (short) this.jumps);
+        nbttagcompound.putShort("Remaining", (short) this.jrem);
         if (this.passenger != null) {
             this.gotrider = true;
         }
 
-        nbttagcompound.put("GotRider", this.gotrider);
+        nbttagcompound.putBoolean("GotRider", this.gotrider);
     }
 
-    public void readAdditional(CompoundTag nbttagcompound) {
-        super.readAdditional(nbttagcompound);
+    public void readNbt(NbtCompound nbttagcompound) {
+        super.readNbt(nbttagcompound);
         this.jumps = nbttagcompound.getShort("Jumps");
         this.jrem = nbttagcompound.getShort("Remaining");
         this.gotrider = nbttagcompound.getBoolean("GotRider");
     }
 
-    protected String getAmbientSound() {
+    protected String getRandomSound() {
         return "aether:mobs.moa.idlecall";
     }
 
@@ -249,7 +249,7 @@ public class EntityCockatrice extends MonsterEntity implements MobSpawnDataProvi
         return true;
     }
 
-    protected void getDrops() {
+    protected void dropItems() {
         boolean skyrootSword = UtilSkyroot.sword(world.getClosestPlayer(x, y, z, 10));
         this.dropItem(Item.FEATHER.id, 3 * (skyrootSword ? 2 : 1));
     }

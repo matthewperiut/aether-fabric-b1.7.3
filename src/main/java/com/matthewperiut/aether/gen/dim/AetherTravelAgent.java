@@ -7,22 +7,21 @@ import com.matthewperiut.aether.util.AetherPlayerBooks;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.NetherTeleporter;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-
+import net.minecraft.world.dimension.PortalForcer;
 import java.util.Random;
 
-public class AetherTravelAgent extends NetherTeleporter {
+public class AetherTravelAgent extends PortalForcer {
     private final Random rand = new Random();
 
     public AetherTravelAgent() {
     }
 
-    public void teleport(World world, Entity entity) {
-        if (!this.tryTeleport(world, entity)) {
-            this.placeNetherPortal(world, entity);
-            this.tryTeleport(world, entity);
+    public void moveToPortal(World world, Entity entity) {
+        if (!this.teleportToValidPortal(world, entity)) {
+            this.createPortal(world, entity);
+            this.teleportToValidPortal(world, entity);
         }
         if (entity instanceof PlayerEntity player) {
             AetherAchievements.giveAchievement(AetherAchievements.enterAether, player);
@@ -32,7 +31,7 @@ public class AetherTravelAgent extends NetherTeleporter {
         }
     }
 
-    public boolean tryTeleport(World world, Entity entity) {
+    public boolean teleportToValidPortal(World world, Entity entity) {
         char c = 128;
         double d = -1.0;
         int i = 0;
@@ -87,15 +86,15 @@ public class AetherTravelAgent extends NetherTeleporter {
                 d6 += 0.5;
             }
 
-            entity.setPositionAndAngles(d2, d4, d6, entity.yaw, 0.0F);
-            entity.xVelocity = entity.yVelocity = entity.zVelocity = 0.0;
+            entity.setPositionAndAnglesKeepPrevAngles(d2, d4, d6, entity.yaw, 0.0F);
+            entity.velocityX = entity.velocityY = entity.velocityZ = 0.0;
             return true;
         } else {
             return false;
         }
     }
 
-    public boolean placeNetherPortal(World world, Entity entity) {
+    public boolean createPortal(World world, Entity entity) {
         byte byte0 = 16;
         double d = -1.0;
         int i = MathHelper.floor(entity.x);
@@ -252,7 +251,7 @@ public class AetherTravelAgent extends NetherTeleporter {
         }
 
         for (l4 = 0; l4 < 4; ++l4) {
-            world.stopPhysics = true;
+            world.pauseTicking = true;
 
             for (l5 = 0; l5 < 4; ++l5) {
                 for (i7 = -1; i7 < 4; ++i7) {
@@ -264,14 +263,14 @@ public class AetherTravelAgent extends NetherTeleporter {
                 }
             }
 
-            world.stopPhysics = false;
+            world.pauseTicking = false;
 
             for (l5 = 0; l5 < 4; ++l5) {
                 for (i7 = -1; i7 < 4; ++i7) {
                     j8 = l2 + (l5 - 1) * i4;
                     k9 = i3 + i7;
                     l10 = k3 + (l5 - 1) * j4;
-                    world.updateNeighbors(j8, k9, l10, world.getBlockId(j8, k9, l10));
+                    world.notifyNeighbors(j8, k9, l10, world.getBlockId(j8, k9, l10));
                 }
             }
         }
@@ -282,7 +281,7 @@ public class AetherTravelAgent extends NetherTeleporter {
     public boolean blockIsGood(int block, int meta) {
         if (block == 0) {
             return false;
-        } else if (!Block.BY_ID[block].material.isSolid()) {
+        } else if (!Block.BLOCKS[block].material.isSolid()) {
             return false;
         } else {
             return block != AetherBlocks.Aercloud.id || meta != 0;

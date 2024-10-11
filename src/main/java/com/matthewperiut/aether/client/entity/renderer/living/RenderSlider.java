@@ -9,10 +9,10 @@ import org.lwjgl.opengl.GL11;
 public class RenderSlider extends LivingEntityRenderer {
     public RenderSlider(EntityModel ms, float f) {
         super(ms, f);
-        this.model = ms;
+        this.decorationModel = ms;
     }
 
-    protected void method_823(LivingEntity entityliving, float f) {
+    protected void applyScale(LivingEntity entityliving, float f) {
         EntitySlider e1 = (EntitySlider) entityliving;
         if (e1.harvey > 0.01F) {
             GL11.glRotatef(e1.harvey * -30.0F, (float) e1.rennis, 0.0F, (float) e1.dennis);
@@ -43,7 +43,7 @@ public class RenderSlider extends LivingEntityRenderer {
         }
     }
 
-    protected boolean render(LivingEntity entityliving, int i, float f) {
+    protected boolean bindTexture(LivingEntity entityliving, int i, float f) {
         return this.setSliderEyeBrightness((EntitySlider) entityliving, i, f);
     }
 }

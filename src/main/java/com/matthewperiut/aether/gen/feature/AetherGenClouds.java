@@ -1,8 +1,7 @@
 package com.matthewperiut.aether.gen.feature;
 
 import net.minecraft.world.World;
-import net.minecraft.world.feature.Feature;
-
+import net.minecraft.world.gen.feature.Feature;
 import java.util.Random;
 
 public class AetherGenClouds extends Feature {
@@ -37,7 +36,7 @@ public class AetherGenClouds extends Feature {
                 for (int y1 = y; y1 < y + random.nextInt(1) + 2; ++y1) {
                     for (int z1 = z; z1 < z + random.nextInt(4) + 3 * (this.flat ? 3 : 1); ++z1) {
                         if (world.getBlockId(x1, y1, z1) == 0 && Math.abs(x1 - x) + Math.abs(y1 - y) + Math.abs(z1 - z) < 4 * (this.flat ? 3 : 1) + random.nextInt(2)) {
-                            world.placeBlockWithMetaData(x1, y1, z1, this.cloudBlockId, this.meta);
+                            world.setBlock(x1, y1, z1, this.cloudBlockId, this.meta);
                         }
                     }
                 }

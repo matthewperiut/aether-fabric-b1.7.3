@@ -3,10 +3,10 @@ package com.matthewperiut.aether.entity.living;
 import com.matthewperiut.aether.block.AetherBlocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.FlyingEntity;
-import net.minecraft.entity.monster.Monster;
+import net.minecraft.entity.Monster;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.hit.HitType;
-import net.minecraft.util.math.AxixAlignedBoundingBox;
+import net.minecraft.util.hit.HitResultType;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -36,17 +36,17 @@ public class EntityAerwhale extends FlyingEntity implements Monster, MobSpawnDat
 
     public EntityAerwhale(World world) {
         super(world);
-        this.immuneToFire = true;
+        this.fireImmune = true;
         this.aggroCooldown = 0;
         this.prevAttackCounter = 0;
         this.attackCounter = 0;
         this.texture = "aether:stationapi/textures/mobs/Mob_Aerwhale.png";
-        this.setSize(4.0F, 4.0F);
+        this.setBoundingBoxSpacing(4.0F, 4.0F);
         this.movementSpeed = 0.5F;
         this.health = 20;
-        this.yaw = 360.0F * this.rand.nextFloat();
-        this.pitch = 90.0F * this.rand.nextFloat() - 45.0F;
-        this.field_1622 = true;
+        this.yaw = 360.0F * this.random.nextFloat();
+        this.pitch = 90.0F * this.random.nextFloat() - 45.0F;
+        this.ignoreFrustumCull = true;
     }
 
     protected void initDataTracker() {
@@ -54,7 +54,7 @@ public class EntityAerwhale extends FlyingEntity implements Monster, MobSpawnDat
         this.dataTracker.startTracking(16, (byte) 0);
     }
 
-    public void updateDespawnCounter() {
+    public void tickMovement() {
     }
 
     public void tick() {
@@ -100,8 +100,8 @@ public class EntityAerwhale extends FlyingEntity implements Monster, MobSpawnDat
                 this.motionPitch += 5.0;
         }
 
-        this.motionYaw += (double) (2.0F * this.rand.nextFloat() - 1.0F);
-        this.motionPitch += (double) (2.0F * this.rand.nextFloat() - 1.0F);
+        this.motionYaw += (double) (2.0F * this.random.nextFloat() - 1.0F);
+        this.motionPitch += (double) (2.0F * this.random.nextFloat() - 1.0F);
         this.pitch = (float) ((double) this.pitch + 0.1 * this.motionPitch);
         this.yaw = (float) ((double) this.yaw + 0.1 * this.motionYaw);
         if (this.pitch < -60.0F) {
@@ -113,52 +113,52 @@ public class EntityAerwhale extends FlyingEntity implements Monster, MobSpawnDat
         }
 
         this.pitch = (float) ((double) this.pitch * 0.99);
-        this.xVelocity += 0.005 * Math.cos((double) this.yaw / 180.0 * Math.PI) * Math.cos((double) this.pitch / 180.0 * Math.PI);
-        this.yVelocity += 0.005 * Math.sin((double) this.pitch / 180.0 * Math.PI);
-        this.zVelocity += 0.005 * Math.sin((double) this.yaw / 180.0 * Math.PI) * Math.cos((double) this.pitch / 180.0 * Math.PI);
-        this.xVelocity *= 0.98;
-        this.yVelocity *= 0.98;
-        this.zVelocity *= 0.98;
+        this.velocityX += 0.005 * Math.cos((double) this.yaw / 180.0 * Math.PI) * Math.cos((double) this.pitch / 180.0 * Math.PI);
+        this.velocityY += 0.005 * Math.sin((double) this.pitch / 180.0 * Math.PI);
+        this.velocityZ += 0.005 * Math.sin((double) this.yaw / 180.0 * Math.PI) * Math.cos((double) this.pitch / 180.0 * Math.PI);
+        this.velocityX *= 0.98;
+        this.velocityY *= 0.98;
+        this.velocityZ *= 0.98;
         i = MathHelper.floor(this.x);
         int j = MathHelper.floor(this.boundingBox.minY);
         int k = MathHelper.floor(this.z);
-        if (this.xVelocity > 0.0 && this.world.getBlockId(i + 1, j, k) != 0) {
-            this.xVelocity = -this.xVelocity;
+        if (this.velocityX > 0.0 && this.world.getBlockId(i + 1, j, k) != 0) {
+            this.velocityX = -this.velocityX;
             this.motionYaw -= 10.0;
-        } else if (this.xVelocity < 0.0 && this.world.getBlockId(i - 1, j, k) != 0) {
-            this.xVelocity = -this.xVelocity;
+        } else if (this.velocityX < 0.0 && this.world.getBlockId(i - 1, j, k) != 0) {
+            this.velocityX = -this.velocityX;
             this.motionYaw += 10.0;
         }
 
-        if (this.yVelocity > 0.0 && this.world.getBlockId(i, j + 1, k) != 0) {
-            this.yVelocity = -this.yVelocity;
+        if (this.velocityY > 0.0 && this.world.getBlockId(i, j + 1, k) != 0) {
+            this.velocityY = -this.velocityY;
             this.motionPitch -= 10.0;
-        } else if (this.yVelocity < 0.0 && this.world.getBlockId(i, j - 1, k) != 0) {
-            this.yVelocity = -this.yVelocity;
+        } else if (this.velocityY < 0.0 && this.world.getBlockId(i, j - 1, k) != 0) {
+            this.velocityY = -this.velocityY;
             this.motionPitch += 10.0;
         }
 
-        if (this.zVelocity > 0.0 && this.world.getBlockId(i, j, k + 1) != 0) {
-            this.zVelocity = -this.zVelocity;
+        if (this.velocityZ > 0.0 && this.world.getBlockId(i, j, k + 1) != 0) {
+            this.velocityZ = -this.velocityZ;
             this.motionYaw -= 10.0;
-        } else if (this.zVelocity < 0.0 && this.world.getBlockId(i, j, k - 1) != 0) {
-            this.zVelocity = -this.zVelocity;
+        } else if (this.velocityZ < 0.0 && this.world.getBlockId(i, j, k - 1) != 0) {
+            this.velocityZ = -this.velocityZ;
             this.motionYaw += 10.0;
         }
 
         this.fireTicks = 0;
-        this.move(this.xVelocity, this.yVelocity, this.zVelocity);
+        this.move(this.velocityX, this.velocityY, this.velocityZ);
         this.checkForBeingStuck();
     }
 
     public double getSpeed() {
-        return Math.sqrt(this.xVelocity * this.xVelocity + this.yVelocity * this.yVelocity + this.zVelocity * this.zVelocity);
+        return Math.sqrt(this.velocityX * this.velocityX + this.velocityY * this.velocityY + this.velocityZ * this.velocityZ);
     }
 
     private double openSpace(float rotationYawOffset, float rotationPitchOffset) {
         float yaw = this.yaw + rotationYawOffset;
         float pitch = this.yaw + rotationYawOffset;
-        Vec3d vec3d = Vec3d.from(this.x, this.y, this.z);
+        Vec3d vec3d = Vec3d.createCached(this.x, this.y, this.z);
         float f3 = MathHelper.cos(-yaw * 0.01745329F - 3.141593F);
         float f4 = MathHelper.sin(-yaw * 0.01745329F - 3.141593F);
         float f5 = MathHelper.cos(-pitch * 0.01745329F);
@@ -166,21 +166,21 @@ public class EntityAerwhale extends FlyingEntity implements Monster, MobSpawnDat
         float f7 = f4 * f5;
         float f9 = f3 * f5;
         double d3 = 50.0;
-        Vec3d vec3d1 = vec3d.translate((double) f7 * d3, (double) f6 * d3, (double) f9 * d3);
-        HitResult movingobjectposition = this.world.method_161(vec3d, vec3d1, true);
+        Vec3d vec3d1 = vec3d.add((double) f7 * d3, (double) f6 * d3, (double) f9 * d3);
+        HitResult movingobjectposition = this.world.raycast(vec3d, vec3d1, true);
         if (movingobjectposition == null) {
             return 50.0;
-        } else if (movingobjectposition.type == HitType.field_789) {
-            double i = (double) movingobjectposition.x - this.x;
-            double j = (double) movingobjectposition.y - this.y;
-            double k = (double) movingobjectposition.z - this.z;
+        } else if (movingobjectposition.type == HitResultType.BLOCK) {
+            double i = (double) movingobjectposition.blockX - this.x;
+            double j = (double) movingobjectposition.blockY - this.y;
+            double k = (double) movingobjectposition.blockZ - this.z;
             return Math.sqrt(i * i + j * j + k * k);
         } else {
             return 50.0;
         }
     }
 
-    protected void tickHandSwing() {
+    protected void tickLiving() {
     }
 
     private void checkForBeingStuck() {
@@ -194,7 +194,7 @@ public class EntityAerwhale extends FlyingEntity implements Monster, MobSpawnDat
                 if (!this.isStuckWarning) {
                     this.isStuckWarning = true;
                 } else {
-                    this.remove();
+                    this.markDead();
                 }
             }
 
@@ -210,11 +210,11 @@ public class EntityAerwhale extends FlyingEntity implements Monster, MobSpawnDat
         double d4 = (this.waypointX - this.x) / d3;
         double d5 = (this.waypointY - this.y) / d3;
         double d6 = (this.waypointZ - this.z) / d3;
-        AxixAlignedBoundingBox axisalignedbb = this.boundingBox.method_92();
+        Box axisalignedbb = this.boundingBox.copy();
 
         for (int i = 1; (double) i < d3; ++i) {
-            axisalignedbb.addPos(d4, d5, d6);
-            if (this.world.method_190(this, axisalignedbb).size() > 0) {
+            axisalignedbb.translate(d4, d5, d6);
+            if (this.world.getEntityCollisions(this, axisalignedbb).size() > 0) {
                 return false;
             }
         }
@@ -222,7 +222,7 @@ public class EntityAerwhale extends FlyingEntity implements Monster, MobSpawnDat
         return true;
     }
 
-    protected String getAmbientSound() {
+    protected String getRandomSound() {
         return "aether:mobs.aerwhale.aerwhalecall";
     }
 
@@ -250,7 +250,7 @@ public class EntityAerwhale extends FlyingEntity implements Monster, MobSpawnDat
         int i = MathHelper.floor(this.x);
         int j = MathHelper.floor(this.boundingBox.minY);
         int k = MathHelper.floor(this.z);
-        return this.rand.nextInt(65) == 0 && this.world.canSpawnEntity(this.boundingBox) && this.world.method_190(this, this.boundingBox).size() == 0 && !this.world.method_218(this.boundingBox) && this.world.getBlockId(i, j - 1, k) != AetherBlocks.DungeonStone.id && this.world.getBlockId(i, j - 1, k) != AetherBlocks.LightDungeonStone.id && this.world.getBlockId(i, j - 1, k) != AetherBlocks.LockedDungeonStone.id && this.world.getBlockId(i, j - 1, k) != AetherBlocks.LockedLightDungeonStone.id && this.world.getBlockId(i, j - 1, k) != AetherBlocks.Holystone.id;
+        return this.random.nextInt(65) == 0 && this.world.canSpawnEntity(this.boundingBox) && this.world.getEntityCollisions(this, this.boundingBox).size() == 0 && !this.world.isBoxSubmergedInFluid(this.boundingBox) && this.world.getBlockId(i, j - 1, k) != AetherBlocks.DungeonStone.id && this.world.getBlockId(i, j - 1, k) != AetherBlocks.LightDungeonStone.id && this.world.getBlockId(i, j - 1, k) != AetherBlocks.LockedDungeonStone.id && this.world.getBlockId(i, j - 1, k) != AetherBlocks.LockedLightDungeonStone.id && this.world.getBlockId(i, j - 1, k) != AetherBlocks.Holystone.id;
     }
 
     @Override

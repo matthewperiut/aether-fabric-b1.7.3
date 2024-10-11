@@ -17,19 +17,19 @@ public class RenderAerbunny extends LivingEntityRenderer {
 
     protected void rotAerbunny(EntityAerbunny entitybunny) {
         if (!entitybunny.onGround && entitybunny.vehicle == null) {
-            if (entitybunny.yVelocity > 0.5) {
+            if (entitybunny.velocityY > 0.5) {
                 GL11.glRotatef(15.0F, -1.0F, 0.0F, 0.0F);
-            } else if (entitybunny.yVelocity < -0.5) {
+            } else if (entitybunny.velocityY < -0.5) {
                 GL11.glRotatef(-15.0F, -1.0F, 0.0F, 0.0F);
             } else {
-                GL11.glRotatef((float) (entitybunny.yVelocity * 30.0), -1.0F, 0.0F, 0.0F);
+                GL11.glRotatef((float) (entitybunny.velocityY * 30.0), -1.0F, 0.0F, 0.0F);
             }
         }
 
         this.mb.puffiness = entitybunny.puffiness;
     }
 
-    protected void method_823(LivingEntity entityliving, float f) {
+    protected void applyScale(LivingEntity entityliving, float f) {
         this.rotAerbunny((EntityAerbunny) entityliving);
     }
 }

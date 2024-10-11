@@ -18,17 +18,17 @@ public class EntityMimic extends EntityDungeonMob implements MobSpawnDataProvide
         super(world);
         this.texture = "aether:stationapi/textures/mobs/Mimic.png";
         this.standingEyeHeight = 0.0F;
-        this.setSize(1.0F, 2.0F);
+        this.setBoundingBoxSpacing(1.0F, 2.0F);
         this.health = 40;
         this.attackStrength = 5;
-        this.entity = world.getClosestPlayerTo(this, 64.0);
+        this.target = world.getClosestPlayer(this, 64.0);
     }
 
     public void tick() {
         super.tick();
-        this.mouth = (float) (Math.cos((double) ((float) this.field_1645 / 10.0F * 3.1415927F)) + 1.0) * 0.6F;
+        this.mouth = (float) (Math.cos((double) ((float) this.age / 10.0F * 3.1415927F)) + 1.0) * 0.6F;
         this.legs *= 0.9F;
-        if (this.xVelocity > 0.001 || this.xVelocity < -0.001 || this.zVelocity > 0.001 || this.zVelocity < -0.001) {
+        if (this.velocityX > 0.001 || this.velocityX < -0.001 || this.velocityZ > 0.001 || this.velocityZ < -0.001) {
             this.legs += this.legsDirection * 0.2F;
             if (this.legs > 1.0F) {
                 this.legsDirection = -1.0F;
@@ -41,8 +41,8 @@ public class EntityMimic extends EntityDungeonMob implements MobSpawnDataProvide
 
     }
 
-    public void method_1353(Entity entity) {
-        if (!this.removed && entity != null) {
+    public void onCollision(Entity entity) {
+        if (!this.dead && entity != null) {
             entity.damage(this, 4);
         }
 
@@ -51,7 +51,7 @@ public class EntityMimic extends EntityDungeonMob implements MobSpawnDataProvide
     public boolean damage(Entity entity, int i) {
         if (entity instanceof PlayerEntity) {
             this.lookAt(entity, 10.0F, 10.0F);
-            this.entity = (PlayerEntity) entity;
+            this.target = (PlayerEntity) entity;
         }
 
         return super.damage(entity, i);
@@ -69,7 +69,7 @@ public class EntityMimic extends EntityDungeonMob implements MobSpawnDataProvide
         return 0.6F;
     }
 
-    protected int getMobDrops() {
+    protected int getDroppedItemId() {
         return Block.CHEST.id;
     }
 

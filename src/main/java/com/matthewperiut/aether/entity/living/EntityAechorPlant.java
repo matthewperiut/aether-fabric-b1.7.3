@@ -6,10 +6,10 @@ import com.matthewperiut.aether.entity.projectile.EntityPoisonNeedle;
 import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.CreeperEntity;
+import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.io.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
@@ -33,12 +33,12 @@ public class EntityAechorPlant extends EntityAetherAnimal implements MobSpawnDat
     public EntityAechorPlant(World world1) {
         super(world1);
         this.texture = "aether:stationapi/textures/mobs/aechorplant.png";
-        this.size = this.rand.nextInt(4) + 1;
+        this.size = this.random.nextInt(4) + 1;
         this.health = 10 + this.size * 2;
-        this.sinage = this.rand.nextFloat() * 6.0F;
+        this.sinage = this.random.nextFloat() * 6.0F;
         this.smokeTime = this.attTime = 0;
         this.seeprey = false;
-        this.setSize(0.75F + (float) this.size * 0.125F, 0.5F + (float) this.size * 0.075F);
+        this.setBoundingBoxSpacing(0.75F + (float) this.size * 0.125F, 0.5F + (float) this.size * 0.075F);
         this.setPosition(this.x, this.y, this.z);
         this.poisonLeft = 2;
     }
@@ -51,15 +51,15 @@ public class EntityAechorPlant extends EntityAetherAnimal implements MobSpawnDat
         int i = MathHelper.floor(this.x);
         int j = MathHelper.floor(this.boundingBox.minY);
         int k = MathHelper.floor(this.z);
-        return this.world.getBlockId(i, j - 1, k) == AetherBlocks.Grass.id && this.world.placeBlock(i, j, k) > 8 && super.canSpawn();
+        return this.world.getBlockId(i, j - 1, k) == AetherBlocks.Grass.id && this.world.getLightLevel(i, j, k) > 8 && super.canSpawn();
     }
 
-    public void updateDespawnCounter() {
+    public void tickMovement() {
         if (this.health > 0 && this.grounded) {
             ++this.despawnCounter;
             this.tryDespawn();
         } else {
-            super.updateDespawnCounter();
+            super.tickMovement();
             if (this.health <= 0) {
                 return;
             }
@@ -69,7 +69,7 @@ public class EntityAechorPlant extends EntityAetherAnimal implements MobSpawnDat
             this.grounded = true;
         }
 
-        if (this.hurtTime > 0) {
+        if (this.damagedTimer > 0) {
             this.sinage += 0.9F;
         } else if (this.seeprey) {
             this.sinage += 0.3F;
@@ -115,7 +115,7 @@ public class EntityAechorPlant extends EntityAetherAnimal implements MobSpawnDat
         }
 
         if (this.target != null) {
-            if (!this.target.removed && !((double) this.target.distanceTo(this) > 12.0)) {
+            if (this.target.isAlive() && !((double) this.target.getDistance(this) > 12.0)) {
                 if (this.target instanceof PlayerEntity) {
                     PlayerEntity player1 = (PlayerEntity) this.target;
                     boolean flag = false;
@@ -129,7 +129,7 @@ public class EntityAechorPlant extends EntityAetherAnimal implements MobSpawnDat
                 this.attTime = 0;
             }
 
-            if (this.target != null && this.attTime >= 20 && this.method_928(this.target) && (double) this.target.distanceTo(this) < 5.5 + (double) this.size / 2.0) {
+            if (this.target != null && this.attTime >= 20 && this.canSee(this.target) && (double) this.target.getDistance(this) < 5.5 + (double) this.size / 2.0) {
                 this.shootTarget();
                 this.attTime = -10;
             }
@@ -146,22 +146,22 @@ public class EntityAechorPlant extends EntityAetherAnimal implements MobSpawnDat
             j = MathHelper.floor(this.boundingBox.minY);
             int k = MathHelper.floor(this.z);
             if (this.world.getBlockId(i, j - 1, k) != AetherBlocks.Grass.id && this.grounded) {
-                this.removed = true;
+                this.dead = true;
             }
         }
 
         this.seeprey = this.target != null;
     }
 
-    public void remove() {
+    public void markDead() {
         if (!this.noDespawn || this.health <= 0) {
-            super.remove();
+            super.markDead();
         }
 
     }
 
     public void shootTarget() {
-        if (this.world.difficulty != 0 && !this.world.isClient) {
+        if (this.world.difficulty != 0 && !this.world.isRemote) {
             double d1 = this.target.x - this.x;
             double d2 = this.target.z - this.z;
             double d3 = 1.5 / Math.sqrt(d1 * d1 + d2 * d2 + 0.1);
@@ -170,7 +170,7 @@ public class EntityAechorPlant extends EntityAetherAnimal implements MobSpawnDat
             d2 *= d3;
             EntityPoisonNeedle entityarrow = new EntityPoisonNeedle(this.world, this);
             entityarrow.y = this.y + 0.5;
-            this.world.playSound(this, "aether:other.dartshooter.shootdart", 2.0F, 1.0F / (this.rand.nextFloat() * 0.4F + 0.8F));
+            this.world.playSound(this, "aether:other.dartshooter.shootdart", 2.0F, 1.0F / (this.random.nextFloat() * 0.4F + 0.8F));
             this.world.spawnEntity(entityarrow);
             entityarrow.setArrowHeading(d1, d4, d2, 0.285F + (float) d4 * 0.05F, 1.0F);
         }
@@ -184,28 +184,28 @@ public class EntityAechorPlant extends EntityAetherAnimal implements MobSpawnDat
         return "damage.fallbig";
     }
 
-    public void method_925(Entity entity, int ii, double dd, double dd1) {
+    public void applyKnockback(Entity entity, int ii, double dd, double dd1) {
         for (int i = 0; i < 8; ++i) {
-            double d1 = this.x + (double) (this.rand.nextFloat() - this.rand.nextFloat()) * 0.5;
-            double d2 = this.y + 0.25 + (double) (this.rand.nextFloat() - this.rand.nextFloat()) * 0.5;
-            double d3 = this.z + (double) (this.rand.nextFloat() - this.rand.nextFloat()) * 0.5;
-            double d4 = (double) (this.rand.nextFloat() - this.rand.nextFloat()) * 0.5;
-            double d5 = (double) (this.rand.nextFloat() - this.rand.nextFloat()) * 0.5;
+            double d1 = this.x + (double) (this.random.nextFloat() - this.random.nextFloat()) * 0.5;
+            double d2 = this.y + 0.25 + (double) (this.random.nextFloat() - this.random.nextFloat()) * 0.5;
+            double d3 = this.z + (double) (this.random.nextFloat() - this.random.nextFloat()) * 0.5;
+            double d4 = (double) (this.random.nextFloat() - this.random.nextFloat()) * 0.5;
+            double d5 = (double) (this.random.nextFloat() - this.random.nextFloat()) * 0.5;
             this.world.addParticle("portal", d1, d2, d3, d4, 0.25, d5);
         }
 
         if (this.health <= 0) {
-            super.method_925(entity, ii, dd, dd1);
+            super.applyKnockback(entity, ii, dd, dd1);
         }
     }
 
     public boolean interact(PlayerEntity entityplayer) {
         boolean flag = false;
-        ItemStack stack = entityplayer.inventory.getHeldItem();
+        ItemStack stack = entityplayer.inventory.getSelectedItem();
         if (stack != null && stack.itemId == AetherItems.Bucket.id && this.poisonLeft > 0) {
             --this.poisonLeft;
-            entityplayer.inventory.setInventoryItem(entityplayer.inventory.selectedHotBarSlot, (ItemStack) null);
-            entityplayer.inventory.setInventoryItem(entityplayer.inventory.selectedHotBarSlot, new ItemStack(AetherItems.Bucket, 1, 2));
+            entityplayer.inventory.setStack(entityplayer.inventory.selectedSlot, (ItemStack) null);
+            entityplayer.inventory.setStack(entityplayer.inventory.selectedSlot, new ItemStack(AetherItems.Bucket, 1, 2));
             return true;
         } else {
             if (flag) {
@@ -213,10 +213,10 @@ public class EntityAechorPlant extends EntityAetherAnimal implements MobSpawnDat
                 String s = "heart";
 
                 for (int i = 0; i < 7; ++i) {
-                    double d = this.rand.nextGaussian() * 0.02;
-                    double d1 = this.rand.nextGaussian() * 0.02;
-                    double d2 = this.rand.nextGaussian() * 0.02;
-                    this.world.addParticle(s, this.x + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, this.y + 0.5 + (double) (this.rand.nextFloat() * this.height), this.z + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, d, d1, d2);
+                    double d = this.random.nextGaussian() * 0.02;
+                    double d1 = this.random.nextGaussian() * 0.02;
+                    double d2 = this.random.nextGaussian() * 0.02;
+                    this.world.addParticle(s, this.x + (double) (this.random.nextFloat() * this.width * 2.0F) - (double) this.width, this.y + 0.5 + (double) (this.random.nextFloat() * this.height), this.z + (double) (this.random.nextFloat() * this.width * 2.0F) - (double) this.width, d, d1, d2);
                 }
             }
 
@@ -224,25 +224,25 @@ public class EntityAechorPlant extends EntityAetherAnimal implements MobSpawnDat
         }
     }
 
-    public void writeAdditional(CompoundTag nbttagcompound) {
-        super.writeAdditional(nbttagcompound);
-        nbttagcompound.put("Grounded", this.grounded);
-        nbttagcompound.put("NoDespawn", this.noDespawn);
-        nbttagcompound.put("AttTime", (short) this.attTime);
-        nbttagcompound.put("Size", (short) this.size);
+    public void writeNbt(NbtCompound nbttagcompound) {
+        super.writeNbt(nbttagcompound);
+        nbttagcompound.putBoolean("Grounded", this.grounded);
+        nbttagcompound.putBoolean("NoDespawn", this.noDespawn);
+        nbttagcompound.putShort("AttTime", (short) this.attTime);
+        nbttagcompound.putShort("Size", (short) this.size);
     }
 
-    public void readAdditional(CompoundTag nbttagcompound) {
-        super.readAdditional(nbttagcompound);
+    public void readNbt(NbtCompound nbttagcompound) {
+        super.readNbt(nbttagcompound);
         this.grounded = nbttagcompound.getBoolean("Grounded");
         this.noDespawn = nbttagcompound.getBoolean("NoDespawn");
         this.attTime = nbttagcompound.getShort("AttTime");
         this.size = nbttagcompound.getShort("Size");
-        this.setSize(0.75F + (float) this.size * 0.125F, 0.5F + (float) this.size * 0.075F);
+        this.setBoundingBoxSpacing(0.75F + (float) this.size * 0.125F, 0.5F + (float) this.size * 0.075F);
         this.setPosition(this.x, this.y, this.z);
     }
 
-    protected void getDrops() {
+    protected void dropItems() {
         this.dropItem(AetherItems.AechorPetal.id, 2 * (UtilSkyroot.sword(world.getClosestPlayer(x, y, z, 10)) ? 2 : 1));
     }
 

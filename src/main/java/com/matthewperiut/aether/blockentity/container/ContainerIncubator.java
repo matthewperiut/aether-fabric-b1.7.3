@@ -1,15 +1,15 @@
 package com.matthewperiut.aether.blockentity.container;
 
 import com.matthewperiut.aether.blockentity.block.BlockEntityIncubator;
-import net.minecraft.container.Container;
-import net.minecraft.container.ContainerListener;
-import net.minecraft.container.slot.Slot;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerListener;
+import net.minecraft.screen.slot.Slot;
 
-public class ContainerIncubator extends Container {
+public class ContainerIncubator extends ScreenHandler {
     private final BlockEntityIncubator incubator;
     private int burnTime = 0;
     private int itemBurnTime = 0;
@@ -36,18 +36,18 @@ public class ContainerIncubator extends Container {
     }
 
     @Override
-    public void tick() {
-        super.tick();
+    public void sendContentUpdates() {
+        super.sendContentUpdates();
 
         for (int i = 0; i < this.listeners.size(); ++i) {
-            ContainerListener icrafting = (ContainerListener) this.listeners.get(i);
+            ScreenHandlerListener icrafting = (ScreenHandlerListener) this.listeners.get(i);
 
             if (this.burnTime != this.incubator.progress) {
-                icrafting.updateProperty(this, 0, this.incubator.progress);
+                icrafting.onPropertyUpdate(this, 0, this.incubator.progress);
             }
 
             if (this.itemBurnTime != this.incubator.torchPower) {
-                icrafting.updateProperty(this, 1, this.incubator.torchPower);
+                icrafting.onPropertyUpdate(this, 1, this.incubator.torchPower);
             }
         }
 
@@ -70,11 +70,11 @@ public class ContainerIncubator extends Container {
         return this.incubator.canPlayerUse(entityplayer);
     }
 
-    public ItemStack transferSlot(int i) {
+    public ItemStack quickMove(int i) {
         ItemStack itemstack = null;
         Slot slot = (Slot) this.slots.get(i);
-        if (slot != null && slot.hasItem()) {
-            ItemStack itemstack1 = slot.getItem();
+        if (slot != null && slot.hasStack()) {
+            ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
             if (i == 2) {
                 this.insertItem(itemstack1, 3, 39, true);
@@ -96,7 +96,7 @@ public class ContainerIncubator extends Container {
                 return null;
             }
 
-            slot.onCrafted(itemstack1);
+            slot.onTakeItem(itemstack1);
         }
 
         return itemstack;
@@ -107,7 +107,7 @@ public class ContainerIncubator extends Container {
             super(inv, slot, x, y);
         }
 
-        public int getMaxStackCount() {
+        public int getMaxItemCount() {
             return 1;
         }
     }

@@ -2,9 +2,9 @@ package com.matthewperiut.aether.entity.living;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.monster.Monster;
+import net.minecraft.entity.Monster;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.io.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
@@ -17,25 +17,25 @@ public class EntityDungeonMob extends MobEntity implements Monster {
         this.health = 20;
     }
 
-    public void updateDespawnCounter() {
+    public void tickMovement() {
         float f = this.getBrightnessAtEyes(1.0F);
         if (f > 0.5F) {
             this.despawnCounter += 2;
         }
 
-        super.updateDespawnCounter();
+        super.tickMovement();
     }
 
-    protected Entity getAttackTarget() {
-        PlayerEntity entityplayer = this.world.getClosestPlayerTo(this, 16.0);
-        return entityplayer != null && this.method_928(entityplayer) ? entityplayer : null;
+    protected Entity getTargetInRange() {
+        PlayerEntity entityplayer = this.world.getClosestPlayer(this, 16.0);
+        return entityplayer != null && this.canSee(entityplayer) ? entityplayer : null;
     }
 
     public boolean damage(Entity entity, int i) {
         if (super.damage(entity, i)) {
             if (this.passenger != entity && this.vehicle != entity) {
                 if (entity != this) {
-                    this.entity = entity;
+                    this.target = entity;
                 }
 
                 return true;
@@ -47,42 +47,42 @@ public class EntityDungeonMob extends MobEntity implements Monster {
         }
     }
 
-    protected void tryAttack(Entity entity, float f) {
-        if (this.attackTime <= 0 && f < 2.0F && entity.boundingBox.maxY > this.boundingBox.minY && entity.boundingBox.minY < this.boundingBox.maxY) {
-            this.attackTime = 20;
+    protected void attack(Entity entity, float f) {
+        if (this.attackCooldown <= 0 && f < 2.0F && entity.boundingBox.maxY > this.boundingBox.minY && entity.boundingBox.minY < this.boundingBox.maxY) {
+            this.attackCooldown = 20;
             entity.damage(this, this.attackStrength);
         }
 
     }
 
-    protected float getPathfindingFavour(int i, int j, int k) {
+    protected float getPathfindingFavor(int i, int j, int k) {
         return 0.5F - this.world.method_1782(i, j, k);
     }
 
-    public void writeAdditional(CompoundTag nbttagcompound) {
-        super.writeAdditional(nbttagcompound);
+    public void writeNbt(NbtCompound nbttagcompound) {
+        super.writeNbt(nbttagcompound);
     }
 
-    public void readAdditional(CompoundTag nbttagcompound) {
-        super.readAdditional(nbttagcompound);
+    public void readNbt(NbtCompound nbttagcompound) {
+        super.readNbt(nbttagcompound);
     }
 
     public boolean canSpawn() {
         int i = MathHelper.floor(this.x);
         int j = MathHelper.floor(this.boundingBox.minY);
         int k = MathHelper.floor(this.z);
-        if (this.world.method_164(LightType.field_2757, i, j, k) > this.rand.nextInt(32)) {
+        if (this.world.getBrightness(LightType.SKY, i, j, k) > this.random.nextInt(32)) {
             return false;
         } else {
-            int l = this.world.placeBlock(i, j, k);
+            int l = this.world.getLightLevel(i, j, k);
             if (this.world.isThundering()) {
-                int i1 = this.world.field_202;
-                this.world.field_202 = 10;
-                l = this.world.placeBlock(i, j, k);
-                this.world.field_202 = i1;
+                int i1 = this.world.ambientDarkness;
+                this.world.ambientDarkness = 10;
+                l = this.world.getLightLevel(i, j, k);
+                this.world.ambientDarkness = i1;
             }
 
-            return l <= this.rand.nextInt(8) && super.canSpawn();
+            return l <= this.random.nextInt(8) && super.canSpawn();
         }
     }
 }

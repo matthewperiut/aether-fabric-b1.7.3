@@ -10,8 +10,8 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.packet.play.EntityVelocityS2CPacket;
-import net.minecraft.server.entity.player.ServerPlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 
 public class PoisonControl {
     Entity parent;
@@ -50,8 +50,8 @@ public class PoisonControl {
         double gauss = ((EntityAccessor) parent).getRand().nextGaussian();
         double newMotD = motDFac * gauss;
         motD = motTaper * newMotD + (1.0 - motTaper) * motD;
-        parent.xVelocity += motD;
-        parent.zVelocity += motD;
+        parent.velocityX += motD;
+        parent.velocityZ += motD;
         double newRotD = rotDFac * gauss;
         rotD = rotTaper * newRotD + (1.0 - rotTaper) * rotD;
         parent.yaw = (float) ((double) parent.yaw + rotD);
@@ -81,13 +81,13 @@ public class PoisonControl {
     }
 
     public void onTick() {
-        if (parent.world.isClient)
+        if (parent.world.isRemote)
             return;
 
         if (poisonTime < 0) {
             ++poisonTime;
         } else if (poisonTime != 0) {
-            long time = parent.world.getWorldTime();
+            long time = parent.world.getTime();
             int mod = poisonTime % poisonInterval;
             if (clock != time) {
                 distractEntity();
@@ -106,14 +106,14 @@ public class PoisonControl {
             }
         }
         if (parent instanceof PlayerEntity player) {
-            player.getDataTracker().setInt(29, poisonTime);
+            player.getDataTracker().set(29, poisonTime);
         }
     }
 
     @Environment(EnvType.SERVER)
     private static void informClientMovement(PlayerEntity player) {
         if (player instanceof ServerPlayerEntity serverPlayer) {
-            serverPlayer.packetHandler.send(new EntityVelocityS2CPacket(serverPlayer.entityId, serverPlayer.xVelocity, serverPlayer.yVelocity, serverPlayer.zVelocity));
+            serverPlayer.networkHandler.sendPacket(new EntityVelocityUpdateS2CPacket(serverPlayer.id, serverPlayer.velocityX, serverPlayer.velocityY, serverPlayer.velocityZ));
         }
     }
 }

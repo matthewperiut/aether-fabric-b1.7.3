@@ -4,13 +4,13 @@ import com.matthewperiut.aether.block.UtilSkyroot;
 import com.matthewperiut.aether.item.AetherItems;
 import com.matthewperiut.aether.mixin.access.EntityAccessor;
 import com.matthewperiut.aether.mixin.access.LivingEntityAccessor;
-import com.matthewperiut.aether.util.MoaColour;
+import com.matthewperiut.aether.util.MoaColor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.io.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
 import net.modificationstation.stationapi.api.util.Identifier;
@@ -32,17 +32,17 @@ public class EntityMoa extends EntityAetherAnimal implements MobSpawnDataProvide
     public boolean baby;
     public boolean grown;
     public boolean saddled;
-    public MoaColour colour;
+    public MoaColor colour;
 
     public EntityMoa(World world) {
         this(world, false, false, false);
     }
 
     public EntityMoa(World world, boolean babyBool, boolean grownBool, boolean saddledBool) {
-        this(world, babyBool, grownBool, saddledBool, MoaColour.pickRandomMoa());
+        this(world, babyBool, grownBool, saddledBool, MoaColor.pickRandomMoa());
     }
 
-    public EntityMoa(World world, boolean babyBool, boolean grownBool, boolean saddledBool, MoaColour moaColour) {
+    public EntityMoa(World world, boolean babyBool, boolean grownBool, boolean saddledBool, MoaColor moaColour) {
         super(world);
         this.petalsEaten = 0;
         this.wellFed = false;
@@ -52,29 +52,29 @@ public class EntityMoa extends EntityAetherAnimal implements MobSpawnDataProvide
         this.saddled = false;
         this.destPos = 0.0F;
         this.field_755_h = 1.0F;
-        this.field_1641 = 1.0F;
+        this.stepHeight = 1.0F;
         this.jrem = 0;
         this.baby = babyBool;
         this.grown = grownBool;
         this.saddled = saddledBool;
         if (this.baby) {
-            this.setSize(0.4F, 0.5F);
+            this.setBoundingBoxSpacing(0.4F, 0.5F);
         }
 
         this.colour = moaColour;
         this.texture = this.colour.getTexture(this.saddled);
-        this.setSize(1.0F, 2.0F);
+        this.setBoundingBoxSpacing(1.0F, 2.0F);
         this.health = 40;
-        this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
+        this.timeUntilNextEgg = this.random.nextInt(6000) + 6000;
     }
 
     public void tick() {
         super.tick();
-        this.field_1622 = this.passenger instanceof PlayerEntity;
+        this.ignoreFrustumCull = this.passenger instanceof PlayerEntity;
     }
 
-    public void updateDespawnCounter() {
-        super.updateDespawnCounter();
+    public void tickMovement() {
+        super.tickMovement();
         this.field_756_e = this.field_752_b;
         this.field_757_d = this.destPos;
         this.destPos = (float) ((double) this.destPos + (double) (this.onGround ? -1 : 4) * 0.05);
@@ -97,22 +97,22 @@ public class EntityMoa extends EntityAetherAnimal implements MobSpawnDataProvide
         }
 
         this.field_755_h = (float) ((double) this.field_755_h * 0.9);
-        if (!this.onGround && this.yVelocity < 0.0) {
+        if (!this.onGround && this.velocityY < 0.0) {
             if (this.passenger == null) {
-                this.yVelocity *= 0.6;
+                this.velocityY *= 0.6;
             } else {
-                this.yVelocity *= 0.6375;
+                this.velocityY *= 0.6375;
             }
         }
 
         this.field_752_b += this.field_755_h * 2.0F;
-        if (!this.world.isClient && !this.baby && --this.timeUntilNextEgg <= 0) {
-            this.world.playSound(this, "mob.chickenplop", 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+        if (!this.world.isRemote && !this.baby && --this.timeUntilNextEgg <= 0) {
+            this.world.playSound(this, "mob.chickenplop", 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
             this.dropItem(new ItemStack(AetherItems.MoaEgg, 1, this.colour.ID), 0.0F);
-            this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
+            this.timeUntilNextEgg = this.random.nextInt(6000) + 6000;
         }
 
-        if (this.wellFed && this.rand.nextInt(2000) == 0) {
+        if (this.wellFed && this.random.nextInt(2000) == 0) {
             this.wellFed = false;
         }
 
@@ -124,23 +124,23 @@ public class EntityMoa extends EntityAetherAnimal implements MobSpawnDataProvide
 
     }
 
-    protected void handleFallDamage(float f) {
+    protected void onLanding(float f) {
     }
 
     public boolean damage(Entity entity, int i) {
         boolean flag = super.damage(entity, i);
-        if (flag && this.passenger != null && (this.health <= 0 || this.rand.nextInt(3) == 0)) {
-            this.passenger.startRiding(this);
+        if (flag && this.passenger != null && (this.health <= 0 || this.random.nextInt(3) == 0)) {
+            this.passenger.setVehicle(this);
         }
 
         return flag;
     }
 
-    public void tickHandSwing() {
-        if (!this.world.isClient) {
+    public void tickLiving() {
+        if (!this.world.isRemote) {
             if (this.passenger != null && this.passenger instanceof LivingEntity) {
-                this.forwardVelocity = 0.0F;
-                this.horizontalVelocity = 0.0F;
+                this.forwardSpeed = 0.0F;
+                this.sidewaysSpeed = 0.0F;
                 this.jumping = false;
                 ((EntityAccessor) this.passenger).setFallDistance(0.0F);
                 this.prevYaw = this.yaw = this.passenger.yaw;
@@ -151,35 +151,35 @@ public class EntityMoa extends EntityAetherAnimal implements MobSpawnDataProvide
                 float f5;
                 if (((LivingEntityAccessor) entityliving).getForwardVelocity() > 0.1F) {
                     f5 = entityliving.yaw * f1;
-                    this.xVelocity += (double) ((LivingEntityAccessor) entityliving).getForwardVelocity() * -Math.sin((double) f5) * 0.17499999701976776;
-                    this.zVelocity += (double) ((LivingEntityAccessor) entityliving).getForwardVelocity() * Math.cos((double) f5) * 0.17499999701976776;
+                    this.velocityX += (double) ((LivingEntityAccessor) entityliving).getForwardVelocity() * -Math.sin((double) f5) * 0.17499999701976776;
+                    this.velocityZ += (double) ((LivingEntityAccessor) entityliving).getForwardVelocity() * Math.cos((double) f5) * 0.17499999701976776;
                 } else if (((LivingEntityAccessor) entityliving).getForwardVelocity() < -0.1F) {
                     f5 = entityliving.yaw * f1;
-                    this.xVelocity += (double) ((LivingEntityAccessor) entityliving).getForwardVelocity() * -Math.sin((double) f5) * 0.17499999701976776;
-                    this.zVelocity += (double) ((LivingEntityAccessor) entityliving).getForwardVelocity() * Math.cos((double) f5) * 0.17499999701976776;
+                    this.velocityX += (double) ((LivingEntityAccessor) entityliving).getForwardVelocity() * -Math.sin((double) f5) * 0.17499999701976776;
+                    this.velocityZ += (double) ((LivingEntityAccessor) entityliving).getForwardVelocity() * Math.cos((double) f5) * 0.17499999701976776;
                 }
 
                 if (((LivingEntityAccessor) entityliving).getHorizontalVelocity() > 0.1F) {
                     f5 = entityliving.yaw * f1;
-                    this.xVelocity += (double) ((LivingEntityAccessor) entityliving).getHorizontalVelocity() * Math.cos((double) f5) * 0.17499999701976776;
-                    this.zVelocity += (double) ((LivingEntityAccessor) entityliving).getHorizontalVelocity() * Math.sin((double) f5) * 0.17499999701976776;
+                    this.velocityX += (double) ((LivingEntityAccessor) entityliving).getHorizontalVelocity() * Math.cos((double) f5) * 0.17499999701976776;
+                    this.velocityZ += (double) ((LivingEntityAccessor) entityliving).getHorizontalVelocity() * Math.sin((double) f5) * 0.17499999701976776;
                 } else if (((LivingEntityAccessor) entityliving).getHorizontalVelocity() < -0.1F) {
                     f5 = entityliving.yaw * f1;
-                    this.xVelocity += (double) ((LivingEntityAccessor) entityliving).getHorizontalVelocity() * Math.cos((double) f5) * 0.17499999701976776;
-                    this.zVelocity += (double) ((LivingEntityAccessor) entityliving).getHorizontalVelocity() * Math.sin((double) f5) * 0.17499999701976776;
+                    this.velocityX += (double) ((LivingEntityAccessor) entityliving).getHorizontalVelocity() * Math.cos((double) f5) * 0.17499999701976776;
+                    this.velocityZ += (double) ((LivingEntityAccessor) entityliving).getHorizontalVelocity() * Math.sin((double) f5) * 0.17499999701976776;
                 }
 
                 if (this.onGround && ((LivingEntityAccessor) entityliving).getJumping()) {
                     this.onGround = false;
-                    this.yVelocity = 0.875;
+                    this.velocityY = 0.875;
                     this.jpress = true;
                     --this.jrem;
-                } else if (this.method_1393() && ((LivingEntityAccessor) entityliving).getJumping()) {
-                    this.yVelocity = 0.5;
+                } else if (this.checkWaterCollisions() && ((LivingEntityAccessor) entityliving).getJumping()) {
+                    this.velocityY = 0.5;
                     this.jpress = true;
                     --this.jrem;
                 } else if (this.jrem > 0 && !this.jpress && ((LivingEntityAccessor) entityliving).getJumping()) {
-                    this.yVelocity = 0.75;
+                    this.velocityY = 0.75;
                     this.jpress = true;
                     --this.jrem;
                 }
@@ -188,35 +188,35 @@ public class EntityMoa extends EntityAetherAnimal implements MobSpawnDataProvide
                     this.jpress = false;
                 }
 
-                double d = Math.abs(Math.sqrt(this.xVelocity * this.xVelocity + this.zVelocity * this.zVelocity));
+                double d = Math.abs(Math.sqrt(this.velocityX * this.velocityX + this.velocityZ * this.velocityZ));
                 if (d > 0.375) {
                     double d1 = 0.375 / d;
-                    this.xVelocity *= d1;
-                    this.zVelocity *= d1;
+                    this.velocityX *= d1;
+                    this.velocityZ *= d1;
                 }
 
             } else {
-                super.tickHandSwing();
+                super.tickLiving();
             }
         }
     }
 
-    public void writeAdditional(CompoundTag nbttagcompound) {
-        super.writeAdditional(nbttagcompound);
-        nbttagcompound.put("Remaining", (short) this.jrem);
-        nbttagcompound.put("ColourNumber", (short) this.colour.ID);
-        nbttagcompound.put("Baby", this.baby);
-        nbttagcompound.put("Grown", this.grown);
-        nbttagcompound.put("Saddled", this.saddled);
-        nbttagcompound.put("wellFed", this.wellFed);
-        nbttagcompound.put("petalsEaten", this.petalsEaten);
-        nbttagcompound.put("followPlayer", this.followPlayer);
+    public void writeNbt(NbtCompound nbttagcompound) {
+        super.writeNbt(nbttagcompound);
+        nbttagcompound.putShort("Remaining", (short) this.jrem);
+        nbttagcompound.putShort("ColourNumber", (short) this.colour.ID);
+        nbttagcompound.putBoolean("Baby", this.baby);
+        nbttagcompound.putBoolean("Grown", this.grown);
+        nbttagcompound.putBoolean("Saddled", this.saddled);
+        nbttagcompound.putBoolean("wellFed", this.wellFed);
+        nbttagcompound.putInt("petalsEaten", this.petalsEaten);
+        nbttagcompound.putBoolean("followPlayer", this.followPlayer);
     }
 
-    public void readAdditional(CompoundTag nbttagcompound) {
-        super.readAdditional(nbttagcompound);
+    public void readNbt(NbtCompound nbttagcompound) {
+        super.readNbt(nbttagcompound);
         this.jrem = nbttagcompound.getShort("Remaining");
-        this.colour = MoaColour.getColour(nbttagcompound.getShort("ColourNumber"));
+        this.colour = MoaColor.getColour(nbttagcompound.getShort("ColourNumber"));
         this.baby = nbttagcompound.getBoolean("Baby");
         this.grown = nbttagcompound.getBoolean("Grown");
         this.saddled = nbttagcompound.getBoolean("Saddled");
@@ -241,7 +241,7 @@ public class EntityMoa extends EntityAetherAnimal implements MobSpawnDataProvide
         this.texture = this.colour.getTexture(this.saddled);
     }
 
-    protected String getAmbientSound() {
+    protected String getRandomSound() {
         return "aether:mobs.moa.idlecall";
     }
 
@@ -254,21 +254,21 @@ public class EntityMoa extends EntityAetherAnimal implements MobSpawnDataProvide
     }
 
     public boolean interact(PlayerEntity entityplayer) {
-        if (!this.saddled && this.grown && !this.baby && entityplayer.inventory.getHeldItem() != null && entityplayer.inventory.getHeldItem().itemId == Item.SADDLE.id) {
-            entityplayer.inventory.setInventoryItem(entityplayer.inventory.selectedHotBarSlot, (ItemStack) null);
+        if (!this.saddled && this.grown && !this.baby && entityplayer.inventory.getSelectedItem() != null && entityplayer.inventory.getSelectedItem().itemId == Item.SADDLE.id) {
+            entityplayer.inventory.setStack(entityplayer.inventory.selectedSlot, (ItemStack) null);
             this.saddled = true;
             this.grown = false;
             this.texture = this.colour.getTexture(this.saddled);
             return true;
-        } else if (this.saddled && !this.world.isClient && (this.passenger == null || this.passenger == entityplayer)) {
-            entityplayer.startRiding(this);
+        } else if (this.saddled && !this.world.isRemote && (this.passenger == null || this.passenger == entityplayer)) {
+            entityplayer.setVehicle(this);
             entityplayer.prevYaw = entityplayer.yaw = this.yaw;
             return true;
         } else if (!this.wellFed && !this.saddled && this.baby && !this.grown) {
-            ItemStack itemstack = entityplayer.inventory.getHeldItem();
+            ItemStack itemstack = entityplayer.inventory.getSelectedItem();
             if (itemstack != null && itemstack.itemId == AetherItems.AechorPetal.id) {
                 ++this.petalsEaten;
-                entityplayer.inventory.takeInventoryItem(entityplayer.inventory.selectedHotBarSlot, 1);
+                entityplayer.inventory.removeStack(entityplayer.inventory.selectedSlot, 1);
                 if (this.petalsEaten > this.colour.jumps) {
                     this.grown = true;
                     this.baby = false;
@@ -282,10 +282,10 @@ public class EntityMoa extends EntityAetherAnimal implements MobSpawnDataProvide
             if (!this.saddled && (this.baby || this.grown)) {
                 if (!this.followPlayer) {
                     this.followPlayer = true;
-                    this.entity = entityplayer;
+                    this.target = entityplayer;
                 } else {
                     this.followPlayer = false;
-                    this.entity = null;
+                    this.target = null;
                 }
             }
 
@@ -297,11 +297,11 @@ public class EntityMoa extends EntityAetherAnimal implements MobSpawnDataProvide
         return !this.baby && !this.grown && !this.saddled;
     }
 
-    protected boolean canClimb() {
+    protected boolean bypassesSteppingEffects() {
         return this.onGround;
     }
 
-    protected void getDrops() {
+    protected void dropItems() {
         boolean skyrootSword = UtilSkyroot.sword(world.getClosestPlayer(x, y, z, 10));
         this.dropItem(Item.FEATHER.id, 3 * (skyrootSword ? 2 : 1));
     }

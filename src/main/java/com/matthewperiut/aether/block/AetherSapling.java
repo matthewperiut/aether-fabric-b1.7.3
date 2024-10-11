@@ -6,7 +6,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraft.world.feature.Feature;
+import net.minecraft.world.gen.feature.Feature;
 import net.modificationstation.stationapi.api.template.block.TemplatePlantBlock;
 import net.modificationstation.stationapi.api.util.Identifier;
 
@@ -24,43 +24,43 @@ public class AetherSapling extends TemplatePlantBlock {
         this.setBoundingBox(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
     }
 
-    public void onScheduledTick(World world, int i, int j, int k, Random random) {
-        if (!world.isClient) {
-            super.onScheduledTick(world, i, j, k, random);
-            if (world.placeBlock(i, j + 1, k) >= 9 && random.nextInt(30) == 0) {
+    public void onTick(World world, int i, int j, int k, Random random) {
+        if (!world.isRemote) {
+            super.onTick(world, i, j, k, random);
+            if (world.getLightLevel(i, j + 1, k) >= 9 && random.nextInt(30) == 0) {
                 this.growTree(world, i, j, k, random);
             }
 
         }
     }
 
-    public int getTextureForSide(int i, int j) {
+    public int getTexture(int i, int j) {
         return golden ? sprGoldenOak : sprSkyroot;
     }
 
     public boolean canPlaceAt(World world, int i, int j, int k) {
-        return super.canPlaceAt(world, i, j, k) && this.canPlantOnTopOf(world.getBlockId(i, j - 1, k));
+        return super.canPlaceAt(world, i, j, k) && this.canPlantOnTop(world.getBlockId(i, j - 1, k));
     }
 
-    protected boolean canPlantOnTopOf(int i) {
+    protected boolean canPlantOnTop(int i) {
         return i == AetherBlocks.Grass.id || i == AetherBlocks.Dirt.id;
     }
 
-    public boolean canUse(World world, int i, int j, int k, PlayerEntity entityPlayer) {
-        if (world.isClient) {
+    public boolean onUse(World world, int i, int j, int k, PlayerEntity entityPlayer) {
+        if (world.isRemote) {
             return false;
         } else if (entityPlayer == null) {
             return false;
         } else {
-            ItemStack itemStack = entityPlayer.getHeldItem();
+            ItemStack itemStack = entityPlayer.getHand();
             if (itemStack == null) {
                 return false;
-            } else if (itemStack.itemId != Item.DYE_POWDER.id) {
+            } else if (itemStack.itemId != Item.DYE.id) {
                 return false;
-            } else if (itemStack.getMeta() != 15) {
+            } else if (itemStack.getDamage() != 15) {
                 return false;
             } else {
-                this.growTree(world, i, j, k, world.rand);
+                this.growTree(world, i, j, k, world.random);
                 --itemStack.count;
                 return true;
             }
@@ -68,7 +68,7 @@ public class AetherSapling extends TemplatePlantBlock {
     }
 
     public void growTree(World world, int i, int j, int k, Random random) {
-        world.setBlockInChunk(i, j, k, 0);
+        world.setBlockWithoutNotifyingNeighbors(i, j, k, 0);
         Object obj = null;
         if (this.id == AetherBlocks.GoldenOakSapling.id) {
             obj = new AetherGenGoldenOak();
@@ -77,7 +77,7 @@ public class AetherSapling extends TemplatePlantBlock {
         }
 
         if (!((Feature) obj).generate(world, random, i, j, k)) {
-            world.setBlockInChunk(i, j, k, this.id);
+            world.setBlockWithoutNotifyingNeighbors(i, j, k, this.id);
         }
 
     }

@@ -4,9 +4,9 @@ import com.matthewperiut.aether.item.AetherItems;
 import com.matthewperiut.aether.util.AetherPlayerBooks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.PlayerInventory;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.io.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -35,17 +35,17 @@ abstract public class PlayerMixin extends Entity implements AetherPlayerBooks {
     @Unique
     boolean hasGottenAetherBook = false;
 
-    @Inject(method = "readAdditional", at = @At("TAIL"))
-    public void readAdditional(CompoundTag tag, CallbackInfo ci) {
-        if (tag.containsKey("AetherBook")) {
+    @Inject(method = "readNbt", at = @At("TAIL"))
+    public void readAdditional(NbtCompound tag, CallbackInfo ci) {
+        if (tag.contains("AetherBook")) {
             hasGottenAetherBook = tag.getBoolean("AetherBook");
         }
     }
 
-    @Inject(method = "writeAdditional", at = @At("TAIL"))
-    public void writeAdditional(CompoundTag tag, CallbackInfo ci) {
+    @Inject(method = "writeNbt", at = @At("TAIL"))
+    public void writeAdditional(NbtCompound tag, CallbackInfo ci) {
         if (hasGottenAetherBook) {
-            tag.put("AetherBook", hasGottenAetherBook);
+            tag.putBoolean("AetherBook", hasGottenAetherBook);
         }
     }
 

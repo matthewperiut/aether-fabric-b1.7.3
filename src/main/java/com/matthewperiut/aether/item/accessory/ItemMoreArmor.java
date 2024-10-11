@@ -22,8 +22,8 @@ public class ItemMoreArmor extends TemplateItem implements Accessory {
         this.armorType = l;
         this.renderIndex = k;
         this.damageReduceAmount = damageReduceAmountArray[l];
-        this.setDurability(maxDamageArray[l] * 3 << j);
-        this.maxStackSize = 1;
+        this.setMaxDamage(maxDamageArray[l] * 3 << j);
+        this.maxCount = 1;
         this.colour = col;
         this.colouriseRender = true;
     }
@@ -65,7 +65,7 @@ public class ItemMoreArmor extends TemplateItem implements Accessory {
         return i < 4 || i == 6 || i == 10;
     }
 
-    public int getNameColor(int i) {
+    public int getColorMultiplier(int i) {
         return this.colour;
     }
 

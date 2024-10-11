@@ -8,11 +8,11 @@ public class EnchantedGravititeBlock extends BlockFloating {
         super(i, j, bool);
     }
 
-    public int getBaseColor(int i) {
+    public int getColor(int i) {
         return 16755455;
     }
 
     public int getColorMultiplier(BlockView iblockaccess, int i, int j, int k) {
-        return this.getBaseColor(iblockaccess.getBlockMeta(i, j, k));
+        return this.getColor(iblockaccess.getBlockMeta(i, j, k));
     }
 }

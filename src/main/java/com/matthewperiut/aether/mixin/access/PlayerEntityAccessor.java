@@ -6,6 +6,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(PlayerEntity.class)
 public interface PlayerEntityAccessor {
-    @Accessor("lyingOnBed")
+    @Accessor("sleeping")
     void setLyingOnBed(boolean lying);
 }

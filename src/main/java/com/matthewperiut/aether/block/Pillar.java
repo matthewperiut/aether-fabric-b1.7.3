@@ -14,7 +14,7 @@ public class Pillar extends TemplateBlock implements MetaNamedBlockItemProvider 
         super(i, Material.STONE);
     }
 
-    public int getTextureForSide(int i, int j) {
+    public int getTexture(int i, int j) {
         if (i != 0 && i != 1) {
             return j == 0 ? sprSide : sprTopSide;
         } else {
@@ -22,7 +22,7 @@ public class Pillar extends TemplateBlock implements MetaNamedBlockItemProvider 
         }
     }
 
-    protected int droppedMeta(int i) {
+    protected int getDroppedItemMeta(int i) {
         return i;
     }
 

@@ -4,7 +4,7 @@ import com.matthewperiut.aether.blockentity.block.BlockEntityTreasureChest;
 import com.matthewperiut.aether.blockentity.container.ContainerTreasureChest;
 import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.block.Block;
-import net.minecraft.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.BlockView;
@@ -30,7 +30,7 @@ public class TreasureChest extends TemplateChestBlock {
     }
 
     @Override
-    public int getTextureForSide(final BlockView tileView, final int x, final int y, final int z, final int meta) {
+    public int getTextureId(final BlockView tileView, final int x, final int y, final int z, final int meta) {
         if (meta == 1) {
             return 62;
         }
@@ -42,23 +42,23 @@ public class TreasureChest extends TemplateChestBlock {
         final int k1 = tileView.getBlockId(x - 1, y, z);
         final int l1 = tileView.getBlockId(x + 1, y, z);
         byte byte0 = 3;
-        if (Block.FULL_OPAQUE[i1] && !Block.FULL_OPAQUE[j1]) {
+        if (Block.BLOCKS_OPAQUE[i1] && !Block.BLOCKS_OPAQUE[j1]) {
             byte0 = 3;
         }
-        if (Block.FULL_OPAQUE[j1] && !Block.FULL_OPAQUE[i1]) {
+        if (Block.BLOCKS_OPAQUE[j1] && !Block.BLOCKS_OPAQUE[i1]) {
             byte0 = 2;
         }
-        if (Block.FULL_OPAQUE[k1] && !Block.FULL_OPAQUE[l1]) {
+        if (Block.BLOCKS_OPAQUE[k1] && !Block.BLOCKS_OPAQUE[l1]) {
             byte0 = 5;
         }
-        if (Block.FULL_OPAQUE[l1] && !Block.FULL_OPAQUE[k1]) {
+        if (Block.BLOCKS_OPAQUE[l1] && !Block.BLOCKS_OPAQUE[k1]) {
             byte0 = 4;
         }
-        return (meta != byte0) ? sideTexture : texture;
+        return (meta != byte0) ? sideTexture : textureId;
     }
 
     @Override
-    public int getTextureForSide(final int side) {
+    public int getTexture(final int side) {
         if (side == 1) {
             return 62;
         }
@@ -66,14 +66,14 @@ public class TreasureChest extends TemplateChestBlock {
             return 62;
         }
         if (side == 3) {
-            return texture;
+            return textureId;
         }
         return sideTexture;
     }
 
     @Override
-    public void onBlockRemoved(World arg, int i, int j, int k) {
-        if (arg.getBlockMeta(i, j, k) == 0) super.onBlockRemoved(arg, i, j, k);
+    public void onBreak(World arg, int i, int j, int k) {
+        if (arg.getBlockMeta(i, j, k) == 0) super.onBreak(arg, i, j, k);
     }
 
     private ItemStack getGoldLoot(final Random random) {
@@ -218,7 +218,7 @@ public class TreasureChest extends TemplateChestBlock {
     }
 
     @Override
-    public boolean canUse(final World level, final int x, final int y, final int z, final PlayerEntity player) {
+    public boolean onUse(final World level, final int x, final int y, final int z, final PlayerEntity player) {
         final int meta = level.getBlockMeta(x, y, z);
         BlockEntity tileEntity = level.getBlockEntity(x, y, z);
         if (tileEntity instanceof BlockEntityTreasureChest treasureChest) {
@@ -234,13 +234,13 @@ public class TreasureChest extends TemplateChestBlock {
                 GuiHelper.openGUI(player, MOD_ID.id("treasure_chest"), treasureChest, new ContainerTreasureChest(player.inventory, treasureChest));
                 return true;
             }
-            if (level.isClient) {
+            if (level.isRemote) {
                 return true;
             }
-            final ItemStack itemstack = player.inventory.getHeldItem();
+            final ItemStack itemstack = player.inventory.getSelectedItem();
             if (itemstack != null && meta == 1) {
-                if (itemstack.itemId == AetherItems.Key.id && itemstack.getDamage() + 1 == treasureChest.rarity) {
-                    player.inventory.takeInventoryItem(player.inventory.selectedHotBarSlot, 1);
+                if (itemstack.itemId == AetherItems.Key.id && itemstack.getDamage2() + 1 == treasureChest.rarity) {
+                    player.inventory.removeStack(player.inventory.selectedSlot, 1);
                     level.setBlockMeta(x, y, z, 0);
                     Random rand = new Random();
                     switch (treasureChest.rarity) {
@@ -249,19 +249,19 @@ public class TreasureChest extends TemplateChestBlock {
                         case 1:
                             for (int p = 0; p < 3 + rand.nextInt(3); ++p) {
                                 final ItemStack item = this.getBronzeLoot(rand);
-                                treasureChest.setInventoryItem(rand.nextInt(treasureChest.getInventorySize()), item);
+                                treasureChest.setStack(rand.nextInt(treasureChest.size()), item);
                             }
                             break;
                         case 2:
                             for (int p = 0; p < 3 + rand.nextInt(3); ++p) {
                                 final ItemStack item = this.getSilverLoot(rand);
-                                treasureChest.setInventoryItem(rand.nextInt(treasureChest.getInventorySize()), item);
+                                treasureChest.setStack(rand.nextInt(treasureChest.size()), item);
                             }
                             break;
                         case 3:
                             for (int p = 0; p < 3 + rand.nextInt(3); ++p) {
                                 final ItemStack item = this.getGoldLoot(rand);
-                                treasureChest.setInventoryItem(rand.nextInt(treasureChest.getInventorySize()), item);
+                                treasureChest.setStack(rand.nextInt(treasureChest.size()), item);
                             }
                             break;
                     }

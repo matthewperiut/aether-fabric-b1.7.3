@@ -16,7 +16,7 @@ public class RenderSwet extends LivingEntityRenderer {
 
     protected boolean a(EntitySwet entityswets, int i, float f) {
         if (i == 0) {
-            this.setModel(this.field_22001_a);
+            this.setDecorationModel(this.field_22001_a);
             GL11.glEnable(2977);
             GL11.glEnable(3042);
             GL11.glBlendFunc(770, 771);
@@ -36,14 +36,14 @@ public class RenderSwet extends LivingEntityRenderer {
         float f1 = 1.0F;
         float f3 = 1.5F;
         if (!entityswets.onGround) {
-            if (entityswets.yVelocity > 0.8500000238418579) {
+            if (entityswets.velocityY > 0.8500000238418579) {
                 f1 = 1.425F;
                 f2 = 0.575F;
-            } else if (entityswets.yVelocity < -0.8500000238418579) {
+            } else if (entityswets.velocityY < -0.8500000238418579) {
                 f1 = 0.575F;
                 f2 = 1.425F;
             } else {
-                float f4 = (float) entityswets.yVelocity * 0.5F;
+                float f4 = (float) entityswets.velocityY * 0.5F;
                 f1 += f4;
                 f2 -= f4;
             }
@@ -56,11 +56,11 @@ public class RenderSwet extends LivingEntityRenderer {
         GL11.glScalef(f2 * f3, f1 * f3, f2 * f3);
     }
 
-    protected void method_823(LivingEntity entityliving, float f) {
+    protected void applyScale(LivingEntity entityliving, float f) {
         this.a((EntitySwet) entityliving, f);
     }
 
-    protected boolean render(LivingEntity entityliving, int i, float f) {
+    protected boolean bindTexture(LivingEntity entityliving, int i, float f) {
         return this.a((EntitySwet) entityliving, i, f);
     }
 }

@@ -3,8 +3,7 @@ package com.matthewperiut.aether.gen.feature;
 import com.matthewperiut.aether.block.AetherBlocks;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.feature.Feature;
-
+import net.minecraft.world.gen.feature.Feature;
 import java.util.Random;
 
 public class AetherGenMinable extends Feature {
@@ -48,7 +47,7 @@ public class AetherGenMinable extends Feature {
                             for (int i3 = k1; i3 <= j2; ++i3) {
                                 double d14 = ((double) i3 + 0.5 - d8) / (d10 / 2.0);
                                 if (d12 * d12 + d13 * d13 + d14 * d14 < 1.0 && world.getBlockId(k2, l2, i3) == AetherBlocks.Holystone.id && world.getBlockMeta(k2, l2, i3) <= 1) {
-                                    world.setBlockInChunk(k2, l2, i3, this.minableBlockId);
+                                    world.setBlockWithoutNotifyingNeighbors(k2, l2, i3, this.minableBlockId);
                                 }
                             }
                         }

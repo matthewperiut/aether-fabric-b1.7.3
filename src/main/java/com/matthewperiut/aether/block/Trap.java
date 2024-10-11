@@ -15,18 +15,18 @@ import java.util.Random;
 public class Trap extends TemplateTranslucentBlock {
     public Trap(Identifier blockID) {
         super(blockID, DungeonBlock.sprBronze, Material.STONE, false);
-        this.setTicksRandomly(true);
+        this.setTickRandomly(true);
     }
 
-    public boolean isFullOpaque() {
+    public boolean isOpaque() {
         return true;
     }
 
-    public int getRenderPass() {
+    public int getRenderLayer() {
         return 1;
     }
 
-    public int getTextureForSide(int i, int j) {
+    public int getTexture(int i, int j) {
         if (j == 2) {
             return DungeonBlock.sprGold;
         } else {
@@ -34,12 +34,12 @@ public class Trap extends TemplateTranslucentBlock {
         }
     }
 
-    public int getDropCount(Random random) {
+    public int getDroppedItemCount(Random random) {
         return 1;
     }
 
     public void onSteppedOn(World world, int i, int j, int k, Entity entity) {
-        if (!world.isClient) {
+        if (!world.isRemote) {
             if (entity instanceof PlayerEntity) {
                 world.playSound((double) ((float) i + 0.5F), (double) ((float) j + 0.5F), (double) ((float) k + 0.5F), "aether:other.dungeontrap.activatetrap", 1.0F, 1.0F);
                 int x = MathHelper.floor((double) i);
@@ -57,12 +57,12 @@ public class Trap extends TemplateTranslucentBlock {
                         world.spawnEntity(entityvalk);
                 }
 
-                world.placeBlockWithMetaData(i, j, k, AetherBlocks.DungeonStone.id, world.getBlockMeta(i, j, k));
+                world.setBlock(i, j, k, AetherBlocks.DungeonStone.id, world.getBlockMeta(i, j, k));
             }
         }
     }
 
-    protected int droppedMeta(int i) {
+    protected int getDroppedItemMeta(int i) {
         return i;
     }
 }

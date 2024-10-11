@@ -23,7 +23,7 @@ public class RenderMoa extends LivingEntityRenderer {
         return (MathHelper.sin(f1) + 1.0F) * f2;
     }
 
-    protected float method_828(LivingEntity entityliving, float f) {
+    protected float getHeadBob(LivingEntity entityliving, float f) {
         return this.getWingRotation((EntityMoa) entityliving, f);
     }
 
@@ -39,7 +39,7 @@ public class RenderMoa extends LivingEntityRenderer {
         GL11.glScalef(1.8F, 1.8F, 1.8F);
     }
 
-    protected void method_823(LivingEntity entityliving, float f) {
+    protected void applyScale(LivingEntity entityliving, float f) {
         if (!(entityliving instanceof EntityMoa) || !((EntityMoa) entityliving).baby) {
             this.scalemoa();
         }

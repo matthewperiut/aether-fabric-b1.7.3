@@ -13,23 +13,23 @@ public class QuicksoilGlass extends TemplateTranslucentBlock {
         this.slipperiness = 1.05F;
     }
 
-    public int getDropCount(Random random) {
+    public int getDroppedItemCount(Random random) {
         return 0;
     }
 
-    public int getRenderPass() {
+    public int getRenderLayer() {
         return 1;
     }
 
-    public boolean isSideRendered(BlockView iblockaccess, int i, int j, int k, int l) {
-        return super.isSideRendered(iblockaccess, i, j, k, 1 - l);
+    public boolean isSideVisible(BlockView iblockaccess, int i, int j, int k, int l) {
+        return super.isSideVisible(iblockaccess, i, j, k, 1 - l);
     }
 
-    public int getBaseColor(int i) {
+    public int getColor(int i) {
         return 16776960;
     }
 
     public int getColorMultiplier(BlockView iblockaccess, int i, int j, int k) {
-        return this.getBaseColor(iblockaccess.getBlockMeta(i, j, k));
+        return this.getColor(iblockaccess.getBlockMeta(i, j, k));
     }
 }

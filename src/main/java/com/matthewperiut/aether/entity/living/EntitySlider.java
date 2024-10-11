@@ -15,12 +15,12 @@ import net.minecraft.entity.FlyingEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolItem;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.entity.player.ServerPlayerEntity;
-import net.minecraft.util.io.CompoundTag;
-import net.minecraft.util.math.AxixAlignedBoundingBox;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
@@ -54,7 +54,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
         super(world);
         this.yaw = 0.0F;
         this.pitch = 0.0F;
-        this.setSize(2.0F, 2.0F);
+        this.setBoundingBoxSpacing(2.0F, 2.0F);
         this.health = 500;
         this.dennis = 1;
         this.texture = "aether:stationapi/textures/mobs/sliderSleep.png";
@@ -73,7 +73,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
         return false;
     }
 
-    protected String getAmbientSound() {
+    protected String getRandomSound() {
         return "ambient.cave.cave";
     }
 
@@ -85,22 +85,22 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
         return "aether:bosses.slider.sliderdeath";
     }
 
-    public void writeAdditional(CompoundTag nbttagcompound) {
-        super.writeAdditional(nbttagcompound);
-        nbttagcompound.put("Speedy", this.speedy);
-        nbttagcompound.put("MoveTimer", (short) this.moveTimer);
-        nbttagcompound.put("Direction", (short) this.direction);
-        nbttagcompound.put("GotMovement", this.gotMovement);
-        nbttagcompound.put("Awake", this.awake);
-        nbttagcompound.put("DungeonX", this.dungeonX);
-        nbttagcompound.put("DungeonY", this.dungeonY);
-        nbttagcompound.put("DungeonZ", this.dungeonZ);
-        nbttagcompound.put("IsCurrentBoss", isBoss);
-        nbttagcompound.put("BossName", this.bossName);
+    public void writeNbt(NbtCompound nbttagcompound) {
+        super.writeNbt(nbttagcompound);
+        nbttagcompound.putFloat("Speedy", this.speedy);
+        nbttagcompound.putShort("MoveTimer", (short) this.moveTimer);
+        nbttagcompound.putShort("Direction", (short) this.direction);
+        nbttagcompound.putBoolean("GotMovement", this.gotMovement);
+        nbttagcompound.putBoolean("Awake", this.awake);
+        nbttagcompound.putInt("DungeonX", this.dungeonX);
+        nbttagcompound.putInt("DungeonY", this.dungeonY);
+        nbttagcompound.putInt("DungeonZ", this.dungeonZ);
+        nbttagcompound.putBoolean("IsCurrentBoss", isBoss);
+        nbttagcompound.putString("BossName", this.bossName);
     }
 
-    public void readAdditional(CompoundTag nbttagcompound) {
-        super.readAdditional(nbttagcompound);
+    public void readNbt(NbtCompound nbttagcompound) {
+        super.readNbt(nbttagcompound);
         this.speedy = nbttagcompound.getFloat("Speedy");
         this.moveTimer = nbttagcompound.getShort("MoveTimer");
         this.direction = nbttagcompound.getShort("Direction");
@@ -130,7 +130,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
 
     public void tick() {
         super.tick();
-        this.field_1012 = this.pitch = this.yaw = 0.0F;
+        this.bodyYaw = this.pitch = this.yaw = 0.0F;
         if (this.awake) {
             if (this.target != null && this.target instanceof LivingEntity) {
                 LivingEntity e1 = (LivingEntity) this.target;
@@ -145,7 +145,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
                     return;
                 }
             } else {
-                if (this.target != null && this.target.removed) {
+                if (this.target != null && this.target.dead) {
                     this.awake = false;
                     isBoss = false;
                     this.target = null;
@@ -157,7 +157,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
                 }
 
                 if (this.target == null) {
-                    this.target = this.world.getClosestPlayerTo(this, -1.0);
+                    this.target = this.world.getClosestPlayer(this, -1.0);
                     if (this.target == null) {
                         this.awake = false;
                         isBoss = false;
@@ -175,7 +175,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
             double z;
             double x;
             if (this.gotMovement) {
-                if (this.field_1626) {
+                if (this.hasCollided) {
                     x = this.x - 0.5;
                     y = this.boundingBox.minY + 0.75;
                     z = this.z - 0.5;
@@ -224,8 +224,8 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
                     }
 
                     if (this.crushed) {
-                        this.world.playSound(this.x, this.y, this.z, "random.explode", 3.0F, (0.625F + (this.world.rand.nextFloat() - this.world.rand.nextFloat()) * 0.2F) * 0.7F);
-                        this.world.playSound(this, "aether:bosses.slider.slidercollide", 2.5F, 1.0F / (this.rand.nextFloat() * 0.2F + 0.9F));
+                        this.world.playSound(this.x, this.y, this.z, "random.explode", 3.0F, (0.625F + (this.world.random.nextFloat() - this.world.random.nextFloat()) * 0.2F) * 0.7F);
+                        this.world.playSound(this, "aether:bosses.slider.slidercollide", 2.5F, 1.0F / (this.random.nextFloat() * 0.2F + 0.9F));
                     }
 
                     this.stop();
@@ -234,41 +234,41 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
                         this.speedy += this.criticalCondition() ? 0.0325F : 0.025F;
                     }
 
-                    this.xVelocity = 0.0;
-                    this.yVelocity = 0.0;
-                    this.zVelocity = 0.0;
+                    this.velocityX = 0.0;
+                    this.velocityY = 0.0;
+                    this.velocityZ = 0.0;
                     if (this.direction == 0) {
-                        this.yVelocity = (double) this.speedy;
+                        this.velocityY = (double) this.speedy;
                         if (this.boundingBox.minY > this.target.boundingBox.minY + 0.35) {
                             this.stop();
                             this.moveTimer = 8;
                         }
                     } else if (this.direction == 1) {
-                        this.yVelocity = (double) (-this.speedy);
+                        this.velocityY = (double) (-this.speedy);
                         if (this.boundingBox.minY < this.target.boundingBox.minY - 0.25) {
                             this.stop();
                             this.moveTimer = 8;
                         }
                     } else if (this.direction == 2) {
-                        this.xVelocity = (double) this.speedy;
+                        this.velocityX = (double) this.speedy;
                         if (this.x > this.target.x + 0.125) {
                             this.stop();
                             this.moveTimer = 8;
                         }
                     } else if (this.direction == 3) {
-                        this.xVelocity = (double) (-this.speedy);
+                        this.velocityX = (double) (-this.speedy);
                         if (this.x < this.target.x - 0.125) {
                             this.stop();
                             this.moveTimer = 8;
                         }
                     } else if (this.direction == 4) {
-                        this.zVelocity = (double) this.speedy;
+                        this.velocityZ = (double) this.speedy;
                         if (this.z > this.target.z + 0.125) {
                             this.stop();
                             this.moveTimer = 8;
                         }
                     } else if (this.direction == 5) {
-                        this.zVelocity = (double) (-this.speedy);
+                        this.velocityZ = (double) (-this.speedy);
                         if (this.z < this.target.z - 0.125) {
                             this.stop();
                             this.moveTimer = 8;
@@ -277,13 +277,13 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
                 }
             } else if (this.moveTimer > 0) {
                 --this.moveTimer;
-                if (this.criticalCondition() && this.rand.nextInt(2) == 0) {
+                if (this.criticalCondition() && this.random.nextInt(2) == 0) {
                     --this.moveTimer;
                 }
 
-                this.xVelocity = 0.0;
-                this.yVelocity = 0.0;
-                this.zVelocity = 0.0;
+                this.velocityX = 0.0;
+                this.velocityY = 0.0;
+                this.velocityZ = 0.0;
             } else {
                 x = Math.abs(this.x - this.target.x);
                 y = Math.abs(this.boundingBox.minY - this.target.boundingBox.minY);
@@ -300,14 +300,14 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
                     }
                 }
 
-                if (y > x && y > z || y > 0.25 && this.rand.nextInt(5) == 0) {
+                if (y > x && y > z || y > 0.25 && this.random.nextInt(5) == 0) {
                     this.direction = 0;
                     if (this.y > this.target.y) {
                         this.direction = 1;
                     }
                 }
 
-                this.world.playSound(this, "aether:bosses.slider.slidermove", 2.5F, 1.0F / (this.rand.nextFloat() * 0.2F + 0.9F));
+                this.world.playSound(this, "aether:bosses.slider.slidermove", 2.5F, 1.0F / (this.random.nextFloat() * 0.2F + 0.9F));
                 this.gotMovement = true;
             }
         }
@@ -327,22 +327,22 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
 
         for (int y = this.dungeonY + 1; y < this.dungeonY + 5; ++y) {
             for (int z = this.dungeonZ + 6; z < this.dungeonZ + 10; ++z) {
-                this.world.setBlockInChunk(x, y, z, 0);
+                this.world.setBlockWithoutNotifyingNeighbors(x, y, z, 0);
             }
         }
 
     }
 
-    public void method_1353(Entity entity) {
+    public void onCollision(Entity entity) {
         if (this.awake && this.gotMovement) {
             boolean flag = entity.damage(this, 6);
             if (flag && entity instanceof LivingEntity) {
-                this.world.playSound(this, "aether:bosses.slider.slidercollide", 2.5F, 1.0F / (this.rand.nextFloat() * 0.2F + 0.9F));
+                this.world.playSound(this, "aether:bosses.slider.slidercollide", 2.5F, 1.0F / (this.random.nextFloat() * 0.2F + 0.9F));
                 if (entity instanceof MobEntity || entity instanceof PlayerEntity) {
                     LivingEntity ek = (LivingEntity) entity;
-                    ek.yVelocity += 0.35;
-                    ek.xVelocity *= 2.0;
-                    ek.zVelocity *= 2.0;
+                    ek.velocityY += 0.35;
+                    ek.velocityX *= 2.0;
+                    ek.velocityZ *= 2.0;
                 }
 
                 this.stop();
@@ -351,8 +351,8 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
 
     }
 
-    protected void getDrops() {
-        for (int i = 0; i < 7 + this.rand.nextInt(3); ++i) {
+    protected void dropItems() {
+        for (int i = 0; i < 7 + this.random.nextInt(3); ++i) {
             this.dropItem(AetherBlocks.DungeonStone.id, 1);
         }
 
@@ -363,7 +363,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
         int i = MathHelper.floor(this.x);
         int j = MathHelper.floor(this.boundingBox.minY);
         int k = MathHelper.floor(this.z);
-        return this.world.getBlockId(i, j - 1, k) == Block.GRASS.id && this.world.getLightLevel(i, j, k) > 8 && super.canSpawn();
+        return this.world.getBlockId(i, j - 1, k) == Block.GRASS_BLOCK.id && this.world.getBrightness(i, j, k) > 8 && super.canSpawn();
     }
 
     public void stop() {
@@ -371,9 +371,9 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
         this.moveTimer = 12;
         this.direction = 0;
         this.speedy = 0.0F;
-        this.xVelocity = 0.0;
-        this.yVelocity = 0.0;
-        this.zVelocity = 0.0;
+        this.velocityX = 0.0;
+        this.velocityY = 0.0;
+        this.velocityZ = 0.0;
     }
 
     private void chatItUp(String s) {
@@ -390,13 +390,13 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
     @Environment(EnvType.CLIENT)
     public void chatLineClient(String s) {
         Minecraft mc = ((Minecraft) FabricLoader.getInstance().getGameInstance());
-        mc.overlay.addChatMessage(s);
+        mc.inGameHud.addChatMessage(s);
     }
 
     @Environment(EnvType.SERVER)
     public void chatLineServer(String s) {
         MinecraftServer mc = ((MinecraftServer) FabricLoader.getInstance().getGameInstance());
-        List<PlayerEntity> playersNearby = world.getEntities(PlayerEntity.class, AxixAlignedBoundingBox.create(this.x - areaOfEffect, this.y - areaOfEffect, z - areaOfEffect, this.x + areaOfEffect, this.y + areaOfEffect, z + areaOfEffect));
+        List<PlayerEntity> playersNearby = world.collectEntitiesByClass(PlayerEntity.class, Box.create(this.x - areaOfEffect, this.y - areaOfEffect, z - areaOfEffect, this.x + areaOfEffect, this.y + areaOfEffect, z + areaOfEffect));
         for (PlayerEntity player : playersNearby) {
             ((ServerPlayerEntity) player).sendMessage(s);
         }
@@ -405,11 +405,11 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
     public boolean damage(Entity e1, int i) {
         if (e1 != null && e1 instanceof PlayerEntity) {
             PlayerEntity p1 = (PlayerEntity) e1;
-            ItemStack stack = p1.getHeldItem();
+            ItemStack stack = p1.getHand();
             if (stack != null && stack.getItem() != null) {
                 if (stack.getItem() instanceof ToolItem) {
                     ToolItem tool = (ToolItem) stack.getItem();
-                    if (!tool.isEffectiveOn(Block.STONE)) {
+                    if (!tool.isSuitableFor(Block.STONE)) {
                         this.chatItUp("Hmm. Perhaps I need to attack it with a Pickaxe?");
                         return false;
                     } else {
@@ -417,24 +417,24 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
                         if (flag) {
                             int x;
                             for (x = 0; x < (this.health <= 0 ? 16 : 48); ++x) {
-                                double a = this.x + (double) (this.rand.nextFloat() - this.rand.nextFloat()) * 1.5;
-                                double b = this.boundingBox.minY + 1.75 + (double) (this.rand.nextFloat() - this.rand.nextFloat()) * 1.5;
-                                double c = this.z + (double) (this.rand.nextFloat() - this.rand.nextFloat()) * 1.5;
+                                double a = this.x + (double) (this.random.nextFloat() - this.random.nextFloat()) * 1.5;
+                                double b = this.boundingBox.minY + 1.75 + (double) (this.random.nextFloat() - this.random.nextFloat()) * 1.5;
+                                double c = this.z + (double) (this.random.nextFloat() - this.random.nextFloat()) * 1.5;
                                 if (this.health <= 0) {
                                     this.world.addParticle("explode", a, b, c, 0.0, 0.0, 0.0);
                                 }
                             }
 
                             if (this.health <= 0) {
-                                this.removed = true;
+                                this.dead = true;
                                 this.openDoor();
                                 this.unlockBlock(this.dungeonX, this.dungeonY, this.dungeonZ);
-                                this.world.setBlockWithMetadata(this.dungeonX + 7, this.dungeonY + 1, this.dungeonZ + 7, Block.TRAPDOOR.id, 3);
-                                this.world.setBlockWithMetadata(this.dungeonX + 8, this.dungeonY + 1, this.dungeonZ + 7, Block.TRAPDOOR.id, 2);
-                                this.world.setBlockWithMetadata(this.dungeonX + 7, this.dungeonY + 1, this.dungeonZ + 8, Block.TRAPDOOR.id, 3);
-                                this.world.setBlockWithMetadata(this.dungeonX + 8, this.dungeonY + 1, this.dungeonZ + 8, Block.TRAPDOOR.id, 2);
+                                this.world.setBlockWithoutNotifyingNeighbors(this.dungeonX + 7, this.dungeonY + 1, this.dungeonZ + 7, Block.TRAPDOOR.id, 3);
+                                this.world.setBlockWithoutNotifyingNeighbors(this.dungeonX + 8, this.dungeonY + 1, this.dungeonZ + 7, Block.TRAPDOOR.id, 2);
+                                this.world.setBlockWithoutNotifyingNeighbors(this.dungeonX + 7, this.dungeonY + 1, this.dungeonZ + 8, Block.TRAPDOOR.id, 3);
+                                this.world.setBlockWithoutNotifyingNeighbors(this.dungeonX + 8, this.dungeonY + 1, this.dungeonZ + 8, Block.TRAPDOOR.id, 2);
 
-                                List<PlayerEntity> playersNearby = world.getEntities(PlayerEntity.class, AxixAlignedBoundingBox.create(this.x - areaOfEffect, this.y - areaOfEffect, z - areaOfEffect, this.x + areaOfEffect, this.y + areaOfEffect, z + areaOfEffect));
+                                List<PlayerEntity> playersNearby = world.collectEntitiesByClass(PlayerEntity.class, Box.create(this.x - areaOfEffect, this.y - areaOfEffect, z - areaOfEffect, this.x + areaOfEffect, this.y + areaOfEffect, z + areaOfEffect));
                                 for (PlayerEntity player : playersNearby) {
                                     AetherAchievements.giveAchievement(AetherAchievements.defeatBronze, player);
                                 }
@@ -445,7 +445,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
                                     this.speedy *= 0.75F;
                                 }
                             } else {
-                                this.world.playSound(this, "aether:bosses.slider.sliderawaken", 2.5F, 1.0F / (this.rand.nextFloat() * 0.2F + 0.9F));
+                                this.world.playSound(this, "aether:bosses.slider.sliderawaken", 2.5F, 1.0F / (this.random.nextFloat() * 0.2F + 0.9F));
                                 this.awake = true;
                                 this.target = e1;
                                 this.texture = "aether:stationapi/textures/mobs/sliderAwake.png";
@@ -459,7 +459,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
                                     }
 
                                     for (int z = this.dungeonZ + 5; z < this.dungeonZ + 11; ++z) {
-                                        this.world.setBlockInChunk(x, y, z, AetherBlocks.LockedDungeonStone.id);
+                                        this.world.setBlockWithoutNotifyingNeighbors(x, y, z, AetherBlocks.LockedDungeonStone.id);
                                     }
 
                                     ++y;
@@ -507,7 +507,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
     private void unlockBlock(int i, int j, int k) {
         int id = this.world.getBlockId(i, j, k);
         if (id == AetherBlocks.LockedDungeonStone.id) {
-            this.world.setBlockWithMetadata(i, j, k, AetherBlocks.DungeonStone.id, this.world.getBlockMeta(i, j, k));
+            this.world.setBlockWithoutNotifyingNeighbors(i, j, k, AetherBlocks.DungeonStone.id, this.world.getBlockMeta(i, j, k));
             this.unlockBlock(i + 1, j, k);
             this.unlockBlock(i - 1, j, k);
             this.unlockBlock(i, j + 1, k);
@@ -517,7 +517,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
         }
 
         if (id == AetherBlocks.LockedLightDungeonStone.id) {
-            this.world.setBlockWithMetadata(i, j, k, AetherBlocks.LightDungeonStone.id, this.world.getBlockMeta(i, j, k));
+            this.world.setBlockWithoutNotifyingNeighbors(i, j, k, AetherBlocks.LightDungeonStone.id, this.world.getBlockMeta(i, j, k));
             this.unlockBlock(i + 1, j, k);
             this.unlockBlock(i - 1, j, k);
             this.unlockBlock(i, j + 1, k);
@@ -528,10 +528,10 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
 
     }
 
-    public void accelerate(double d, double d1, double d2) {
+    public void addVelocity(double d, double d1, double d2) {
     }
 
-    public void method_925(Entity entity, int i, double d, double d1) {
+    public void applyKnockback(Entity entity, int i, double d, double d1) {
     }
 
     public void blockCrush(int x, int y, int z) {
@@ -539,8 +539,8 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
         int b = this.world.getBlockMeta(x, y, z);
         if (a != 0 && a != AetherBlocks.LockedDungeonStone.id && a != AetherBlocks.LockedLightDungeonStone.id) {
             //ModLoader.getMinecraftInstance().particleManager.addBlockBreakParticles(x, y, z, a, b);
-            Block.BY_ID[a].onBlockRemoved(this.world, x, y, z);
-            Block.BY_ID[a].drop(this.world, x, y, z, b);
+            Block.BLOCKS[a].onBreak(this.world, x, y, z);
+            Block.BLOCKS[a].dropStacks(this.world, x, y, z, b);
             this.world.setBlock(x, y, z, 0);
             this.crushed = true;
             this.addSquirrelButts(x, y, z);
@@ -548,9 +548,9 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
     }
 
     public void addSquirrelButts(int x, int y, int z) {
-        double a = (double) x + 0.5 + (double) (this.rand.nextFloat() - this.rand.nextFloat()) * 0.375;
-        double b = (double) y + 0.5 + (double) (this.rand.nextFloat() - this.rand.nextFloat()) * 0.375;
-        double c = (double) z + 0.5 + (double) (this.rand.nextFloat() - this.rand.nextFloat()) * 0.375;
+        double a = (double) x + 0.5 + (double) (this.random.nextFloat() - this.random.nextFloat()) * 0.375;
+        double b = (double) y + 0.5 + (double) (this.random.nextFloat() - this.random.nextFloat()) * 0.375;
+        double c = (double) z + 0.5 + (double) (this.random.nextFloat() - this.random.nextFloat()) * 0.375;
         this.world.addParticle("explode", a, b, c, 0.0, 0.0, 0.0);
     }
 

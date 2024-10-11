@@ -11,15 +11,15 @@ public class RenderAechorPlant extends LivingEntityRenderer {
 
     public RenderAechorPlant(ModelAechorPlant mb, float f) {
         super(mb, f);
-        this.setModel(mb);
+        this.setDecorationModel(mb);
         this.xd = mb;
     }
 
-    protected void method_823(LivingEntity entityliving, float f) {
+    protected void applyScale(LivingEntity entityliving, float f) {
         EntityAechorPlant b1 = (EntityAechorPlant) entityliving;
         float f1 = (float) Math.sin((double) b1.sinage);
         float f3;
-        if (b1.hurtTime > 0) {
+        if (b1.damagedTimer > 0) {
             f1 *= 0.45F;
             f1 -= 0.125F;
             f3 = 1.75F + (float) Math.sin((double) (b1.sinage + 2.0F)) * 1.5F;
@@ -35,7 +35,7 @@ public class RenderAechorPlant extends LivingEntityRenderer {
         this.xd.sinage2 = f3;
         float f2 = 0.625F + (float) b1.size / 6.0F;
         this.xd.size = f2;
-        this.field_2678 = f2 - 0.25F;
+        this.shadowRadius = f2 - 0.25F;
     }
 
     protected boolean a(EntityAechorPlant entityaechorplant, int i, float f) {
@@ -52,7 +52,7 @@ public class RenderAechorPlant extends LivingEntityRenderer {
         }
     }
 
-    protected boolean render(LivingEntity entityliving, int i, float f) {
+    protected boolean bindTexture(LivingEntity entityliving, int i, float f) {
         return this.a((EntityAechorPlant) entityliving, i, f);
     }
 }

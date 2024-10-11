@@ -29,8 +29,8 @@ public class ZaniteMiningController {
             ItemStack l = list[i];
             if (l != null) {
                 if (l.itemId == AetherItems.ZaniteRing.id || l.itemId == AetherItems.ZanitePendant.id) {
-                    l.applyDamage(1, player);
-                    if (l.getDamage() > l.getDurability() - 2) {
+                    l.damage(1, player);
+                    if (l.getDamage2() > l.getMaxDamage() - 2) {
                         for (int j = 0; j < player.inventory.armor.length; j++) {
                             if (player.inventory.armor[j] == null)
                                 continue;
@@ -40,7 +40,7 @@ public class ZaniteMiningController {
                         }
                     }
                     else {
-                        float additive = ((float) l.getDamage() / l.getDurability());
+                        float additive = ((float) l.getDamage2() / l.getMaxDamage());
                         multiplier += additive;
                     }
                 }
@@ -63,13 +63,13 @@ public class ZaniteMiningController {
 
                 float tempExtraMultiplier = d.multiplier;
                 // temporary until stapi fix
-                ItemStack heldItem = d.player.getHeldItem();
+                ItemStack heldItem = d.player.getHand();
                 if (heldItem != null) {
                     if (heldItem.getItem().id == AetherItems.PickZanite.id ||
                             heldItem.getItem().id == AetherItems.AxeZanite.id ||
                             heldItem.getItem().id == AetherItems.ShovelZanite.id ||
                             heldItem.getItem().id == AetherItems.SwordZanite.id) {
-                        float additive = (2.f * (float) heldItem.getDamage() / heldItem.getDurability()) - 0.5f;
+                        float additive = (2.f * (float) heldItem.getDamage2() / heldItem.getMaxDamage()) - 0.5f;
                         tempExtraMultiplier += additive;
                     }
                 }

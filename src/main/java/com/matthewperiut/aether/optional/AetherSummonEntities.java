@@ -4,7 +4,7 @@ import com.matthewperiut.aether.entity.living.EntityMoa;
 import com.matthewperiut.aether.entity.living.EntitySheepuff;
 import com.matthewperiut.aether.entity.living.EntitySwet;
 import com.matthewperiut.aether.entity.living.EntityValkyrie;
-import com.matthewperiut.aether.util.MoaColour;
+import com.matthewperiut.aether.util.MoaColor;
 import com.matthewperiut.spc.api.SummonRegistry;
 
 public class AetherSummonEntities {
@@ -20,13 +20,13 @@ public class AetherSummonEntities {
                 if (Integer.parseInt(param[6]) == 0) {
                     grown = false;
                 }
-            MoaColour color = MoaColour.getColour(0);
+            MoaColor color = MoaColor.getColour(0);
             if (param.length > 7) {
                 if (param[7].equalsIgnoreCase("black")) {
-                    color = MoaColour.getColour(1);
+                    color = MoaColor.getColour(1);
                 }
                 if (param[7].equalsIgnoreCase("white")) {
-                    color = MoaColour.getColour(2);
+                    color = MoaColor.getColour(2);
                 }
             }
             return new EntityMoa(world, !grown, grown, saddled, color);

@@ -4,9 +4,9 @@ import com.matthewperiut.aether.entity.projectile.EntityAetherLightning;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.SkeletonEntity;
-import net.minecraft.entity.monster.ZombieEntity;
-import net.minecraft.entity.monster.ZombiePigmanEntity;
+import net.minecraft.entity.mob.PigZombieEntity;
+import net.minecraft.entity.mob.SkeletonEntity;
+import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.modificationstation.stationapi.api.template.item.TemplateSwordItem;
@@ -22,7 +22,7 @@ public class ItemSwordElemental extends TemplateSwordItem {
     static {
         undead.add(ZombieEntity.class);
         undead.add(SkeletonEntity.class);
-        undead.add(ZombiePigmanEntity.class);
+        undead.add(PigZombieEntity.class);
     }
 
     private final int weaponDamage;
@@ -32,25 +32,25 @@ public class ItemSwordElemental extends TemplateSwordItem {
 
     public ItemSwordElemental(Identifier i, EnumElement element, int colour) {
         super(i, ToolMaterial.DIAMOND);
-        setTexturePosition(textureId);
-        this.maxStackSize = 1;
-        this.setDurability(element == EnumElement.Holy ? 128 : 32);
+        setTextureId(textureId);
+        this.maxCount = 1;
+        this.setMaxDamage(element == EnumElement.Holy ? 128 : 32);
         this.weaponDamage = 4;
         this.holyDamage = 20;
         this.element = element;
         this.colour = colour;
     }
 
-    public int getTexturePosition(int damage) {
+    public int getTextureId(int damage) {
         return textureId;
     }
 
-    public float getStrengthOnBlock(ItemStack itemstack, Block block) {
+    public float getMiningSpeedMultiplier(ItemStack itemstack, Block block) {
         return 1.5F;
     }
 
     public boolean postMine(ItemStack itemstack, int i, int j, int k, int l, LivingEntity entityliving) {
-        itemstack.applyDamage(2, entityliving);
+        itemstack.damage(2, entityliving);
         return true;
     }
 
@@ -58,12 +58,12 @@ public class ItemSwordElemental extends TemplateSwordItem {
         if (this.element == EnumElement.Fire) {
             entityliving.fireTicks = 600;
         } else if (this.element == EnumElement.Lightning) {
-            if (!entityliving.world.isClient) {
+            if (!entityliving.world.isRemote) {
                 entityliving.world.spawnEntity(new EntityAetherLightning(entityliving.world, entityliving.x, entityliving.y, entityliving.z));
             }
         }
 
-        itemstack.applyDamage(1, entityliving1);
+        itemstack.damage(1, entityliving1);
         return true;
     }
 
@@ -82,11 +82,11 @@ public class ItemSwordElemental extends TemplateSwordItem {
         return this.weaponDamage;
     }
 
-    public int getNameColor(int i) {
+    public int getColorMultiplier(int i) {
         return this.colour;
     }
 
-    public boolean isRendered3d() {
+    public boolean isHandheld() {
         return true;
     }
 }

@@ -52,7 +52,7 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
         int x2 = x + 7 + rand.nextInt(2);
         int y2 = y - 1;
         int z2 = z + 7 + rand.nextInt(2);
-        world.setBlockWithMetadata(x2, y2, z2, AetherBlocks.TreasureChest.id, 2);
+        world.setBlockWithoutNotifyingNeighbors(x2, y2, z2, AetherBlocks.TreasureChest.id, 2);
         x2 = x + 20;
         y2 = y;
         z2 = z + 2;
@@ -113,7 +113,7 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
             for (int q = y; q < y + 8; ++q) {
                 for (int r = z; r < z + 12; ++r) {
                     if (world.getBlockId(p, q, r) == this.wallBlockID1 && random.nextInt(100) == 0) {
-                        world.setBlockInChunk(p, q, r, AetherBlocks.LockedDungeonStone.id);
+                        world.setBlockWithoutNotifyingNeighbors(p, q, r, AetherBlocks.LockedDungeonStone.id);
                     }
                 }
             }

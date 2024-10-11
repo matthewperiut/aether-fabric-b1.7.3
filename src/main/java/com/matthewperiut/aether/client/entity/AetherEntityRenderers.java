@@ -11,8 +11,8 @@ import com.matthewperiut.aether.entity.special.EntityCloudParachute;
 import com.matthewperiut.aether.entity.special.EntityFloatingBlock;
 import com.matthewperiut.aether.entity.special.EntityMiniCloud;
 import net.mine_diver.unsafeevents.listener.EventListener;
-import net.minecraft.client.render.entity.BipedEntityRenderer;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
+import net.minecraft.client.render.entity.UndeadEntityRenderer;
 import net.minecraft.client.render.entity.model.SlimeEntityModel;
 import net.modificationstation.stationapi.api.client.event.render.entity.EntityRendererRegisterEvent;
 
@@ -36,8 +36,8 @@ public class AetherEntityRenderers {
         event.renderers.put(EntityWhirly.class, new RenderWhirly());
         event.renderers.put(EntityZephyr.class, new RenderZephyr());
 
-        event.renderers.put(EntityFireMonster.class, new BipedEntityRenderer(new ModelFireMonster(0.0F, 0.0F), 0.4F));
-        event.renderers.put(EntityFireMinion.class, new BipedEntityRenderer(new ModelFireMinion(0.0F, 0.0F), 0.4F));
+        event.renderers.put(EntityFireMonster.class, new UndeadEntityRenderer(new ModelFireMonster(0.0F, 0.0F), 0.4F));
+        event.renderers.put(EntityFireMinion.class, new UndeadEntityRenderer(new ModelFireMinion(0.0F, 0.0F), 0.4F));
 
         event.renderers.put(EntityPoisonNeedle.class, new RenderPoisonNeedle());
         event.renderers.put(EntityZephyrSnowball.class, new RenderZephyrSnowball());

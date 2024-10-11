@@ -1,11 +1,11 @@
 package com.matthewperiut.aether.client.entity.model;
 
-import net.minecraft.client.model.Cuboid;
+import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.EntityModel;
 import org.lwjgl.opengl.GL11;
 
 public class ModelSlider extends EntityModel {
-    public Cuboid head;
+    public ModelPart head;
 
     public ModelSlider() {
         this(0.0F);
@@ -16,9 +16,9 @@ public class ModelSlider extends EntityModel {
     }
 
     public ModelSlider(float f, float f1) {
-        this.head = new Cuboid(0, 0);
-        this.head.method_1818(-8.0F, -16.0F, -8.0F, 16, 16, 16, f);
-        this.head.setRotationPoint(0.0F, 0.0F + f1, 0.0F);
+        this.head = new ModelPart(0, 0);
+        this.head.addCuboid(-8.0F, -16.0F, -8.0F, 16, 16, 16, f);
+        this.head.setPivot(0.0F, 0.0F + f1, 0.0F);
     }
 
     public void render(float f, float f1, float f2, float f3, float f4, float f5) {

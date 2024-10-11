@@ -15,21 +15,21 @@ public class AmbrosiumOre extends TemplateBlock {
         super(identifier, Material.STONE);
     }
 
-    public int getDropId(int i, Random random) {
+    public int getDroppedItemId(int i, Random random) {
         return AetherItems.AmbrosiumShard.id;
     }
 
-    public void onBlockPlaced(World world, int i, int j, int k, int l) {
+    public void onPlaced(World world, int i, int j, int k, int l) {
         world.setBlock(i, j, k, this.id);
         world.setBlockMeta(i, j, k, 1);
     }
 
     public void afterBreak(World world, PlayerEntity entityplayer, int i, int j, int k, int l) {
-        entityplayer.increaseStat(Stats.mineBlock[this.id], 1);
+        entityplayer.increaseStat(Stats.MINE_BLOCK[this.id], 1);
         if (l == 0 && UtilSkyroot.pickaxe(entityplayer)) {
-            this.drop(world, i, j, k, l);
+            this.dropStacks(world, i, j, k, l);
         }
 
-        this.drop(world, i, j, k, l);
+        this.dropStacks(world, i, j, k, l);
     }
 }

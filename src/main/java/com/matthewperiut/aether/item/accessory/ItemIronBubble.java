@@ -14,9 +14,9 @@ public class ItemIronBubble extends ItemMoreArmor {
     public ItemStack tickWhileWorn(PlayerEntity playerBase, ItemStack itemInstance) {
         if (playerBase.isInFluid(Material.WATER)) {
             playerBase.air = 20;
-            if (playerBase.field_1645 % 80 == 0) {
-                itemInstance.applyDamage(1, playerBase);
-                if (itemInstance.getDamage() > itemInstance.getDurability() - 2) {
+            if (playerBase.age % 80 == 0) {
+                itemInstance.damage(1, playerBase);
+                if (itemInstance.getDamage2() > itemInstance.getMaxDamage() - 2) {
                     itemInstance = null;
                 }
             }

@@ -19,7 +19,7 @@ public class AetherRecipes {
             case CRAFTING_SHAPELESS -> {
                 CraftingRegistry.addShapelessRecipe(new ItemStack(AetherItems.DartShooter, 1, 1), new ItemStack(AetherItems.DartShooter, 1, 0), AetherItems.AechorPetal);
                 CraftingRegistry.addShapelessRecipe(new ItemStack(AetherItems.Zanite, 4), AetherBlocks.ZaniteBlock);
-                CraftingRegistry.addShapelessRecipe(new ItemStack(Item.DYE_POWDER, 2, 5), AetherBlocks.PurpleFlower);
+                CraftingRegistry.addShapelessRecipe(new ItemStack(Item.DYE, 2, 5), AetherBlocks.PurpleFlower);
             }
             case CRAFTING_SHAPED -> {
                 CraftingRegistry.addShapedRecipe(new ItemStack(AetherItems.PickHolystone, 1), "ZZZ", " Y ", " Y ", 'Z', AetherBlocks.Holystone, 'Y', AetherItems.Stick);
@@ -41,7 +41,7 @@ public class AetherRecipes {
                 CraftingRegistry.addShapedRecipe(new ItemStack(AetherItems.SwordSkyroot, 1), "Z", "Z", "Y", 'Z', AetherBlocks.Plank, 'Y', AetherItems.Stick);
                 CraftingRegistry.addShapedRecipe(new ItemStack(AetherItems.Bucket, 1, 0), "Z Z", " Z ", 'Z', AetherBlocks.Plank);
                 CraftingRegistry.addShapedRecipe(new ItemStack(AetherItems.Stick, 4), "#", "#", '#', AetherBlocks.Plank);
-                CraftingRegistry.addShapedRecipe(new ItemStack(Block.WORKBENCH, 1), "UU", "UU", 'U', AetherBlocks.Plank);
+                CraftingRegistry.addShapedRecipe(new ItemStack(Block.CRAFTING_TABLE, 1), "UU", "UU", 'U', AetherBlocks.Plank);
                 CraftingRegistry.addShapedRecipe(new ItemStack(AetherBlocks.AmbrosiumTorch, 2), " Z", " Y", 'Z', AetherItems.AmbrosiumShard, 'Y', AetherItems.Stick);
                 CraftingRegistry.addShapedRecipe(new ItemStack(AetherItems.Dart, 1, 0), "X", "Z", "Y", 'X', AetherItems.GoldenAmber, 'Z', AetherItems.Stick, 'Y', Item.FEATHER);
                 CraftingRegistry.addShapedRecipe(new ItemStack(AetherItems.Dart, 8, 1), "XXX", "XZX", "XXX", 'X', new ItemStack(AetherItems.Dart, 1, 0), 'Z', new ItemStack(AetherItems.Bucket, 1, 2));
@@ -68,7 +68,7 @@ public class AetherRecipes {
                 CraftingRegistry.addShapedRecipe(new ItemStack(AetherItems.ZaniteLeggings, 1), "XXX", "X X", "X X", 'X', AetherItems.Zanite);
                 CraftingRegistry.addShapedRecipe(new ItemStack(AetherItems.ZaniteBoots, 1), "X X", "X X", 'X', AetherItems.Zanite);
                 CraftingRegistry.addShapedRecipe(new ItemStack(Block.CHEST, 1), "PPP", "P P", "PPP", 'P', AetherBlocks.Plank);
-                CraftingRegistry.addShapedRecipe(new ItemStack(Item.WOOD_DOOR), "PP", "PP", "PP", 'P', AetherBlocks.Plank);
+                CraftingRegistry.addShapedRecipe(new ItemStack(Item.WOODEN_DOOR), "PP", "PP", "PP", 'P', AetherBlocks.Plank);
                 CraftingRegistry.addShapedRecipe(new ItemStack(Block.FENCE, 2), "SSS", "SSS", 'S', AetherItems.Stick);
                 CraftingRegistry.addShapedRecipe(new ItemStack(Block.LADDER, 4), "S S", "SSS", "S S", 'S', AetherItems.Stick);
                 CraftingRegistry.addShapedRecipe(new ItemStack(Block.JUKEBOX), "PPP", "PGP", "PPP", 'P', AetherBlocks.Plank, 'G', AetherBlocks.EnchantedGravitite);

@@ -4,8 +4,8 @@ import com.matthewperiut.aether.gen.dim.AetherDimensions;
 import com.matthewperiut.aether.gen.dim.AetherTravelAgent;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.NetherTeleporter;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.PortalForcer;
 import net.modificationstation.stationapi.api.block.CustomPortal;
 import net.modificationstation.stationapi.api.template.block.TemplateNetherPortalBlock;
 import net.modificationstation.stationapi.api.util.Identifier;
@@ -20,11 +20,11 @@ public class AetherPortal extends TemplateNetherPortalBlock implements CustomPor
     }
 
     @Override
-    public int getTextureForSide(int i, int j) {
+    public int getTexture(int i, int j) {
         return spr;
     }
 
-    public boolean method_736(World world, int i, int j, int k) {
+    public boolean create(World world, int i, int j, int k) {
         int l = 0;
         int i1 = 0;
         if (world.getBlockId(i - 1, j, k) == Block.GLOWSTONE.id || world.getBlockId(i + 1, j, k) == Block.GLOWSTONE.id) {
@@ -61,7 +61,7 @@ public class AetherPortal extends TemplateNetherPortalBlock implements CustomPor
                 }
             }
 
-            world.stopPhysics = true;
+            world.pauseTicking = true;
 
             for (k1 = 0; k1 < 2; ++k1) {
                 for (i2 = 0; i2 < 3; ++i2) {
@@ -69,12 +69,12 @@ public class AetherPortal extends TemplateNetherPortalBlock implements CustomPor
                 }
             }
 
-            world.stopPhysics = false;
+            world.pauseTicking = false;
             return true;
         }
     }
 
-    public void onAdjacentBlockUpdate(World world, int i, int j, int k, int l) {
+    public void neighborUpdate(World world, int i, int j, int k, int l) {
         int i1 = 0;
         int j1 = 1;
         if (world.getBlockId(i - 1, j, k) == this.id || world.getBlockId(i + 1, j, k) == this.id) {
@@ -141,7 +141,7 @@ public class AetherPortal extends TemplateNetherPortalBlock implements CustomPor
         return AetherDimensions.THE_AETHER;
     }
 
-    public NetherTeleporter getTravelAgent(PlayerEntity player) {
+    public PortalForcer getTravelAgent(PlayerEntity player) {
         return new AetherTravelAgent();
     }
 }

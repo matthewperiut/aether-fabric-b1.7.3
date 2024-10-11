@@ -12,12 +12,12 @@ public class ItemRegenerationStone extends ItemMoreArmor {
 
     @Override
     public ItemStack tickWhileWorn(PlayerEntity player, ItemStack itemInstance) {
-        if (player.field_1645 % 200 == 0) {
+        if (player.age % 200 == 0) {
             int maxHealth = 20 + ((PlayerExtraHP) player).getExtraHP();
             if (player.health < maxHealth) {
                 player.health += 1;
-                itemInstance.applyDamage(1, player);
-                if (itemInstance.getDamage() > itemInstance.getDurability() - 2) {
+                itemInstance.damage(1, player);
+                if (itemInstance.getDamage2() > itemInstance.getMaxDamage() - 2) {
                     itemInstance = null;
                 }
             }

@@ -15,9 +15,9 @@ import net.modificationstation.stationapi.api.util.SideUtil;
 public class ItemLoreBook extends TemplateItem {
     public ItemLoreBook(Identifier identifier) {
         super(identifier);
-        this.maxStackSize = 1;
-        this.setHasSubItems(true);
-        this.setDurability(0);
+        this.maxCount = 1;
+        this.setHasSubtypes(true);
+        this.setMaxDamage(0);
     }
 
     @Environment(EnvType.SERVER)
@@ -29,10 +29,10 @@ public class ItemLoreBook extends TemplateItem {
     private static void useLoreClient(final PlayerEntity player, final ItemStack item) {
         //noinspection deprecation
         if (FabricLoader.getInstance().getGameInstance() instanceof Minecraft mc)
-            mc.openScreen(new GuiLore(player.inventory, item.getDamage()));
+            mc.setScreen(new GuiLore(player.inventory, item.getDamage2()));
     }
 
-    public int getNameColor(int i) {
+    public int getColorMultiplier(int i) {
         if (i == 0) {
             return 8388479;
         } else {
@@ -46,7 +46,7 @@ public class ItemLoreBook extends TemplateItem {
     }
 
     public String getTranslationKey(ItemStack itemstack) {
-        int i = itemstack.getMeta();
+        int i = itemstack.getDamage();
         if (i > 2) {
             i = 2;
         }

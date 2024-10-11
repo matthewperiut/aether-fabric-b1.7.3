@@ -3,8 +3,7 @@ package com.matthewperiut.aether.gen.feature;
 import com.matthewperiut.aether.block.AetherBlocks;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.feature.Feature;
-
+import net.minecraft.world.gen.feature.Feature;
 import java.util.Random;
 
 public class AetherGenGumdropCaves extends Feature {

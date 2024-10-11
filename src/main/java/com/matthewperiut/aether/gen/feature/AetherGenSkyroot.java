@@ -3,8 +3,7 @@ package com.matthewperiut.aether.gen.feature;
 import com.matthewperiut.aether.block.AetherBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
-import net.minecraft.world.feature.Feature;
-
+import net.minecraft.world.gen.feature.Feature;
 import java.util.Random;
 
 public class AetherGenSkyroot extends Feature {
@@ -49,7 +48,7 @@ public class AetherGenSkyroot extends Feature {
             } else {
                 i1 = world.getBlockId(i, j - 1, k);
                 if ((i1 == AetherBlocks.Grass.id || i1 == AetherBlocks.Dirt.id) && j < 128 - l - 1) {
-                    world.setBlockInChunk(i, j - 1, k, AetherBlocks.Dirt.id);
+                    world.setBlockWithoutNotifyingNeighbors(i, j - 1, k, AetherBlocks.Dirt.id);
 
                     for (k1 = j - 3 + l; k1 <= j + l; ++k1) {
                         j2 = k1 - (j + l);
@@ -60,8 +59,8 @@ public class AetherGenSkyroot extends Feature {
 
                             for (int i4 = k - i3; i4 <= k + i3; ++i4) {
                                 int j4 = i4 - k;
-                                if ((Math.abs(l3) != i3 || Math.abs(j4) != i3 || random.nextInt(2) != 0 && j2 != 0) && !Block.FULL_OPAQUE[world.getBlockId(k3, k1, i4)]) {
-                                    world.setBlockInChunk(k3, k1, i4, AetherBlocks.SkyrootLeaves.id);
+                                if ((Math.abs(l3) != i3 || Math.abs(j4) != i3 || random.nextInt(2) != 0 && j2 != 0) && !Block.BLOCKS_OPAQUE[world.getBlockId(k3, k1, i4)]) {
+                                    world.setBlockWithoutNotifyingNeighbors(k3, k1, i4, AetherBlocks.SkyrootLeaves.id);
                                 }
                             }
                         }
@@ -70,7 +69,7 @@ public class AetherGenSkyroot extends Feature {
                     for (k1 = 0; k1 < l; ++k1) {
                         j2 = world.getBlockId(i, j + k1, k);
                         if (j2 == 0 || j2 == AetherBlocks.SkyrootLeaves.id) {
-                            world.setBlockWithMetadata(i, j + k1, k, AetherBlocks.Log.id, 0);
+                            world.setBlockWithoutNotifyingNeighbors(i, j + k1, k, AetherBlocks.Log.id, 0);
                         }
                     }
 

@@ -23,13 +23,13 @@ public class ItemGravititeGlove extends ItemGloves {
 
         // straight up (EntityAerbunny)
         if (!(player.passenger instanceof EntityAerbunny)) {
-            if (!player.onGround && !player.method_1393()) {
+            if (!player.onGround && !player.checkWaterCollisions()) {
                 if (player.inventory.armor[3].itemId == AetherItems.GravititeHelmet.id &&
                         player.inventory.armor[2].itemId == AetherItems.GravititeBodyplate.id &&
                         player.inventory.armor[1].itemId == AetherItems.GravititePlatelegs.id &&
                         player.inventory.armor[0].itemId == AetherItems.GravititeBoots.id) {
                     ((EntityAccessor) player).setFallDistance(0.0F);
-                    player.yVelocity += 0.05000000074505806;
+                    player.velocityY += 0.05000000074505806;
                     //if (player.yVelocity < -0.22499999403953552 && ((LivingEntityAccessor) player).getJumping()) {
                     //    player.yVelocity = 0.125;
                     //}

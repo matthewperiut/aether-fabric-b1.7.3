@@ -4,7 +4,7 @@ import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.block.BlockFloating;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.FallingBlockEntity;
-import net.minecraft.util.io.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.server.entity.EntitySpawnDataProvider;
@@ -32,13 +32,13 @@ public class EntityFloatingBlock extends Entity implements EntitySpawnDataProvid
         this.flytime = 0;
         this.blockID = i;
         this.metadata = j;
-        this.field_1593 = true;
-        this.setSize(0.98F, 0.98F);
+        this.blocksSameBlockSpawning = true;
+        this.setBoundingBoxSpacing(0.98F, 0.98F);
         this.standingEyeHeight = this.height / 2.0F;
         this.setPosition(d, d1, d2);
-        this.xVelocity = 0.0;
-        this.yVelocity = 0.0;
-        this.zVelocity = 0.0;
+        this.velocityX = 0.0;
+        this.velocityY = 0.0;
+        this.velocityZ = 0.0;
         this.prevX = d;
         this.prevY = d1;
         this.prevZ = d2;
@@ -52,30 +52,30 @@ public class EntityFloatingBlock extends Entity implements EntitySpawnDataProvid
         this(world, d, d1, d2, 1, 0);
     }
 
-    protected boolean canClimb() {
+    protected boolean bypassesSteppingEffects() {
         return false;
     }
 
     protected void initDataTracker() {
     }
 
-    public boolean method_1356() {
-        return !this.removed;
+    public boolean isCollidable() {
+        return !this.dead;
     }
 
     public void tick() {
         if (this.blockID == 0) {
-            this.remove();
+            this.markDead();
         } else {
             this.prevX = this.x;
             this.prevY = this.y;
             this.prevZ = this.z;
             ++this.flytime;
-            this.yVelocity += 0.04;
-            this.move(this.xVelocity, this.yVelocity, this.zVelocity);
-            this.xVelocity *= 0.9800000190734863;
-            this.yVelocity *= 0.9800000190734863;
-            this.zVelocity *= 0.9800000190734863;
+            this.velocityY += 0.04;
+            this.move(this.velocityX, this.velocityY, this.velocityZ);
+            this.velocityX *= 0.9800000190734863;
+            this.velocityY *= 0.9800000190734863;
+            this.velocityZ *= 0.9800000190734863;
             int i = MathHelper.floor(this.x);
             int j = MathHelper.floor(this.y);
             int k = MathHelper.floor(this.z);
@@ -86,35 +86,35 @@ public class EntityFloatingBlock extends Entity implements EntitySpawnDataProvid
             List list = this.world.getEntities(this, this.boundingBox.expand(0.0, 1.0, 0.0));
 
             for (int n = 0; n < list.size(); ++n) {
-                if (list.get(n) instanceof FallingBlockEntity && this.world.canPlaceBlock(this.blockID, i, j, k, true, 1)) {
-                    this.world.placeBlockWithMetaData(i, j, k, this.blockID, this.metadata);
-                    this.remove();
+                if (list.get(n) instanceof FallingBlockEntity && this.world.canPlace(this.blockID, i, j, k, true, 1)) {
+                    this.world.setBlock(i, j, k, this.blockID, this.metadata);
+                    this.markDead();
                 }
             }
 
-            if (this.field_1625 && !this.onGround) {
-                this.xVelocity *= 0.699999988079071;
-                this.zVelocity *= 0.699999988079071;
-                this.yVelocity *= -0.5;
-                this.remove();
-                if ((!this.world.canPlaceBlock(this.blockID, i, j, k, true, 1) || BlockFloating.canFallAbove(this.world, i, j + 1, k) || !this.world.placeBlockWithMetaData(i, j, k, this.blockID, this.metadata)) && !this.world.isClient) {
+            if (this.verticalCollision && !this.onGround) {
+                this.velocityX *= 0.699999988079071;
+                this.velocityZ *= 0.699999988079071;
+                this.velocityY *= -0.5;
+                this.markDead();
+                if ((!this.world.canPlace(this.blockID, i, j, k, true, 1) || BlockFloating.canFallAbove(this.world, i, j + 1, k) || !this.world.setBlock(i, j, k, this.blockID, this.metadata)) && !this.world.isRemote) {
                 }
-            } else if (this.flytime > 100 && !this.world.isClient) {
-                this.remove();
+            } else if (this.flytime > 100 && !this.world.isRemote) {
+                this.markDead();
             }
 
         }
     }
 
-    protected void writeAdditional(CompoundTag nbttagcompound) {
-        nbttagcompound.put("Tile", (byte) this.blockID);
+    protected void writeNbt(NbtCompound nbttagcompound) {
+        nbttagcompound.putByte("Tile", (byte) this.blockID);
     }
 
-    protected void readAdditional(CompoundTag nbttagcompound) {
+    protected void readNbt(NbtCompound nbttagcompound) {
         this.blockID = nbttagcompound.getByte("Tile") & 255;
     }
 
-    public float getEyeHeight() {
+    public float getShadowRadius() {
         return 0.0F;
     }
 

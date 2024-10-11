@@ -1,15 +1,15 @@
 package com.matthewperiut.aether.blockentity.container;
 
 import com.matthewperiut.aether.blockentity.block.BlockEntityFreezer;
-import net.minecraft.container.Container;
-import net.minecraft.container.ContainerListener;
-import net.minecraft.container.slot.FurnaceOutputSlot;
-import net.minecraft.container.slot.Slot;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.PlayerInventory;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerListener;
+import net.minecraft.screen.slot.FurnaceOutputSlot;
+import net.minecraft.screen.slot.Slot;
 
-public class ContainerFreezer extends Container {
+public class ContainerFreezer extends ScreenHandler {
     private final BlockEntityFreezer freezer;
     private int cookTime = 0;
     private int burnTime = 0;
@@ -37,21 +37,21 @@ public class ContainerFreezer extends Container {
     protected void insertItem(ItemStack itemstack, int i, int j, boolean flag) {
     }
 
-    public void tick() {
-        super.tick();
+    public void sendContentUpdates() {
+        super.sendContentUpdates();
 
         for (int i = 0; i < this.listeners.size(); ++i) {
-            ContainerListener icrafting = (ContainerListener) this.listeners.get(i);
+            ScreenHandlerListener icrafting = (ScreenHandlerListener) this.listeners.get(i);
             if (this.cookTime != this.freezer.frozenTimeForItem) {
-                icrafting.updateProperty(this, 0, this.freezer.frozenTimeForItem);
+                icrafting.onPropertyUpdate(this, 0, this.freezer.frozenTimeForItem);
             }
 
             if (this.burnTime != this.freezer.frozenProgress) {
-                icrafting.updateProperty(this, 1, this.freezer.frozenProgress);
+                icrafting.onPropertyUpdate(this, 1, this.freezer.frozenProgress);
             }
 
             if (this.itemBurnTime != this.freezer.frozenPowerRemaining) {
-                icrafting.updateProperty(this, 2, this.freezer.frozenPowerRemaining);
+                icrafting.onPropertyUpdate(this, 2, this.freezer.frozenPowerRemaining);
             }
         }
 
@@ -79,11 +79,11 @@ public class ContainerFreezer extends Container {
         return this.freezer.canPlayerUse(entityplayer);
     }
 
-    public ItemStack transferSlot(int i) {
+    public ItemStack quickMove(int i) {
         ItemStack itemstack = null;
         Slot slot = (Slot) this.slots.get(i);
-        if (slot != null && slot.hasItem()) {
-            ItemStack itemstack1 = slot.getItem();
+        if (slot != null && slot.hasStack()) {
+            ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
             if (i == 2) {
                 this.insertItem(itemstack1, 3, 39, true);
@@ -105,7 +105,7 @@ public class ContainerFreezer extends Container {
                 return null;
             }
 
-            slot.onCrafted(itemstack1);
+            slot.onTakeItem(itemstack1);
         }
 
         return itemstack;

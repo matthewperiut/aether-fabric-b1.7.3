@@ -5,9 +5,9 @@ import com.matthewperiut.aether.entity.living.EntityFireMonster;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.FlyingEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.io.CompoundTag;
-import net.minecraft.util.io.DoubleTag;
-import net.minecraft.util.io.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtDouble;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -33,12 +33,12 @@ public class EntityFiroBall extends FlyingEntity {
         this.texture = "aether:stationapi/textures/mobs/firoball.png";
         this.lifeSpan = 300;
         this.life = this.lifeSpan;
-        this.setSize(0.9F, 0.9F);
+        this.setBoundingBoxSpacing(0.9F, 0.9F);
         this.sinage = new float[3];
-        this.immuneToFire = true;
+        this.fireImmune = true;
 
         for (int i = 0; i < 3; ++i) {
-            this.sinage[i] = this.rand.nextFloat() * 6.0F;
+            this.sinage[i] = this.random.nextFloat() * 6.0F;
         }
     }
 
@@ -47,18 +47,18 @@ public class EntityFiroBall extends FlyingEntity {
         this.texture = "aether:stationapi/textures/mobs/firoball.png";
         this.lifeSpan = 300;
         this.life = this.lifeSpan;
-        this.setSize(0.9F, 0.9F);
-        this.method_1338(x, y, z, this.yaw, this.pitch);
+        this.setBoundingBoxSpacing(0.9F, 0.9F);
+        this.setPositionAndAngles(x, y, z, this.yaw, this.pitch);
         this.sinage = new float[3];
-        this.immuneToFire = true;
+        this.fireImmune = true;
 
         for (int i = 0; i < 3; ++i) {
-            this.sinage[i] = this.rand.nextFloat() * 6.0F;
+            this.sinage[i] = this.random.nextFloat() * 6.0F;
         }
 
-        this.smotionX = (0.2 + (double) this.rand.nextFloat() * 0.15) * (this.rand.nextInt(2) == 0 ? 1.0 : -1.0);
-        this.smotionY = (0.2 + (double) this.rand.nextFloat() * 0.15) * (this.rand.nextInt(2) == 0 ? 1.0 : -1.0);
-        this.smotionZ = (0.2 + (double) this.rand.nextFloat() * 0.15) * (this.rand.nextInt(2) == 0 ? 1.0 : -1.0);
+        this.smotionX = (0.2 + (double) this.random.nextFloat() * 0.15) * (this.random.nextInt(2) == 0 ? 1.0 : -1.0);
+        this.smotionY = (0.2 + (double) this.random.nextFloat() * 0.15) * (this.random.nextInt(2) == 0 ? 1.0 : -1.0);
+        this.smotionZ = (0.2 + (double) this.random.nextFloat() * 0.15) * (this.random.nextInt(2) == 0 ? 1.0 : -1.0);
         if (flag) {
             this.frosty = true;
             this.texture = "aether:stationapi/textures/mobs/iceyball.png";
@@ -78,18 +78,18 @@ public class EntityFiroBall extends FlyingEntity {
         this.texture = "aether:stationapi/textures/firoball.png";
         this.lifeSpan = 300;
         this.life = this.lifeSpan;
-        this.setSize(0.9F, 0.9F);
-        this.method_1338(x, y, z, this.yaw, this.pitch);
+        this.setBoundingBoxSpacing(0.9F, 0.9F);
+        this.setPositionAndAngles(x, y, z, this.yaw, this.pitch);
         this.sinage = new float[3];
-        this.immuneToFire = true;
+        this.fireImmune = true;
 
         for (int i = 0; i < 3; ++i) {
-            this.sinage[i] = this.rand.nextFloat() * 6.0F;
+            this.sinage[i] = this.random.nextFloat() * 6.0F;
         }
 
-        this.smotionX = (0.2 + (double) this.rand.nextFloat() * 0.15) * (this.rand.nextInt(2) == 0 ? 1.0 : -1.0);
-        this.smotionY = (0.2 + (double) this.rand.nextFloat() * 0.15) * (this.rand.nextInt(2) == 0 ? 1.0 : -1.0);
-        this.smotionZ = (0.2 + (double) this.rand.nextFloat() * 0.15) * (this.rand.nextInt(2) == 0 ? 1.0 : -1.0);
+        this.smotionX = (0.2 + (double) this.random.nextFloat() * 0.15) * (this.random.nextInt(2) == 0 ? 1.0 : -1.0);
+        this.smotionY = (0.2 + (double) this.random.nextFloat() * 0.15) * (this.random.nextInt(2) == 0 ? 1.0 : -1.0);
+        this.smotionZ = (0.2 + (double) this.random.nextFloat() * 0.15) * (this.random.nextInt(2) == 0 ? 1.0 : -1.0);
         if (flag) {
             this.frosty = true;
             this.texture = "aether:stationapi/textures/mobs/iceyball.png";
@@ -106,22 +106,22 @@ public class EntityFiroBall extends FlyingEntity {
         --this.life;
         if (this.life <= 0) {
             this.fizzle();
-            this.removed = true;
+            this.dead = true;
         }
 
     }
 
     public void fizzle() {
         if (this.frosty) {
-            this.world.playSound(this, "random.glass", 2.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.2F);
+            this.world.playSound(this, "random.glass", 2.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.2F);
         } else {
-            this.world.playSound(this, "random.fizz", 2.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.2F);
+            this.world.playSound(this, "random.fizz", 2.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.2F);
         }
 
         for (int j = 0; j < 16; ++j) {
-            double a = this.x + (double) (this.rand.nextFloat() - this.rand.nextFloat()) * 0.25;
-            double b = this.y + (double) (this.rand.nextFloat() - this.rand.nextFloat()) * 0.25;
-            double c = this.z + (double) (this.rand.nextFloat() - this.rand.nextFloat()) * 0.25;
+            double a = this.x + (double) (this.random.nextFloat() - this.random.nextFloat()) * 0.25;
+            double b = this.y + (double) (this.random.nextFloat() - this.random.nextFloat()) * 0.25;
+            double c = this.z + (double) (this.random.nextFloat() - this.random.nextFloat()) * 0.25;
             if (!this.frosty) {
                 this.world.addParticle("largesmoke", a, b, c, 0.0, 0.0, 0.0);
             }
@@ -131,15 +131,15 @@ public class EntityFiroBall extends FlyingEntity {
 
     public void splode() {
         if (this.frosty) {
-            this.world.playSound(this, "random.glass", 2.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.2F);
+            this.world.playSound(this, "random.glass", 2.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.2F);
         } else {
-            this.world.playSound(this, "random.explode", 2.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.2F);
+            this.world.playSound(this, "random.explode", 2.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.2F);
         }
 
         for (int j = 0; j < 40; ++j) {
-            double a = (double) ((this.rand.nextFloat() - 0.5F) * 0.5F);
-            double b = (double) ((this.rand.nextFloat() - 0.5F) * 0.5F);
-            double c = (double) ((this.rand.nextFloat() - 0.5F) * 0.5F);
+            double a = (double) ((this.random.nextFloat() - 0.5F) * 0.5F);
+            double b = (double) ((this.random.nextFloat() - 0.5F) * 0.5F);
+            double c = (double) ((this.random.nextFloat() - 0.5F) * 0.5F);
             if (this.frosty) {
                 a *= 0.5;
                 b *= 0.5;
@@ -166,35 +166,35 @@ public class EntityFiroBall extends FlyingEntity {
 
     }
 
-    public void tickHandSwing() {
-        this.xVelocity = this.smotionX;
-        this.yVelocity = this.smotionY;
-        this.zVelocity = this.smotionZ;
-        if (this.field_1626) {
+    public void tickLiving() {
+        this.velocityX = this.smotionX;
+        this.velocityY = this.smotionY;
+        this.velocityZ = this.smotionZ;
+        if (this.hasCollided) {
             if (this.frosty && this.smacked) {
                 this.splode();
                 this.fizzle();
-                this.removed = true;
+                this.dead = true;
             } else {
                 int i = MathHelper.floor(this.x);
                 int j = MathHelper.floor(this.boundingBox.minY);
                 int k = MathHelper.floor(this.z);
                 if (this.smotionX > 0.0 && this.world.getBlockId(i + 1, j, k) != 0) {
-                    this.xVelocity = this.smotionX = -this.smotionX;
+                    this.velocityX = this.smotionX = -this.smotionX;
                 } else if (this.smotionX < 0.0 && this.world.getBlockId(i - 1, j, k) != 0) {
-                    this.xVelocity = this.smotionX = -this.smotionX;
+                    this.velocityX = this.smotionX = -this.smotionX;
                 }
 
                 if (this.smotionY > 0.0 && this.world.getBlockId(i, j + 1, k) != 0) {
-                    this.yVelocity = this.smotionY = -this.smotionY;
+                    this.velocityY = this.smotionY = -this.smotionY;
                 } else if (this.smotionY < 0.0 && this.world.getBlockId(i, j - 1, k) != 0) {
-                    this.yVelocity = this.smotionY = -this.smotionY;
+                    this.velocityY = this.smotionY = -this.smotionY;
                 }
 
                 if (this.smotionZ > 0.0 && this.world.getBlockId(i, j, k + 1) != 0) {
-                    this.zVelocity = this.smotionZ = -this.smotionZ;
+                    this.velocityZ = this.smotionZ = -this.smotionZ;
                 } else if (this.smotionZ < 0.0 && this.world.getBlockId(i, j, k - 1) != 0) {
-                    this.zVelocity = this.smotionZ = -this.smotionZ;
+                    this.velocityZ = this.smotionZ = -this.smotionZ;
                 }
             }
         }
@@ -202,17 +202,17 @@ public class EntityFiroBall extends FlyingEntity {
         this.updateAnims();
     }
 
-    public void writeAdditional(CompoundTag nbttagcompound) {
-        super.writeAdditional(nbttagcompound);
-        nbttagcompound.put("LifeLeft", (short) this.life);
-        nbttagcompound.put("SeriousKingVampire", this.toListTag(new double[]{this.smotionX, this.smotionY, this.smotionZ}));
-        nbttagcompound.put("Frosty", this.frosty);
-        nbttagcompound.put("FromCloud", this.fromCloud);
-        nbttagcompound.put("Smacked", this.smacked);
+    public void writeNbt(NbtCompound nbttagcompound) {
+        super.writeNbt(nbttagcompound);
+        nbttagcompound.putShort("LifeLeft", (short) this.life);
+        nbttagcompound.put("SeriousKingVampire", this.toNbtList(new double[]{this.smotionX, this.smotionY, this.smotionZ}));
+        nbttagcompound.putBoolean("Frosty", this.frosty);
+        nbttagcompound.putBoolean("FromCloud", this.fromCloud);
+        nbttagcompound.putBoolean("Smacked", this.smacked);
     }
 
-    public void readAdditional(CompoundTag nbttagcompound) {
-        super.readAdditional(nbttagcompound);
+    public void readNbt(NbtCompound nbttagcompound) {
+        super.readNbt(nbttagcompound);
         this.life = nbttagcompound.getShort("LifeLeft");
         this.frosty = nbttagcompound.getBoolean("Frosty");
         this.fromCloud = nbttagcompound.getBoolean("FromCloud");
@@ -221,14 +221,14 @@ public class EntityFiroBall extends FlyingEntity {
         }
 
         this.smacked = nbttagcompound.getBoolean("Smacked");
-        ListTag nbttaglist = nbttagcompound.getListTag("SeriousKingVampire");
-        this.smotionX = (double) ((float) ((DoubleTag) nbttaglist.get(0)).data);
-        this.smotionY = (double) ((float) ((DoubleTag) nbttaglist.get(1)).data);
-        this.smotionZ = (double) ((float) ((DoubleTag) nbttaglist.get(2)).data);
+        NbtList nbttaglist = nbttagcompound.getList("SeriousKingVampire");
+        this.smotionX = (double) ((float) ((NbtDouble) nbttaglist.get(0)).value);
+        this.smotionY = (double) ((float) ((NbtDouble) nbttaglist.get(1)).value);
+        this.smotionZ = (double) ((float) ((NbtDouble) nbttaglist.get(2)).value);
     }
 
-    public void method_1353(Entity entity) {
-        super.method_1353(entity);
+    public void onCollision(Entity entity) {
+        super.onCollision(entity);
         boolean flag = false;
         if (entity != null && entity instanceof LivingEntity && !(entity instanceof EntityFiroBall)) {
             if (this.frosty && (!(entity instanceof EntityFireMonster) || this.smacked && !this.fromCloud) && !(entity instanceof EntityFireMinion)) {
@@ -244,14 +244,14 @@ public class EntityFiroBall extends FlyingEntity {
         if (flag) {
             this.splode();
             this.fizzle();
-            this.removed = true;
+            this.dead = true;
         }
 
     }
 
     public boolean damage(Entity entity, int i) {
         if (entity != null) {
-            Vec3d vec3d = entity.getRotation();
+            Vec3d vec3d = entity.getLookVector();
             if (vec3d != null) {
                 this.smotionX = vec3d.x;
                 this.smotionY = vec3d.y;

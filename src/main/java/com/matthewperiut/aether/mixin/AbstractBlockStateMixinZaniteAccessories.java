@@ -19,8 +19,6 @@ public abstract class AbstractBlockStateMixinZaniteAccessories {
     @Shadow
     public abstract Block getBlock();
 
-    @Shadow protected abstract BlockState asBlockState();
-
     @Inject(at = @At("RETURN"), method = "calcBlockBreakingDelta(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;)F", cancellable = true)
     private void inject(PlayerEntity player, BlockView world, BlockPos pos, CallbackInfoReturnable<Float> cir) {
             cir.setReturnValue(modifyMiningSpeed(cir.getReturnValueF(), player));
