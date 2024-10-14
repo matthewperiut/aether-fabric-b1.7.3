@@ -16,8 +16,8 @@ public class ItemIcePendant extends ItemIceAccessory implements HasCustomRendere
     }
 
     @Override
-    public Optional<AccessoryRenderer> getRenderer() {
-        return Optional.ofNullable(renderer);
+    public AccessoryRenderer getRenderer() {
+        return renderer;
     }
 
     @Override

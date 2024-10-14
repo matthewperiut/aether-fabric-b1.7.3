@@ -16,8 +16,8 @@ public class ItemPendant extends ItemMoreArmor implements HasCustomRenderer {
     }
 
     @Override
-    public Optional<AccessoryRenderer> getRenderer() {
-        return Optional.ofNullable(renderer);
+    public AccessoryRenderer getRenderer() {
+        return renderer;
     }
 
     @Override
