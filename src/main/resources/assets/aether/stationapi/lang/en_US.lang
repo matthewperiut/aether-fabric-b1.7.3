@@ -341,5 +341,5 @@ item.@.neptune_glove.name=§aNeptune Gloves
 item.@.cloud_parachute.name=Cloud Parachute
 item.@.cloud_parachute_gold.name=Golden Parachute
 
-tab.aether\:aetherBlocks.name=Aether Blocks
-tab.aether\:aetherItems.name=Aether Items
+tab.aether.aetherBlocks.name=Aether Blocks
+tab.aether.aetherItems.name=Aether Items

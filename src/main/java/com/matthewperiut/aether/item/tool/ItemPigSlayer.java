@@ -24,7 +24,7 @@ public class ItemPigSlayer extends TemplateSwordItem {
             if (!s.equals("") && s.toLowerCase().contains("pig")) {
                 if (entityliving.health > 0) {
                     entityliving.health = 1;
-                    entityliving.damagedTimer = 0;
+                    entityliving.hurtTime = 0;
                     entityliving.damage(entityliving1, 9999);
                 }
 

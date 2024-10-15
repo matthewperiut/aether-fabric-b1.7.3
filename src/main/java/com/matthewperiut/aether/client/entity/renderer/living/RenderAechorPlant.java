@@ -19,7 +19,7 @@ public class RenderAechorPlant extends LivingEntityRenderer {
         EntityAechorPlant b1 = (EntityAechorPlant) entityliving;
         float f1 = (float) Math.sin((double) b1.sinage);
         float f3;
-        if (b1.damagedTimer > 0) {
+        if (b1.hurtTime > 0) {
             f1 *= 0.45F;
             f1 -= 0.125F;
             f3 = 1.75F + (float) Math.sin((double) (b1.sinage + 2.0F)) * 1.5F;

@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.block.MetaNamedBlockItemProvider;
 import net.modificationstation.stationapi.api.template.block.TemplateBlock;
 import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.util.SideUtil;
 
 import java.util.Random;
 
@@ -32,24 +33,38 @@ public class AetherLog extends TemplateBlock implements MetaNamedBlockItemProvid
     }
 
     public int getDroppedItemCount(Random random) {
-        return 0;
+        return 1;
     }
 
-    public void afterBreak(World world, PlayerEntity entityplayer, int x, int y, int z, int meta) {
-        entityplayer.increaseStat(Stats.MINE_BLOCK[this.id], 1);
-        ItemStack stack = new ItemStack(this.id, 1, 0);
-        if (UtilSkyroot.axe(entityplayer) && meta == 1 || meta == 3) {
-            stack.count *= 2;
-        }
+    @Override
+    public void dropStacks(World world, int x, int y, int z, int meta, float luck) {
+        if (!world.isRemote) {
+            int count = 1;
+            PlayerEntity player = world.getClosestPlayer(x,y,z,16.F);
 
-        world.spawnEntity(new ItemEntity(world, x, y, z, stack));
-        ItemStack itemstack = entityplayer.inventory.getSelectedItem();
-        if (itemstack != null && (itemstack.itemId == AetherItems.AxeZanite.id || itemstack.itemId == AetherItems.AxeGravitite.id)) {
-            if (meta > 1) {
-                stack = new ItemStack(AetherItems.GoldenAmber.id, rand.nextInt(4), 0);
-                world.spawnEntity(new ItemEntity(world, x, y, z, stack));
+            if (player != null) {
+                if (UtilSkyroot.axe(player)) {
+                    count = 2;
+                }
+
+                ItemStack heldItem = player.inventory.main[player.inventory.selectedSlot];
+
+                if (heldItem != null && (heldItem.itemId == AetherItems.AxeZanite.id || heldItem.itemId == AetherItems.AxeGravitite.id)) {
+                    if (meta > 1) {
+                        ItemStack stack = new ItemStack(AetherItems.GoldenAmber.id, rand.nextInt(4), 0);
+                        world.spawnEntity(new ItemEntity(world, x, y, z, stack));
+                    }
+                }
             }
 
+            for(int i = 0; i < count; ++i) {
+                if (!(world.random.nextFloat() > luck)) {
+                    int var9 = this.getDroppedItemId(meta, world.random);
+                    if (var9 > 0) {
+                        this.dropStack(world, x, y, z, new ItemStack(var9, 1, this.getDroppedItemMeta(meta)));
+                    }
+                }
+            }
         }
     }
 

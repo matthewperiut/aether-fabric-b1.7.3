@@ -69,7 +69,7 @@ public class EntityAechorPlant extends EntityAetherAnimal implements MobSpawnDat
             this.grounded = true;
         }
 
-        if (this.damagedTimer > 0) {
+        if (this.hurtTime > 0) {
             this.sinage += 0.9F;
         } else if (this.seeprey) {
             this.sinage += 0.3F;

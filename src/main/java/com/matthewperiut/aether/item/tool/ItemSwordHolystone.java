@@ -18,7 +18,7 @@ public class ItemSwordHolystone extends TemplateSwordItem {
     }
 
     public boolean postHit(ItemStack itemstack, LivingEntity entityliving, LivingEntity entityliving1) {
-        if (random.nextInt(25) == 0 && entityliving1 instanceof PlayerEntity && (entityliving.damagedTimer > 0 || entityliving.deathTicks > 0)) {
+        if (random.nextInt(25) == 0 && entityliving1 instanceof PlayerEntity && (entityliving.hurtTime > 0 || entityliving.deathTime > 0)) {
             entityliving.dropItem(AetherItems.AmbrosiumShard.id, 1, 0.0F);
             itemstack.damage(1, entityliving1);
         }

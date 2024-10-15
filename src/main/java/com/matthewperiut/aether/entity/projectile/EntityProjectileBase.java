@@ -303,7 +303,7 @@ public abstract class EntityProjectileBase extends ArrowEntity {
     }
 
     public boolean canBeShot(Entity ent) {
-        return ent.isCollidable() && (ent != this.owner || this.ticksFlying >= 5) && (!(ent instanceof LivingEntity) || ((LivingEntity) ent).deathTicks <= 0);
+        return ent.isCollidable() && (ent != this.owner || this.ticksFlying >= 5) && (!(ent instanceof LivingEntity) || ((LivingEntity) ent).deathTime <= 0);
     }
 
     public boolean onHit() {
