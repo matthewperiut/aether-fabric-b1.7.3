@@ -21,12 +21,15 @@ public class Aercloud extends TemplateBlock implements MetaNamedBlockItemProvide
 
     public void onEntityCollision(World world, int i, int j, int k, Entity entity) {
         ((EntityAccessor) entity).setFallDistance(0.0F);
-        if (world.getBlockMeta(i, j, k) == 1) {
-            entity.velocityY = 2.0;
-            if (entity instanceof PlayerEntity player) {
-                AetherAchievements.giveAchievement(AetherAchievements.blueCloud, player);
+        if (!entity.isSneaking()) {
+            if (world.getBlockMeta(i, j, k) == 1) {
+                entity.velocityY = 2.0;
+                if (entity instanceof PlayerEntity player) {
+                        AetherAchievements.giveAchievement(AetherAchievements.blueCloud, player);
+                }
             }
-        } else if (entity.velocityY < 0.0) {
+        }
+        if (entity.velocityY < 0.0) {
             entity.velocityY *= 0.005;
         }
     }
@@ -60,7 +63,7 @@ public class Aercloud extends TemplateBlock implements MetaNamedBlockItemProvide
     }
 
     public Box getCollisionShape(World world, int i, int j, int k) {
-        return world.getBlockMeta(i, j, k) == 1 ? Box.createCached(i, j, k, i, j, k) : Box.createCached(i, j, k, i + 1, j, k + 1);
+        return Box.createCached(i, j, k, i + 1, j, k + 1);
     }
 
     public int[] getValidMetas() {

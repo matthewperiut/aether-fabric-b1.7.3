@@ -1,5 +1,6 @@
 package com.matthewperiut.aether.mixin;
 
+import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.gen.dim.BareAetherTravelAgent;
 import com.matthewperiut.aether.item.AetherItems;
 import com.matthewperiut.aether.poison.AetherPoison;
@@ -7,6 +8,7 @@ import com.matthewperiut.aether.poison.PoisonControl;
 import com.matthewperiut.aether.util.VoidUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
@@ -48,6 +50,12 @@ public abstract class EntityMixin implements AetherPoison {
 
     @Shadow
     protected abstract void markDead();
+
+    @Shadow public double x;
+
+    @Shadow public double y;
+
+    @Shadow public double z;
 
     @Redirect(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;tickInVoid()V"))
     public void modify(Entity instance) {
