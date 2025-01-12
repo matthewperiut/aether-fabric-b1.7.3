@@ -10,13 +10,14 @@ import net.mine_diver.unsafeevents.listener.EventListener;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
+import net.modificationstation.stationapi.api.client.gui.screen.GuiHandler;
+import net.modificationstation.stationapi.api.client.registry.GuiHandlerRegistry;
 import net.modificationstation.stationapi.api.event.registry.GuiHandlerRegistryEvent;
 import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
-import net.modificationstation.stationapi.api.registry.GuiHandlerRegistry;
+import net.modificationstation.stationapi.api.registry.Registry;
 import net.modificationstation.stationapi.api.util.Identifier;
 import net.modificationstation.stationapi.api.util.Namespace;
 import net.modificationstation.stationapi.api.util.Null;
-import uk.co.benjiweber.expressions.tuple.BiTuple;
 
 public class AetherGuis {
     @Entrypoint.Namespace
@@ -26,10 +27,10 @@ public class AetherGuis {
     @EventListener
     public void registerGuiHandlers(GuiHandlerRegistryEvent event) {
         GuiHandlerRegistry registry = event.registry;
-        registry.registerValueNoMessage(Identifier.of(MOD_ID, "treasure_chest"), BiTuple.of(this::openTreasureChest, BlockEntityTreasureChest::new));
-        registry.registerValueNoMessage(Identifier.of(MOD_ID, "freezer"), BiTuple.of(this::openFreezer, BlockEntityFreezer::new));
-        registry.registerValueNoMessage(Identifier.of(MOD_ID, "enchanter"), BiTuple.of(this::openEnchanter, BlockEntityEnchanter::new));
-        registry.registerValueNoMessage(Identifier.of(MOD_ID, "incubator"), BiTuple.of(this::openIncubator, BlockEntityIncubator::new));
+        Registry.register(registry, Identifier.of(MOD_ID, "treasure_chest"), new GuiHandler((GuiHandler.ScreenFactoryNoMessage) this::openTreasureChest, BlockEntityTreasureChest::new));
+        Registry.register(registry, Identifier.of(MOD_ID, "freezer"), new GuiHandler((GuiHandler.ScreenFactoryNoMessage) this::openFreezer, BlockEntityFreezer::new));
+        Registry.register(registry, Identifier.of(MOD_ID, "enchanter"), new GuiHandler((GuiHandler.ScreenFactoryNoMessage) this::openEnchanter, BlockEntityEnchanter::new));
+        Registry.register(registry, Identifier.of(MOD_ID, "incubator"), new GuiHandler((GuiHandler.ScreenFactoryNoMessage) this::openIncubator, BlockEntityIncubator::new));
     }
 
     @Environment(EnvType.CLIENT)

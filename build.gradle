@@ -70,19 +70,17 @@ dependencies {
     implementation "blue.endless:jankson:1.2.1"
 
     modImplementation "net.modificationstation:StationAPI:${project.stapi_version}"
-    modImplementation("net.glasslauncher.mods:GlassConfigAPI:${project.gcapi_version}") { transitive false }
     modImplementation ("maven.modrinth:modmenu-beta:${project.modmenu_version}") { transitive false }
     modImplementation("com.github.matthewperiut:retrocommands:${retrocommands_version}") { transitive false }
     modImplementation("com.github.matthewperiut:accessory-api:${project.accessory_version}") { transitive false }
-    modImplementation("net.glasslauncher:HowManyItems-Fabric-Unofficial:${project.hmi_version}") {transitive false }
     modImplementation("maven.modrinth:bh-creative:${project.bhcreative_version}") { transitive false }
 
     // Runtime Dependencies
-    modRuntimeOnly "com.github.GeyserMC:MCAuthLib:d9d773e5d50327c33898c65cd545a4f6ef3ba1b5" // needed for mojang fix
-    modRuntimeOnly ("maven.modrinth:mojangfix-stationapi-edition:${mojang_fix_stapi_version}") { transitive false }
+//    modRuntimeOnly "com.github.GeyserMC:MCAuthLib:d9d773e5d50327c33898c65cd545a4f6ef3ba1b5" // needed for mojang fix
+//    modRuntimeOnly ("maven.modrinth:mojangfix-stationapi-edition:${mojang_fix_stapi_version}") { transitive false }
     modRuntimeOnly ("com.github.matthewperiut:gambac:${gambac_version}") { transitive false }
     modRuntimeOnly ("com.github.matthewperiut:thirdpersonfix-fabric-b1.7.3:82717b1f41") { transitive false }
-    modRuntimeOnly ("com.github.matthewperiut:stapi-fast-intro:d2eeeb0e57") { transitive false }
+//    modRuntimeOnly ("com.github.matthewperiut:stapi-fast-intro:d2eeeb0e57") { transitive false }
 }
 
 processResources {
