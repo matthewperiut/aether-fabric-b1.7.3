@@ -51,7 +51,7 @@ public class ChunkProviderAether implements ChunkSource {
 
     public ChunkProviderAether(World world, long l) {
         this.worldObj = world;
-        if (Aether.OLDSTAPI) {
+        if (!Aether.OLDSTAPI) {
             StapiNewCaveImpl.giveStapiWhatItWants(mapGenCaves, world);
         }
         this.random = new Random(l);

@@ -25,7 +25,7 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
       - name: Cache Gradle packages
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
@@ -38,7 +38,7 @@ jobs:
         with:
           arguments: build
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-libs
           path: build/libs/**/*
