@@ -5,6 +5,8 @@ import com.matthewperiut.aether.entity.projectile.*;
 import com.matthewperiut.aether.entity.special.EntityCloudParachute;
 import com.matthewperiut.aether.entity.special.EntityFloatingBlock;
 import com.matthewperiut.aether.entity.special.EntityMiniCloud;
+import com.matthewperiut.aether.optional.AetherSPCSupport;
+import net.fabricmc.loader.api.FabricLoader;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.modificationstation.stationapi.api.event.entity.EntityRegister;
 import net.modificationstation.stationapi.api.event.registry.EntityHandlerRegistryEvent;
@@ -16,7 +18,7 @@ import net.modificationstation.stationapi.api.util.Null;
 
 public class AetherEntities {
     @Entrypoint.Namespace
-    public static final Namespace MOD_ID = Null.get();
+    public static Namespace MOD_ID = Null.get();
 
     @EventListener
     public void registerEntities(EntityRegister event) {
@@ -82,6 +84,10 @@ public class AetherEntities {
 
         Registry.register(event.registry, MOD_ID.id("FireMonster"), EntityFireMonster::new);
         Registry.register(event.registry, MOD_ID.id("FireMinion"), EntityFireMinion::new);
+
+        if (FabricLoader.getInstance().isModLoaded("spc")) {
+            AetherSPCSupport.init();
+        }
     }
 
     @EventListener

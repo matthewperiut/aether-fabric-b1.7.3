@@ -6,10 +6,9 @@ import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.modificationstation.stationapi.api.entity.player.PlayerHandler;
 import net.modificationstation.stationapi.api.util.math.Vec3d;
 
-public class AetherPlayerHandler implements PlayerHandler
+public class AetherPlayerHandler
 {
     private final PlayerEntity player;
 

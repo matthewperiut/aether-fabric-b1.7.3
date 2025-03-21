@@ -1,16 +1,17 @@
 package com.matthewperiut.aether;
 
 import com.matthewperiut.aether.optional.AetherSPCSupport;
+import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.modificationstation.stationapi.api.event.mod.InitEvent;
 
-public class Aether {
+public class Aether implements ModInitializer {
 
     public static boolean OLDSTAPI = false;
 
-    @EventListener
-    private static void init(InitEvent initEvent) {
+    @Override
+    public void onInitialize() {
         if (FabricLoader.getInstance().isModLoaded("spc")) {
             AetherSPCSupport.init();
         }

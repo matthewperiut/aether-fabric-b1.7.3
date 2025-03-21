@@ -16,7 +16,7 @@ import net.modificationstation.stationapi.api.util.Null;
 
 public class AetherAchievements {
     @Entrypoint.Namespace
-    public static final Namespace MOD_ID = Null.get();
+    public static Namespace MOD_ID = Null.get();
     public static final int acOff = 800;
     public static Achievement enterAether;
     public static Achievement defeatBronze;
@@ -35,7 +35,7 @@ public class AetherAchievements {
     }
 
     @EventListener
-    private void registerAchievements(AchievementRegisterEvent event) {
+    public void registerAchievements(AchievementRegisterEvent event) {
         // works sp and mp
         enterAether = (new Achievement(acOff, "aether:enterAether", 0, 0, Block.GLOWSTONE, null)).addStat();
         // works sp and mp

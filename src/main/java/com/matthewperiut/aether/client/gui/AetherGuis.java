@@ -21,7 +21,7 @@ import net.modificationstation.stationapi.api.util.Null;
 
 public class AetherGuis {
     @Entrypoint.Namespace
-    private static final Namespace MOD_ID = Null.get();
+    public static Namespace MOD_ID = Null.get();
 
     @Environment(EnvType.CLIENT)
     @EventListener

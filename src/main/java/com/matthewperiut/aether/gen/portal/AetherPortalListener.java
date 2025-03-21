@@ -11,7 +11,7 @@ import net.modificationstation.stationapi.api.mod.entrypoint.EventBusPolicy;
 @Entrypoint(eventBus = @EventBusPolicy(registerInstance = false))
 public class AetherPortalListener {
     @EventListener
-    private static void blockSet(BlockSetEvent event) {
+    public static void blockSet(BlockSetEvent event) {
         if (
                 (event.blockState.getBlock().id == Block.WATER.id || event.blockState.getBlock().id == Block.FLOWING_WATER.id) &&
                         event.world.getBlockId(event.x, event.y - 1, event.z) == Block.GLOWSTONE.id &&
