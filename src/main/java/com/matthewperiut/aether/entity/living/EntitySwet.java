@@ -517,7 +517,7 @@ public class EntitySwet extends EntityAetherAnimal implements MobSpawnDataProvid
     }
 
     protected void dropItems() {
-        ItemStack stack = new ItemStack(this.textureNum == 1 ? AetherBlocks.Aercloud.id : Block.GLOWSTONE.id, 3, this.textureNum == 1 ? 1 : 0);
+        ItemStack stack = new ItemStack(this.textureNum == 1 ? AetherBlocks.Aercloud.asItem().id : Block.GLOWSTONE.asItem().id, 3, this.textureNum == 1 ? 1 : 0);
 
         if (UtilSkyroot.sword(world.getClosestPlayer(x, y, z, 10))) {
             stack.count *= 2;

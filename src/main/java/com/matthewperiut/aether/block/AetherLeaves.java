@@ -174,7 +174,7 @@ public class AetherLeaves extends TemplateTranslucentBlock {
     public void afterBreak(World world, PlayerEntity entityplayer, int i, int j, int k, int l) {
         if (!world.isRemote && entityplayer.getHand() != null && entityplayer.getHand().itemId == Item.SHEARS.id) {
             entityplayer.increaseStat(Stats.MINE_BLOCK[this.id], 1);
-            this.dropStack(world, i, j, k, new ItemStack(this.id, 1, l & 3));
+            this.dropStack(world, i, j, k, new ItemStack(this.asItem().id, 1, l & 3));
         } else {
             super.afterBreak(world, entityplayer, i, j, k, l);
         }

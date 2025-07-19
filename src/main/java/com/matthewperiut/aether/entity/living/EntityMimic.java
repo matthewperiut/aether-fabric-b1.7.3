@@ -70,7 +70,7 @@ public class EntityMimic extends EntityDungeonMob implements MobSpawnDataProvide
     }
 
     protected int getDroppedItemId() {
-        return Block.CHEST.id;
+        return Block.CHEST.asItem().id;
     }
 
     @Override

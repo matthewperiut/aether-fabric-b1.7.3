@@ -131,15 +131,15 @@ public class EntityWhirly extends EntityAetherAnimal implements MobSpawnDataProv
         } else if (i >= 82) {
             return Item.COAL.id;
         } else if (i >= 75) {
-            return Block.GRAVEL.id;
+            return Block.GRAVEL.asItem().id;
         } else if (i >= 64) {
-            return Block.CLAY.id;
+            return Block.CLAY.asItem().id;
         } else if (i >= 52) {
             return Item.STICK.id;
         } else if (i >= 38) {
             return Item.FLINT.id;
         } else {
-            return i > 20 ? Block.LOG.id : Block.SAND.id;
+            return i > 20 ? Block.LOG.asItem().id : Block.SAND.asItem().id;
         }
     }
 
