@@ -135,7 +135,7 @@ public class BlockEntityIncubator extends BlockEntity implements Inventory {
             this.progress = 0;
         }
 
-        if (this.torchPower <= 0 && this.IncubatorItemStacks[1] != null && this.IncubatorItemStacks[1].itemId == AetherItems.MoaEgg.id && this.getStack(0) != null && this.getStack(0).itemId == AetherBlocks.AmbrosiumTorch.id) {
+        if (this.torchPower <= 0 && this.IncubatorItemStacks[1] != null && this.IncubatorItemStacks[1].itemId == AetherItems.MoaEgg.id && this.getStack(0) != null && this.getStack(0).itemId == AetherBlocks.AmbrosiumTorch.asItem().id) {
             this.torchPower += 1000;
             this.removeStack(0, 1);
         }

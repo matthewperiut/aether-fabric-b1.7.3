@@ -156,7 +156,7 @@ public class EntityZephyr extends FlyingEntity implements Monster, MobSpawnDataP
 
     @Override
     protected int getDroppedItemId() {
-        return AetherBlocks.Aercloud.id;
+        return AetherBlocks.Aercloud.asItem().id;
     }
 
     public boolean method_940() {

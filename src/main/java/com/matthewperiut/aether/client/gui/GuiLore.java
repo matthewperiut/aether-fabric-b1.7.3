@@ -467,7 +467,7 @@ public class GuiLore extends HandledScreen {
         }
 
         public Lore(final Block block, final String s, final String s1, final String s2, final String s3, final String s4, final String s5, final String s6, final int i) {
-            this(new ItemStack(block == null ? 0 : block.id, 1, -1), s, s1, s2, s3, s4, s5, s6, i);
+            this(new ItemStack(block == null ? 0 : block.asItem().id, 1, -1), s, s1, s2, s3, s4, s5, s6, i);
         }
 
         public Lore(final Item item, final String s, final String s1, final String s2, final String s3, final String s4, final String s5, final String s6, final int i) {

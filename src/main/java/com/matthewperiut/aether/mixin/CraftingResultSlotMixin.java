@@ -19,7 +19,7 @@ public class CraftingResultSlotMixin {
 
     @Inject(method = "onTakeItem", at = @At("HEAD"))
     public void achievementCraftingCatcher(ItemStack stack, CallbackInfo ci) {
-        if (stack.itemId == AetherBlocks.Enchanter.id)
+        if (stack.itemId == AetherBlocks.Enchanter.asItem().id)
             AetherAchievements.giveAchievement(AetherAchievements.enchanter, player);
         if (stack.itemId == AetherItems.SwordGravitite.id ||
                 stack.itemId == AetherItems.PickGravitite.id ||

@@ -166,7 +166,7 @@ public class BlockEntityFreezer extends BlockEntity implements Inventory {
             this.frozenTimeForItem = 0;
         }
 
-        if (this.frozenPowerRemaining <= 0 && this.currentFrozen != null && this.getStack(1) != null && this.getStack(1).itemId == AetherBlocks.Icestone.id) {
+        if (this.frozenPowerRemaining <= 0 && this.currentFrozen != null && this.getStack(1) != null && this.getStack(1).itemId == AetherBlocks.Icestone.asItem().id) {
             this.frozenPowerRemaining += 500;
             this.removeStack(1, 1);
         }

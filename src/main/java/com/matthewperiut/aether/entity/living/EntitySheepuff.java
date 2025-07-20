@@ -44,7 +44,7 @@ public class EntitySheepuff extends EntityAetherAnimal implements MobSpawnDataPr
 
     protected void dropItems() {
         if (!this.getSheared()) {
-            this.dropItem(new ItemStack(Block.WOOL.id, 1 + this.random.nextInt(2), this.getFleeceColor()), 0.0F);
+            this.dropItem(new ItemStack(Block.WOOL.asItem().id, 1 + this.random.nextInt(2), this.getFleeceColor()), 0.0F);
         }
 
     }
@@ -61,7 +61,7 @@ public class EntitySheepuff extends EntityAetherAnimal implements MobSpawnDataPr
                     colour = 2 + this.random.nextInt(3);
 
                     for (j = 0; j < colour; ++j) {
-                        entityitem = this.dropItem(new ItemStack(Block.WOOL.id, 1, this.getFleeceColor()), 1.0F);
+                        entityitem = this.dropItem(new ItemStack(Block.WOOL.asItem().id, 1, this.getFleeceColor()), 1.0F);
                         entityitem.velocityY += (double) (this.random.nextFloat() * 0.05F);
                         entityitem.velocityX += (double) ((this.random.nextFloat() - this.random.nextFloat()) * 0.1F);
                         entityitem.velocityZ += (double) ((this.random.nextFloat() - this.random.nextFloat()) * 0.1F);
@@ -71,7 +71,7 @@ public class EntitySheepuff extends EntityAetherAnimal implements MobSpawnDataPr
                     colour = 2 + this.random.nextInt(3);
 
                     for (j = 0; j < colour; ++j) {
-                        entityitem = this.dropItem(new ItemStack(Block.WOOL.id, 1, this.getFleeceColor()), 1.0F);
+                        entityitem = this.dropItem(new ItemStack(Block.WOOL.asItem().id, 1, this.getFleeceColor()), 1.0F);
                         entityitem.velocityY += (double) (this.random.nextFloat() * 0.05F);
                         entityitem.velocityX += (double) ((this.random.nextFloat() - this.random.nextFloat()) * 0.1F);
                         entityitem.velocityZ += (double) ((this.random.nextFloat() - this.random.nextFloat()) * 0.1F);
