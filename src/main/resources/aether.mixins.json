@@ -12,7 +12,8 @@
     "TorchMixin",
     "access.EntityAccessor",
     "access.LivingEntityAccessor",
-    "access.PlayerEntityAccessor"
+    "access.PlayerEntityAccessor",
+    "FlintAndSteelMixin"
   ],
   "server": [
   ],
