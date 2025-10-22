@@ -19,7 +19,7 @@ public class Holystone extends TemplateBlock implements MetaNamedBlockItemProvid
     }
 
     public void afterBreak(World world, PlayerEntity entityplayer, int x, int y, int z, int meta) {
-        entityplayer.increaseStat(Stats.MINE_BLOCK[this.id], 1);
+        //entityplayer.increaseStat(Stats.MINE_BLOCK[this.id], 1);
         ItemStack stack = new ItemStack(this.asItem().id, 1, meta <= 1 ? 1 : 3);
         if (UtilSkyroot.pickaxe(entityplayer) && (meta == 0 || meta == 2)) {
             stack.count *= 2;

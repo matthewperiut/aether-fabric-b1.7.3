@@ -69,7 +69,7 @@ public class AetherGrass extends TemplateBlock {
     }
 
     public void afterBreak(World world, PlayerEntity entityplayer, int i, int j, int k, int l) {
-        entityplayer.increaseStat(Stats.MINE_BLOCK[this.id], 1);
+        //entityplayer.increaseStat(Stats.MINE_BLOCK[this.id], 1);
         if (UtilSkyroot.shovel(entityplayer) && l == 0) {
             this.dropStacks(world, i, j, k, l);
         }

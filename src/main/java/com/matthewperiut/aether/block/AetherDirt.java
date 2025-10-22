@@ -23,7 +23,7 @@ public class AetherDirt extends TemplateBlock {
     }
 
     public void afterBreak(World world, PlayerEntity entityplayer, int i, int j, int k, int l) {
-        entityplayer.increaseStat(Stats.MINE_BLOCK[this.id], 1);
+        //entityplayer.increaseStat(Stats.MINE_BLOCK[this.id], 1);
         if (l == 0 && UtilSkyroot.shovel(entityplayer)) {
             this.dropStacks(world, i, j, k, l);
         }
