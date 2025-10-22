@@ -1,6 +1,7 @@
 package com.matthewperiut.aether.client.entity.renderer.living;
 
 import com.matthewperiut.aether.entity.living.EntityWhirly;
+import com.matthewperiut.aether.mixin.access.EntityAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ExplosionParticle;
 import net.minecraft.client.particle.FireSmokeParticle;
@@ -43,7 +44,7 @@ public class RenderWhirly extends EntityRenderer {
                 entityWhirl.fluffies.add(entityExplodeFx);
                 entityExplodeFx.renderDistanceMultiplier = 10.0;
                 entityExplodeFx.noClip = true;
-                entityExplodeFx.setBoundingBoxSpacing(0.25F, 0.25F);
+                ((EntityAccessor)entityExplodeFx).invokeSetBoundingBoxSpacing(0.25F, 0.25F);
                 entityExplodeFx.setPosition(entityWhirl.x, entityWhirl.y, entityWhirl.z);
                 entityExplodeFx.y = d7;
             }
@@ -58,7 +59,7 @@ public class RenderWhirly extends EntityRenderer {
                 entityWhirl.fluffies.add(entitySmokeFx);
                 entitySmokeFx.renderDistanceMultiplier = 10.0;
                 entitySmokeFx.noClip = true;
-                entitySmokeFx.setBoundingBoxSpacing(0.25F, 0.25F);
+                ((EntityAccessor)entitySmokeFx).invokeSetBoundingBoxSpacing(0.25F, 0.25F);
                 entitySmokeFx.setPosition(entityWhirl.x, entityWhirl.y, entityWhirl.z);
                 entitySmokeFx.y = d7;
             }

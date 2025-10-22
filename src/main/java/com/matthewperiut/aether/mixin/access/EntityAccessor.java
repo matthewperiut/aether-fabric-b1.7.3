@@ -15,6 +15,9 @@ public interface EntityAccessor {
     @Accessor("fallDistance")
     void setFallDistance(float fallDistance);
 
+    @Invoker("setBoundingBoxSpacing")
+    void invokeSetBoundingBoxSpacing(float spacingXZ, float spacingY);
+
     @Invoker("getFlag")
     boolean invokeIsFlagSet(int i);
 
