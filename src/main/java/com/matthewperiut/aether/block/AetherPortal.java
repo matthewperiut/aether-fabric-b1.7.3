@@ -2,26 +2,60 @@ package com.matthewperiut.aether.block;
 
 import com.matthewperiut.aether.gen.dim.AetherDimensions;
 import com.matthewperiut.aether.gen.dim.AetherTravelAgent;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
+import net.minecraft.block.TranslucentBlock;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.Box;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.PortalForcer;
 import net.modificationstation.stationapi.api.block.CustomPortal;
-import net.modificationstation.stationapi.api.template.block.TemplateNetherPortalBlock;
+import net.modificationstation.stationapi.api.entity.HasTeleportationManager;
+import net.modificationstation.stationapi.api.template.block.BlockTemplate;
 import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.api.world.dimension.TeleportationManager;
 
 import java.util.Random;
 
-public class AetherPortal extends TemplateNetherPortalBlock implements CustomPortal {
+public class AetherPortal extends TranslucentBlock implements BlockTemplate, CustomPortal, TeleportationManager {
     public static int spr;
 
     public AetherPortal(Identifier identifier) {
-        super(identifier, spr);
+        super(BlockTemplate.getNextId(), spr, Material.NETHER_PORTAL, false);
+        BlockTemplate.onConstructor(this, identifier);
     }
 
     @Override
     public int getTexture(int i, int j) {
         return spr;
+    }
+
+    public Box getCollisionShape(World world, int x, int y, int z) {
+        return null;
+    }
+
+    public void updateBoundingBox(BlockView blockView, int x, int y, int z) {
+        if (blockView.getBlockId(x - 1, y, z) != this.id && blockView.getBlockId(x + 1, y, z) != this.id) {
+            float var7 = 0.125F;
+            float var8 = 0.5F;
+            this.setBoundingBox(0.5F - var7, 0.0F, 0.5F - var8, 0.5F + var7, 1.0F, 0.5F + var8);
+        } else {
+            float var5 = 0.5F;
+            float var6 = 0.125F;
+            this.setBoundingBox(0.5F - var5, 0.0F, 0.5F - var6, 0.5F + var5, 1.0F, 0.5F + var6);
+        }
+    }
+
+    public boolean isOpaque() {
+        return false;
+    }
+
+    public boolean isFullCube() {
+        return false;
     }
 
     public boolean create(World world, int i, int j, int k) {
@@ -107,6 +141,50 @@ public class AetherPortal extends TemplateNetherPortalBlock implements CustomPor
         }
     }
 
+    @Environment(EnvType.CLIENT)
+    public boolean isSideVisible(BlockView blockView, int x, int y, int z, int side) {
+        if (blockView.getBlockId(x, y, z) == this.id) {
+            return false;
+        } else {
+            boolean var6 = blockView.getBlockId(x - 1, y, z) == this.id && blockView.getBlockId(x - 2, y, z) != this.id;
+            boolean var7 = blockView.getBlockId(x + 1, y, z) == this.id && blockView.getBlockId(x + 2, y, z) != this.id;
+            boolean var8 = blockView.getBlockId(x, y, z - 1) == this.id && blockView.getBlockId(x, y, z - 2) != this.id;
+            boolean var9 = blockView.getBlockId(x, y, z + 1) == this.id && blockView.getBlockId(x, y, z + 2) != this.id;
+            boolean var10 = var6 || var7;
+            boolean var11 = var8 || var9;
+            if (var10 && side == 4) {
+                return true;
+            } else if (var10 && side == 5) {
+                return true;
+            } else if (var11 && side == 2) {
+                return true;
+            } else {
+                return var11 && side == 3;
+            }
+        }
+    }
+
+    public int getDroppedItemCount(Random random) {
+        return 0;
+    }
+
+    @Environment(EnvType.CLIENT)
+    public int getRenderLayer() {
+        return 1;
+    }
+
+    public void onEntityCollision(World world, int x, int y, int z, Entity entity) {
+        if (entity.vehicle == null && entity.passenger == null) {
+            entity.tickPortalCooldown();
+
+            // Handle the teleportation manager for StationAPI
+            if (entity instanceof HasTeleportationManager manager) {
+                manager.setTeleportationManager(this);
+            }
+        }
+    }
+
+    @Environment(EnvType.CLIENT)
     public void randomDisplayTick(World world, int i, int j, int k, Random random) {
         if (random.nextInt(100) == 0) {
             world.playSound((double) i + 0.5, (double) j + 0.5, (double) k + 0.5, "portal.portal", 1.0F, random.nextFloat() * 0.4F + 0.8F);
@@ -133,7 +211,6 @@ public class AetherPortal extends TemplateNetherPortalBlock implements CustomPor
 
             world.addParticle("aether_portal", d, d1, d2, d3, d4, d5);
         }
-
     }
 
     @Override
