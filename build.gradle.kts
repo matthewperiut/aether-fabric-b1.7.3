@@ -43,6 +43,7 @@ repositories {
     maven("https://maven.glass-launcher.net/babric")
     maven("https://maven.minecraftforge.net/")
     maven("https://jitpack.io/")
+    maven("https://maven.fildand.cz/releases") // NyaRepo
     mavenCentral()
     exclusiveContent {
         forRepository {
@@ -88,6 +89,8 @@ dependencies {
     modImplementation("net.glasslauncher.mods:ModMenu:${project.properties["modmenu_version"]}")
     // https://github.com/Glass-Series/Always-More-Items
     modImplementation("net.glasslauncher.mods:AlwaysMoreItems:${project.properties["alwaysmoreitems_version"]}")
+    // https://github.com/DanyGames2014/spawneggs
+    modImplementation("net.danygames2014:spawneggs:${project.properties["spawneggs_version"]}")
 
     // Runtime
     modRuntimeOnly("maven.modrinth:thirdpersonfix-babric:1.1.0")

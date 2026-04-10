@@ -233,7 +233,7 @@ public class EntitySentry extends EntityDungeonMob implements MobSpawnDataProvid
     }
 
     protected int getDroppedItemId() {
-        return this.random.nextInt(5) == 0 ? AetherBlocks.LightDungeonStone.id : AetherBlocks.DungeonStone.id;
+        return this.random.nextInt(5) == 0 ? AetherBlocks.LightDungeonStone.asItem().id : AetherBlocks.DungeonStone.asItem().id;
     }
 
     @Override

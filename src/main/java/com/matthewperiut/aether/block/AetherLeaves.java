@@ -39,9 +39,9 @@ public class AetherLeaves extends TemplateTranslucentBlock {
 
     public int getDroppedItemId(int i, Random random) {
         if (this.id == AetherBlocks.SkyrootLeaves.id) {
-            return AetherBlocks.SkyrootSapling.id;
+            return AetherBlocks.SkyrootSapling.asItem().id;
         } else {
-            return random.nextInt(10) == 0 ? Item.GOLDEN_APPLE.id : AetherBlocks.GoldenOakSapling.id;
+            return random.nextInt(10) == 0 ? Item.GOLDEN_APPLE.id : AetherBlocks.GoldenOakSapling.asItem().id;
         }
     }
 
