@@ -133,9 +133,9 @@ public class AetherItems {
         GoldenAmber = (new TemplateItem(Identifier.of(MOD_ID, "golden_amber"))).setTranslationKey(MOD_ID, "golden_amber");
         Stick = (new TemplateItem(Identifier.of(MOD_ID, "skyroot_stick"))).setTranslationKey(MOD_ID, "skyroot_stick");
         Dart = (new ItemDart(Identifier.of(MOD_ID, "dart"))).setHasSubtypes(true).setTranslationKey(MOD_ID, "dart");
-        DartShooter = (new ItemDartShooter(Identifier.of("dart_shooter"))).setTranslationKey(MOD_ID, "dart_shooter");
-        AmbrosiumShard = (new ItemAmbrosium(Identifier.of(MOD_ID, "ambrosium"), 1)).setTranslationKey(MOD_ID, "ambrosium");
-        HealingStone = (new ItemAmbrosium(Identifier.of(MOD_ID, "healing_stone"), 4)).setTranslationKey(MOD_ID, "healing_stone");
+        DartShooter = (new ItemDartShooter(Identifier.of(MOD_ID,"dart_shooter"))).setTranslationKey(MOD_ID, "dart_shooter");
+        AmbrosiumShard = (new ItemAmbrosium(Identifier.of(MOD_ID, "ambrosium"), 1, false)).setTranslationKey(MOD_ID, "ambrosium");
+        HealingStone = (new ItemAmbrosium(Identifier.of(MOD_ID, "healing_stone"), 4, false)).setTranslationKey(MOD_ID, "healing_stone");
         Zanite = (new TemplateItem(Identifier.of(MOD_ID, "zanite"))).setTranslationKey(MOD_ID, "zanite");
         BlueMusicDisk = (new ItemAetherRecord(Identifier.of(MOD_ID, "blue_music_disc"), "aether:aethertune", "Noisestorm - Aethertune")).setTranslationKey(MOD_ID, "blue_music_disc");
         Bucket = (new ItemSkyrootBucket(Identifier.of(MOD_ID, "skyroot_bucket"))).setTranslationKey(MOD_ID, "skyroot_bucket");
@@ -165,9 +165,9 @@ public class AetherItems {
         ShovelGravitite = (new ItemGravititeShovel(Identifier.of(MOD_ID, "gravitite_shovel"), mat)).setTranslationKey(MOD_ID, "gravitite_shovel");
 
         Lance = (new ItemLance(Identifier.of(MOD_ID, "lance"), mat)).setTranslationKey(MOD_ID, "lance");
-        PickValkyrie = (new ItemValkyriePickaxe(Identifier.of("valkyrie_pickaxe"), mat)).setTranslationKey(MOD_ID, "valkyrie_pickaxe");
-        AxeValkyrie = (new ItemValkyrieAxe(Identifier.of("valkyrie_axe"), mat)).setTranslationKey(MOD_ID, "valkyrie_axe");
-        ShovelValkyrie = (new ItemValkyrieSpade(Identifier.of("valkyrie_shovel"), mat)).setTranslationKey(MOD_ID, "valkyrie_shovel");
+        PickValkyrie = (new ItemValkyriePickaxe(Identifier.of(MOD_ID,"valkyrie_pickaxe"), mat)).setTranslationKey(MOD_ID, "valkyrie_pickaxe");
+        AxeValkyrie = (new ItemValkyrieAxe(Identifier.of(MOD_ID,"valkyrie_axe"), mat)).setTranslationKey(MOD_ID, "valkyrie_axe");
+        ShovelValkyrie = (new ItemValkyrieSpade(Identifier.of(MOD_ID,"valkyrie_shovel"), mat)).setTranslationKey(MOD_ID, "valkyrie_shovel");
 
         PigSlayer = (new ItemPigSlayer(Identifier.of(MOD_ID, "pig_slayer"))).setTranslationKey(MOD_ID, "pig_slayer");
         VampireBlade = (new ItemVampireBlade(Identifier.of(MOD_ID, "vampire_blade"))).setTranslationKey(MOD_ID, "vampire_blade");
@@ -176,7 +176,7 @@ public class AetherItems {
         SwordHoly = (new ItemSwordElemental(Identifier.of(MOD_ID, "holy_sword"), EnumElement.Holy, -81)).setTranslationKey(MOD_ID, "holy_sword");
         SwordLightning = (new ItemSwordElemental(Identifier.of(MOD_ID, "lightning_sword"), EnumElement.Lightning, -5242881)).setTranslationKey(MOD_ID, "lightning_sword");
         LightningKnife = (new ItemLightningKnife(Identifier.of(MOD_ID, "lightning_knife"))).setTranslationKey(MOD_ID, "lightning_knife");
-        GummieSwet = (new ItemGummieSwet(Identifier.of(MOD_ID, "gummie_swet"))).setTranslationKey(MOD_ID, "gummie_swet");
+        GummieSwet = (new ItemGummieSwet(Identifier.of(MOD_ID, "gummie_swet"),20,false)).setTranslationKey(MOD_ID, "gummie_swet");
         HammerNotch = (new ItemNotchHammer(Identifier.of(MOD_ID, "hammer_notch"))).setTranslationKey(MOD_ID, "hammer_notch");
         CloudStaff = (new ItemCloudStaff(Identifier.of(MOD_ID, "cloud_staff"))).setTranslationKey(MOD_ID, "cloud_staff");
         PhoenixBow = (new ItemPhoenixBow(Identifier.of(MOD_ID, "phoenix_bow"))).setTranslationKey(MOD_ID, "phoenix_bow");

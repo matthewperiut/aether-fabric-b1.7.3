@@ -226,8 +226,8 @@ tile.@.freezer.name=Freezer
 tile.@.incubator.name=Incubator
 tile.@.enchanter.name=Enchanter
 tile.@.treasure_chest.name=Treasure Chest
-tile.@.aether_chest.name=Regular Treasure Chest
-tile.@.mimic.name=Mimic
+tile.@.aether_chest.name=Chest
+tile.@.mimic.name=Chest
 
 item.@.victory_medal.name=§aVictory Medal
 item.@.aether_key0.name=§aBronze Key

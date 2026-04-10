@@ -101,7 +101,7 @@ public class AetherBlocks {
         Enchanter = (new Enchanter(Identifier.of(MOD_ID, "enchanter"))).setTranslationKey(MOD_ID, "enchanter").setHardness(2.0F);
         TreasureChest = (new TreasureChest(Identifier.of(MOD_ID, "treasure_chest"))).setHardness(-1.0F).setSoundGroup(Block.STONE_SOUND_GROUP).setTranslationKey(MOD_ID, "treasure_chest");
         Chest = (new AetherChest(Identifier.of("aether_chest")).setHardness(2.5f).setTranslationKey(MOD_ID, "aether_chest").setSoundGroup(Block.WOOD_SOUND_GROUP).ignoreMetaUpdates());
-        ChestMimic = (new MimicBlock(Identifier.of(MOD_ID, "mimic"))).setHardness(2.0F).setSoundGroup(Block.WOOD_SOUND_GROUP).setTranslationKey(MOD_ID, "mimic");
+        ChestMimic = (new MimicBlock(Identifier.of( "mimic"))).setHardness(2.0F).setSoundGroup(Block.WOOD_SOUND_GROUP).setTranslationKey(MOD_ID, "mimic");
         Bed = (new AetherBed(Identifier.of(MOD_ID, "aether_bed"))).setHardness(0.2F).setTranslationKey(MOD_ID, "aether_bed").disableTrackingStatistics().ignoreMetaUpdates();
         //AetherItems.Aercloud = (new ItemBlockAercloud(Aercloud.id));
 

@@ -24,10 +24,12 @@ public class ItemGravititePickaxe extends TemplatePickaxeItem {
             TagKey<Block> tag = this.getEffectiveBlocks(item);
             if (b.isIn(tag)) {
                 final int blockID = world.getBlockId(x, y, z);
-                final int metadata = world.getBlockMeta(x, y, z);
-                final EntityFloatingBlock floating = new EntityFloatingBlock(world, x + 0.5f, y + 0.5f, z + 0.5f, blockID, metadata);
-                world.spawnEntity(floating);
-                item.damage(1, player);
+                if (blockID != 52) {
+                    final int metadata = world.getBlockMeta(x, y, z);
+                    final EntityFloatingBlock floating = new EntityFloatingBlock(world, x + 0.5f, y + 0.5f, z + 0.5f, blockID, metadata);
+                    world.spawnEntity(floating);
+                    item.damage(1, player);
+                }
             }
 
             return super.useOnBlock(item, player, world, x, y, z, side);

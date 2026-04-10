@@ -3,20 +3,20 @@ package com.matthewperiut.aether.item.misc;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.template.item.TemplateItem;
+import net.modificationstation.stationapi.api.template.item.TemplateFoodItem;
 import net.modificationstation.stationapi.api.util.Identifier;
 
-public class ItemGummieSwet extends TemplateItem {
+public class ItemGummieSwet extends TemplateFoodItem {
     private final int healAmount;
     private final boolean damZero;
     private final boolean damOne;
 
-    public ItemGummieSwet(Identifier i) {
-        super(i);
+    public ItemGummieSwet(Identifier i, int healAmount, boolean isWolfFood) {
+        super(i, healAmount, isWolfFood);
         this.maxCount = 64;
         this.damZero = false;
         this.damOne = false;
-        this.healAmount = 20;
+        this.healAmount = healAmount;
         this.setHasSubtypes(true);
     }
 

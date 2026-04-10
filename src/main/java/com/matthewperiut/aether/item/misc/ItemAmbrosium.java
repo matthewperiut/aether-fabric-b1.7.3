@@ -3,14 +3,14 @@ package com.matthewperiut.aether.item.misc;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.template.item.TemplateItem;
+import net.modificationstation.stationapi.api.template.item.TemplateFoodItem;
 import net.modificationstation.stationapi.api.util.Identifier;
 
-public class ItemAmbrosium extends TemplateItem {
+public class ItemAmbrosium extends TemplateFoodItem {
     private final int healAmount;
 
-    public ItemAmbrosium(Identifier identifier, int healAmount) {
-        super(identifier);
+    public ItemAmbrosium(Identifier identifier, int healAmount, boolean isWolfFood) {
+        super(identifier,healAmount,isWolfFood);
         this.healAmount = healAmount;
         this.maxCount = 64;
     }
