@@ -8,7 +8,8 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.modificationstation.stationapi.api.client.gui.screen.achievement.AchievementPage;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.modificationstation.stationapi.api.event.achievement.AchievementRegisterEvent;
 import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
 import net.modificationstation.stationapi.api.util.Namespace;
@@ -69,7 +70,8 @@ public class AetherAchievements {
         event.achievements.add(AetherAchievements.gravTools);/*, "Pink is the new blue", "Craft a gravitite tool");*/
         event.achievements.add(AetherAchievements.lore);/*, "The more you know!", "Read a book of lore");*/
         event.achievements.add(AetherAchievements.loreception);/*, "Lore-ception", "It's a book in a book in a book in...");*/
-        final AchievementPage page = new AetherACPage();
-        page.addAchievements(enterAether, defeatBronze, defeatSilver, defeatGold, enchanter, incubator, gravTools, blueCloud, flyingPig, lore, loreception);
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+            AetherACPage.register(enterAether, defeatBronze, defeatSilver, defeatGold, enchanter, incubator, gravTools, blueCloud, flyingPig, lore, loreception);
+        }
     }
 }

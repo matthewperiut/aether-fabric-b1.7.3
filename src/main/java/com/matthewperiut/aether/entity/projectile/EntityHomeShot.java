@@ -67,8 +67,10 @@ public class EntityHomeShot extends FlyingEntity implements MobSpawnDataProvider
 
         if (this.target != null && this.target.isAlive()) {
             if (this.life <= 0) {
-                LightningEntity thunder = new LightningEntity(this.world, this.x, this.y, this.z);
-                this.world.spawnEntity(thunder);
+                if (!this.world.isRemote) {
+                    LightningEntity thunder = new LightningEntity(this.world, this.x, this.y, this.z);
+                    this.world.spawnEntity(thunder);
+                }
                 this.dead = true;
             } else {
                 this.updateAnims();

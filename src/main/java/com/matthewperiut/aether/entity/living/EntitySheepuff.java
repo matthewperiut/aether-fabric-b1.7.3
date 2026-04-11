@@ -82,7 +82,7 @@ public class EntitySheepuff extends EntityAetherAnimal implements MobSpawnDataPr
             itemstack.damage(1, entityplayer);
         }
 
-        if (itemstack != null && itemstack.itemId == Item.DYE.id && !this.getSheared()) {
+        if (!this.world.isRemote && itemstack != null && itemstack.itemId == Item.DYE.id && !this.getSheared()) {
             colour = WoolBlock.getBlockMeta(itemstack.getDamage());
             if (this.getFleeceColor() != colour) {
                 if (this.getPuffed() && itemstack.count >= 2) {

@@ -14,6 +14,11 @@ public class AetherACPage extends AchievementPage {
         super(MOD_ID, "Aether");
     }
 
+    public static void register(net.minecraft.achievement.Achievement... achievements) {
+        AetherACPage page = new AetherACPage();
+        page.addAchievements(achievements);
+    }
+
     @Override
     public int getBackgroundTexture(final Random random, final int i, final int j, int randomizedRow, int currentTexture) {
         int k = Block.SAND.textureId;

@@ -406,6 +406,19 @@ public class ChunkProviderAether implements ChunkSource {
             (new AetherGenDungeonSilver(AetherBlocks.LockedDungeonStone.id, AetherBlocks.LockedLightDungeonStone.id, AetherBlocks.DungeonStone.id, AetherBlocks.LightDungeonStone.id, AetherBlocks.Holystone.id, 2, AetherBlocks.Holystone.id, 0, AetherBlocks.Pillar.id)).generate(this.world, this.random, x, y, z);
         }
 
+        // Gold dungeon (very rare, cooldown-gated)
+        if (gumCount < 800) {
+            gumCount++;
+        } else if (this.random.nextInt(32) == 0) {
+            int x = worldX + this.random.nextInt(16) + 8;
+            int y = this.random.nextInt(64) + 32;
+            int z = worldZ + this.random.nextInt(16) + 8;
+            boolean generated = (new AetherGenGumdrop()).generate(this.world, this.random, x, y, z);
+            if (generated) {
+                gumCount = 0;
+            }
+        }
+
         // Quicksoil patches
         if (this.random.nextInt(5) == 0) {
             for (int x = worldX; x < worldX + 16; ++x) {

@@ -170,30 +170,31 @@ public class EntityLightningKnife extends Entity implements EntitySpawnDataProvi
         }
 
         if (movingobjectposition != null) {
-            LightningEntity entitylightningbolt;
-            int x;
-            int y;
-            int z;
-            if (movingobjectposition.entity != null) {
-                if (!movingobjectposition.entity.damage(this.thrower, 0)) {
-                }
+            if (!this.world.isRemote) {
+                LightningEntity entitylightningbolt;
+                int x;
+                int y;
+                int z;
+                if (movingobjectposition.entity != null) {
+                    movingobjectposition.entity.damage(this.thrower, 0);
 
-                x = MathHelper.floor(movingobjectposition.entity.boundingBox.minX);
-                y = MathHelper.floor(movingobjectposition.entity.boundingBox.minY);
-                z = MathHelper.floor(movingobjectposition.entity.boundingBox.minZ);
-                entitylightningbolt = new LightningEntity(this.world, (double) x, (double) y, (double) z);
-                entitylightningbolt.setPositionAndAnglesKeepPrevAngles((double) x, (double) y, (double) z, this.yaw, 0.0F);
-                this.world.spawnEntity(entitylightningbolt);
-            } else {
-                x = MathHelper.floor(this.x);
-                y = MathHelper.floor(this.y);
-                z = MathHelper.floor(this.z);
-                entitylightningbolt = new LightningEntity(this.world, this.x, this.y, this.z);
-                entitylightningbolt.setPositionAndAnglesKeepPrevAngles((double) x, (double) y, (double) z, this.yaw, 0.0F);
-                this.world.spawnEntity(entitylightningbolt);
+                    x = MathHelper.floor(movingobjectposition.entity.boundingBox.minX);
+                    y = MathHelper.floor(movingobjectposition.entity.boundingBox.minY);
+                    z = MathHelper.floor(movingobjectposition.entity.boundingBox.minZ);
+                    entitylightningbolt = new LightningEntity(this.world, (double) x, (double) y, (double) z);
+                    entitylightningbolt.setPositionAndAnglesKeepPrevAngles((double) x, (double) y, (double) z, this.yaw, 0.0F);
+                    this.world.spawnEntity(entitylightningbolt);
+                } else {
+                    x = MathHelper.floor(this.x);
+                    y = MathHelper.floor(this.y);
+                    z = MathHelper.floor(this.z);
+                    entitylightningbolt = new LightningEntity(this.world, this.x, this.y, this.z);
+                    entitylightningbolt.setPositionAndAnglesKeepPrevAngles((double) x, (double) y, (double) z, this.yaw, 0.0F);
+                    this.world.spawnEntity(entitylightningbolt);
+                }
             }
 
-            for (x = 0; x < 8; ++x) {
+            for (int px = 0; px < 8; ++px) {
                 this.world.addParticle("largesmoke", this.x, this.y, this.z, 0.0, 0.0, 0.0);
             }
 

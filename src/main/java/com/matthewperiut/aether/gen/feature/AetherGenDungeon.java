@@ -43,6 +43,7 @@ public class AetherGenDungeon extends Feature {
     }
 
     public boolean generate(final World world, final Random random, final int x, final int y, final int z, int r) {
+        System.out.println("gen: " + x + " " + y + " " + z);
         r = (int) Math.floor(r * 0.8);
         final int wid = (int) Math.sqrt((double) (r * r / 2));
         for (int j = 4; j > -5; --j) {

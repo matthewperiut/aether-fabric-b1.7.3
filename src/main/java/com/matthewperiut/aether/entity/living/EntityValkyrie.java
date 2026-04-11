@@ -6,11 +6,7 @@ import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.entity.projectile.EntityHomeShot;
 import com.matthewperiut.aether.item.AetherItems;
 import com.matthewperiut.aether.util.NameGen;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.pathing.Path;
@@ -21,13 +17,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtDouble;
 import net.minecraft.nbt.NbtList;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
 import net.modificationstation.stationapi.api.util.Identifier;
-import net.modificationstation.stationapi.api.util.SideUtil;
 
 import java.util.List;
 
@@ -298,21 +292,11 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
     }
 
     public void chatLine(String s) {
-        SideUtil.run(() -> chatLineClient(s), () -> chatLineServer(s));
-    }
-
-    @Environment(EnvType.CLIENT)
-    public void chatLineClient(String s) {
-        Minecraft mc = ((Minecraft) FabricLoader.getInstance().getGameInstance());
-        mc.inGameHud.addChatMessage(s);
-    }
-
-    @Environment(EnvType.SERVER)
-    public void chatLineServer(String s) {
-        MinecraftServer mc = ((MinecraftServer) FabricLoader.getInstance().getGameInstance());
-        List<PlayerEntity> playersNearby = world.collectEntitiesByClass(PlayerEntity.class, Box.create(this.x - areaOfEffect, this.y - areaOfEffect, z - areaOfEffect, this.x + areaOfEffect, this.y + areaOfEffect, z + areaOfEffect));
-        for (PlayerEntity player : playersNearby) {
-            ((ServerPlayerEntity) player).sendMessage(s);
+        if (!this.world.isRemote) {
+            List<PlayerEntity> playersNearby = world.collectEntitiesByClass(PlayerEntity.class, Box.create(this.x - areaOfEffect, this.y - areaOfEffect, z - areaOfEffect, this.x + areaOfEffect, this.y + areaOfEffect, z + areaOfEffect));
+            for (PlayerEntity player : playersNearby) {
+                ((ServerPlayerEntity) player).sendMessage(s);
+            }
         }
     }
 

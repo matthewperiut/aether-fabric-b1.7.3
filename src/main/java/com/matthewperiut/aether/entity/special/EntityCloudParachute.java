@@ -13,6 +13,8 @@ import net.modificationstation.stationapi.api.server.entity.HasTrackingParameter
 import net.modificationstation.stationapi.api.util.Identifier;
 import net.modificationstation.stationapi.api.util.TriState;
 
+import net.modificationstation.stationapi.api.network.packet.MessagePacket;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -180,6 +182,34 @@ public class EntityCloudParachute extends Entity implements EntitySpawnDataProvi
     }
 
     protected void writeNbt(NbtCompound nbttagcompound) {
+    }
+
+    @Override
+    public void writeToMessage(MessagePacket message) {
+        message.longs = new long[]{this.entityUsing != null ? this.entityUsing.id : -1, this.gold ? 1 : 0};
+    }
+
+    @Override
+    public void readFromMessage(MessagePacket message) {
+        if (message.longs != null && message.longs.length >= 2) {
+            int userId = (int) message.longs[0];
+            this.gold = message.longs[1] == 1;
+            if (userId >= 0) {
+                // Find user entity on client by ID
+                List entities = this.world.collectEntitiesByClass(LivingEntity.class, this.boundingBox.expand(64, 64, 64));
+                for (int i = 0; i < entities.size(); i++) {
+                    Entity e = (Entity) entities.get(i);
+                    if (e.id == userId && e instanceof LivingEntity living) {
+                        this.entityUsing = living;
+                        cloudMap.put(living, this);
+                        break;
+                    }
+                }
+                if (this.entityUsing == null) {
+                    this.justServerSpawned = true; // defer lookup to tick()
+                }
+            }
+        }
     }
 
     @Override

@@ -226,7 +226,7 @@ public class TreasureChest extends TemplateChestBlock {
                 GuiHelper.openGUI(player, MOD_ID.id("treasure_chest"), treasureChest, new ContainerTreasureChest(player.inventory, treasureChest));
                 return true;
             }
-            if (meta > 1) {
+            if (meta > 1 && !level.isRemote) {
                 ((BlockEntityTreasureChest) tileEntity).setRarity(meta - 1);
                 level.setBlockMeta(x, y, z, 1);
             }
