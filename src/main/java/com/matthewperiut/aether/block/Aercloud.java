@@ -24,8 +24,8 @@ public class Aercloud extends TemplateBlock implements MetaNamedBlockItemProvide
         if (!entity.isSneaking()) {
             if (world.getBlockMeta(i, j, k) == 1) {
                 entity.velocityY = 2.0;
-                if (entity instanceof PlayerEntity player) {
-                        AetherAchievements.giveAchievement(AetherAchievements.blueCloud, player);
+                if (!world.isRemote && entity instanceof PlayerEntity player) {
+                    AetherAchievements.giveAchievement(AetherAchievements.blueCloud, player);
                 }
             }
         }

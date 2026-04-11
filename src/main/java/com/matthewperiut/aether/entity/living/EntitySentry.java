@@ -13,6 +13,8 @@ import net.modificationstation.stationapi.api.util.Identifier;
 import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
 public class EntitySentry extends EntityDungeonMob implements MobSpawnDataProvider {
+    private static final int TRACKED_ACTIVE = 16;
+
     public float field_100021_a;
     public float field_100020_b;
     private int jcount;
@@ -45,6 +47,23 @@ public class EntitySentry extends EntityDungeonMob implements MobSpawnDataProvid
         this.func_100019_e(this.size);
         this.yaw = (float) this.random.nextInt(4) * 1.5707965F;
         this.setPosition(x, y, z);
+    }
+
+    public void initDataTracker() {
+        super.initDataTracker();
+        this.dataTracker.startTracking(TRACKED_ACTIVE, (byte) 0);
+    }
+
+    private void setActiveState(boolean active) {
+        this.active = active;
+        this.dataTracker.set(TRACKED_ACTIVE, (byte) (active ? 1 : 0));
+        this.texture = active ? "aether:stationapi/textures/mobs/SentryLit.png" : "aether:stationapi/textures/mobs/Sentry.png";
+    }
+
+    private void updateTextureFromState() {
+        this.texture = this.dataTracker.getByte(TRACKED_ACTIVE) == 1
+                ? "aether:stationapi/textures/mobs/SentryLit.png"
+                : "aether:stationapi/textures/mobs/Sentry.png";
     }
 
     public void func_100019_e(int i) {
@@ -96,10 +115,9 @@ public class EntitySentry extends EntityDungeonMob implements MobSpawnDataProvid
     public boolean damage(Entity entity, int i) {
         boolean flag = super.damage(entity, i);
         if (flag && entity instanceof LivingEntity) {
-            this.active = true;
             this.lostyou = 0;
             this.target = entity;
-            this.texture = "aether:stationapi/textures/mobs/SentryLit.png";
+            setActiveState(true);
         }
 
         return flag;
@@ -107,9 +125,8 @@ public class EntitySentry extends EntityDungeonMob implements MobSpawnDataProvid
 
     public void shutdown() {
         this.counter = -64;
-        this.active = false;
+        setActiveState(false);
         this.target = null;
-        this.texture = "aether:stationapi/textures/mobs/Sentry.png";
         this.setPath((Path) null);
         this.sidewaysSpeed = 0.0F;
         this.forwardSpeed = 0.0F;
@@ -154,14 +171,18 @@ public class EntitySentry extends EntityDungeonMob implements MobSpawnDataProvid
     }
 
     protected void tickLiving() {
+        if (this.world.isRemote) {
+            updateTextureFromState();
+            return;
+        }
+
         PlayerEntity entityplayer = this.world.getClosestPlayer(this, 8.0);
         if (!this.active && this.counter >= 8) {
             if (entityplayer != null && this.canSee(entityplayer)) {
                 this.lookAt(entityplayer, 10.0F, 10.0F);
                 this.target = entityplayer;
-                this.active = true;
                 this.lostyou = 0;
-                this.texture = "aether:stationapi/textures/mobs/SentryLit.png";
+                setActiveState(true);
             }
 
             this.counter = 0;

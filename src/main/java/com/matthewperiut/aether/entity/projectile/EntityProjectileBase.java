@@ -64,6 +64,7 @@ public abstract class EntityProjectileBase extends ArrowEntity {
     }
 
     protected void initDataTracker() {
+        super.initDataTracker();
         this.xTile = -1;
         this.yTile = -1;
         this.zTile = -1;

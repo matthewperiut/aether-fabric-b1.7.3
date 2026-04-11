@@ -20,24 +20,18 @@ public class ItemPigSlayer extends TemplateSwordItem {
 
     public boolean postHit(ItemStack itemstack, LivingEntity entityliving, LivingEntity entityliving1) {
         if (entityliving != null && entityliving1 != null) {
-            String s = EntityRegistry.getId(entityliving);
-            if (!s.equals("") && s.toLowerCase().contains("pig")) {
-                if (entityliving.health > 0) {
-                    entityliving.health = 1;
-                    entityliving.hurtTime = 0;
-                    entityliving.damage(entityliving1, 9999);
-                }
+            if (!entityliving.world.isRemote) {
+                String s = EntityRegistry.getId(entityliving);
+                if (!s.equals("") && s.toLowerCase().contains("pig")) {
+                    if (entityliving.health > 0) {
+                        entityliving.health = 1;
+                        entityliving.hurtTime = 0;
+                        entityliving.damage(entityliving1, 9999);
+                    }
 
-                for (int j = 0; j < 20; ++j) {
-                    double d = random.nextGaussian() * 0.02;
-                    double d1 = random.nextGaussian() * 0.02;
-                    double d2 = random.nextGaussian() * 0.02;
-                    double d3 = 5.0;
-                    entityliving.world.addParticle("flame", entityliving.x + random.nextFloat() * entityliving.width * 2.0F - (double) entityliving.width - d * d3, entityliving.y + (random.nextFloat() * entityliving.height) - d1 * d3, entityliving.z + (double) (random.nextFloat() * entityliving.width * 2.0F) - (double) entityliving.width - d2 * d3, d, d1, d2);
+                    ((LivingEntityAccessor) entityliving).invokeGetDrops();
+                    entityliving.markDead();
                 }
-
-                ((LivingEntityAccessor) entityliving).invokeGetDrops();
-                entityliving.markDead();
             }
 
             return true;

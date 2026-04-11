@@ -79,16 +79,18 @@ public class EntityFloatingBlock extends Entity implements EntitySpawnDataProvid
             int i = MathHelper.floor(this.x);
             int j = MathHelper.floor(this.y);
             int k = MathHelper.floor(this.z);
-            if (this.world.getBlockId(i, j, k) == this.blockID || this.world.getBlockId(i, j, k) == AetherBlocks.Grass.id && this.blockID == AetherBlocks.Dirt.id) {
-                this.world.setBlock(i, j, k, 0);
-            }
+            if (!this.world.isRemote) {
+                if (this.world.getBlockId(i, j, k) == this.blockID || this.world.getBlockId(i, j, k) == AetherBlocks.Grass.id && this.blockID == AetherBlocks.Dirt.id) {
+                    this.world.setBlock(i, j, k, 0);
+                }
 
-            List list = this.world.getEntities(this, this.boundingBox.expand(0.0, 1.0, 0.0));
+                List list = this.world.getEntities(this, this.boundingBox.expand(0.0, 1.0, 0.0));
 
-            for (int n = 0; n < list.size(); ++n) {
-                if (list.get(n) instanceof FallingBlockEntity && this.world.canPlace(this.blockID, i, j, k, true, 1)) {
-                    this.world.setBlock(i, j, k, this.blockID, this.metadata);
-                    this.markDead();
+                for (int n = 0; n < list.size(); ++n) {
+                    if (list.get(n) instanceof FallingBlockEntity && this.world.canPlace(this.blockID, i, j, k, true, 1)) {
+                        this.world.setBlock(i, j, k, this.blockID, this.metadata);
+                        this.markDead();
+                    }
                 }
             }
 

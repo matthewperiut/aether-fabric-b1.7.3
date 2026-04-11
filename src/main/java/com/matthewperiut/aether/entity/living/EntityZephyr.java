@@ -98,13 +98,14 @@ public class EntityZephyr extends FlyingEntity implements Monster, MobSpawnDataP
                 ++this.attackCounter;
                 if (this.attackCounter == 20) {
                     this.world.playSound(this, "aether:mobs.zephyr.zephyrshoot", this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2f + 1.0f);
-                    final EntityZephyrSnowball entitysnowball = new EntityZephyrSnowball(this.world, this, d6, d7, d8);
-                    final double d9 = 4.0;
-                    Vec3d vec3d = this.getLookVector(1.0F);
-                    entitysnowball.x = this.x + vec3d.x * d8;
-                    entitysnowball.y = this.y + (double) (this.height / 2.0F) + 0.5;
-                    entitysnowball.z = this.z + vec3d.z * d8;
-                    this.world.spawnEntity(entitysnowball);
+                    if (!this.world.isRemote) {
+                        final EntityZephyrSnowball entitysnowball = new EntityZephyrSnowball(this.world, this, d6, d7, d8);
+                        Vec3d vec3d = this.getLookVector(1.0F);
+                        entitysnowball.x = this.x + vec3d.x * d8;
+                        entitysnowball.y = this.y + (double) (this.height / 2.0F) + 0.5;
+                        entitysnowball.z = this.z + vec3d.z * d8;
+                        this.world.spawnEntity(entitysnowball);
+                    }
                     this.attackCounter = -40;
                 }
             } else if (this.attackCounter > 0) {

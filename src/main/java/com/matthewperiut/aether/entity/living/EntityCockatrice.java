@@ -50,8 +50,20 @@ public class EntityCockatrice extends MonsterEntity implements MobSpawnDataProvi
         return this.random.nextInt(25) == 0 && this.getPathfindingFavor(i, j, k) >= 0.0F && this.world.canSpawnEntity(this.boundingBox) && this.world.getEntityCollisions(this, this.boundingBox).size() == 0 && !this.world.isBoxSubmergedInFluid(this.boundingBox) && this.world.getBlockId(i, j - 1, k) != AetherBlocks.DungeonStone.id && this.world.getBlockId(i, j - 1, k) != AetherBlocks.LightDungeonStone.id && this.world.getBlockId(i, j - 1, k) != AetherBlocks.LockedDungeonStone.id && this.world.getBlockId(i, j - 1, k) != AetherBlocks.LockedLightDungeonStone.id && this.world.getBlockId(i, j - 1, k) != AetherBlocks.Holystone.id && this.world.difficulty > 0;
     }
 
+    protected void initDataTracker() {
+        super.initDataTracker();
+        this.dataTracker.startTracking(16, (byte) 0); // bit 0 = onGround
+    }
+
+    private boolean getSyncedOnGround() {
+        return this.world.isRemote ? (this.dataTracker.getByte(16) & 1) != 0 : this.onGround;
+    }
+
     public void tick() {
         super.tick();
+        if (!this.world.isRemote) {
+            this.dataTracker.set(16, (byte) (this.onGround ? 1 : 0));
+        }
         this.ignoreFrustumCull = this.passenger instanceof PlayerEntity;
         if (!this.world.isRemote && this.gotrider) {
             if (this.passenger != null) {
@@ -79,13 +91,15 @@ public class EntityCockatrice extends MonsterEntity implements MobSpawnDataProvi
             double d = entity.x - this.x;
             double d1 = entity.z - this.z;
             if (this.attackCooldown == 0) {
-                EntityPoisonNeedle entityarrow = new EntityPoisonNeedle(this.world, this);
-                ++entityarrow.y;
-                double d2 = entity.y + (double) entity.getEyeHeight() - 0.20000000298023224 - entityarrow.y;
-                float f1 = MathHelper.sqrt(d * d + d1 * d1) * 0.2F;
                 this.world.playSound(this, "aether:other.dartshooter.shootdart", 1.0F, 1.0F / (this.random.nextFloat() * 0.4F + 0.8F));
-                this.world.spawnEntity(entityarrow);
-                entityarrow.setArrowHeading(d, d2 + (double) f1, d1, 0.6F, 12.0F);
+                if (!this.world.isRemote) {
+                    EntityPoisonNeedle entityarrow = new EntityPoisonNeedle(this.world, this);
+                    ++entityarrow.y;
+                    double d2 = entity.y + (double) entity.getEyeHeight() - 0.20000000298023224 - entityarrow.y;
+                    float f1 = MathHelper.sqrt(d * d + d1 * d1) * 0.2F;
+                    this.world.spawnEntity(entityarrow);
+                    entityarrow.setArrowHeading(d, d2 + (double) f1, d1, 0.6F, 12.0F);
+                }
                 this.attackCooldown = 30;
             }
 
@@ -97,9 +111,10 @@ public class EntityCockatrice extends MonsterEntity implements MobSpawnDataProvi
 
     public void tickMovement() {
         super.tickMovement();
+        boolean grounded = getSyncedOnGround();
         this.field_756_e = this.field_752_b;
         this.field_757_d = this.destPos;
-        this.destPos = (float) ((double) this.destPos + (double) (this.onGround ? -1 : 4) * 0.05);
+        this.destPos = (float) ((double) this.destPos + (double) (grounded ? -1 : 4) * 0.05);
         if (this.destPos < 0.01F) {
             this.destPos = 0.01F;
         }
@@ -108,18 +123,18 @@ public class EntityCockatrice extends MonsterEntity implements MobSpawnDataProvi
             this.destPos = 1.0F;
         }
 
-        if (this.onGround) {
+        if (grounded) {
             this.destPos = 0.0F;
             this.jpress = false;
             this.jrem = this.jumps;
         }
 
-        if (!this.onGround && this.field_755_h < 1.0F) {
+        if (!grounded && this.field_755_h < 1.0F) {
             this.field_755_h = 1.0F;
         }
 
         this.field_755_h = (float) ((double) this.field_755_h * 0.9);
-        if (!this.onGround && this.velocityY < 0.0) {
+        if (!grounded && this.velocityY < 0.0) {
             if (this.passenger == null) {
                 this.velocityY *= 0.6;
             } else {
@@ -143,7 +158,7 @@ public class EntityCockatrice extends MonsterEntity implements MobSpawnDataProvi
         } else {
             boolean flag = super.damage(entity, i);
             if (flag && this.passenger != null && (this.health <= 0 || this.random.nextInt(3) == 0)) {
-                this.passenger.setVehicle(this);
+                this.passenger.setVehicle(null);
             }
 
             return flag;

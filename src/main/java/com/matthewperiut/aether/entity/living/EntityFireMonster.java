@@ -33,6 +33,9 @@ import java.util.List;
 import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
 public class EntityFireMonster extends FlyingEntity implements BossLivingEntity, MobSpawnDataProvider {
+    private static final int TRACKED_TEXTURE_STATE = 16;
+    private static final int TRACKED_BOSS_HP = 30;
+
     public int wideness;
     public int orgX;
     public int orgY;
@@ -51,7 +54,6 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
     public boolean gotTarget;
     public String bossName;
     public static final float jimz = 57.295773F;
-    public boolean isBoss;
     int areaOfEffect = 50;
 
     public EntityFireMonster(World world) {
@@ -88,6 +90,30 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
         this.bossName = NameGen.gen();
     }
 
+    public void initDataTracker() {
+        super.initDataTracker();
+        this.dataTracker.startTracking(TRACKED_TEXTURE_STATE, (byte) 0);
+    }
+
+    private void setTextureState(byte state) {
+        this.dataTracker.set(TRACKED_TEXTURE_STATE, state);
+    }
+
+    private void updateTextureFromState() {
+        switch (this.dataTracker.getByte(TRACKED_TEXTURE_STATE)) {
+            case 1:
+                this.texture = "aether:stationapi/textures/mobs/firemonsterHurt.png";
+                break;
+            default:
+                this.texture = "aether:stationapi/textures/mobs/firemonster.png";
+                break;
+        }
+    }
+
+    private void syncBossHP() {
+        this.dataTracker.set(TRACKED_BOSS_HP, this.health);
+    }
+
     public boolean canDespawn() {
         return false;
     }
@@ -102,17 +128,20 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
             double e = this.boundingBox.minY + b - 0.5;
             double f = this.z + c * b;
             this.world.addParticle("flame", d, e, f, 0.0, -0.07500000298023224, 0.0);
-            ++this.entCount;
-            if (this.entCount >= 3) {
-                this.burnEntities();
-                this.evapWater();
-                this.entCount = 0;
+
+            if (!this.world.isRemote) {
+                ++this.entCount;
+                if (this.entCount >= 3) {
+                    this.burnEntities();
+                    this.evapWater();
+                    this.entCount = 0;
+                }
             }
 
             if (this.hurtness > 0) {
                 --this.hurtness;
                 if (this.hurtness == 0) {
-                    this.texture = "aether:stationapi/textures/mobs/firemonster.png";
+                    setTextureState((byte) 0);
                 }
             }
         }
@@ -121,6 +150,9 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
             --this.chatCount;
         }
 
+        if (this.world.isRemote) {
+            updateTextureFromState();
+        }
     }
 
     protected Entity findPlayerToAttack() {
@@ -130,6 +162,9 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
 
     public void tickLiving() {
         super.tickLiving();
+
+        if (this.world.isRemote) return;
+
         if (this.gotTarget && this.target == null) {
             this.target = this.findPlayerToAttack();
             this.gotTarget = false;
@@ -196,14 +231,14 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
                 this.target = null;
                 this.chatLine("§cSuch is the fate of a being who opposes the might of the sun.");
                 this.setDoor(0);
-                isBoss = false;
+                setBoss(false);
                 this.gotTarget = false;
             }
-
         }
     }
 
     public void burnEntities() {
+        if (this.world.isRemote) return;
         List list = this.world.getEntities(this, this.boundingBox.expand(0.0, 4.0, 0.0));
 
         for (int j = 0; j < list.size(); ++j) {
@@ -213,10 +248,10 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
                 entity1.fireTicks = 300;
             }
         }
-
     }
 
     public void evapWater() {
+        if (this.world.isRemote) return;
         int x = MathHelper.floor(this.x);
         int z = MathHelper.floor(this.z);
 
@@ -231,10 +266,10 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
                 }
             }
         }
-
     }
 
     public void makeFireBall(int shots) {
+        if (this.world.isRemote) return;
         this.world.playSound(this, "mob.ghast.fireball", 5.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
         boolean flag = false;
         ++this.ballCount;
@@ -247,17 +282,16 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
             EntityFiroBall e1 = new EntityFiroBall(this.world, this.x - this.velocityX / 2.0, this.y, this.z - this.velocityZ / 2.0, flag);
             this.world.spawnEntity(e1);
         }
-
     }
 
     public void poopFire() {
+        if (this.world.isRemote) return;
         int x = MathHelper.floor(this.x);
         int z = MathHelper.floor(this.z);
         int b = this.orgY - 2;
         if (AetherBlocks.isGood(this.world.getBlockId(x, b, z), this.world.getBlockMeta(x, b, z))) {
             this.world.setBlock(x, b, z, Block.FIRE.id);
         }
-
     }
 
     public void writeNbt(NbtCompound nbttagcompound) {
@@ -272,7 +306,7 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
         nbttagcompound.putFloat("Rotary", (float) this.rotary);
         this.gotTarget = this.target != null;
         nbttagcompound.putBoolean("GotTarget", this.gotTarget);
-        nbttagcompound.putBoolean("IsCurrentBoss", this.isBoss);
+        nbttagcompound.putBoolean("IsCurrentBoss", this.isBoss());
         nbttagcompound.putString("BossName", this.bossName);
     }
 
@@ -289,7 +323,7 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
         this.gotTarget = nbttagcompound.getBoolean("GotTarget");
         this.speedness = 0.5 - (double) this.health / 70.0 * 0.2;
         if (nbttagcompound.getBoolean("IsCurrentBoss")) {
-            isBoss = true;
+            setBoss(true);
         }
 
         this.bossName = nbttagcompound.getString("BossName");
@@ -359,7 +393,7 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
                 if (this.chatLog == 9) {
                     this.chatLine("§6As you wish, your death will be slow and agonizing.");
                     this.chatLog = 10;
-                    isBoss = true;
+                    setBoss(true);
                     return true;
                 }
 
@@ -378,7 +412,9 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
         if (this.chatWithMe()) {
             this.rotary = 57.295772552490234 * Math.atan2(this.x - ep.x, this.z - ep.z);
             this.target = ep;
-            this.setDoor(AetherBlocks.LockedDungeonStone.id);
+            if (!this.world.isRemote) {
+                this.setDoor(AetherBlocks.LockedDungeonStone.id);
+            }
             return true;
         } else {
             return false;
@@ -396,18 +432,25 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
             this.speedness = 0.5 - (double) this.health / 70.0 * 0.2;
             boolean flag = super.damage(e, i);
             if (flag) {
+                syncBossHP();
                 this.hurtness = 15;
-                this.texture = "aether:stationapi/textures/mobs/firemonsterHurt.png";
-                EntityFireMinion minion = new EntityFireMinion(this.world);
-                minion.setPositionAndAnglesKeepPrevAngles(this.x, this.y, this.z, this.yaw, 0.0F);
-                this.world.spawnEntity(minion);
-                this.world.spawnEntity(minion);
-                this.world.spawnEntity(minion);
+                setTextureState((byte) 1);
+
+                if (!this.world.isRemote) {
+                    EntityFireMinion minion = new EntityFireMinion(this.world);
+                    minion.setPositionAndAnglesKeepPrevAngles(this.x, this.y, this.z, this.yaw, 0.0F);
+                    this.world.spawnEntity(minion);
+                    this.world.spawnEntity(minion);
+                    this.world.spawnEntity(minion);
+                }
+
                 if (this.health <= 0) {
-                    isBoss = false;
+                    setBoss(false);
                     this.chatLine("§bSuch bitter cold... is this the feeling... of pain?");
-                    this.setDoor(0);
-                    this.unlockTreasure();
+                    if (!this.world.isRemote) {
+                        this.setDoor(0);
+                        this.unlockTreasure();
+                    }
                 }
             }
 
@@ -422,6 +465,7 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
     }
 
     private void setDoor(int ID) {
+        if (this.world.isRemote) return;
         int y;
         int z;
         if (this.direction / 2 == 0) {
@@ -437,10 +481,10 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
                 }
             }
         }
-
     }
 
     private void unlockTreasure() {
+        if (this.world.isRemote) return;
         int x;
         int y;
         if (this.direction / 2 == 0) {
@@ -476,21 +520,23 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
                 }
             }
         }
-
     }
 
     @Override
     public void setBoss(boolean boss) {
-        isBoss = boss;
+        this.setFlag(6, boss);
+        if (boss) {
+            syncBossHP();
+        }
     }
 
     @Override
     public boolean isBoss() {
-        return isBoss;
+        return this.getFlag(6);
     }
 
     public int getHP() {
-        return this.health;
+        return this.dataTracker.getInt(TRACKED_BOSS_HP);
     }
 
     public int getMaxHP() {

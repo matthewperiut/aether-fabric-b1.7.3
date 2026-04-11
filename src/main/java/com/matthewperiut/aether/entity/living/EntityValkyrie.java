@@ -34,6 +34,9 @@ import java.util.List;
 import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
 public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity, MobSpawnDataProvider {
+    private static final int TRACKED_TEXTURE_STATE = 16;
+    private static final int TRACKED_BOSS_HP = 30;
+
     public boolean isSwinging;
     public boolean boss;
     public boolean duel;
@@ -52,7 +55,6 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
     public float sinage;
     public double lastMotionY;
     public String bossName;
-    boolean isBoss = false;
     public int areaOfEffect = 50;
 
     public EntityValkyrie(World world) {
@@ -92,18 +94,46 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
         this.hasDungeon = false;
     }
 
+    public void initDataTracker() {
+        super.initDataTracker();
+        this.dataTracker.startTracking(TRACKED_TEXTURE_STATE, (byte) 0);
+    }
+
+    private void setTextureState(byte state) {
+        this.dataTracker.set(TRACKED_TEXTURE_STATE, state);
+    }
+
+    private void updateTextureFromState() {
+        switch (this.dataTracker.getByte(TRACKED_TEXTURE_STATE)) {
+            case 1:
+                this.texture = "aether:stationapi/textures/mobs/valkyrie2.png";
+                break;
+            default:
+                this.texture = "aether:stationapi/textures/mobs/valkyrie.png";
+                break;
+        }
+    }
+
+    private void syncBossHP() {
+        this.dataTracker.set(TRACKED_BOSS_HP, this.health);
+    }
+
     public void onLanding(float f) {
     }
 
     public void tick() {
         this.lastMotionY = this.velocityY;
         super.tick();
-        if (!this.onGround && this.target != null && this.lastMotionY >= 0.0 && this.velocityY < 0.0 && this.getDistance(this.target) <= 16.0F && this.canSee(this.target)) {
-            double a = this.target.x - this.x;
-            double b = this.target.z - this.z;
-            double angle = Math.atan2(a, b);
-            this.velocityX = Math.sin(angle) * 0.25;
-            this.velocityZ = Math.cos(angle) * 0.25;
+
+        if (!this.world.isRemote) {
+            // Server-side AI
+            if (!this.onGround && this.target != null && this.lastMotionY >= 0.0 && this.velocityY < 0.0 && this.getDistance(this.target) <= 16.0F && this.canSee(this.target)) {
+                double a = this.target.x - this.x;
+                double b = this.target.z - this.z;
+                double angle = Math.atan2(a, b);
+                this.velocityX = Math.sin(angle) * 0.25;
+                this.velocityZ = Math.cos(angle) * 0.25;
+            }
         }
 
         if (!this.onGround && !this.isOnLadder() && Math.abs(this.velocityY - this.lastMotionY) > 0.07 && Math.abs(this.velocityY - this.lastMotionY) < 0.09) {
@@ -147,6 +177,9 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
             }
         }
 
+        if (this.world.isRemote) {
+            updateTextureFromState();
+        }
     }
 
     public boolean otherDimension() {
@@ -198,7 +231,6 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
             this.animateSpawn();
             this.teleTimer = this.random.nextInt(40);
         }
-
     }
 
     public boolean isAirySpace(int x, int y, int z) {
@@ -240,14 +272,16 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
         } else if (!this.duel) {
             itemstack = entityplayer.getHand();
             if (itemstack != null && itemstack.itemId == AetherItems.VictoryMedal.id && itemstack.count >= 10) {
-                itemstack.count -= 10;
-                if (itemstack.count <= 0) {
-                    itemstack.onRemoved(entityplayer);
-                    entityplayer.clearStackInHand();
-                    this.chatTime = 0;
-                    this.chatItUp("Very well, attack me when you wish to begin.");
-                    this.duel = true;
+                if (!this.world.isRemote) {
+                    itemstack.count -= 10;
+                    if (itemstack.count <= 0) {
+                        itemstack.onRemoved(entityplayer);
+                        entityplayer.clearStackInHand();
+                    }
                 }
+                this.chatTime = 0;
+                this.chatItUp("Very well, attack me when you wish to begin.");
+                this.duel = true;
             } else {
                 this.chatItUp("Show me 10 victory medals, and I will fight you.");
             }
@@ -283,11 +317,11 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
     }
 
     public void makeHomeShot(int shots, LivingEntity ep) {
+        if (this.world.isRemote) return;
         for (int i = 0; i < shots; ++i) {
             EntityHomeShot e1 = new EntityHomeShot(this.world, this.x - this.velocityX / 2.0, this.y, this.z - this.velocityZ / 2.0, ep);
             this.world.spawnEntity(e1);
         }
-
     }
 
     protected void dropItems() {
@@ -297,53 +331,54 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
         } else {
             this.dropItem(AetherItems.VictoryMedal.id, 1);
         }
-
     }
 
     public void tickLiving() {
         super.tickLiving();
-        ++this.teleTimer;
-        if (this.teleTimer >= 450) {
-            if (this.target != null) {
-                if (this.boss && this.onGround && this.random.nextInt(2) == 0 && this.target != null && this.target instanceof LivingEntity) {
-                    this.makeHomeShot(1, (LivingEntity) this.target);
-                    this.teleTimer = -100;
+
+        if (!this.world.isRemote) {
+            ++this.teleTimer;
+            if (this.teleTimer >= 450) {
+                if (this.target != null) {
+                    if (this.boss && this.onGround && this.random.nextInt(2) == 0 && this.target != null && this.target instanceof LivingEntity) {
+                        this.makeHomeShot(1, (LivingEntity) this.target);
+                        this.teleTimer = -100;
+                    } else {
+                        this.teleport(this.target.x, this.target.y, this.target.z, 7);
+                    }
+                } else if (this.onGround && !this.boss) {
+                    this.teleport(this.x, this.y, this.z, 12 + this.random.nextInt(12));
                 } else {
-                    this.teleport(this.target.x, this.target.y, this.target.z, 7);
+                    this.teleport(this.safeX, this.safeY, this.safeZ, 6);
                 }
-            } else if (this.onGround && !this.boss) {
-                this.teleport(this.x, this.y, this.z, 12 + this.random.nextInt(12));
+            } else if (this.teleTimer >= 446 || !(this.y <= 0.0) && !(this.y <= this.safeY - 16.0)) {
+                if (this.teleTimer % 5 == 0 && this.target != null && !this.canSee(this.target)) {
+                    this.teleTimer += 100;
+                }
             } else {
-                this.teleport(this.safeX, this.safeY, this.safeZ, 6);
-            }
-        } else if (this.teleTimer >= 446 || !(this.y <= 0.0) && !(this.y <= this.safeY - 16.0)) {
-            if (this.teleTimer % 5 == 0 && this.target != null && !this.canSee(this.target)) {
-                this.teleTimer += 100;
-            }
-        } else {
-            this.teleTimer = 446;
-        }
-
-        if (this.onGround && this.teleTimer % 10 == 0 && !this.boss) {
-            this.safeX = this.x;
-            this.safeY = this.y;
-            this.safeZ = this.z;
-        }
-
-        if (this.target != null && this.target.dead) {
-            this.target = null;
-            if (this.boss) {
-                this.unlockDoor();
-                isBoss = false;
+                this.teleTimer = 446;
             }
 
-            this.angerLevel = 0;
+            if (this.onGround && this.teleTimer % 10 == 0 && !this.boss) {
+                this.safeX = this.x;
+                this.safeY = this.y;
+                this.safeZ = this.z;
+            }
+
+            if (this.target != null && this.target.dead) {
+                this.target = null;
+                if (this.boss) {
+                    this.unlockDoor();
+                    setBoss(false);
+                }
+
+                this.angerLevel = 0;
+            }
         }
 
         if (this.chatTime > 0) {
             --this.chatTime;
         }
-
     }
 
     public void swingArm() {
@@ -352,7 +387,6 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
             this.lastSwingAnimationProgress = 0.0F;
             this.swingAnimationProgress = 0.0F;
         }
-
     }
 
     public void teleFail() {
@@ -360,7 +394,6 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
         if (this.y <= 0.0) {
             this.teleTimer = 446;
         }
-
     }
 
     public boolean canSpawn() {
@@ -382,8 +415,8 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
         nbttagcompound.putInt("DungeonZ", this.dungeonZ);
         nbttagcompound.putInt("DungeonEntranceZ", this.dungeonEntranceZ);
         nbttagcompound.put("SafePos", this.toNbtList(new double[]{this.safeX, this.safeY, this.safeZ}));
-        nbttagcompound.putBoolean("IsCurrentBoss", isBoss);
-        if (isBoss) {
+        nbttagcompound.putBoolean("IsCurrentBoss", isBoss());
+        if (isBoss()) {
             if (bossName != null) {
                 if (!bossName.isEmpty()) {
                     nbttagcompound.putString("BossName", this.bossName);
@@ -404,7 +437,7 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
         this.dungeonZ = nbttagcompound.getInt("DungeonZ");
         this.dungeonEntranceZ = nbttagcompound.getInt("DungeonEntranceZ");
         if (this.boss) {
-            this.texture = "aether:stationapi/textures/mobs/valkyrie2.png";
+            setTextureState((byte) 1);
         }
 
         NbtList nbttaglist = nbttagcompound.getList("SafePos");
@@ -412,9 +445,9 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
         this.safeY = ((NbtDouble) nbttaglist.get(1)).value;
         this.safeZ = ((NbtDouble) nbttaglist.get(2)).value;
         if (nbttagcompound.getBoolean("IsCurrentBoss")) {
-            isBoss = true;
+            setBoss(true);
         }
-        if (isBoss) {
+        if (isBoss()) {
             this.bossName = nbttagcompound.getString("BossName");
             if (bossName == null) {
                 bossName = NameGen.gen();
@@ -442,7 +475,7 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
             } else {
                 if (this.boss) {
                     if (this.target == null) {
-                        isBoss = true;
+                        setBoss(true);
                         this.chatTime = 0;
                         this.chatItUp("This will be your final battle!");
                     } else {
@@ -464,24 +497,29 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
 
                 this.becomeAngryAt(entity);
                 boolean flag = super.damage(entity, i);
-                if (flag && this.health <= 0) {
-                    pokey = this.random.nextInt(3);
-                    this.dead = true;
-                    if (this.boss) {
-                        this.dead = false;
-                        this.unlockDoor();
-                        this.unlockTreasure();
-                        this.chatItUp("You are truly... a mighty warrior...");
-                        isBoss = false;
-                    } else if (pokey == 2) {
-                        this.chatItUp("Alright, alright! You win!");
-                    } else if (pokey == 1) {
-                        this.chatItUp("Okay, I give up! Geez!");
-                    } else {
-                        this.chatItUp("Oww! Fine, here's your medal...");
-                    }
+                if (flag) {
+                    syncBossHP();
+                    if (this.health <= 0) {
+                        pokey = this.random.nextInt(3);
+                        this.dead = true;
+                        if (this.boss) {
+                            this.dead = false;
+                            if (!this.world.isRemote) {
+                                this.unlockDoor();
+                                this.unlockTreasure();
+                            }
+                            this.chatItUp("You are truly... a mighty warrior...");
+                            setBoss(false);
+                        } else if (pokey == 2) {
+                            this.chatItUp("Alright, alright! You win!");
+                        } else if (pokey == 1) {
+                            this.chatItUp("Okay, I give up! Geez!");
+                        } else {
+                            this.chatItUp("Oww! Fine, here's your medal...");
+                        }
 
-                    this.animateSpawn();
+                        this.animateSpawn();
+                    }
                 }
 
                 return flag;
@@ -507,8 +545,10 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
                     this.chatTime = 0;
                     if (this.boss) {
                         this.chatItUp("As expected of a human.");
-                        this.unlockDoor();
-                        isBoss = false;
+                        if (!this.world.isRemote) {
+                            this.unlockDoor();
+                        }
+                        setBoss(false);
                     } else if (pokey == 2) {
                         this.chatItUp("You want a medallion? Try being less pathetic.");
                     } else if (pokey == 1 && e1 instanceof PlayerEntity) {
@@ -521,13 +561,12 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
                 }
             }
         }
-
     }
 
     private void becomeAngryAt(Entity entity) {
         this.target = entity;
         this.angerLevel = 200 + this.random.nextInt(200);
-        if (this.boss) {
+        if (this.boss && !this.world.isRemote) {
             for (int k = this.dungeonZ + 2; k < this.dungeonZ + 23; k += 7) {
                 if (this.world.getBlockId(this.dungeonX - 1, this.dungeonY, k) == 0) {
                     this.dungeonEntranceZ = k;
@@ -539,10 +578,10 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
                 }
             }
         }
-
     }
 
     private void unlockDoor() {
+        if (this.world.isRemote) return;
         this.world.setBlockWithoutNotifyingNeighbors(this.dungeonX - 1, this.dungeonY, this.dungeonEntranceZ, 0);
         this.world.setBlockWithoutNotifyingNeighbors(this.dungeonX - 1, this.dungeonY, this.dungeonEntranceZ + 1, 0);
         this.world.setBlockWithoutNotifyingNeighbors(this.dungeonX - 1, this.dungeonY + 1, this.dungeonEntranceZ + 1, 0);
@@ -550,6 +589,7 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
     }
 
     private void unlockTreasure() {
+        if (this.world.isRemote) return;
         this.world.setBlockWithoutNotifyingNeighbors(this.dungeonX + 16, this.dungeonY + 1, this.dungeonZ + 9, Block.TRAPDOOR.id, 3);
         this.world.setBlockWithoutNotifyingNeighbors(this.dungeonX + 17, this.dungeonY + 1, this.dungeonZ + 9, Block.TRAPDOOR.id, 2);
         this.world.setBlockWithoutNotifyingNeighbors(this.dungeonX + 16, this.dungeonY + 1, this.dungeonZ + 10, Block.TRAPDOOR.id, 3);
@@ -578,7 +618,6 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
                 }
             }
         }
-
     }
 
     public void setDungeon(int i, int j, int k) {
@@ -590,17 +629,20 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
 
     @Override
     public void setBoss(boolean boss) {
-        isBoss = boss;
+        this.setFlag(6, boss);
+        if (boss) {
+            syncBossHP();
+        }
     }
 
     @Override
     public boolean isBoss() {
-        return isBoss;
+        return this.getFlag(6);
     }
 
     @Override
     public int getHP() {
-        return health;
+        return this.dataTracker.getInt(TRACKED_BOSS_HP);
     }
 
     @Override

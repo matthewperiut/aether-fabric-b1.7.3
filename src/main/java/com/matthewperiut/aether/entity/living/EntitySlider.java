@@ -32,6 +32,9 @@ import java.util.List;
 import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
 public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobSpawnDataProvider {
+    private static final int TRACKED_TEXTURE_STATE = 16;
+    private static final int TRACKED_BOSS_HP = 30;
+
     public int moveTimer;
     public int dennis;
     public int rennis;
@@ -47,7 +50,6 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
     private int dungeonY;
     private int dungeonZ;
     public String bossName;
-    public boolean isBoss = false;
     public int areaOfEffect = 50;
 
     public EntitySlider(World world) {
@@ -64,9 +66,36 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
 
     public void initDataTracker() {
         super.initDataTracker();
+        this.dataTracker.startTracking(TRACKED_TEXTURE_STATE, (byte) 0);
         this.x = Math.floor(this.x + 0.5);
         this.y = Math.floor(this.y + 0.5);
         this.z = Math.floor(this.z + 0.5);
+    }
+
+    private void setTextureState(byte state) {
+        this.dataTracker.set(TRACKED_TEXTURE_STATE, state);
+    }
+
+    private byte getTextureState() {
+        return this.dataTracker.getByte(TRACKED_TEXTURE_STATE);
+    }
+
+    private void updateTextureFromState() {
+        switch (getTextureState()) {
+            case 1:
+                this.texture = "aether:stationapi/textures/mobs/sliderAwake.png";
+                break;
+            case 2:
+                this.texture = "aether:stationapi/textures/mobs/sliderAwake_red.png";
+                break;
+            default:
+                this.texture = "aether:stationapi/textures/mobs/sliderSleep.png";
+                break;
+        }
+    }
+
+    private void syncBossHP() {
+        this.dataTracker.set(TRACKED_BOSS_HP, this.health);
     }
 
     public boolean canDespawn() {
@@ -95,7 +124,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
         nbttagcompound.putInt("DungeonX", this.dungeonX);
         nbttagcompound.putInt("DungeonY", this.dungeonY);
         nbttagcompound.putInt("DungeonZ", this.dungeonZ);
-        nbttagcompound.putBoolean("IsCurrentBoss", isBoss);
+        nbttagcompound.putBoolean("IsCurrentBoss", isBoss());
         nbttagcompound.putString("BossName", this.bossName);
     }
 
@@ -110,18 +139,17 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
         this.dungeonY = nbttagcompound.getInt("DungeonY");
         this.dungeonZ = nbttagcompound.getInt("DungeonZ");
         if (nbttagcompound.getBoolean("IsCurrentBoss")) {
-            isBoss = true;
+            setBoss(true);
         }
 
         this.bossName = nbttagcompound.getString("BossName");
         if (this.awake) {
             if (this.criticalCondition()) {
-                this.texture = "aether:stationapi/textures/mobs/sliderAwake_red.png";
+                setTextureState((byte) 2);
             } else {
-                this.texture = "aether:stationapi/textures/mobs/sliderAwake.png";
+                setTextureState((byte) 1);
             }
         }
-
     }
 
     public boolean criticalCondition() {
@@ -131,185 +159,192 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
     public void tick() {
         super.tick();
         this.bodyYaw = this.pitch = this.yaw = 0.0F;
-        if (this.awake) {
-            if (this.target != null && this.target instanceof LivingEntity) {
-                LivingEntity e1 = (LivingEntity) this.target;
-                if (e1.health <= 0) {
-                    this.awake = false;
-                    isBoss = false;
-                    this.target = null;
-                    this.texture = "aether:stationapi/textures/mobs/sliderSleep.png";
-                    this.stop();
-                    this.openDoor();
-                    this.moveTimer = 0;
-                    return;
-                }
-            } else {
-                if (this.target != null && this.target.dead) {
-                    this.awake = false;
-                    isBoss = false;
-                    this.target = null;
-                    this.texture = "aether:stationapi/textures/mobs/sliderSleep.png";
-                    this.stop();
-                    this.openDoor();
-                    this.moveTimer = 0;
-                    return;
-                }
 
-                if (this.target == null) {
-                    this.target = this.world.getClosestPlayer(this, -1.0);
-                    if (this.target == null) {
+        if (!this.world.isRemote) {
+            // Server-side AI
+            if (this.awake) {
+                if (this.target != null && this.target instanceof LivingEntity) {
+                    LivingEntity e1 = (LivingEntity) this.target;
+                    if (e1.health <= 0) {
                         this.awake = false;
-                        isBoss = false;
+                        setBoss(false);
                         this.target = null;
-                        this.texture = "aether:stationapi/textures/mobs/sliderSleep.png";
+                        setTextureState((byte) 0);
                         this.stop();
                         this.openDoor();
                         this.moveTimer = 0;
                         return;
                     }
-                }
-            }
+                } else {
+                    if (this.target != null && this.target.dead) {
+                        this.awake = false;
+                        setBoss(false);
+                        this.target = null;
+                        setTextureState((byte) 0);
+                        this.stop();
+                        this.openDoor();
+                        this.moveTimer = 0;
+                        return;
+                    }
 
-            double y;
-            double z;
-            double x;
-            if (this.gotMovement) {
-                if (this.hasCollided) {
-                    x = this.x - 0.5;
-                    y = this.boundingBox.minY + 0.75;
-                    z = this.z - 0.5;
-                    this.crushed = false;
-                    if (y < 124.0 && y > 4.0) {
-                        int i;
-                        double a;
-                        double b;
+                    if (this.target == null) {
+                        this.target = this.world.getClosestPlayer(this, -1.0);
+                        if (this.target == null) {
+                            this.awake = false;
+                            setBoss(false);
+                            this.target = null;
+                            setTextureState((byte) 0);
+                            this.stop();
+                            this.openDoor();
+                            this.moveTimer = 0;
+                            return;
+                        }
+                    }
+                }
+
+                double y;
+                double z;
+                double x;
+                if (this.gotMovement) {
+                    if (this.hasCollided) {
+                        x = this.x - 0.5;
+                        y = this.boundingBox.minY + 0.75;
+                        z = this.z - 0.5;
+                        this.crushed = false;
+                        if (y < 124.0 && y > 4.0) {
+                            int i;
+                            double a;
+                            double b;
+                            if (this.direction == 0) {
+                                for (i = 0; i < 25; ++i) {
+                                    a = (double) (i / 5 - 2) * 0.75;
+                                    b = (double) (i % 5 - 2) * 0.75;
+                                    this.blockCrush((int) (x + a), (int) (y + 1.5), (int) (z + b));
+                                }
+                            } else if (this.direction == 1) {
+                                for (i = 0; i < 25; ++i) {
+                                    a = (double) (i / 5 - 2) * 0.75;
+                                    b = (double) (i % 5 - 2) * 0.75;
+                                    this.blockCrush((int) (x + a), (int) (y - 1.5), (int) (z + b));
+                                }
+                            } else if (this.direction == 2) {
+                                for (i = 0; i < 25; ++i) {
+                                    a = (double) (i / 5 - 2) * 0.75;
+                                    b = (double) (i % 5 - 2) * 0.75;
+                                    this.blockCrush((int) (x + 1.5), (int) (y + a), (int) (z + b));
+                                }
+                            } else if (this.direction == 3) {
+                                for (i = 0; i < 25; ++i) {
+                                    a = (double) (i / 5 - 2) * 0.75;
+                                    b = (double) (i % 5 - 2) * 0.75;
+                                    this.blockCrush((int) (x - 1.5), (int) (y + a), (int) (z + b));
+                                }
+                            } else if (this.direction == 4) {
+                                for (i = 0; i < 25; ++i) {
+                                    a = (double) (i / 5 - 2) * 0.75;
+                                    b = (double) (i % 5 - 2) * 0.75;
+                                    this.blockCrush((int) (x + a), (int) (y + b), (int) (z + 1.5));
+                                }
+                            } else if (this.direction == 5) {
+                                for (i = 0; i < 25; ++i) {
+                                    a = (double) (i / 5 - 2) * 0.75;
+                                    b = (double) (i % 5 - 2) * 0.75;
+                                    this.blockCrush((int) (x + a), (int) (y + b), (int) (z - 1.5));
+                                }
+                            }
+                        }
+
+                        if (this.crushed) {
+                            this.world.playSound(this.x, this.y, this.z, "random.explode", 3.0F, (0.625F + (this.world.random.nextFloat() - this.world.random.nextFloat()) * 0.2F) * 0.7F);
+                            this.world.playSound(this, "aether:bosses.slider.slidercollide", 2.5F, 1.0F / (this.random.nextFloat() * 0.2F + 0.9F));
+                        }
+
+                        this.stop();
+                    } else {
+                        if (this.speedy < 2.0F) {
+                            this.speedy += this.criticalCondition() ? 0.0325F : 0.025F;
+                        }
+
+                        this.velocityX = 0.0;
+                        this.velocityY = 0.0;
+                        this.velocityZ = 0.0;
                         if (this.direction == 0) {
-                            for (i = 0; i < 25; ++i) {
-                                a = (double) (i / 5 - 2) * 0.75;
-                                b = (double) (i % 5 - 2) * 0.75;
-                                this.blockCrush((int) (x + a), (int) (y + 1.5), (int) (z + b));
+                            this.velocityY = (double) this.speedy;
+                            if (this.boundingBox.minY > this.target.boundingBox.minY + 0.35) {
+                                this.stop();
+                                this.moveTimer = 8;
                             }
                         } else if (this.direction == 1) {
-                            for (i = 0; i < 25; ++i) {
-                                a = (double) (i / 5 - 2) * 0.75;
-                                b = (double) (i % 5 - 2) * 0.75;
-                                this.blockCrush((int) (x + a), (int) (y - 1.5), (int) (z + b));
+                            this.velocityY = (double) (-this.speedy);
+                            if (this.boundingBox.minY < this.target.boundingBox.minY - 0.25) {
+                                this.stop();
+                                this.moveTimer = 8;
                             }
                         } else if (this.direction == 2) {
-                            for (i = 0; i < 25; ++i) {
-                                a = (double) (i / 5 - 2) * 0.75;
-                                b = (double) (i % 5 - 2) * 0.75;
-                                this.blockCrush((int) (x + 1.5), (int) (y + a), (int) (z + b));
+                            this.velocityX = (double) this.speedy;
+                            if (this.x > this.target.x + 0.125) {
+                                this.stop();
+                                this.moveTimer = 8;
                             }
                         } else if (this.direction == 3) {
-                            for (i = 0; i < 25; ++i) {
-                                a = (double) (i / 5 - 2) * 0.75;
-                                b = (double) (i % 5 - 2) * 0.75;
-                                this.blockCrush((int) (x - 1.5), (int) (y + a), (int) (z + b));
+                            this.velocityX = (double) (-this.speedy);
+                            if (this.x < this.target.x - 0.125) {
+                                this.stop();
+                                this.moveTimer = 8;
                             }
                         } else if (this.direction == 4) {
-                            for (i = 0; i < 25; ++i) {
-                                a = (double) (i / 5 - 2) * 0.75;
-                                b = (double) (i % 5 - 2) * 0.75;
-                                this.blockCrush((int) (x + a), (int) (y + b), (int) (z + 1.5));
+                            this.velocityZ = (double) this.speedy;
+                            if (this.z > this.target.z + 0.125) {
+                                this.stop();
+                                this.moveTimer = 8;
                             }
                         } else if (this.direction == 5) {
-                            for (i = 0; i < 25; ++i) {
-                                a = (double) (i / 5 - 2) * 0.75;
-                                b = (double) (i % 5 - 2) * 0.75;
-                                this.blockCrush((int) (x + a), (int) (y + b), (int) (z - 1.5));
+                            this.velocityZ = (double) (-this.speedy);
+                            if (this.z < this.target.z - 0.125) {
+                                this.stop();
+                                this.moveTimer = 8;
                             }
                         }
                     }
-
-                    if (this.crushed) {
-                        this.world.playSound(this.x, this.y, this.z, "random.explode", 3.0F, (0.625F + (this.world.random.nextFloat() - this.world.random.nextFloat()) * 0.2F) * 0.7F);
-                        this.world.playSound(this, "aether:bosses.slider.slidercollide", 2.5F, 1.0F / (this.random.nextFloat() * 0.2F + 0.9F));
-                    }
-
-                    this.stop();
-                } else {
-                    if (this.speedy < 2.0F) {
-                        this.speedy += this.criticalCondition() ? 0.0325F : 0.025F;
+                } else if (this.moveTimer > 0) {
+                    --this.moveTimer;
+                    if (this.criticalCondition() && this.random.nextInt(2) == 0) {
+                        --this.moveTimer;
                     }
 
                     this.velocityX = 0.0;
                     this.velocityY = 0.0;
                     this.velocityZ = 0.0;
-                    if (this.direction == 0) {
-                        this.velocityY = (double) this.speedy;
-                        if (this.boundingBox.minY > this.target.boundingBox.minY + 0.35) {
-                            this.stop();
-                            this.moveTimer = 8;
-                        }
-                    } else if (this.direction == 1) {
-                        this.velocityY = (double) (-this.speedy);
-                        if (this.boundingBox.minY < this.target.boundingBox.minY - 0.25) {
-                            this.stop();
-                            this.moveTimer = 8;
-                        }
-                    } else if (this.direction == 2) {
-                        this.velocityX = (double) this.speedy;
-                        if (this.x > this.target.x + 0.125) {
-                            this.stop();
-                            this.moveTimer = 8;
-                        }
-                    } else if (this.direction == 3) {
-                        this.velocityX = (double) (-this.speedy);
-                        if (this.x < this.target.x - 0.125) {
-                            this.stop();
-                            this.moveTimer = 8;
-                        }
-                    } else if (this.direction == 4) {
-                        this.velocityZ = (double) this.speedy;
-                        if (this.z > this.target.z + 0.125) {
-                            this.stop();
-                            this.moveTimer = 8;
-                        }
-                    } else if (this.direction == 5) {
-                        this.velocityZ = (double) (-this.speedy);
-                        if (this.z < this.target.z - 0.125) {
-                            this.stop();
-                            this.moveTimer = 8;
-                        }
-                    }
-                }
-            } else if (this.moveTimer > 0) {
-                --this.moveTimer;
-                if (this.criticalCondition() && this.random.nextInt(2) == 0) {
-                    --this.moveTimer;
-                }
-
-                this.velocityX = 0.0;
-                this.velocityY = 0.0;
-                this.velocityZ = 0.0;
-            } else {
-                x = Math.abs(this.x - this.target.x);
-                y = Math.abs(this.boundingBox.minY - this.target.boundingBox.minY);
-                z = Math.abs(this.z - this.target.z);
-                if (x > z) {
-                    this.direction = 2;
-                    if (this.x > this.target.x) {
-                        this.direction = 3;
-                    }
                 } else {
-                    this.direction = 4;
-                    if (this.z > this.target.z) {
-                        this.direction = 5;
+                    x = Math.abs(this.x - this.target.x);
+                    y = Math.abs(this.boundingBox.minY - this.target.boundingBox.minY);
+                    z = Math.abs(this.z - this.target.z);
+                    if (x > z) {
+                        this.direction = 2;
+                        if (this.x > this.target.x) {
+                            this.direction = 3;
+                        }
+                    } else {
+                        this.direction = 4;
+                        if (this.z > this.target.z) {
+                            this.direction = 5;
+                        }
                     }
-                }
 
-                if (y > x && y > z || y > 0.25 && this.random.nextInt(5) == 0) {
-                    this.direction = 0;
-                    if (this.y > this.target.y) {
-                        this.direction = 1;
+                    if (y > x && y > z || y > 0.25 && this.random.nextInt(5) == 0) {
+                        this.direction = 0;
+                        if (this.y > this.target.y) {
+                            this.direction = 1;
+                        }
                     }
-                }
 
-                this.world.playSound(this, "aether:bosses.slider.slidermove", 2.5F, 1.0F / (this.random.nextFloat() * 0.2F + 0.9F));
-                this.gotMovement = true;
+                    this.world.playSound(this, "aether:bosses.slider.slidermove", 2.5F, 1.0F / (this.random.nextFloat() * 0.2F + 0.9F));
+                    this.gotMovement = true;
+                }
             }
+        } else {
+            // Client-side: sync texture from DataTracker
+            updateTextureFromState();
         }
 
         if (this.harvey > 0.01F) {
@@ -319,10 +354,10 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
         if (this.chatTime > 0) {
             --this.chatTime;
         }
-
     }
 
     private void openDoor() {
+        if (this.world.isRemote) return;
         int x = this.dungeonX + 15;
 
         for (int y = this.dungeonY + 1; y < this.dungeonY + 5; ++y) {
@@ -330,7 +365,6 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
                 this.world.setBlockWithoutNotifyingNeighbors(x, y, z, 0);
             }
         }
-
     }
 
     public void onCollision(Entity entity) {
@@ -348,7 +382,6 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
                 this.stop();
             }
         }
-
     }
 
     protected void dropItems() {
@@ -415,6 +448,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
                     } else {
                         boolean flag = super.damage(e1, Math.max(0, i));
                         if (flag) {
+                            syncBossHP();
                             int x;
                             for (x = 0; x < (this.health <= 0 ? 16 : 48); ++x) {
                                 double a = this.x + (double) (this.random.nextFloat() - this.random.nextFloat()) * 1.5;
@@ -427,19 +461,21 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
 
                             if (this.health <= 0) {
                                 this.dead = true;
-                                this.openDoor();
-                                this.unlockBlock(this.dungeonX, this.dungeonY, this.dungeonZ);
-                                this.world.setBlockWithoutNotifyingNeighbors(this.dungeonX + 7, this.dungeonY + 1, this.dungeonZ + 7, Block.TRAPDOOR.id, 3);
-                                this.world.setBlockWithoutNotifyingNeighbors(this.dungeonX + 8, this.dungeonY + 1, this.dungeonZ + 7, Block.TRAPDOOR.id, 2);
-                                this.world.setBlockWithoutNotifyingNeighbors(this.dungeonX + 7, this.dungeonY + 1, this.dungeonZ + 8, Block.TRAPDOOR.id, 3);
-                                this.world.setBlockWithoutNotifyingNeighbors(this.dungeonX + 8, this.dungeonY + 1, this.dungeonZ + 8, Block.TRAPDOOR.id, 2);
+                                if (!this.world.isRemote) {
+                                    this.openDoor();
+                                    this.unlockBlock(this.dungeonX, this.dungeonY, this.dungeonZ);
+                                    this.world.setBlockWithoutNotifyingNeighbors(this.dungeonX + 7, this.dungeonY + 1, this.dungeonZ + 7, Block.TRAPDOOR.id, 3);
+                                    this.world.setBlockWithoutNotifyingNeighbors(this.dungeonX + 8, this.dungeonY + 1, this.dungeonZ + 7, Block.TRAPDOOR.id, 2);
+                                    this.world.setBlockWithoutNotifyingNeighbors(this.dungeonX + 7, this.dungeonY + 1, this.dungeonZ + 8, Block.TRAPDOOR.id, 3);
+                                    this.world.setBlockWithoutNotifyingNeighbors(this.dungeonX + 8, this.dungeonY + 1, this.dungeonZ + 8, Block.TRAPDOOR.id, 2);
 
-                                List<PlayerEntity> playersNearby = world.collectEntitiesByClass(PlayerEntity.class, Box.create(this.x - areaOfEffect, this.y - areaOfEffect, z - areaOfEffect, this.x + areaOfEffect, this.y + areaOfEffect, z + areaOfEffect));
-                                for (PlayerEntity player : playersNearby) {
-                                    AetherAchievements.giveAchievement(AetherAchievements.defeatBronze, player);
+                                    List<PlayerEntity> playersNearby = world.collectEntitiesByClass(PlayerEntity.class, Box.create(this.x - areaOfEffect, this.y - areaOfEffect, z - areaOfEffect, this.x + areaOfEffect, this.y + areaOfEffect, z + areaOfEffect));
+                                    for (PlayerEntity player : playersNearby) {
+                                        AetherAchievements.giveAchievement(AetherAchievements.defeatBronze, player);
+                                    }
                                 }
 
-                                isBoss = false;
+                                setBoss(false);
                             } else if (this.awake) {
                                 if (this.gotMovement) {
                                     this.speedy *= 0.75F;
@@ -448,21 +484,24 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
                                 this.world.playSound(this, "aether:bosses.slider.sliderawaken", 2.5F, 1.0F / (this.random.nextFloat() * 0.2F + 0.9F));
                                 this.awake = true;
                                 this.target = e1;
-                                this.texture = "aether:stationapi/textures/mobs/sliderAwake.png";
-                                x = this.dungeonX + 15;
-                                int y = this.dungeonY + 1;
+                                setTextureState((byte) 1);
 
-                                while (true) {
-                                    if (y >= this.dungeonY + 8) {
-                                        isBoss = true;
-                                        break;
+                                if (!this.world.isRemote) {
+                                    x = this.dungeonX + 15;
+                                    int y = this.dungeonY + 1;
+
+                                    while (true) {
+                                        if (y >= this.dungeonY + 8) {
+                                            setBoss(true);
+                                            break;
+                                        }
+
+                                        for (int z = this.dungeonZ + 5; z < this.dungeonZ + 11; ++z) {
+                                            this.world.setBlockWithoutNotifyingNeighbors(x, y, z, AetherBlocks.LockedDungeonStone.id);
+                                        }
+
+                                        ++y;
                                     }
-
-                                    for (int z = this.dungeonZ + 5; z < this.dungeonZ + 11; ++z) {
-                                        this.world.setBlockWithoutNotifyingNeighbors(x, y, z, AetherBlocks.LockedDungeonStone.id);
-                                    }
-
-                                    ++y;
                                 }
                             }
 
@@ -484,9 +523,9 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
 
                             this.harvey = 0.7F - (float) this.health / 875.0F;
                             if (this.criticalCondition()) {
-                                this.texture = "aether:stationapi/textures/mobs/sliderAwake_red.png";
-                            } else {
-                                this.texture = "aether:stationapi/textures/mobs/sliderAwake.png";
+                                setTextureState((byte) 2);
+                            } else if (this.awake) {
+                                setTextureState((byte) 1);
                             }
                         }
 
@@ -525,7 +564,6 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
             this.unlockBlock(i, j, k + 1);
             this.unlockBlock(i, j, k - 1);
         }
-
     }
 
     public void addVelocity(double d, double d1, double d2) {
@@ -535,15 +573,14 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
     }
 
     public void blockCrush(int x, int y, int z) {
+        if (this.world.isRemote) return;
         int a = this.world.getBlockId(x, y, z);
         int b = this.world.getBlockMeta(x, y, z);
         if (a != 0 && a != AetherBlocks.LockedDungeonStone.id && a != AetherBlocks.LockedLightDungeonStone.id) {
-            //ModLoader.getMinecraftInstance().particleManager.addBlockBreakParticles(x, y, z, a, b);
             Block.BLOCKS[a].onBreak(this.world, x, y, z);
             Block.BLOCKS[a].dropStacks(this.world, x, y, z, b);
             this.world.setBlock(x, y, z, 0);
             this.crushed = true;
-            this.addSquirrelButts(x, y, z);
         }
     }
 
@@ -562,17 +599,20 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
 
     @Override
     public void setBoss(boolean boss) {
-        isBoss = boss;
+        this.setFlag(6, boss);
+        if (boss) {
+            syncBossHP();
+        }
     }
 
     @Override
     public boolean isBoss() {
-        return isBoss;
+        return this.getFlag(6);
     }
 
     @Override
     public int getHP() {
-        return health;
+        return this.dataTracker.getInt(TRACKED_BOSS_HP);
     }
 
     @Override

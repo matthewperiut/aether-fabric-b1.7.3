@@ -9,8 +9,10 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.pathing.Path;
 import net.minecraft.entity.mob.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.packet.s2c.play.EntityVehicleSetS2CPacket;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
@@ -28,6 +30,7 @@ public class EntityAerbunny extends EntityAetherAnimal implements MobSpawnDataPr
     public boolean gotrider;
     public Entity runFrom;
     public float puffiness;
+    public boolean vehicleJumping;
 
     public EntityAerbunny(World world) {
         super(world);
@@ -44,66 +47,127 @@ public class EntityAerbunny extends EntityAetherAnimal implements MobSpawnDataPr
         this.mate = 0;
     }
 
-    public void tick() {
-        if (this.gotrider) {
-            this.gotrider = false;
-            if (this.vehicle == null) {
-                PlayerEntity entityplayer = (PlayerEntity) this.findPlayerToRunFrom();
-                if (entityplayer != null && this.getDistance(entityplayer) < 2.0F && entityplayer.passenger == null) {
-                    this.setVehicle(entityplayer);
-                }
-            }
+    protected void initDataTracker() {
+        super.initDataTracker();
+        // bit 0 = onGround, bit 1 = riding player, bit 2 = grab
+        this.dataTracker.startTracking(16, (byte) 0);
+        this.dataTracker.startTracking(17, 0); // puffiness as float bits
+        this.dataTracker.startTracking(18, 0); // velocityY as float bits (for client tilt)
+    }
+
+    private void syncState() {
+        byte state = 0;
+        if (this.onGround) state |= 1;
+        if (this.vehicle instanceof PlayerEntity) state |= 2;
+        if (this.grab) state |= 4;
+        this.dataTracker.set(16, state);
+        this.dataTracker.set(17, Float.floatToIntBits(this.puffiness));
+        this.dataTracker.set(18, Float.floatToIntBits((float) this.velocityY));
+    }
+
+    public boolean isRidingPlayer() {
+        if (this.world.isRemote) {
+            return (this.dataTracker.getByte(16) & 2) != 0;
         }
+        return this.vehicle instanceof PlayerEntity;
+    }
 
-        if (this.age < 1023) {
-            ++this.age;
-        } else if (this.mate < 127) {
-            ++this.mate;
-        } else {
-            int i = 0;
-            List list = this.world.getEntities(this, this.boundingBox.expand(16.0, 16.0, 16.0));
+    public boolean getSyncedOnGround() {
+        if (this.world.isRemote) {
+            return (this.dataTracker.getByte(16) & 1) != 0;
+        }
+        return this.onGround;
+    }
 
-            for (int j = 0; j < list.size(); ++j) {
-                Entity entity = (Entity) list.get(j);
-                if (entity instanceof EntityAerbunny) {
-                    ++i;
-                }
-            }
+    public boolean getSyncedGrab() {
+        if (this.world.isRemote) {
+            return (this.dataTracker.getByte(16) & 4) != 0;
+        }
+        return this.grab;
+    }
 
-            if (i > 12) {
-                this.proceed();
-                return;
-            }
+    public void tick() {
+        // LivingEntity.setPositionAndAnglesAvoidEntities resets standingEyeHeight to 0
+        // on every client position update. Restore it.
+        this.standingEyeHeight = -0.16F;
 
-            List list1 = this.world.getEntities(this, this.boundingBox.expand(1.0, 1.0, 1.0));
-            boolean flag = false;
-
-            for (int k = 0; k < list.size(); ++k) {
-                Entity entity1 = (Entity) list1.get(k);
-                if (entity1 instanceof EntityAerbunny && entity1 != this) {
-                    EntityAerbunny entitybunny = (EntityAerbunny) entity1;
-                    if (entitybunny.vehicle == null && entitybunny.age >= 1023) {
-                        EntityAerbunny entitybunny1 = new EntityAerbunny(this.world);
-                        entitybunny1.setPosition(this.x, this.y, this.z);
-                        this.world.spawnEntity(entitybunny1);
-                        this.world.playSound(this, "mob.chickenplop", 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-                        this.proceed();
-                        entitybunny.proceed();
-                        flag = true;
-                        break;
+        if (!this.world.isRemote) {
+            if (this.gotrider) {
+                this.gotrider = false;
+                if (this.vehicle == null) {
+                    PlayerEntity entityplayer = (PlayerEntity) this.findPlayerToRunFrom();
+                    if (entityplayer != null && this.getDistance(entityplayer) < 2.0F && entityplayer.passenger == null) {
+                        this.setVehicle(entityplayer);
                     }
                 }
             }
 
-            if (!flag) {
-                this.mate = this.random.nextInt(16);
+            if (this.age < 1023) {
+                ++this.age;
+            } else if (this.mate < 127) {
+                ++this.mate;
+            } else {
+                int i = 0;
+                List list = this.world.getEntities(this, this.boundingBox.expand(16.0, 16.0, 16.0));
+
+                for (int j = 0; j < list.size(); ++j) {
+                    Entity entity = (Entity) list.get(j);
+                    if (entity instanceof EntityAerbunny) {
+                        ++i;
+                    }
+                }
+
+                if (i > 12) {
+                    this.proceed();
+                    return;
+                }
+
+                List list1 = this.world.getEntities(this, this.boundingBox.expand(1.0, 1.0, 1.0));
+                boolean flag = false;
+
+                for (int k = 0; k < list.size(); ++k) {
+                    Entity entity1 = (Entity) list1.get(k);
+                    if (entity1 instanceof EntityAerbunny && entity1 != this) {
+                        EntityAerbunny entitybunny = (EntityAerbunny) entity1;
+                        if (entitybunny.vehicle == null && entitybunny.age >= 1023) {
+                            EntityAerbunny entitybunny1 = new EntityAerbunny(this.world);
+                            entitybunny1.setPosition(this.x, this.y, this.z);
+                            this.world.spawnEntity(entitybunny1);
+                            this.world.playSound(this, "mob.chickenplop", 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+                            this.proceed();
+                            entitybunny.proceed();
+                            flag = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!flag) {
+                    this.mate = this.random.nextInt(16);
+                }
             }
+
+            syncState();
         }
 
-        if (this.puffiness > 0.0F) {
-            this.puffiness -= 0.1F;
+        if (!this.world.isRemote) {
+            // Server: compute puffiness decay
+            if (this.puffiness > 0.0F) {
+                this.puffiness -= 0.1F;
+            } else {
+                this.puffiness = 0.0F;
+            }
         } else {
-            this.puffiness = 0.0F;
+            // Client: read from DataTracker, lerp for smoothness
+            float serverPuff = Float.intBitsToFloat(this.dataTracker.getInt(17));
+            if (serverPuff > this.puffiness + 0.2F) {
+                this.puffiness = serverPuff; // snap up on trigger
+                this.cloudPoop(); // particles on puff trigger
+            } else if (this.puffiness > 0.0F) {
+                this.puffiness -= 0.1F; // local decay matches server rate
+            } else {
+                this.puffiness = 0.0F;
+            }
         }
 
         super.tick();
@@ -133,6 +197,14 @@ public class EntityAerbunny extends EntityAetherAnimal implements MobSpawnDataPr
     }
 
     protected void tickLiving() {
+        // Sync jumping state from vehicle
+        if (this.vehicle instanceof LivingEntity) {
+            if (this.world.isRemote) {
+                this.vehicleJumping = ((LivingEntityAccessor) this.vehicle).getJumping();
+            }
+        }
+
+
         int i;
         if (this.onGround) {
             if (this.forwardSpeed != 0.0F) {
@@ -140,12 +212,11 @@ public class EntityAerbunny extends EntityAetherAnimal implements MobSpawnDataPr
             }
         } else if (this.vehicle != null) {
             if (this.vehicle.dead) {
-                this.setVehicle(this.vehicle);
+                this.setVehicle(null);
             } else if (!this.vehicle.onGround && !this.vehicle.checkWaterCollisions()) {
                 ((EntityAccessor) this.vehicle).setFallDistance(0.0F);
-                Entity var10000 = this.vehicle;
-                var10000.velocityY += 0.05000000074505806;
-                if (this.vehicle.velocityY < -0.22499999403953552 && this.vehicle instanceof LivingEntity && ((LivingEntityAccessor) this.vehicle).getJumping()) {
+                this.vehicle.velocityY += 0.05000000074505806;
+                if (this.vehicle.velocityY < -0.22499999403953552 && this.vehicle instanceof LivingEntity && this.vehicleJumping) {
                     this.vehicle.velocityY = 0.125;
                     this.cloudPoop();
                     this.puffiness = 1.15F;
@@ -206,7 +277,6 @@ public class EntityAerbunny extends EntityAetherAnimal implements MobSpawnDataPr
         if (this.checkWaterCollisions()) {
             this.jump();
         }
-
     }
 
     public void cloudPoop() {
@@ -257,10 +327,11 @@ public class EntityAerbunny extends EntityAetherAnimal implements MobSpawnDataPr
                 break;
             }
         }
-
     }
 
     public boolean interact(PlayerEntity entityplayer) {
+        if (this.world.isRemote) return true;
+
         this.yaw = entityplayer.yaw;
         if (this.vehicle != null) {
             this.bodyYaw = this.vehicle.yaw;
@@ -274,6 +345,12 @@ public class EntityAerbunny extends EntityAetherAnimal implements MobSpawnDataPr
             this.world.playSound(this, "aether:mobs.aerbunny.aerbunnylift", 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
         }
 
+        // b1.7.3 doesn't auto-send mount packets — notify clients
+        if (entityplayer instanceof ServerPlayerEntity spe) {
+            EntityVehicleSetS2CPacket mountPacket = new EntityVehicleSetS2CPacket(this, this.vehicle);
+            spe.networkHandler.sendPacket(mountPacket);
+        }
+
         this.jumping = false;
         this.forwardSpeed = 0.0F;
         this.sidewaysSpeed = 0.0F;
@@ -285,7 +362,7 @@ public class EntityAerbunny extends EntityAetherAnimal implements MobSpawnDataPr
     }
 
     public double getStandingEyeHeight() {
-        return this.vehicle instanceof PlayerEntity ? (double) (this.standingEyeHeight - 1.15F) : (double) this.standingEyeHeight;
+        return isRidingPlayer() ? (double) (this.standingEyeHeight - 1.15F) : (double) this.standingEyeHeight;
     }
 
     protected String getRandomSound() {

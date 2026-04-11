@@ -1,5 +1,7 @@
 package com.matthewperiut.aether;
 
+import com.matthewperiut.aether.network.AerbunnyJumpPacket;
+import com.matthewperiut.aether.network.MountInputPacket;
 import com.matthewperiut.aether.optional.AetherSPCSupport;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
@@ -12,7 +14,9 @@ public class Aether implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        if (FabricLoader.getInstance().isModLoaded("spc")) {
+        MountInputPacket.register();
+        AerbunnyJumpPacket.register();
+        if (FabricLoader.getInstance().isModLoaded("retrocommands")) {
             AetherSPCSupport.init();
         }
         String stapi_version = String.valueOf(FabricLoader.getInstance().getModContainer("station-api-base").get().getMetadata().getVersion());

@@ -55,10 +55,10 @@ public class ItemSwordElemental extends TemplateSwordItem {
     }
 
     public boolean postHit(ItemStack itemstack, LivingEntity entityliving, LivingEntity entityliving1) {
-        if (this.element == EnumElement.Fire) {
-            entityliving.fireTicks = 600;
-        } else if (this.element == EnumElement.Lightning) {
-            if (!entityliving.world.isRemote) {
+        if (!entityliving.world.isRemote) {
+            if (this.element == EnumElement.Fire) {
+                entityliving.fireTicks = 600;
+            } else if (this.element == EnumElement.Lightning) {
                 entityliving.world.spawnEntity(new EntityAetherLightning(entityliving.world, entityliving.x, entityliving.y, entityliving.z));
             }
         }

@@ -1,6 +1,5 @@
 package com.matthewperiut.aether.mixin;
 
-import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.gen.dim.BareAetherTravelAgent;
 import com.matthewperiut.aether.item.AetherItems;
 import com.matthewperiut.aether.poison.AetherPoison;
@@ -8,7 +7,6 @@ import com.matthewperiut.aether.poison.PoisonControl;
 import com.matthewperiut.aether.util.VoidUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
@@ -29,7 +27,7 @@ import java.util.OptionalInt;
 import static com.matthewperiut.aether.gen.dim.AetherDimensions.MOD_ID;
 
 @Mixin(Entity.class)
-public abstract class EntityMixin implements AetherPoison {
+public abstract class EntityMixinPoisonFallVoid implements AetherPoison {
 
     // Aether Poison below
     @Unique

@@ -6,23 +6,26 @@
   "mixins": [
     "AbstractBlockStateMixinZaniteAccessories",
     "CraftingResultSlotMixin",
-    "EntityMixin",
+    "EntityMixinPoisonFallVoid",
     "LivingEntityMixin",
     "PlayerMixin",
     "TorchMixin",
     "access.EntityAccessor",
     "access.LivingEntityAccessor",
     "access.PlayerEntityAccessor",
-    "FlintAndSteelMixin"
+    "FlintAndSteelMixin",
+    "MountRidingMixin"
   ],
   "server": [
   ],
   "client": [
     "BiomeMixin",
     "ClientPlayHandlerMixin",
+    "client.ClientPlayerMountMixin",
     "client.InGameHudMixinJumps",
     "client.InGameHudPoison",
-    "client.WorldEventRendererMixin"
+    "client.WorldEventRendererMixin",
+    "client.EntityMixinJitterFix"
   ],
   "injectors": {
     "defaultRequire": 1
