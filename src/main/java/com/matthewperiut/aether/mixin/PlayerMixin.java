@@ -51,9 +51,11 @@ abstract public class PlayerMixin extends Entity implements AetherPlayerBooks {
 
     public void giveAetherBook() {
         ItemStack book = new ItemStack(AetherItems.LoreBook, 1, 2);
+        ItemStack parachute = new ItemStack(AetherItems.CloudParachute, 1, 0);
         if (!hasGottenAetherBook) {
             if (this.inventory.addStack(book))
                 hasGottenAetherBook = true;
+                this.inventory.addStack(parachute);
         }
     }
 }
