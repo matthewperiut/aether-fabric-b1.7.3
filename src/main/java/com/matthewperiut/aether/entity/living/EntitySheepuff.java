@@ -7,6 +7,7 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ShearsItem;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -50,9 +51,9 @@ public class EntitySheepuff extends EntityAetherAnimal implements MobSpawnDataPr
     }
 
     public boolean interact(PlayerEntity entityplayer) {
-        ItemStack itemstack = entityplayer.inventory.getSelectedItem();
+        ItemStack itemstack = entityplayer.getHand();
         int colour;
-        if (itemstack != null && itemstack.itemId == Item.SHEARS.id && !this.getSheared()) {
+        if (itemstack != null && itemstack.getItem() instanceof ShearsItem && !this.getSheared()) {
             if (!this.world.isRemote) {
                 int j;
                 ItemEntity entityitem;
