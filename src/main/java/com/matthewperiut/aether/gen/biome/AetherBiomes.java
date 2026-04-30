@@ -14,7 +14,7 @@ public class AetherBiomes {
     public static int rarityAechorPlant = 8;
     public static int rarityCockatrice = 3;
     public static int rarityAerwhale = 8;
-    public static int rarityZephyr = 5;
+    public static int rarityZephyr = 1;
     public static int raritySheepuff = 10;
     public static int rarityPhyg = 12;
     public static int rarityMoa = 10;
@@ -29,9 +29,9 @@ public class AetherBiomes {
                 .precipitation(false)
                 .passiveEntity(EntitySwet.class, raritySwet)
                 .passiveEntity(EntityAechorPlant.class, rarityAechorPlant)
-                .passiveEntity(EntityCockatrice.class, rarityCockatrice)
+                .hostileEntity(EntityCockatrice.class, rarityCockatrice)
                 .passiveEntity(EntityAerwhale.class, rarityAerwhale)
-                .passiveEntity(EntityZephyr.class, rarityZephyr)
+                .hostileEntity(EntityZephyr.class, rarityZephyr)
                 .passiveEntity(EntitySheepuff.class, raritySheepuff)
                 .passiveEntity(EntityPhyg.class, rarityPhyg)
                 .passiveEntity(EntityMoa.class, rarityMoa)
