@@ -8,12 +8,11 @@ import com.matthewperiut.aether.entity.special.EntityMiniCloud;
 import com.matthewperiut.aether.optional.AetherSPCSupport;
 import net.fabricmc.loader.api.FabricLoader;
 import net.mine_diver.unsafeevents.listener.EventListener;
-import net.modificationstation.stationapi.api.event.entity.EntityRegisterEvent;
+import net.modificationstation.stationapi.api.event.entity.EntityRegister;
 import net.modificationstation.stationapi.api.event.registry.EntityHandlerRegistryEvent;
 import net.modificationstation.stationapi.api.event.registry.MobHandlerRegistryEvent;
 import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
 import net.modificationstation.stationapi.api.registry.Registry;
-import net.modificationstation.stationapi.api.util.Identifier;
 import net.modificationstation.stationapi.api.util.Namespace;
 import net.modificationstation.stationapi.api.util.Null;
 
@@ -21,45 +20,42 @@ public class AetherEntities {
     @Entrypoint.Namespace
     public static Namespace MOD_ID = Null.get();
 
-    private static Identifier id(String s) {
-        return Identifier.of(Namespace.of("aether"), s);
-    }
-
     @EventListener
-    public void registerEntities(EntityRegisterEvent event) {
-        event.register(id("AechorPlant"), EntityAechorPlant.class);
-        event.register(id("Aerbunny"), EntityAerbunny.class);
-        event.register(id("Aerwhale"), EntityAerwhale.class);
-        event.register(id("Cockatrice"), EntityCockatrice.class);
-        event.register(id("FlyingCow"), EntityFlyingCow.class);
-        event.register(id("Mimic"), EntityMimic.class);
-        event.register(id("Minicloud"), EntityMiniCloud.class);
-        event.register(id("Moa"), EntityMoa.class);
-        event.register(id("Slider"), EntitySlider.class);
-        event.register(id("Phyg"), EntityPhyg.class);
-        event.register(id("Sheepuff"), EntitySheepuff.class);
-        event.register(id("Swet"), EntitySwet.class);
-        event.register(id("Valkyrie"), EntityValkyrie.class);
-        event.register(id("Sentry"), EntitySentry.class);
-        event.register(id("Whirlwind"), EntityWhirly.class);
-        event.register(id("Zephyr"), EntityZephyr.class);
+    public void registerEntities(EntityRegister event) {
+        event.register(EntityAechorPlant.class, "AechorPlant");
+        event.register(EntityAerbunny.class, "Aerbunny");
+        event.register(EntityAerwhale.class, "Aerwhale");
+        event.register(EntityCockatrice.class, "Cockatrice");
+        event.register(EntityFlyingCow.class, "FlyingCow");
+        event.register(EntityMimic.class, "Mimic");
+        event.register(EntityMiniCloud.class, "Minicloud");
+        event.register(EntityMoa.class, "Moa");
+        event.register(EntitySlider.class, "Slider");
+        event.register(EntityPhyg.class, "Phyg");
+        event.register(EntitySheepuff.class, "Sheepuff");
+        event.register(EntitySwet.class, "Swet");
+        event.register(EntityValkyrie.class, "Valkyrie");
+        event.register(EntitySentry.class, "Sentry");
+        event.register(EntityWhirly.class, "Whirlwind");
+        event.register(EntityZephyr.class, "Zephyr");
 
-        event.register(id("FireMonster"), EntityFireMonster.class);
-        event.register(id("FireMinion"), EntityFireMinion.class);
+        event.register(EntityFireMonster.class, "FireMonster");
+        event.register(EntityFireMinion.class, "FireMinion");
 
-        event.register(id("AetherLightning"), EntityAetherLightning.class);
-        event.register(id("FlamingArrow"), EntityFlamingArrow.class);
-        event.register(id("ZephyrSnowball"), EntityZephyrSnowball.class);
-        event.register(id("PoisonNeedle"), EntityPoisonNeedle.class);
-        event.register(id("PoisonDart"), EntityDartPoison.class);
-        event.register(id("GoldenDart"), EntityDartGolden.class);
-        event.register(id("EnchantedDart"), EntityDartEnchanted.class);
-        event.register(id("CloudParachute"), EntityCloudParachute.class);
-        event.register(id("FloatingBlock"), EntityFloatingBlock.class);
-        event.register(id("FiroBall"), EntityFiroBall.class);
-        event.register(id("HomeShot"), EntityHomeShot.class);
-        event.register(id("LightningKnife"), EntityLightningKnife.class);
-        event.register(id("NotchWave"), EntityNotchWave.class);
+        event.register(EntityAetherLightning.class, "AetherLightning");
+        event.register(EntityFlamingArrow.class, "FlamingArrow");
+        event.register(EntityZephyrSnowball.class, "ZephyrSnowball");
+        event.register(EntityPoisonNeedle.class, "PoisonNeedle");
+        event.register(EntityDartPoison.class, "PoisonDart");
+        event.register(EntityDartGolden.class, "GoldenDart");
+        event.register(EntityDartEnchanted.class, "EnchantedDart");
+        event.register(EntityCloudParachute.class, "CloudParachute");
+        event.register(EntityFloatingBlock.class, "FloatingBlock");
+        event.register(EntityFiroBall.class, "FiroBall");
+        event.register(EntityHomeShot.class, "HomeShot");
+        event.register(EntityLightningKnife.class, "LightningKnife");
+        event.register(EntityNotchWave.class, "NotchWave");
+
     }
 
     /*

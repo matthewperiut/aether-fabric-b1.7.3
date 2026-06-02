@@ -16,9 +16,9 @@ public class AetherBlockEntities {
 
     @EventListener
     public void registerTileEntities(BlockEntityRegisterEvent event) {
-        event.register(MOD_ID.id("treasure_chest").toString(), BlockEntityTreasureChest.class);
-        event.register(MOD_ID.id("freezer").toString(), BlockEntityFreezer.class);
-        event.register(MOD_ID.id("enchanter").toString(), BlockEntityEnchanter.class);
-        event.register(MOD_ID.id("incubator").toString(), BlockEntityIncubator.class);
+        event.register(BlockEntityTreasureChest.class, MOD_ID.id("treasure_chest").toString());
+        event.register(BlockEntityFreezer.class, MOD_ID.id("freezer").toString());
+        event.register(BlockEntityEnchanter.class, MOD_ID.id("enchanter").toString());
+        event.register(BlockEntityIncubator.class, MOD_ID.id("incubator").toString());
     }
 }

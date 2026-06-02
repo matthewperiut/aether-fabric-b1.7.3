@@ -12,7 +12,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.modificationstation.stationapi.api.event.achievement.AchievementRegisterEvent;
 import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
-import net.modificationstation.stationapi.api.template.achievement.AchievementTemplate;
 import net.modificationstation.stationapi.api.util.Namespace;
 import net.modificationstation.stationapi.api.util.Null;
 
@@ -60,19 +59,6 @@ public class AetherAchievements {
         lore = (new Achievement(acOff + 9, "aether:lore", 1, -3, Item.BOOK, enterAether)).addStat();
         // works sp
         loreception = (new Achievement(acOff + 10, "aether:loreception", 1, -5, Item.BOOK, lore)).addStat();
-        // StationAPI alpha.6+ requires each achievement to be bound into the StatRegistry,
-        // otherwise the registry fails to freeze with "Trying to access unbound value".
-        AchievementTemplate.onConstructor(enterAether, MOD_ID.id("enterAether"));
-        AchievementTemplate.onConstructor(defeatBronze, MOD_ID.id("defeatBronze"));
-        AchievementTemplate.onConstructor(defeatSilver, MOD_ID.id("defeatSilver"));
-        AchievementTemplate.onConstructor(defeatGold, MOD_ID.id("defeatGold"));
-        AchievementTemplate.onConstructor(enchanter, MOD_ID.id("enchanter"));
-        AchievementTemplate.onConstructor(incubator, MOD_ID.id("incubator"));
-        AchievementTemplate.onConstructor(blueCloud, MOD_ID.id("blueCloud"));
-        AchievementTemplate.onConstructor(flyingPig, MOD_ID.id("flyingPig"));
-        AchievementTemplate.onConstructor(gravTools, MOD_ID.id("gravTools"));
-        AchievementTemplate.onConstructor(lore, MOD_ID.id("lore"));
-        AchievementTemplate.onConstructor(loreception, MOD_ID.id("loreception"));
         event.achievements.add(AetherAchievements.enterAether);/*, "Hostile Paradise", "Ascend to the Aether");*/
         event.achievements.add(AetherAchievements.defeatBronze);/*, "Like a Bossaru!", "Defeat the bronze boss");*/
         event.achievements.add(AetherAchievements.defeatSilver);/*, "Dethroned", "Defeat the silver boss");*/
