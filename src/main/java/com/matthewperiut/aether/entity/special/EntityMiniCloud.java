@@ -149,7 +149,7 @@ public class EntityMiniCloud extends FlyingEntity implements MobSpawnDataProvide
                         }
 
                         eh.smacked = true;
-                        this.world.playSound(this, "aether:mob.zephyr.zephyrshoot", 0.75F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+                        this.world.playSound(this, "aether:mobs.zephyr.zephyrshoot", this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2f + 1.0f);
                         this.shotTimer = 40;
                     }
                 } else {
@@ -165,6 +165,16 @@ public class EntityMiniCloud extends FlyingEntity implements MobSpawnDataProvide
 
     public boolean damage(Entity e, int i) {
         return e != null && e == this.dude ? false : super.damage(e, i);
+    }
+
+    @Override
+    protected String getHurtSound() {
+        return "aether:mobs.zephyr.zephyrcall";
+    }
+
+    @Override
+    protected String getDeathSound() {
+        return "aether:mobs.zephyr.zephyrcall";
     }
 
     @Override
