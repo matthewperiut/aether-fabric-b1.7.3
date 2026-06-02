@@ -354,7 +354,7 @@ public class GuiLore extends HandledScreen {
             }
         }
         this.textRenderer.draw("Item : ", 46, 72, 4210752);
-        final ItemStack item = ((ContainerLore) this.container).loreSlot.getStack(0);
+        final ItemStack item = ((ContainerLore) this.handler).loreSlot.getStack(0);
         if (item != null) {
             for (final Lore lore : GuiLore.lores) {
                 if (lore.equals(item) && lore.type == this.type) {
@@ -379,7 +379,7 @@ public class GuiLore extends HandledScreen {
     @Override
     public void removed() {
         super.removed();
-        this.container.onClosed(minecraft.player);
+        this.handler.onClosed(minecraft.player);
     }
 
     @Override
@@ -395,8 +395,8 @@ public class GuiLore extends HandledScreen {
     }
 
     private Slot getSlotAt(int i, int j) {
-        for (int var3 = 0; var3 < this.container.slots.size(); ++var3) {
-            Slot var4 = (Slot) this.container.slots.get(var3);
+        for (int var3 = 0; var3 < this.handler.slots.size(); ++var3) {
+            Slot var4 = (Slot) this.handler.slots.get(var3);
             if (this.isPointOverSlot(var4, i, j)) {
                 return var4;
             }
@@ -431,9 +431,9 @@ public class GuiLore extends HandledScreen {
 
             if (var8 != -1) {
                 boolean var9 = var8 != -999 && (Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54));
-                ItemStack item = minecraft.interactionManager.clickSlot(this.container.syncId, var8, k, var9, minecraft.player);
+                ItemStack item = minecraft.interactionManager.clickSlot(this.handler.syncId, var8, k, var9, minecraft.player);
                 if (((Minecraft) FabricLoader.getInstance().getGameInstance()).isWorldRemote()) {
-                    ((Slot) this.container.slots.get(0)).setStack(item);
+                    ((Slot) this.handler.slots.get(0)).setStack(item);
                 }
             }
         }

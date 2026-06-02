@@ -13,8 +13,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkSource;
-import net.minecraft.world.gen.Generator;
-import net.minecraft.world.gen.carver.CaveWorldCarver;
+import net.minecraft.world.gen.carver.Carver;
+import net.minecraft.world.gen.carver.CaveCarver;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.LakeFeature;
 import net.modificationstation.stationapi.api.block.BlockState;
@@ -31,7 +31,7 @@ public class ChunkProviderAether implements ChunkSource {
     private final OctavePerlinNoiseSampler perlinNoise2;
     private final OctavePerlinNoiseSampler perlinNoise3;
     private final World world;
-    private final Generator cave = new CaveWorldCarver();
+    private final Carver cave = new CaveCarver();
     public OctavePerlinNoiseSampler floatingIslandScale;
     public OctavePerlinNoiseSampler floatingIslandNoise;
     public OctavePerlinNoiseSampler forestNoise;
@@ -254,7 +254,7 @@ public class ChunkProviderAether implements ChunkSource {
             }
 
             // Generate caves using old API
-            this.cave.place(this, this.world, chunkX, chunkZ, tempBlocks);
+            this.cave.carve(this, this.world, chunkX, chunkZ, tempBlocks);
 
             // Copy back to FlattenedChunk using direct section access
             // Only carve out (set to air) blocks that the cave algorithm cleared

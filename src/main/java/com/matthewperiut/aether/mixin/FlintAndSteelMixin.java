@@ -2,7 +2,7 @@ package com.matthewperiut.aether.mixin;
 
 import com.matthewperiut.aether.gen.biome.AetherBiomeSource;
 import com.matthewperiut.aether.gen.dim.AetherDimension;
-import net.minecraft.item.FlintAndSteel;
+import net.minecraft.item.FlintAndSteelItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(FlintAndSteel.class)
+@Mixin(FlintAndSteelItem.class)
 public abstract class FlintAndSteelMixin {
 
     @Inject(method = "useOnBlock", at = @At("HEAD"), cancellable = true)

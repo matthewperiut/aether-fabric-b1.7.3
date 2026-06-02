@@ -48,7 +48,7 @@ public class BlockFloating extends TemplateBlock {
     }
 
     public void onTick(World world, int i, int j, int k, Random random) {
-        if (!this.enchanted || this.enchanted && world.canTransferPower(i, j, k)) {
+        if (!this.enchanted || this.enchanted && world.isPosLoaded(i, j, k)) {
             this.tryToFall(world, i, j, k);
         }
 

@@ -56,7 +56,7 @@ public class EntityDungeonMob extends MobEntity implements Monster {
     }
 
     protected float getPathfindingFavor(int i, int j, int k) {
-        return 0.5F - this.world.method_1782(i, j, k);
+        return 0.5F - this.world.getLuminance(i, j, k);
     }
 
     public void writeNbt(NbtCompound nbttagcompound) {

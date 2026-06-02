@@ -33,36 +33,36 @@ public class AmbrosiumTorch extends TemplateBlock {
     }
 
     public boolean canPlaceAt(World world, int i, int j, int k) {
-        if (world.method_1783(i - 1, j, k)) {
+        if (world.isOpaque(i - 1, j, k)) {
             return true;
-        } else if (world.method_1783(i + 1, j, k)) {
+        } else if (world.isOpaque(i + 1, j, k)) {
             return true;
-        } else if (world.method_1783(i, j, k - 1)) {
+        } else if (world.isOpaque(i, j, k - 1)) {
             return true;
         } else {
-            return world.method_1783(i, j, k + 1) || world.method_1783(i, j - 1, k);
+            return world.isOpaque(i, j, k + 1) || world.isOpaque(i, j - 1, k);
         }
     }
 
     public void onPlaced(World world, int i, int j, int k, int l) {
         int i1 = world.getBlockMeta(i, j, k);
-        if (l == 1 && world.method_1783(i, j - 1, k)) {
+        if (l == 1 && world.isOpaque(i, j - 1, k)) {
             i1 = 5;
         }
 
-        if (l == 2 && world.method_1783(i, j, k + 1)) {
+        if (l == 2 && world.isOpaque(i, j, k + 1)) {
             i1 = 4;
         }
 
-        if (l == 3 && world.method_1783(i, j, k - 1)) {
+        if (l == 3 && world.isOpaque(i, j, k - 1)) {
             i1 = 3;
         }
 
-        if (l == 4 && world.method_1783(i + 1, j, k)) {
+        if (l == 4 && world.isOpaque(i + 1, j, k)) {
             i1 = 2;
         }
 
-        if (l == 5 && world.method_1783(i - 1, j, k)) {
+        if (l == 5 && world.isOpaque(i - 1, j, k)) {
             i1 = 1;
         }
 
@@ -78,15 +78,15 @@ public class AmbrosiumTorch extends TemplateBlock {
     }
 
     public void onPlaced(World world, int i, int j, int k) {
-        if (world.method_1783(i - 1, j, k)) {
+        if (world.isOpaque(i - 1, j, k)) {
             world.setBlockMeta(i, j, k, 1);
-        } else if (world.method_1783(i + 1, j, k)) {
+        } else if (world.isOpaque(i + 1, j, k)) {
             world.setBlockMeta(i, j, k, 2);
-        } else if (world.method_1783(i, j, k - 1)) {
+        } else if (world.isOpaque(i, j, k - 1)) {
             world.setBlockMeta(i, j, k, 3);
-        } else if (world.method_1783(i, j, k + 1)) {
+        } else if (world.isOpaque(i, j, k + 1)) {
             world.setBlockMeta(i, j, k, 4);
-        } else if (world.method_1783(i, j - 1, k)) {
+        } else if (world.isOpaque(i, j - 1, k)) {
             world.setBlockMeta(i, j, k, 5);
         }
 
@@ -96,21 +96,21 @@ public class AmbrosiumTorch extends TemplateBlock {
     public void neighborUpdate(World world, int i, int j, int k, int l) {
         if (this.dropTorchIfCantStay(world, i, j, k)) {
             int i1 = world.getBlockMeta(i, j, k);
-            boolean flag = !world.method_1783(i - 1, j, k) && i1 == 1;
+            boolean flag = !world.isOpaque(i - 1, j, k) && i1 == 1;
 
-            if (!world.method_1783(i + 1, j, k) && i1 == 2) {
+            if (!world.isOpaque(i + 1, j, k) && i1 == 2) {
                 flag = true;
             }
 
-            if (!world.method_1783(i, j, k - 1) && i1 == 3) {
+            if (!world.isOpaque(i, j, k - 1) && i1 == 3) {
                 flag = true;
             }
 
-            if (!world.method_1783(i, j, k + 1) && i1 == 4) {
+            if (!world.isOpaque(i, j, k + 1) && i1 == 4) {
                 flag = true;
             }
 
-            if (!world.method_1783(i, j - 1, k) && i1 == 5) {
+            if (!world.isOpaque(i, j - 1, k) && i1 == 5) {
                 flag = true;
             }
 

@@ -12,7 +12,7 @@ public abstract class EntityAetherAnimal extends AnimalEntity {
     }
 
     protected float getPathfindingFavor(int i, int j, int k) {
-        return this.world.getBlockId(i, j - 1, k) == AetherBlocks.Grass.id ? 10.0F : this.world.method_1782(i, j, k) - 0.5F;
+        return this.world.getBlockId(i, j - 1, k) == AetherBlocks.Grass.id ? 10.0F : this.world.getLuminance(i, j, k) - 0.5F;
     }
 
     public void writeNbt(NbtCompound nbttagcompound) {
