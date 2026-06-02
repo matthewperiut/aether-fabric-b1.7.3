@@ -1,6 +1,6 @@
 package com.matthewperiut.aether.player;
 
-import com.matthewperiut.accessoryapi.api.helper.AccessoryAccess;
+import com.periut.accessoryapi.api.helper.AccessoryAccess;
 import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

@@ -1,8 +1,8 @@
 package com.matthewperiut.aether.item.accessory;
 
-import com.matthewperiut.accessoryapi.api.render.AccessoryRenderer;
-import com.matthewperiut.accessoryapi.api.render.HasCustomRenderer;
-import com.matthewperiut.accessoryapi.api.render.builtin.GloveRenderer;
+import com.periut.accessoryapi.api.render.AccessoryRenderer;
+import com.periut.accessoryapi.api.render.HasCustomRenderer;
+import com.periut.accessoryapi.api.render.builtin.GloveRenderer;
 import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.awt.*;

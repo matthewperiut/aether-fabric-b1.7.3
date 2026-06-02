@@ -1,10 +1,10 @@
 package com.matthewperiut.aether.entity.living;
 
-import com.matthewperiut.accessoryapi.api.BossLivingEntity;
 import com.matthewperiut.aether.achievement.AetherAchievements;
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.item.AetherItems;
 import com.matthewperiut.aether.util.NameGen;
+import com.periut.accessoryapi.api.BossLivingEntity;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.FlyingEntity;

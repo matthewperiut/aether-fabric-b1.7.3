@@ -80,7 +80,7 @@ dependencies {
     modImplementation("net.modificationstation:StationAPI:${project.properties["stationapi_version"]}")
 
     modImplementation("maven.modrinth:retrocommands:${project.properties["retrocommands_version"]}")
-    modImplementation("com.matthewperiut:accessory-api:${project.properties["accessory_version"]}")
+    modImplementation("maven.modrinth:accessory-api:${project.properties["accessory_version"]}")
     modImplementation("maven.modrinth:bh-creative:${project.properties["bhcreative_version"]}")
     
     // Extra mods.

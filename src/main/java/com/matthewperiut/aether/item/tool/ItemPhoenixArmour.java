@@ -1,6 +1,6 @@
 package com.matthewperiut.aether.item.tool;
 
-import com.matthewperiut.accessoryapi.api.TickableInArmorSlot;
+import com.periut.accessoryapi.api.TickableInArmorSlot;
 import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

@@ -1,6 +1,6 @@
 package com.matthewperiut.aether.item.tool;
 
-import com.matthewperiut.accessoryapi.api.PlayerExtraHP;
+import com.periut.accessoryapi.api.PlayerExtraHP;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;

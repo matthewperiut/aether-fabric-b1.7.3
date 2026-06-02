@@ -1,6 +1,6 @@
 package com.matthewperiut.aether.item.misc;
 
-import com.matthewperiut.accessoryapi.api.PlayerExtraHP;
+import com.periut.accessoryapi.api.PlayerExtraHP;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;

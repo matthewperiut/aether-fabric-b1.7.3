@@ -1,6 +1,6 @@
 package com.matthewperiut.aether.item;
 
-import com.matthewperiut.accessoryapi.api.AccessoryRegister;
+import com.periut.accessoryapi.api.AccessoryRegister;
 import com.matthewperiut.aether.item.accessory.*;
 import com.matthewperiut.aether.item.misc.*;
 import com.matthewperiut.aether.item.tool.*;

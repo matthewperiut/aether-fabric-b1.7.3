@@ -1,6 +1,6 @@
 package com.matthewperiut.aether.entity.living;
 
-import com.matthewperiut.accessoryapi.api.BossLivingEntity;
+import com.periut.accessoryapi.api.BossLivingEntity;
 import com.matthewperiut.aether.achievement.AetherAchievements;
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.entity.projectile.EntityHomeShot;

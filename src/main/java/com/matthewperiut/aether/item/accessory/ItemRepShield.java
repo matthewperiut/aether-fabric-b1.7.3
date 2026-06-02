@@ -1,8 +1,8 @@
 package com.matthewperiut.aether.item.accessory;
 
-import com.matthewperiut.accessoryapi.api.render.AccessoryRenderer;
-import com.matthewperiut.accessoryapi.api.render.HasCustomRenderer;
-import com.matthewperiut.accessoryapi.impl.mixin.client.LivingEntityRendererAccessor;
+import com.periut.accessoryapi.api.render.AccessoryRenderer;
+import com.periut.accessoryapi.api.render.HasCustomRenderer;
+import com.periut.accessoryapi.impl.mixin.client.LivingEntityRendererAccessor;
 import com.matthewperiut.aether.entity.projectile.EntityFlamingArrow;
 import com.matthewperiut.aether.entity.projectile.EntityProjectileBase;
 import com.matthewperiut.aether.mixin.access.LivingEntityAccessor;

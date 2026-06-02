@@ -1,6 +1,6 @@
 package com.matthewperiut.aether.item.accessory;
 
-import com.matthewperiut.accessoryapi.api.Accessory;
+import com.periut.accessoryapi.api.Accessory;
 import net.minecraft.item.ItemStack;
 import net.modificationstation.stationapi.api.template.item.TemplateItem;
 import net.modificationstation.stationapi.api.util.Identifier;
