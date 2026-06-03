@@ -83,7 +83,7 @@ dependencies {
 
     // Optional integrations — compile-only so the classes build without pulling StationAPI into the runtime
     // (retrocommands' pom also drags StationAPI/GCAPI; its fabric.mod.json only needs minecraft)
-    modImplementation("com.periut:retrocommands:${project.properties["retrocommands_version"]}") {
+    modCompileOnly("com.periut:retrocommands:${project.properties["retrocommands_version"]}") {
         exclude(group = "net.modificationstation")
         exclude(group = "net.glasslauncher.mods")
     }
