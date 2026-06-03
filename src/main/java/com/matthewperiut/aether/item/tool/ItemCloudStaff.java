@@ -1,18 +1,19 @@
 package com.matthewperiut.aether.item.tool;
 
+import net.minecraft.item.Item;
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import com.matthewperiut.aether.entity.special.EntityMiniCloud;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.template.item.TemplateItem;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.List;
 
-public class ItemCloudStaff extends TemplateItem {
-    public ItemCloudStaff(Identifier i) {
-        super(i);
+public class ItemCloudStaff extends Item {
+    public ItemCloudStaff() {
+        super(RetroItemAccess.allocateId());
         this.maxCount = 1;
         this.setMaxDamage(60);
     }

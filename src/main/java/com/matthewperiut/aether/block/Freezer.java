@@ -1,5 +1,11 @@
 package com.matthewperiut.aether.block;
 
+import com.periut.retroapi.gui.RetroGuis;
+
+import net.minecraft.block.BlockWithEntity;
+import com.periut.retroapi.register.block.RetroBlockAccess;
+import com.matthewperiut.aether.Aether;
+
 import com.matthewperiut.aether.blockentity.block.BlockEntityFreezer;
 import com.matthewperiut.aether.blockentity.container.ContainerFreezer;
 import net.minecraft.block.Block;
@@ -11,20 +17,16 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.gui.screen.container.GuiHelper;
-import net.modificationstation.stationapi.api.template.block.TemplateBlockWithEntity;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-import static com.matthewperiut.aether.blockentity.AetherBlockEntities.MOD_ID;
 
-public class Freezer extends TemplateBlockWithEntity {
+public class Freezer extends BlockWithEntity {
     public static int sideTexture;
     private final Random FrozenRand;
 
-    protected Freezer(Identifier blockID) {
-        super(blockID, Material.STONE);
+    protected Freezer() {
+        super(RetroBlockAccess.allocateId(), Material.STONE);
         this.FrozenRand = new Random();
     }
 
@@ -97,7 +99,7 @@ public class Freezer extends TemplateBlockWithEntity {
             return true;
         } else {
             BlockEntityFreezer tileentityFreezer = (BlockEntityFreezer) world.getBlockEntity(i, j, k);
-            GuiHelper.openGUI(player, MOD_ID.id("freezer"), tileentityFreezer, new ContainerFreezer(player.inventory, tileentityFreezer));
+            RetroGuis.openGUI(player, Aether.id("freezer"), tileentityFreezer, new ContainerFreezer(player.inventory, tileentityFreezer));
             return true;
         }
     }

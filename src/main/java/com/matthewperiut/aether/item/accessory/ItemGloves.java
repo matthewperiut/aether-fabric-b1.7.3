@@ -1,9 +1,10 @@
 package com.matthewperiut.aether.item.accessory;
 
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import com.periut.accessoryapi.api.render.AccessoryRenderer;
 import com.periut.accessoryapi.api.render.HasCustomRenderer;
 import com.periut.accessoryapi.api.render.builtin.GloveRenderer;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.awt.*;
 import java.util.Optional;
@@ -11,12 +12,12 @@ import java.util.Optional;
 public class ItemGloves extends ItemMoreArmor implements HasCustomRenderer {
     AccessoryRenderer renderer;
 
-    public ItemGloves(Identifier i, int j, String path, int l, int m) {
-        super(i, j, path, l, m);
+    public ItemGloves(int j, String path, int l, int m) {
+        super(j, path, l, m);
     }
 
-    public ItemGloves(Identifier i, int j, String path, int l, int m, boolean flag) {
-        super(i, j, path, l, m, flag);
+    public ItemGloves(int j, String path, int l, int m, boolean flag) {
+        super(j, path, l, m, flag);
     }
 
     @Override

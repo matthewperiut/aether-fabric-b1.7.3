@@ -1,5 +1,7 @@
 package com.matthewperiut.aether.item.accessory;
 
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import com.matthewperiut.aether.item.AetherItems;
 import com.matthewperiut.aether.item.tool.ItemPhoenixArmour;
 import com.matthewperiut.aether.mixin.access.EntityAccessor;
@@ -8,11 +10,10 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 public class ItemPhoenixGloves extends ItemGloves {
-    public ItemPhoenixGloves(Identifier i, int j, String path, int l, int m, boolean b) {
-        super(i, j, path, l, m, b);
+    public ItemPhoenixGloves(int j, String path, int l, int m, boolean b) {
+        super(j, path, l, m, b);
     }
 
     private boolean phoenixArmour(PlayerEntity player, int slot) {

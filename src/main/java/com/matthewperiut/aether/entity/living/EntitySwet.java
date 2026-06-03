@@ -1,5 +1,9 @@
 package com.matthewperiut.aether.entity.living;
 
+import com.periut.retroapi.entity.spawn.RetroMobSpawnData;
+import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
+import com.matthewperiut.aether.Aether;
+
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.block.UtilSkyroot;
 import com.matthewperiut.aether.mixin.access.EntityAccessor;
@@ -13,14 +17,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.List;
 
-import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
-public class EntitySwet extends EntityAetherAnimal implements MobSpawnDataProvider {
+public class EntitySwet extends EntityAetherAnimal implements RetroMobSpawnData {
     public int ticker;
     public int flutter;
     public int hops;
@@ -517,7 +518,7 @@ public class EntitySwet extends EntityAetherAnimal implements MobSpawnDataProvid
     }
 
     protected void dropItems() {
-        ItemStack stack = new ItemStack(this.textureNum == 1 ? AetherBlocks.Aercloud.asItem().id : Block.GLOWSTONE.asItem().id, 3, this.textureNum == 1 ? 1 : 0);
+        ItemStack stack = new ItemStack(this.textureNum == 1 ? AetherBlocks.Aercloud.id : Block.GLOWSTONE.id, 3, this.textureNum == 1 ? 1 : 0);
 
         if (UtilSkyroot.sword(world.getClosestPlayer(x, y, z, 10))) {
             stack.count *= 2;
@@ -527,7 +528,7 @@ public class EntitySwet extends EntityAetherAnimal implements MobSpawnDataProvid
     }
 
     @Override
-    public Identifier getHandlerIdentifier() {
-        return MOD_ID.id("Swet");
+    public NamespacedIdentifier getHandlerId() {
+        return Aether.id("Swet");
     }
 }

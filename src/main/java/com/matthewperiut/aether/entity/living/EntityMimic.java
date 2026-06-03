@@ -1,15 +1,16 @@
 package com.matthewperiut.aether.entity.living;
 
+import com.periut.retroapi.entity.spawn.RetroMobSpawnData;
+import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
+import com.matthewperiut.aether.Aether;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
-import net.modificationstation.stationapi.api.util.Identifier;
 
-import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
-public class EntityMimic extends EntityDungeonMob implements MobSpawnDataProvider {
+public class EntityMimic extends EntityDungeonMob implements RetroMobSpawnData {
     public float mouth;
     public float legs;
     private float legsDirection = 1.0F;
@@ -70,11 +71,11 @@ public class EntityMimic extends EntityDungeonMob implements MobSpawnDataProvide
     }
 
     protected int getDroppedItemId() {
-        return Block.CHEST.asItem().id;
+        return Block.CHEST.id;
     }
 
     @Override
-    public Identifier getHandlerIdentifier() {
-        return MOD_ID.id("Mimic");
+    public NamespacedIdentifier getHandlerId() {
+        return Aether.id("Mimic");
     }
 }

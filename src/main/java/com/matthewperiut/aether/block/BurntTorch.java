@@ -1,15 +1,16 @@
 package com.matthewperiut.aether.block;
 
+import net.minecraft.block.TorchBlock;
+import com.periut.retroapi.register.block.RetroBlockAccess;
+
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.template.block.TemplateTorchBlock;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-public class BurntTorch extends TemplateTorchBlock {
-    public BurntTorch(Identifier i) {
-        super(i, 0);
+public class BurntTorch extends TorchBlock {
+    public BurntTorch() {
+        super(RetroBlockAccess.allocateId(), 0);
     }
 
     @Override
@@ -19,6 +20,6 @@ public class BurntTorch extends TemplateTorchBlock {
 
     @Override
     public int getDroppedItemId(int i, Random random) {
-        return Block.TORCH.asItem().id;
+        return Block.TORCH.id;
     }
 }

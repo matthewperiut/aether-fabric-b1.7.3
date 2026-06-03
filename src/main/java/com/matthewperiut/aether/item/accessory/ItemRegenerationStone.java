@@ -1,13 +1,14 @@
 package com.matthewperiut.aether.item.accessory;
 
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import com.periut.accessoryapi.api.PlayerExtraHP;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 public class ItemRegenerationStone extends ItemMoreArmor {
-    public ItemRegenerationStone(Identifier i, int j, int k, int l) {
-        super(i, j, k, l);
+    public ItemRegenerationStone(int j, int k, int l) {
+        super(RetroItemAccess.allocateId(), j, k, l);
     }
 
     @Override

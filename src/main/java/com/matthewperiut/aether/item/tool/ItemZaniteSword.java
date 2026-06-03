@@ -1,14 +1,15 @@
 package com.matthewperiut.aether.item.tool;
 
+import net.minecraft.item.SwordItem;
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
-import net.modificationstation.stationapi.api.template.item.TemplateSwordItem;
-import net.modificationstation.stationapi.api.util.Identifier;
 
-public class ItemZaniteSword extends TemplateSwordItem {
-    public ItemZaniteSword(Identifier identifier, ToolMaterial material) {
-        super(identifier, material);
+public class ItemZaniteSword extends SwordItem {
+    public ItemZaniteSword(ToolMaterial material) {
+        super(RetroItemAccess.allocateId(), material);
     }
 
     @Override

@@ -1,5 +1,9 @@
 package com.matthewperiut.aether.entity.living;
 
+import com.periut.retroapi.entity.spawn.RetroMobSpawnData;
+import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
+import com.matthewperiut.aether.Aether;
+
 import com.matthewperiut.aether.block.AetherBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.WoolBlock;
@@ -11,14 +15,11 @@ import net.minecraft.item.ShearsItem;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
-public class EntitySheepuff extends EntityAetherAnimal implements MobSpawnDataProvider {
+public class EntitySheepuff extends EntityAetherAnimal implements RetroMobSpawnData {
     public static final float[][] fleeceColorTable = new float[][]{{1.0F, 1.0F, 1.0F}, {0.975F, 0.85F, 0.6F}, {0.95F, 0.75F, 0.925F}, {0.8F, 0.85F, 0.975F}, {0.95F, 0.95F, 0.6F}, {0.75F, 0.9F, 0.55F}, {0.975F, 0.85F, 0.9F}, {0.65F, 0.65F, 0.65F}, {0.8F, 0.8F, 0.8F}, {0.65F, 0.8F, 0.85F}, {0.85F, 0.7F, 0.95F}, {0.6F, 0.7F, 0.9F}, {0.75F, 0.7F, 0.65F}, {0.7F, 0.75F, 0.6F}, {0.9F, 0.65F, 0.65F}, {0.55F, 0.55F, 0.55F}};
     private int amountEaten;
 
@@ -45,7 +46,7 @@ public class EntitySheepuff extends EntityAetherAnimal implements MobSpawnDataPr
 
     protected void dropItems() {
         if (!this.getSheared()) {
-            this.dropItem(new ItemStack(Block.WOOL.asItem().id, 1 + this.random.nextInt(2), this.getFleeceColor()), 0.0F);
+            this.dropItem(new ItemStack(Block.WOOL.id, 1 + this.random.nextInt(2), this.getFleeceColor()), 0.0F);
         }
 
     }
@@ -62,7 +63,7 @@ public class EntitySheepuff extends EntityAetherAnimal implements MobSpawnDataPr
                     colour = 2 + this.random.nextInt(3);
 
                     for (j = 0; j < colour; ++j) {
-                        entityitem = this.dropItem(new ItemStack(Block.WOOL.asItem().id, 1, this.getFleeceColor()), 1.0F);
+                        entityitem = this.dropItem(new ItemStack(Block.WOOL.id, 1, this.getFleeceColor()), 1.0F);
                         entityitem.velocityY += (double) (this.random.nextFloat() * 0.05F);
                         entityitem.velocityX += (double) ((this.random.nextFloat() - this.random.nextFloat()) * 0.1F);
                         entityitem.velocityZ += (double) ((this.random.nextFloat() - this.random.nextFloat()) * 0.1F);
@@ -72,7 +73,7 @@ public class EntitySheepuff extends EntityAetherAnimal implements MobSpawnDataPr
                     colour = 2 + this.random.nextInt(3);
 
                     for (j = 0; j < colour; ++j) {
-                        entityitem = this.dropItem(new ItemStack(Block.WOOL.asItem().id, 1, this.getFleeceColor()), 1.0F);
+                        entityitem = this.dropItem(new ItemStack(Block.WOOL.id, 1, this.getFleeceColor()), 1.0F);
                         entityitem.velocityY += (double) (this.random.nextFloat() * 0.05F);
                         entityitem.velocityX += (double) ((this.random.nextFloat() - this.random.nextFloat()) * 0.1F);
                         entityitem.velocityZ += (double) ((this.random.nextFloat() - this.random.nextFloat()) * 0.1F);
@@ -221,7 +222,7 @@ public class EntitySheepuff extends EntityAetherAnimal implements MobSpawnDataPr
     }
 
     @Override
-    public Identifier getHandlerIdentifier() {
-        return MOD_ID.id("Sheepuff");
+    public NamespacedIdentifier getHandlerId() {
+        return Aether.id("Sheepuff");
     }
 }

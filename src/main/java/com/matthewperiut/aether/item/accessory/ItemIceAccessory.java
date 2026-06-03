@@ -1,14 +1,15 @@
 package com.matthewperiut.aether.item.accessory;
 
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 public class ItemIceAccessory extends ItemMoreArmor {
-    public ItemIceAccessory(Identifier i, int j, String path, int l, int m) {
-        super(i, j, path, l, m);
+    public ItemIceAccessory(int j, String path, int l, int m) {
+        super(j, path, l, m);
     }
 
     @Override

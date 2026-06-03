@@ -1,16 +1,17 @@
 package com.matthewperiut.aether.item.misc;
 
+import net.minecraft.item.FoodItem;
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.template.item.TemplateFoodItem;
-import net.modificationstation.stationapi.api.util.Identifier;
 
-public class ItemAmbrosium extends TemplateFoodItem {
+public class ItemAmbrosium extends FoodItem {
     private final int healAmount;
 
-    public ItemAmbrosium(Identifier identifier, int healAmount, boolean isWolfFood) {
-        super(identifier,healAmount,isWolfFood);
+    public ItemAmbrosium(int healAmount, boolean isWolfFood) {
+        super(RetroItemAccess.allocateId(),healAmount,isWolfFood);
         this.healAmount = healAmount;
         this.maxCount = 64;
     }

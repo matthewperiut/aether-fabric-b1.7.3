@@ -13,6 +13,10 @@ ploceus {
 	setIntermediaryGeneration(2)
 }
 
+loom {
+    accessWidenerPath = file("src/main/resources/aether.accessWidener")
+}
+
 
 //noinspection GroovyUnusedAssignment
 java.sourceCompatibility = JavaVersion.VERSION_21
@@ -70,17 +74,24 @@ dependencies {
     implementation("org.jetbrains:annotations:23.0.0")
     implementation("com.google.guava:guava:33.2.1-jre")
 
-    // StAPI itself.
-    // transitiveImplementation tells babric loom that you want this dependency to be pulled into other mod's development workspaces. Best used ONLY for required dependencies.
-    modImplementation("net.modificationstation:StationAPI:${project.properties["stationapi_version"]}")
+    // RetroAPI (published to mavenLocal via ./gradlew publishToMavenLocal in the RetroAPI repo)
+    modImplementation("com.periut:retroapi:${project.properties["retroapi_version"]}")
+    // OSL modules (compile-time API: NamespacedIdentifier, ModInitializer, Event, networking)
+    ploceus.dependOsl(project.properties["osl_version"] as String)
 
-    modImplementation("com.periut:retrocommands:${project.properties["retrocommands_version"]}")
-    modImplementation("com.periut:accessory-api:${project.properties["accessory_version"]}")
-    modImplementation("paulevs.bhcreative:BHCreative:${project.properties["bhcreative_version"]}")
-    
+    // Optional integrations — compile-only so the classes build without pulling StationAPI into the runtime
+    modCompileOnly("com.periut:retrocommands:${project.properties["retrocommands_version"]}")
+    // accessory-api's pom drags StationAPI + GCAPI into the dev runtime, but its fabric.mod.json
+    // doesn't require them — exclude so the run configs are StationAPI-free.
+    modImplementation("com.periut:accessory-api:${project.properties["accessory_version"]}") {
+        exclude(group = "net.modificationstation")
+        exclude(group = "net.glasslauncher.mods")
+    }
+    modCompileOnly("paulevs.bhcreative:BHCreative:${project.properties["bhcreative_version"]}")
+
     // Extra mods.
     // https://github.com/calmilamsy/glass-config-api
-    modImplementation("net.glasslauncher.mods:GlassConfigAPI:${project.properties["gcapi_version"]}")
+    modCompileOnly("net.glasslauncher.mods:GlassConfigAPI:${project.properties["gcapi_version"]}")
     // https://github.com/calmilamsy/modmenu
     // TODO: babric2ornithe - verify this dependency is available for ornithe
     // modImplementation("net.glasslauncher.mods:ModMenu:${project.properties["modmenu_version"]}")

@@ -1,15 +1,16 @@
 package com.matthewperiut.aether.item.misc;
 
+import net.minecraft.item.Item;
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import com.periut.accessoryapi.api.PlayerExtraHP;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.template.item.TemplateItem;
-import net.modificationstation.stationapi.api.util.Identifier;
 
-public class ItemLifeShard extends TemplateItem {
-    public ItemLifeShard(Identifier i) {
-        super(i);
+public class ItemLifeShard extends Item {
+    public ItemLifeShard() {
+        super(RetroItemAccess.allocateId());
         this.maxCount = 1;
     }
 

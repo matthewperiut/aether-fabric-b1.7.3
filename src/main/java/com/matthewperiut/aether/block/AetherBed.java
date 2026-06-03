@@ -1,5 +1,7 @@
 package com.matthewperiut.aether.block;
 
+import com.periut.retroapi.register.block.RetroBlockAccess;
+
 import com.matthewperiut.aether.mixin.access.LivingEntityAccessor;
 import com.matthewperiut.aether.mixin.access.PlayerEntityAccessor;
 import net.minecraft.block.BedBlock;
@@ -12,17 +14,15 @@ import net.minecraft.util.math.Facings;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.template.block.TemplateBlock;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Iterator;
 import java.util.Random;
 
-public class AetherBed extends TemplateBlock {
+public class AetherBed extends Block {
     public static final int[][] headBlockToFootBlockMap = new int[][]{{0, 1}, {-1, 0}, {0, -1}, {1, 0}};
 
-    public AetherBed(Identifier identifier) {
-        super(identifier, 134, Material.WOOL);
+    public AetherBed() {
+        super(RetroBlockAccess.allocateId(), 134, Material.WOOL);
         this.setBounds();
     }
 

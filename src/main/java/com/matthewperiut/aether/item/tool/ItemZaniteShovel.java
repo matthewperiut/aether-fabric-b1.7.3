@@ -1,14 +1,15 @@
 package com.matthewperiut.aether.item.tool;
 
+import net.minecraft.item.ShovelItem;
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
-import net.modificationstation.stationapi.api.template.item.TemplateShovelItem;
-import net.modificationstation.stationapi.api.util.Identifier;
 
-public class ItemZaniteShovel extends TemplateShovelItem {
-    public ItemZaniteShovel(Identifier identifier, ToolMaterial material) {
-        super(identifier, material);
+public class ItemZaniteShovel extends ShovelItem {
+    public ItemZaniteShovel(ToolMaterial material) {
+        super(RetroItemAccess.allocateId(), material);
     }
 
     @Override

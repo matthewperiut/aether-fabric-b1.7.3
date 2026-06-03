@@ -1,5 +1,8 @@
 package com.matthewperiut.aether.item.misc;
 
+import net.minecraft.item.Item;
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import com.matthewperiut.aether.entity.projectile.EntityDartEnchanted;
 import com.matthewperiut.aether.entity.projectile.EntityDartGolden;
 import com.matthewperiut.aether.entity.projectile.EntityDartPoison;
@@ -9,16 +12,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.template.item.TemplateItem;
-import net.modificationstation.stationapi.api.util.Identifier;
 
-public class ItemDartShooter extends TemplateItem {
+public class ItemDartShooter extends Item {
     public static int sprNormal;// = ModLoader.addOverride("/gui/items.png", "/aether/items/DartShooter.png");
     public static int sprPoison;// = ModLoader.addOverride("/gui/items.png", "/aether/items/DartShooterPoison.png");
     public static int sprEnchanted;// = ModLoader.addOverride("/gui/items.png", "/aether/items/DartShooterEnchanted.png");
 
-    public ItemDartShooter(Identifier i) {
-        super(i);
+    public ItemDartShooter() {
+        super(RetroItemAccess.allocateId());
         this.setHasSubtypes(true);
         this.maxCount = 1;
     }

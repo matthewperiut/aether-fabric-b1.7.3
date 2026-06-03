@@ -1,19 +1,20 @@
 package com.matthewperiut.aether.item.misc;
 
+import net.minecraft.item.MusicDiscItem;
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.template.item.TemplateMusicDiscItem;
-import net.modificationstation.stationapi.api.util.Identifier;
 
-public class ItemAetherRecord extends TemplateMusicDiscItem {
+public class ItemAetherRecord extends MusicDiscItem {
     String jukeboxMessage;
 
-    public ItemAetherRecord(Identifier i, String s, String jukeboxMessage) {
-        super(i, s);
+    public ItemAetherRecord(String s, String jukeboxMessage) {
+        super(RetroItemAccess.allocateId(), s);
         this.jukeboxMessage = jukeboxMessage;
     }
 

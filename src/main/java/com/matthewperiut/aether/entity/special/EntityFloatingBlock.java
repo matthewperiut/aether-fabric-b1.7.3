@@ -1,5 +1,9 @@
 package com.matthewperiut.aether.entity.special;
 
+import com.periut.retroapi.entity.spawn.RetroEntitySpawnData;
+import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
+import com.matthewperiut.aether.Aether;
+
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.block.BlockFloating;
 import net.minecraft.entity.Entity;
@@ -7,17 +11,11 @@ import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.server.entity.EntitySpawnDataProvider;
-import net.modificationstation.stationapi.api.server.entity.HasTrackingParameters;
-import net.modificationstation.stationapi.api.util.Identifier;
-import net.modificationstation.stationapi.api.util.TriState;
 
 import java.util.List;
 
-import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
-@HasTrackingParameters(trackingDistance = 50, sendVelocity = TriState.TRUE, updatePeriod = 1)
-public class EntityFloatingBlock extends Entity implements EntitySpawnDataProvider {
+public class EntityFloatingBlock extends Entity implements RetroEntitySpawnData {
     public int blockID;
     public int metadata;
     public int flytime;
@@ -125,7 +123,7 @@ public class EntityFloatingBlock extends Entity implements EntitySpawnDataProvid
     }
 
     @Override
-    public Identifier getHandlerIdentifier() {
-        return MOD_ID.id("FloatingBlock");
+    public NamespacedIdentifier getHandlerId() {
+        return Aether.id("FloatingBlock");
     }
 }

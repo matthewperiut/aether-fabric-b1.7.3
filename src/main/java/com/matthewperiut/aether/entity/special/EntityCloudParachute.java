@@ -1,5 +1,9 @@
 package com.matthewperiut.aether.entity.special;
 
+import com.periut.retroapi.entity.spawn.RetroEntitySpawnData;
+import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
+import com.matthewperiut.aether.Aether;
+
 import com.matthewperiut.aether.mixin.access.EntityAccessor;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -8,21 +12,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.server.entity.EntitySpawnDataProvider;
-import net.modificationstation.stationapi.api.server.entity.HasTrackingParameters;
-import net.modificationstation.stationapi.api.util.Identifier;
-import net.modificationstation.stationapi.api.util.TriState;
 
-import net.modificationstation.stationapi.api.network.packet.MessagePacket;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
-@HasTrackingParameters(trackingDistance = 50, sendVelocity = TriState.TRUE, updatePeriod = 1)
-public class EntityCloudParachute extends Entity implements EntitySpawnDataProvider {
+public class EntityCloudParachute extends Entity implements RetroEntitySpawnData {
     private LivingEntity entityUsing;
     private boolean justServerSpawned;
     private static Map<LivingEntity, EntityCloudParachute> cloudMap = new HashMap();
@@ -185,15 +182,16 @@ public class EntityCloudParachute extends Entity implements EntitySpawnDataProvi
     }
 
     @Override
-    public void writeToMessage(MessagePacket message) {
-        message.longs = new long[]{this.entityUsing != null ? this.entityUsing.id : -1, this.gold ? 1 : 0};
+    public void writeExtra(net.ornithemc.osl.networking.api.PacketBuffer buf) throws java.io.IOException {
+        buf.writeInt(this.entityUsing != null ? this.entityUsing.id : -1);
+        buf.writeBoolean(this.gold);
     }
 
     @Override
-    public void readFromMessage(MessagePacket message) {
-        if (message.longs != null && message.longs.length >= 2) {
-            int userId = (int) message.longs[0];
-            this.gold = message.longs[1] == 1;
+    public void readExtra(net.ornithemc.osl.networking.api.PacketBuffer buf) throws java.io.IOException {
+        {
+            int userId = buf.readInt();
+            this.gold = buf.readBoolean();
             if (userId >= 0) {
                 // Find user entity on client by ID
                 List entities = this.world.collectEntitiesByClass(LivingEntity.class, this.boundingBox.expand(64, 64, 64));
@@ -213,7 +211,7 @@ public class EntityCloudParachute extends Entity implements EntitySpawnDataProvi
     }
 
     @Override
-    public Identifier getHandlerIdentifier() {
-        return MOD_ID.id("CloudParachute");
+    public NamespacedIdentifier getHandlerId() {
+        return Aether.id("CloudParachute");
     }
 }

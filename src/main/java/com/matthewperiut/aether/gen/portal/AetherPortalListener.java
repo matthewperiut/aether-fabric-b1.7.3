@@ -2,23 +2,20 @@ package com.matthewperiut.aether.gen.portal;
 
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.block.AetherPortal;
-import net.mine_diver.unsafeevents.listener.EventListener;
+import com.periut.retroapi.world.event.BlockSetCallback;
 import net.minecraft.block.Block;
-import net.modificationstation.stationapi.api.event.world.BlockSetEvent;
-import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
-import net.modificationstation.stationapi.api.mod.entrypoint.EventBusPolicy;
 
-@Entrypoint(eventBus = @EventBusPolicy(registerInstance = false))
 public class AetherPortalListener {
-    @EventListener
-    public static void blockSet(BlockSetEvent event) {
-        if (
-                (event.blockState.getBlock().id == Block.WATER.id || event.blockState.getBlock().id == Block.FLOWING_WATER.id) &&
-                        event.world.getBlockId(event.x, event.y - 1, event.z) == Block.GLOWSTONE.id &&
-                        ((AetherPortal) AetherBlocks.Portal).create(event.world, event.x, event.y, event.z)
-        ) {
-            event.cancel();
-            event.world.setBlock(event.x, event.y, event.z, AetherBlocks.Portal.id);
-        }
+    /** Water placed on glowstone becomes an Aether portal. Registered from Aether.init(). */
+    public static void register() {
+        BlockSetCallback.EVENT.register((world, x, y, z, blockId, meta) -> {
+            if ((blockId == Block.WATER.id || blockId == Block.FLOWING_WATER.id)
+                    && world.getBlockId(x, y - 1, z) == Block.GLOWSTONE.id
+                    && ((AetherPortal) AetherBlocks.Portal).create(world, x, y, z)) {
+                world.setBlock(x, y, z, AetherBlocks.Portal.id);
+                return true;
+            }
+            return false;
+        });
     }
 }

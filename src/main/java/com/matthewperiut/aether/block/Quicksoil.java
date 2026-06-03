@@ -1,15 +1,16 @@
 package com.matthewperiut.aether.block;
 
+import net.minecraft.block.Block;
+import com.periut.retroapi.register.block.RetroBlockAccess;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.stat.Stats;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.template.block.TemplateBlock;
-import net.modificationstation.stationapi.api.util.Identifier;
 
-public class Quicksoil extends TemplateBlock {
-    public Quicksoil(Identifier blockID) {
-        super(blockID, Material.SAND);
+public class Quicksoil extends Block {
+    public Quicksoil() {
+        super(RetroBlockAccess.allocateId(), Material.SAND);
         this.slipperiness = 1.1F;
     }
 

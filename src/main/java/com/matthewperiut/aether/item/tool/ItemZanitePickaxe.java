@@ -1,14 +1,15 @@
 package com.matthewperiut.aether.item.tool;
 
+import net.minecraft.item.PickaxeItem;
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
-import net.modificationstation.stationapi.api.template.item.TemplatePickaxeItem;
-import net.modificationstation.stationapi.api.util.Identifier;
 
-public class ItemZanitePickaxe extends TemplatePickaxeItem {
-    public ItemZanitePickaxe(Identifier identifier, ToolMaterial material) {
-        super(identifier, material);
+public class ItemZanitePickaxe extends PickaxeItem {
+    public ItemZanitePickaxe(ToolMaterial material) {
+        super(RetroItemAccess.allocateId(), material);
     }
 
     @Override

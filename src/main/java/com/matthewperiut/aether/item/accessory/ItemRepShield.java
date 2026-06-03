@@ -1,5 +1,9 @@
 package com.matthewperiut.aether.item.accessory;
 
+import net.minecraft.util.math.Vec3d;
+
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import com.periut.accessoryapi.api.render.AccessoryRenderer;
 import com.periut.accessoryapi.api.render.HasCustomRenderer;
 import com.periut.accessoryapi.impl.mixin.client.LivingEntityRendererAccessor;
@@ -18,8 +22,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.util.Identifier;
-import net.modificationstation.stationapi.api.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
 
 import java.util.HashMap;
@@ -29,8 +31,8 @@ import java.util.Optional;
 public class ItemRepShield extends ItemMoreArmor implements HasCustomRenderer {
     AccessoryRenderer renderer;
 
-    public ItemRepShield(Identifier i, int j, int k, int l, int col) {
-        super(i, j, k, l, col);
+    public ItemRepShield(int j, int k, int l, int col) {
+        super(j, k, l, col);
     }
 
     @Override
@@ -271,7 +273,7 @@ public class ItemRepShield extends ItemMoreArmor implements HasCustomRenderer {
                 ShouldRender prev = prevPos.get(player);
 
                 if (System.currentTimeMillis() - prev.time > 100) {
-                    Vec3d current = new Vec3d(player.x, player.y, player.z);
+                    Vec3d current = Vec3d.create(player.x, player.y, player.z);
                     prev.shouldRender = prev.pos.distanceTo(current) < 0.05;
                     prevPos.replace(player, new ShouldRender(current, prev.shouldRender));
                 }
@@ -292,7 +294,7 @@ public class ItemRepShield extends ItemMoreArmor implements HasCustomRenderer {
                 }
                 return true;
             } else {
-                prevPos.put(player, new ShouldRender(new Vec3d(player.x, player.y, player.z)));
+                prevPos.put(player, new ShouldRender(Vec3d.create(player.x, player.y, player.z)));
             }
 
             return false;

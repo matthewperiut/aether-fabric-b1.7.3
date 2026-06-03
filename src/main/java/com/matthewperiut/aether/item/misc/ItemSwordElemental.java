@@ -1,5 +1,8 @@
 package com.matthewperiut.aether.item.misc;
 
+import net.minecraft.item.SwordItem;
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import com.matthewperiut.aether.entity.projectile.EntityAetherLightning;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -9,13 +12,11 @@ import net.minecraft.entity.mob.SkeletonEntity;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
-import net.modificationstation.stationapi.api.template.item.TemplateSwordItem;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class ItemSwordElemental extends TemplateSwordItem {
+public class ItemSwordElemental extends SwordItem {
     public static ArrayList<Class<? extends LivingEntity>> undead = new ArrayList();
     public static int textureId;
 
@@ -30,8 +31,8 @@ public class ItemSwordElemental extends TemplateSwordItem {
     private final EnumElement element;
     private final int colour;
 
-    public ItemSwordElemental(Identifier i, EnumElement element, int colour) {
-        super(i, ToolMaterial.DIAMOND);
+    public ItemSwordElemental(EnumElement element, int colour) {
+        super(RetroItemAccess.allocateId(), ToolMaterial.DIAMOND);
         setTextureId(textureId);
         this.maxCount = 1;
         this.setMaxDamage(element == EnumElement.Holy ? 128 : 32);

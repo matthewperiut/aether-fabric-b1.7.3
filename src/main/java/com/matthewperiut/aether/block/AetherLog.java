@@ -1,5 +1,8 @@
 package com.matthewperiut.aether.block;
 
+import net.minecraft.block.Block;
+import com.periut.retroapi.register.block.RetroBlockAccess;
+
 import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.ItemEntity;
@@ -7,21 +10,17 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stat.Stats;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.block.MetaNamedBlockItemProvider;
-import net.modificationstation.stationapi.api.template.block.TemplateBlock;
-import net.modificationstation.stationapi.api.util.Identifier;
-import net.modificationstation.stationapi.api.util.SideUtil;
 
 import java.util.Random;
 
-public class AetherLog extends TemplateBlock implements MetaNamedBlockItemProvider {
+public class AetherLog extends Block {
     private static final Random rand = new Random();
     public static int sprTop;// = ModLoader.addOverride("/terrain.png", "/aether/blocks/SkyrootLogTop.png");
     public static int sprSide;// = ModLoader.addOverride("/terrain.png", "/aether/blocks/SkyrootLogSide.png");
     public static int sprGoldenSide;// = ModLoader.addOverride("/terrain.png", "/aether/blocks/GoldenOak.png");
 
-    public AetherLog(Identifier identifier) {
-        super(identifier, sprSide, Material.WOOD);
+    public AetherLog() {
+        super(RetroBlockAccess.allocateId(), sprSide, Material.WOOD);
     }
 
     public int getTexture(int i, int j) {

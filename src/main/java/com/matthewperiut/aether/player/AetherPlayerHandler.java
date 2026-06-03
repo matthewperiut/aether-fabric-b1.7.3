@@ -6,7 +6,7 @@ import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.modificationstation.stationapi.api.util.math.Vec3d;
+import net.minecraft.util.math.Vec3d;
 
 public class AetherPlayerHandler
 {
@@ -36,7 +36,7 @@ public class AetherPlayerHandler
 
                 if (stack.itemId == AetherItems.GravititeGlove.id) {
                     // apply extra knockback
-                    Vec3d dir = ((new Vec3d(player.x, player.y, player.z)).relativize(new Vec3d(entity.x, entity.y, entity.z))).normalize();
+                    Vec3d dir = (Vec3d.create(player.x, player.y, player.z).relativize(Vec3d.create(entity.x, entity.y, entity.z))).normalize();
                     entity.setVelocityClient(entity.velocityX + dir.x, entity.velocityY + dir.y, entity.velocityZ + dir.z);
                 }
                 if (stack.itemId == AetherItems.PhoenixGlove.id) {

@@ -1,18 +1,19 @@
 package com.matthewperiut.aether.block;
 
+import net.minecraft.block.Block;
+import com.periut.retroapi.register.block.RetroBlockAccess;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.template.block.TemplateBlock;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-public class AmbrosiumTorch extends TemplateBlock {
-    public AmbrosiumTorch(Identifier identifier) {
-        super(identifier, Material.PISTON_BREAKABLE);
+public class AmbrosiumTorch extends Block {
+    public AmbrosiumTorch() {
+        super(RetroBlockAccess.allocateId(), Material.PISTON_BREAKABLE);
         this.setTickRandomly(true);
     }
 

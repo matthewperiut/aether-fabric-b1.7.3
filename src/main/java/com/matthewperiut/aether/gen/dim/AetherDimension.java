@@ -9,16 +9,14 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.chunk.ChunkSource;
 import net.minecraft.world.dimension.Dimension;
-import net.modificationstation.stationapi.api.client.world.dimension.TravelMessageProvider;
-import net.modificationstation.stationapi.api.util.Identifier;
+import com.periut.retroapi.dimension.TravelMessageProvider;
 
-import static com.matthewperiut.aether.gen.dim.AetherDimensions.MOD_ID;
 
 @EnvironmentInterface(value = EnvType.CLIENT, itf = TravelMessageProvider.class)
 public class AetherDimension extends Dimension implements TravelMessageProvider {
     public static final String
-            ENTERING_MESSAGE = "gui." + Identifier.of(MOD_ID, "ascending"),
-            LEAVING_MESSAGE = "gui." + Identifier.of(MOD_ID, "descending");
+            ENTERING_MESSAGE = "gui.aether.ascending",
+            LEAVING_MESSAGE = "gui.aether.descending";
 
     private final float[] colours = new float[4];
 

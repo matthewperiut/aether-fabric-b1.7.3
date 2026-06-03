@@ -1,5 +1,8 @@
 package com.matthewperiut.aether.block;
 
+import net.minecraft.block.Block;
+import com.periut.retroapi.register.block.RetroBlockAccess;
+
 import com.matthewperiut.aether.achievement.AetherAchievements;
 import com.matthewperiut.aether.mixin.access.EntityAccessor;
 import net.minecraft.block.material.Material;
@@ -8,15 +11,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.block.MetaNamedBlockItemProvider;
-import net.modificationstation.stationapi.api.template.block.TemplateBlock;
-import net.modificationstation.stationapi.api.util.Identifier;
 
-public class Aercloud extends TemplateBlock implements MetaNamedBlockItemProvider {
+public class Aercloud extends Block {
     public static final int bouncingMeta = 1;
 
-    public Aercloud(Identifier identifier) {
-        super(identifier, Material.ICE);
+    public Aercloud() {
+        super(RetroBlockAccess.allocateId(), Material.ICE);
     }
 
     public void onEntityCollision(World world, int i, int j, int k, Entity entity) {

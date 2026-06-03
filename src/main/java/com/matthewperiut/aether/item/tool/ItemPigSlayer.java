@@ -1,20 +1,21 @@
 package com.matthewperiut.aether.item.tool;
 
+import net.minecraft.item.SwordItem;
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import com.matthewperiut.aether.mixin.access.LivingEntityAccessor;
 import net.minecraft.entity.EntityRegistry;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
-import net.modificationstation.stationapi.api.template.item.TemplateSwordItem;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-public class ItemPigSlayer extends TemplateSwordItem {
+public class ItemPigSlayer extends SwordItem {
     Random rand = new Random();
 
-    public ItemPigSlayer(Identifier i) {
-        super(i, ToolMaterial.IRON);
+    public ItemPigSlayer() {
+        super(RetroItemAccess.allocateId(), ToolMaterial.IRON);
         this.setMaxDamage(0);
     }
 

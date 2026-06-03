@@ -1,17 +1,20 @@
 package com.matthewperiut.aether.item.tool;
 
+import com.periut.retroapi.register.item.RetroItemAccess;
+
+import net.minecraft.item.ShovelItem;
+import com.matthewperiut.aether.item.util.CustomReach;
+import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.util.hit.HitResultType;
-import net.modificationstation.stationapi.api.item.CustomReachProvider;
-import net.modificationstation.stationapi.api.template.item.TemplateShovelItem;
-import net.modificationstation.stationapi.api.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
-public class ItemValkyrieSpade extends TemplateShovelItem implements CustomReachProvider {
-    public ItemValkyrieSpade(final @NotNull Identifier identifier, final ToolMaterial enumtoolmaterial) {
-        super(identifier, enumtoolmaterial);
+public class ItemValkyrieSpade extends ShovelItem implements CustomReach {
+    public ItemValkyrieSpade(final ToolMaterial enumtoolmaterial) {
+        super(RetroItemAccess.allocateId(), enumtoolmaterial);
     }
 
     @Override

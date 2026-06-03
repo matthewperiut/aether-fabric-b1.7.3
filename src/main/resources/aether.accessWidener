@@ -1,2 +1,18 @@
-accessWidener	v1 named
-accessible method net/minecraft/entity/Entity setBoundingBoxSpacing (FF)V
+accessWidener	v1	named
+accessible	method	net/minecraft/entity/Entity	setBoundingBoxSpacing	(FF)V
+
+# Vanilla fluent setters + ctors used by Aether's registration code
+accessible	method	net/minecraft/block/Block	<init>	(ILnet/minecraft/block/material/Material;)V
+accessible	method	net/minecraft/block/Block	setSoundGroup	(Lnet/minecraft/sound/BlockSoundGroup;)Lnet/minecraft/block/Block;
+accessible	method	net/minecraft/block/Block	setHardness	(F)Lnet/minecraft/block/Block;
+accessible	method	net/minecraft/block/Block	setResistance	(F)Lnet/minecraft/block/Block;
+accessible	method	net/minecraft/block/Block	setLuminance	(F)Lnet/minecraft/block/Block;
+accessible	method	net/minecraft/block/Block	setOpacity	(I)Lnet/minecraft/block/Block;
+accessible	method	net/minecraft/block/Block	ignoreMetaUpdates	()Lnet/minecraft/block/Block;
+accessible	method	net/minecraft/block/Block	disableTrackingStatistics	()Lnet/minecraft/block/Block;
+accessible	method	net/minecraft/item/Item	<init>	(I)V
+accessible	method	net/minecraft/item/Item	setHasSubtypes	(Z)Lnet/minecraft/item/Item;
+accessible	method	net/minecraft/item/Item	setMaxDamage	(I)Lnet/minecraft/item/Item;
+accessible	method	net/minecraft/item/PickaxeItem	<init>	(ILnet/minecraft/item/ToolMaterial;)V
+accessible	method	net/minecraft/item/AxeItem	<init>	(ILnet/minecraft/item/ToolMaterial;)V
+accessible	method	net/minecraft/item/MusicDiscItem	<init>	(ILjava/lang/String;)V

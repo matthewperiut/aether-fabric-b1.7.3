@@ -1,18 +1,19 @@
 package com.matthewperiut.aether.item.misc;
 
+import net.minecraft.item.Item;
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import com.matthewperiut.aether.entity.special.EntityCloudParachute;
 import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.template.item.TemplateItem;
-import net.modificationstation.stationapi.api.util.Identifier;
 
-public class ItemCloudParachute extends TemplateItem {
+public class ItemCloudParachute extends Item {
     public static int tex;// = ModLoader.addOverride("/gui/items.png", "/aether/items/CloudParachute.png");
 
-    public ItemCloudParachute(Identifier i, boolean golden) {
-        super(i);
+    public ItemCloudParachute(boolean golden) {
+        super(RetroItemAccess.allocateId());
         this.setTextureId(tex);
         this.maxCount = 1;
         this.setMaxDamage(golden ? 20 : 0);

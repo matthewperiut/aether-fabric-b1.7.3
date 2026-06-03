@@ -1,5 +1,11 @@
 package com.matthewperiut.aether.block;
 
+import com.periut.retroapi.gui.RetroGuis;
+
+import net.minecraft.block.ChestBlock;
+import com.periut.retroapi.register.block.RetroBlockAccess;
+import com.matthewperiut.aether.Aether;
+
 import com.matthewperiut.aether.blockentity.block.BlockEntityTreasureChest;
 import com.matthewperiut.aether.blockentity.container.ContainerTreasureChest;
 import com.matthewperiut.aether.item.AetherItems;
@@ -9,19 +15,15 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.gui.screen.container.GuiHelper;
-import net.modificationstation.stationapi.api.template.block.TemplateChestBlock;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-import static com.matthewperiut.aether.blockentity.AetherBlockEntities.MOD_ID;
 
-public class TreasureChest extends TemplateChestBlock {
+public class TreasureChest extends ChestBlock {
     public static int sideTexture;
 
-    public TreasureChest(Identifier identifier) {
-        super(identifier);
+    public TreasureChest() {
+        super(RetroBlockAccess.allocateId());
     }
 
     public static void PlaceTreasureChest(World world, int x, int y, int z, int rarity) {
@@ -223,7 +225,7 @@ public class TreasureChest extends TemplateChestBlock {
         BlockEntity tileEntity = level.getBlockEntity(x, y, z);
         if (tileEntity instanceof BlockEntityTreasureChest treasureChest) {
             if (meta == 5) {
-                GuiHelper.openGUI(player, MOD_ID.id("treasure_chest"), treasureChest, new ContainerTreasureChest(player.inventory, treasureChest));
+                RetroGuis.openGUI(player, Aether.id("treasure_chest"), treasureChest, new ContainerTreasureChest(player.inventory, treasureChest));
                 return true;
             }
             if (meta > 1 && !level.isRemote) {
@@ -231,7 +233,7 @@ public class TreasureChest extends TemplateChestBlock {
                 level.setBlockMeta(x, y, z, 1);
             }
             if (meta == 0) {
-                GuiHelper.openGUI(player, MOD_ID.id("treasure_chest"), treasureChest, new ContainerTreasureChest(player.inventory, treasureChest));
+                RetroGuis.openGUI(player, Aether.id("treasure_chest"), treasureChest, new ContainerTreasureChest(player.inventory, treasureChest));
                 return true;
             }
             if (level.isRemote) {

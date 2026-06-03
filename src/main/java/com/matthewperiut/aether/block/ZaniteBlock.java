@@ -1,13 +1,14 @@
 package com.matthewperiut.aether.block;
 
+import net.minecraft.block.Block;
+import com.periut.retroapi.register.block.RetroBlockAccess;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.world.BlockView;
-import net.modificationstation.stationapi.api.template.block.TemplateBlock;
-import net.modificationstation.stationapi.api.util.Identifier;
 
-public class ZaniteBlock extends TemplateBlock {
-    protected ZaniteBlock(Identifier blockID, int j) {
-        super(blockID, j, Material.STONE);
+public class ZaniteBlock extends Block {
+    protected ZaniteBlock(int j) {
+        super(RetroBlockAccess.allocateId(), j, Material.STONE);
     }
 
     public int getColor(int i) {

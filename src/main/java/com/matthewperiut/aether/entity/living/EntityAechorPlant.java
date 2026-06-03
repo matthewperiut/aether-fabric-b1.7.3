@@ -1,5 +1,9 @@
 package com.matthewperiut.aether.entity.living;
 
+import com.periut.retroapi.entity.spawn.RetroMobSpawnData;
+import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
+import com.matthewperiut.aether.Aether;
+
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.block.UtilSkyroot;
 import com.matthewperiut.aether.entity.projectile.EntityPoisonNeedle;
@@ -12,14 +16,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.List;
 
-import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
-public class EntityAechorPlant extends EntityAetherAnimal implements MobSpawnDataProvider {
+public class EntityAechorPlant extends EntityAetherAnimal implements RetroMobSpawnData {
     public LivingEntity target;
     public int size;
     public int attTime;
@@ -247,7 +248,7 @@ public class EntityAechorPlant extends EntityAetherAnimal implements MobSpawnDat
     }
 
     @Override
-    public Identifier getHandlerIdentifier() {
-        return MOD_ID.id("AechorPlant");
+    public NamespacedIdentifier getHandlerId() {
+        return Aether.id("AechorPlant");
     }
 }

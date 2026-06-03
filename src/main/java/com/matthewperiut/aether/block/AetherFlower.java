@@ -1,16 +1,17 @@
 package com.matthewperiut.aether.block;
 
+import net.minecraft.block.Block;
+import com.periut.retroapi.register.block.RetroBlockAccess;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.template.block.TemplateBlock;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-public class AetherFlower extends TemplateBlock {
-    public AetherFlower(Identifier identifier) {
-        super(identifier, Material.PLANT);
+public class AetherFlower extends Block {
+    public AetherFlower() {
+        super(RetroBlockAccess.allocateId(), Material.PLANT);
         this.setTickRandomly(true);
         float var3 = 0.2F;
         this.setBoundingBox(0.5F - var3, 0.0F, 0.5F - var3, 0.5F + var3, var3 * 3.0F, 0.5F + var3);

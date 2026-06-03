@@ -1,5 +1,9 @@
 package com.matthewperiut.aether.entity.living;
 
+import com.periut.retroapi.entity.spawn.RetroMobSpawnData;
+import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
+import com.matthewperiut.aether.Aether;
+
 import com.matthewperiut.aether.block.AetherBlocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.FlyingEntity;
@@ -10,12 +14,9 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
-import net.modificationstation.stationapi.api.util.Identifier;
 
-import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
-public class EntityAerwhale extends FlyingEntity implements Monster, MobSpawnDataProvider {
+public class EntityAerwhale extends FlyingEntity implements Monster, RetroMobSpawnData {
     private final long checkTimeInterval = 3000L;
     private final double minTraversalDist = 3.0;
     public int courseChangeCooldown = 0;
@@ -254,7 +255,7 @@ public class EntityAerwhale extends FlyingEntity implements Monster, MobSpawnDat
     }
 
     @Override
-    public Identifier getHandlerIdentifier() {
-        return MOD_ID.id("Aerwhale");
+    public NamespacedIdentifier getHandlerId() {
+        return Aether.id("Aerwhale");
     }
 }

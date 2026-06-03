@@ -1,5 +1,9 @@
 package com.matthewperiut.aether.entity.projectile;
 
+import com.periut.retroapi.entity.spawn.RetroEntitySpawnData;
+import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
+import com.matthewperiut.aether.Aether;
+
 import com.matthewperiut.aether.gen.dim.AetherDimension;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -13,17 +17,11 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.server.entity.EntitySpawnDataProvider;
-import net.modificationstation.stationapi.api.server.entity.HasTrackingParameters;
-import net.modificationstation.stationapi.api.util.Identifier;
-import net.modificationstation.stationapi.api.util.TriState;
 
 import java.util.List;
 
-import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
-@HasTrackingParameters(trackingDistance = 50, sendVelocity = TriState.TRUE, updatePeriod = 1)
-public class EntityFlamingArrow extends Entity implements EntitySpawnDataProvider {
+public class EntityFlamingArrow extends Entity implements RetroEntitySpawnData {
     public boolean doesArrowBelongToPlayer = false;
     public int arrowShake = 0;
     public LivingEntity owner;
@@ -332,7 +330,7 @@ public class EntityFlamingArrow extends Entity implements EntitySpawnDataProvide
     }
 
     @Override
-    public Identifier getHandlerIdentifier() {
-        return MOD_ID.id("FlamingArrow");
+    public NamespacedIdentifier getHandlerId() {
+        return Aether.id("FlamingArrow");
     }
 }

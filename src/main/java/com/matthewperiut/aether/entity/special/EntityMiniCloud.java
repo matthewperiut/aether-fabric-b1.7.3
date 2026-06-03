@@ -1,5 +1,9 @@
 package com.matthewperiut.aether.entity.special;
 
+import com.periut.retroapi.entity.spawn.RetroMobSpawnData;
+import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
+import com.matthewperiut.aether.Aether;
+
 import com.matthewperiut.aether.entity.projectile.EntityFiroBall;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.FlyingEntity;
@@ -8,12 +12,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
-import net.modificationstation.stationapi.api.util.Identifier;
 
-import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
-public class EntityMiniCloud extends FlyingEntity implements MobSpawnDataProvider {
+public class EntityMiniCloud extends FlyingEntity implements RetroMobSpawnData {
     public int shotTimer;
     public int lifeSpan;
     public boolean gotPlayer;
@@ -178,7 +179,7 @@ public class EntityMiniCloud extends FlyingEntity implements MobSpawnDataProvide
     }
 
     @Override
-    public Identifier getHandlerIdentifier() {
-        return MOD_ID.id("MiniCloud");
+    public NamespacedIdentifier getHandlerId() {
+        return Aether.id("MiniCloud");
     }
 }

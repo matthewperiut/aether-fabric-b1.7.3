@@ -1,21 +1,22 @@
 package com.matthewperiut.aether.block;
 
+import net.minecraft.block.ChestBlock;
+import com.periut.retroapi.register.block.RetroBlockAccess;
+
 import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.template.block.TemplateChestBlock;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-public class AetherChest extends TemplateChestBlock {
+public class AetherChest extends ChestBlock {
     Random rand;
 
-    public AetherChest(Identifier identifier) {
-        super(identifier);
+    public AetherChest() {
+        super(RetroBlockAccess.allocateId());
         rand = new Random();
     }
 

@@ -1,20 +1,21 @@
 package com.matthewperiut.aether.item.tool;
 
+import net.minecraft.item.SwordItem;
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
-import net.modificationstation.stationapi.api.template.item.TemplateSwordItem;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-public class ItemSwordHolystone extends TemplateSwordItem {
+public class ItemSwordHolystone extends SwordItem {
     Random random = new Random();
 
-    public ItemSwordHolystone(Identifier itemID, ToolMaterial mat) {
-        super(itemID, mat);
+    public ItemSwordHolystone(ToolMaterial mat) {
+        super(RetroItemAccess.allocateId(), mat);
     }
 
     public boolean postHit(ItemStack itemstack, LivingEntity entityliving, LivingEntity entityliving1) {

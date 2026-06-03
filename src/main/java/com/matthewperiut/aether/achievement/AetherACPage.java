@@ -3,15 +3,15 @@ package com.matthewperiut.aether.achievement;
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.block.Holystone;
 import net.minecraft.block.Block;
-import net.modificationstation.stationapi.api.client.gui.screen.achievement.AchievementPage;
+import com.matthewperiut.aether.Aether;
+import com.periut.retroapi.achievement.AchievementPage;
 
 import java.util.Random;
 
-import static com.matthewperiut.aether.achievement.AetherAchievements.MOD_ID;
 
 public class AetherACPage extends AchievementPage {
     public AetherACPage() {
-        super(MOD_ID, "Aether");
+        super(Aether.id("Aether"));
     }
 
     public static void register(net.minecraft.achievement.Achievement... achievements) {

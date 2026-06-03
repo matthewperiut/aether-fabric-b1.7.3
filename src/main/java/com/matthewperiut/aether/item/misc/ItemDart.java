@@ -1,16 +1,17 @@
 package com.matthewperiut.aether.item.misc;
 
-import net.minecraft.item.ItemStack;
-import net.modificationstation.stationapi.api.template.item.TemplateItem;
-import net.modificationstation.stationapi.api.util.Identifier;
+import net.minecraft.item.Item;
+import com.periut.retroapi.register.item.RetroItemAccess;
 
-public class ItemDart extends TemplateItem {
+import net.minecraft.item.ItemStack;
+
+public class ItemDart extends Item {
     public static int sprGolden;// = ModLoader.addOverride("/gui/items.png", "/aether/items/DartGolden.png");
     public static int sprEnchanted;// = ModLoader.addOverride("/gui/items.png", "/aether/items/DartEnchanted.png");
     public static int sprPoison;// = ModLoader.addOverride("/gui/items.png", "/aether/items/DartPoison.png");
 
-    public ItemDart(Identifier itemID) {
-        super(itemID);
+    public ItemDart() {
+        super(RetroItemAccess.allocateId());
         this.setHasSubtypes(true);
     }
 

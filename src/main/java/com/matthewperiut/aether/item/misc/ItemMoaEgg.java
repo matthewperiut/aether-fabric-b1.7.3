@@ -1,13 +1,14 @@
 package com.matthewperiut.aether.item.misc;
 
+import net.minecraft.item.Item;
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import com.matthewperiut.aether.util.MoaColor;
 import net.minecraft.item.ItemStack;
-import net.modificationstation.stationapi.api.template.item.TemplateItem;
-import net.modificationstation.stationapi.api.util.Identifier;
 
-public class ItemMoaEgg extends TemplateItem {
-    public ItemMoaEgg(Identifier itemID) {
-        super(itemID);
+public class ItemMoaEgg extends Item {
+    public ItemMoaEgg() {
+        super(RetroItemAccess.allocateId());
         //this.setTexturePosition(ModLoader.addOverride("/gui/items.png", "/aether/items/MoaEgg.png"));
         this.setHasSubtypes(true);
     }

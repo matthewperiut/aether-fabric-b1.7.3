@@ -1,15 +1,16 @@
 package com.matthewperiut.aether.block;
 
+import net.minecraft.block.TranslucentBlock;
+import com.periut.retroapi.register.block.RetroBlockAccess;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.world.BlockView;
-import net.modificationstation.stationapi.api.template.block.TemplateTranslucentBlock;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-public class QuicksoilGlass extends TemplateTranslucentBlock {
-    public QuicksoilGlass(Identifier blockID) {
-        super(blockID, 0, Material.GLASS, false);
+public class QuicksoilGlass extends TranslucentBlock {
+    public QuicksoilGlass() {
+        super(RetroBlockAccess.allocateId(), 0, Material.GLASS, false);
         this.slipperiness = 1.05F;
     }
 

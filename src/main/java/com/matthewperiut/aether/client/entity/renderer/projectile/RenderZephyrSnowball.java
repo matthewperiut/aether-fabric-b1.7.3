@@ -6,10 +6,7 @@ import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
-import net.modificationstation.stationapi.api.client.texture.atlas.Atlas;
-import net.modificationstation.stationapi.api.client.texture.atlas.Atlases;
-import net.modificationstation.stationapi.api.client.texture.atlas.ExpandableAtlas;
-import net.modificationstation.stationapi.api.util.Identifier;
+import com.periut.retroapi.client.texture.AtlasExpander;
 import org.lwjgl.opengl.GL11;
 
 public class RenderZephyrSnowball extends EntityRenderer {
@@ -22,13 +19,15 @@ public class RenderZephyrSnowball extends EntityRenderer {
         GL11.glEnable(32826);
         float size = 2.0F;
         GL11.glScalef(size, size, size);
-        Atlas.Sprite snowballSprite = Atlases.getGuiItems().getTexture(Identifier.of("minecraft:item/snowball"));
         this.bindTexture("/gui/items.png");
         Tessellator tessellator = Tessellator.INSTANCE;
-        double minU = snowballSprite.getStartU();
-        double maxU = snowballSprite.getEndU();
-        double minV = snowballSprite.getStartV();
-        double maxV = snowballSprite.getEndV();
+        // Vanilla 16x16-sprite grid UVs, scaled to RetroAPI's (possibly expanded) item atlas.
+        int tex = Item.SNOWBALL.getTextureId(0);
+        double atlas = AtlasExpander.itemAtlasSize;
+        double minU = (tex % 16) * 16 / atlas;
+        double maxU = minU + 16 / atlas;
+        double minV = (tex / 16) * 16 / atlas;
+        double maxV = minV + 16 / atlas;
         GL11.glRotatef(180.0F - this.dispatcher.yaw, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(-this.dispatcher.pitch, 1.0F, 0.0F, 0.0F);
         tessellator.startQuads();

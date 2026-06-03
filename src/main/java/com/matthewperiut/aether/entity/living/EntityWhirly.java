@@ -1,5 +1,9 @@
 package com.matthewperiut.aether.entity.living;
 
+import com.periut.retroapi.entity.spawn.RetroMobSpawnData;
+import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
+import com.matthewperiut.aether.Aether;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.entity.Entity;
@@ -9,15 +13,12 @@ import net.minecraft.item.Item;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
-public class EntityWhirly extends EntityAetherAnimal implements MobSpawnDataProvider {
+public class EntityWhirly extends EntityAetherAnimal implements RetroMobSpawnData {
     public int entcount = 0;
     public int Life;
     public List<Particle> fluffies;
@@ -131,15 +132,15 @@ public class EntityWhirly extends EntityAetherAnimal implements MobSpawnDataProv
         } else if (i >= 82) {
             return Item.COAL.id;
         } else if (i >= 75) {
-            return Block.GRAVEL.asItem().id;
+            return Block.GRAVEL.id;
         } else if (i >= 64) {
-            return Block.CLAY.asItem().id;
+            return Block.CLAY.id;
         } else if (i >= 52) {
             return Item.STICK.id;
         } else if (i >= 38) {
             return Item.FLINT.id;
         } else {
-            return i > 20 ? Block.LOG.asItem().id : Block.SAND.asItem().id;
+            return i > 20 ? Block.LOG.id : Block.SAND.id;
         }
     }
 
@@ -222,7 +223,7 @@ public class EntityWhirly extends EntityAetherAnimal implements MobSpawnDataProv
     }
 
     @Override
-    public Identifier getHandlerIdentifier() {
-        return MOD_ID.id("Whirlwind");
+    public NamespacedIdentifier getHandlerId() {
+        return Aether.id("Whirlwind");
     }
 }

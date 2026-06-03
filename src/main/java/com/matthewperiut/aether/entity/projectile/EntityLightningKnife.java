@@ -1,5 +1,9 @@
 package com.matthewperiut.aether.entity.projectile;
 
+import com.periut.retroapi.entity.spawn.RetroEntitySpawnData;
+import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
+import com.matthewperiut.aether.Aether;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;
@@ -12,17 +16,11 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.server.entity.EntitySpawnDataProvider;
-import net.modificationstation.stationapi.api.server.entity.HasTrackingParameters;
-import net.modificationstation.stationapi.api.util.Identifier;
-import net.modificationstation.stationapi.api.util.TriState;
 
 import java.util.List;
 
-import static com.matthewperiut.aether.item.AetherItems.MOD_ID;
 
-@HasTrackingParameters(trackingDistance = 50, sendVelocity = TriState.TRUE, updatePeriod = 1)
-public class EntityLightningKnife extends Entity implements EntitySpawnDataProvider {
+public class EntityLightningKnife extends Entity implements RetroEntitySpawnData {
     private int xTileSnowball = -1;
     private int yTileSnowball = -1;
     private int zTileSnowball = -1;
@@ -274,7 +272,7 @@ public class EntityLightningKnife extends Entity implements EntitySpawnDataProvi
     }
 
     @Override
-    public Identifier getHandlerIdentifier() {
-        return MOD_ID.id("LightningKnife");
+    public NamespacedIdentifier getHandlerId() {
+        return Aether.id("LightningKnife");
     }
 }

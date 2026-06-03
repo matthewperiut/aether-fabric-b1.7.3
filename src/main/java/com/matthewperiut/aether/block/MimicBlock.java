@@ -1,19 +1,19 @@
 package com.matthewperiut.aether.block;
 
+import com.periut.retroapi.register.block.RetroBlockAccess;
+
 import com.matthewperiut.aether.entity.living.EntityMimic;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.template.block.TemplateBlock;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-public class MimicBlock extends TemplateBlock {
-    protected MimicBlock(Identifier identifier) {
-        super(identifier, Material.WOOD);
+public class MimicBlock extends Block {
+    protected MimicBlock() {
+        super(RetroBlockAccess.allocateId(), Material.WOOD);
         this.textureId = 26;
     }
 

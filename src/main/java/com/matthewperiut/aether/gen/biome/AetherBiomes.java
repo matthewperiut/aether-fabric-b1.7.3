@@ -1,10 +1,8 @@
 package com.matthewperiut.aether.gen.biome;
 
 import com.matthewperiut.aether.entity.living.*;
-import net.mine_diver.unsafeevents.listener.EventListener;
 import net.minecraft.world.biome.Biome;
-import net.modificationstation.stationapi.api.event.world.biome.BiomeRegisterEvent;
-import net.modificationstation.stationapi.api.worldgen.biome.BiomeBuilder;
+import com.periut.retroapi.biome.BiomeBuilder;
 
 public class AetherBiomes {
 
@@ -22,8 +20,7 @@ public class AetherBiomes {
     public static int rarityWhirly = 8;
     public static int rarityAerbunny = 11;
 
-    @EventListener
-    public void registerBiomes(BiomeRegisterEvent event) {
+    public static void registerBiomes() {
         AETHER = BiomeBuilder.start("aether")
                 .grassAndLeavesColor(353825)
                 .precipitation(false)

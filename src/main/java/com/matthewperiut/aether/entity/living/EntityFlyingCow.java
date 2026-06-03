@@ -1,5 +1,9 @@
 package com.matthewperiut.aether.entity.living;
 
+import com.periut.retroapi.entity.spawn.RetroMobSpawnData;
+import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
+import com.matthewperiut.aether.Aether;
+
 import com.matthewperiut.aether.block.UtilSkyroot;
 import com.matthewperiut.aether.mixin.access.EntityAccessor;
 import com.matthewperiut.aether.mixin.access.LivingEntityAccessor;
@@ -9,14 +13,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import com.matthewperiut.aether.entity.MountInput;
 
-import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
-public class EntityFlyingCow extends EntityAetherAnimal implements MobSpawnDataProvider, MountInput {
+public class EntityFlyingCow extends EntityAetherAnimal implements RetroMobSpawnData, MountInput {
     private float mountForward;
     private float mountStrafe;
     private boolean mountJump;
@@ -238,7 +239,7 @@ public class EntityFlyingCow extends EntityAetherAnimal implements MobSpawnDataP
     }
 
     @Override
-    public Identifier getHandlerIdentifier() {
-        return MOD_ID.id("FlyingCow");
+    public NamespacedIdentifier getHandlerId() {
+        return Aether.id("FlyingCow");
     }
 }

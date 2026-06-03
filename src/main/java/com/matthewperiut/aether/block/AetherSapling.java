@@ -1,5 +1,8 @@
 package com.matthewperiut.aether.block;
 
+import net.minecraft.block.PlantBlock;
+import com.periut.retroapi.register.block.RetroBlockAccess;
+
 import com.matthewperiut.aether.gen.feature.AetherGenGoldenOak;
 import com.matthewperiut.aether.gen.feature.AetherGenSkyroot;
 import net.minecraft.entity.player.PlayerEntity;
@@ -7,18 +10,16 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.Feature;
-import net.modificationstation.stationapi.api.template.block.TemplatePlantBlock;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-public class AetherSapling extends TemplatePlantBlock {
+public class AetherSapling extends PlantBlock {
     public static int sprSkyroot;
     public static int sprGoldenOak;
     public boolean golden;
 
-    public AetherSapling(Identifier identifier, boolean golden) {
-        super(identifier, golden ? sprGoldenOak : sprSkyroot);
+    public AetherSapling(boolean golden) {
+        super(RetroBlockAccess.allocateId(), golden ? sprGoldenOak : sprSkyroot);
         this.golden = golden;
         float f = 0.4F;
         this.setBoundingBox(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);

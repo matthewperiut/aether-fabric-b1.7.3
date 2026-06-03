@@ -1,5 +1,8 @@
 package com.matthewperiut.aether.block;
 
+import net.minecraft.block.Block;
+import com.periut.retroapi.register.block.RetroBlockAccess;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -7,17 +10,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stat.Stats;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.template.block.TemplateBlock;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-public class AetherGrass extends TemplateBlock {
+public class AetherGrass extends Block {
     public static int sprTop;
     public static int sprSide;
 
-    public AetherGrass(Identifier identifier) {
-        super(identifier, Material.SOIL);
+    public AetherGrass() {
+        super(RetroBlockAccess.allocateId(), Material.SOIL);
         setTickRandomly(true);
         textureId = sprTop;
     }

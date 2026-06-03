@@ -1,5 +1,9 @@
 package com.matthewperiut.aether.entity.living;
 
+import com.periut.retroapi.entity.spawn.RetroMobSpawnData;
+import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
+import com.matthewperiut.aether.Aether;
+
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.block.UtilSkyroot;
 import com.matthewperiut.aether.entity.projectile.EntityPoisonNeedle;
@@ -13,14 +17,11 @@ import net.minecraft.item.Item;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.List;
 
-import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
-public class EntityCockatrice extends MonsterEntity implements MobSpawnDataProvider {
+public class EntityCockatrice extends MonsterEntity implements RetroMobSpawnData {
     public float field_752_b;
     public float destPos = 0.0F;
     public float field_757_d;
@@ -270,7 +271,7 @@ public class EntityCockatrice extends MonsterEntity implements MobSpawnDataProvi
     }
 
     @Override
-    public Identifier getHandlerIdentifier() {
-        return MOD_ID.id("Cockatrice");
+    public NamespacedIdentifier getHandlerId() {
+        return Aether.id("Cockatrice");
     }
 }

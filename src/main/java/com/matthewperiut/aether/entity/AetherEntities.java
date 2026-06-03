@@ -1,112 +1,75 @@
 package com.matthewperiut.aether.entity;
 
+import com.matthewperiut.aether.Aether;
 import com.matthewperiut.aether.entity.living.*;
 import com.matthewperiut.aether.entity.projectile.*;
 import com.matthewperiut.aether.entity.special.EntityCloudParachute;
 import com.matthewperiut.aether.entity.special.EntityFloatingBlock;
 import com.matthewperiut.aether.entity.special.EntityMiniCloud;
 import com.matthewperiut.aether.optional.AetherSPCSupport;
+import com.periut.retroapi.entity.EntityRegistration;
+import com.periut.retroapi.entity.RetroEntities;
+import com.periut.retroapi.entity.client.EntityFactory;
+import com.periut.retroapi.entity.client.MobFactory;
 import net.fabricmc.loader.api.FabricLoader;
-import net.mine_diver.unsafeevents.listener.EventListener;
-import net.modificationstation.stationapi.api.event.entity.EntityRegisterEvent;
-import net.modificationstation.stationapi.api.event.registry.EntityHandlerRegistryEvent;
-import net.modificationstation.stationapi.api.event.registry.MobHandlerRegistryEvent;
-import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
-import net.modificationstation.stationapi.api.registry.Registry;
-import net.modificationstation.stationapi.api.util.Identifier;
-import net.modificationstation.stationapi.api.util.Namespace;
-import net.modificationstation.stationapi.api.util.Null;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.World;
 
 public class AetherEntities {
-    @Entrypoint.Namespace
-    public static Namespace MOD_ID = Null.get();
+    public static final String MOD_ID = Aether.MOD_ID;
 
-    private static Identifier id(String s) {
-        return Identifier.of(Namespace.of("aether"), s);
+    private static void mob(String name, Class<? extends LivingEntity> clazz, MobFactory factory) {
+        RetroEntities.register(Aether.id(name), clazz).factory(factory);
     }
 
-    @EventListener
-    public void registerEntities(EntityRegisterEvent event) {
-        event.register(id("AechorPlant"), EntityAechorPlant.class);
-        event.register(id("Aerbunny"), EntityAerbunny.class);
-        event.register(id("Aerwhale"), EntityAerwhale.class);
-        event.register(id("Cockatrice"), EntityCockatrice.class);
-        event.register(id("FlyingCow"), EntityFlyingCow.class);
-        event.register(id("Mimic"), EntityMimic.class);
-        event.register(id("Minicloud"), EntityMiniCloud.class);
-        event.register(id("Moa"), EntityMoa.class);
-        event.register(id("Slider"), EntitySlider.class);
-        event.register(id("Phyg"), EntityPhyg.class);
-        event.register(id("Sheepuff"), EntitySheepuff.class);
-        event.register(id("Swet"), EntitySwet.class);
-        event.register(id("Valkyrie"), EntityValkyrie.class);
-        event.register(id("Sentry"), EntitySentry.class);
-        event.register(id("Whirlwind"), EntityWhirly.class);
-        event.register(id("Zephyr"), EntityZephyr.class);
-
-        event.register(id("FireMonster"), EntityFireMonster.class);
-        event.register(id("FireMinion"), EntityFireMinion.class);
-
-        event.register(id("AetherLightning"), EntityAetherLightning.class);
-        event.register(id("FlamingArrow"), EntityFlamingArrow.class);
-        event.register(id("ZephyrSnowball"), EntityZephyrSnowball.class);
-        event.register(id("PoisonNeedle"), EntityPoisonNeedle.class);
-        event.register(id("PoisonDart"), EntityDartPoison.class);
-        event.register(id("GoldenDart"), EntityDartGolden.class);
-        event.register(id("EnchantedDart"), EntityDartEnchanted.class);
-        event.register(id("CloudParachute"), EntityCloudParachute.class);
-        event.register(id("FloatingBlock"), EntityFloatingBlock.class);
-        event.register(id("FiroBall"), EntityFiroBall.class);
-        event.register(id("HomeShot"), EntityHomeShot.class);
-        event.register(id("LightningKnife"), EntityLightningKnife.class);
-        event.register(id("NotchWave"), EntityNotchWave.class);
+    /** Projectiles/specials: StationAPI's @HasTrackingParameters(50, TriState.TRUE, 1) equivalent. */
+    private static void projectile(String name, Class<? extends Entity> clazz, EntityFactory factory) {
+        RetroEntities.register(Aether.id(name), clazz)
+            .factory(factory)
+            .tracking(50, 1, EntityRegistration.SEND_VELOCITY_TRUE);
     }
 
-    /*
-     */
+    public static void registerEntities() {
+        mob("AechorPlant", EntityAechorPlant.class, EntityAechorPlant::new);
+        mob("Aerbunny", EntityAerbunny.class, EntityAerbunny::new);
+        mob("Aerwhale", EntityAerwhale.class, EntityAerwhale::new);
+        mob("Cockatrice", EntityCockatrice.class, EntityCockatrice::new);
+        mob("FlyingCow", EntityFlyingCow.class, EntityFlyingCow::new);
+        mob("Mimic", EntityMimic.class, EntityMimic::new);
+        mob("Minicloud", EntityMiniCloud.class, EntityMiniCloud::new);
+        mob("Moa", EntityMoa.class, EntityMoa::new);
+        mob("Slider", EntitySlider.class, EntitySlider::new);
+        mob("Phyg", EntityPhyg.class, EntityPhyg::new);
+        mob("Sheepuff", EntitySheepuff.class, EntitySheepuff::new);
+        mob("Swet", EntitySwet.class, EntitySwet::new);
+        mob("Valkyrie", EntityValkyrie.class, EntityValkyrie::new);
+        mob("Sentry", EntitySentry.class, EntitySentry::new);
+        mob("Whirlwind", EntityWhirly.class, EntityWhirly::new);
+        mob("Zephyr", EntityZephyr.class, EntityZephyr::new);
+        mob("FireMonster", EntityFireMonster.class, EntityFireMonster::new);
+        mob("FireMinion", EntityFireMinion.class, EntityFireMinion::new);
 
-    @EventListener
-    public void registerMobHandlers(MobHandlerRegistryEvent event) {
-        //Registry.register(event.registry, MOD_ID.id("claysoldier"), EntityClayMan::new);
-        Registry.register(event.registry, MOD_ID.id("AechorPlant"), EntityAechorPlant::new);
-        Registry.register(event.registry, MOD_ID.id("Aerbunny"), EntityAerbunny::new);
-        Registry.register(event.registry, MOD_ID.id("Aerwhale"), EntityAerwhale::new);
-        Registry.register(event.registry, MOD_ID.id("Cockatrice"), EntityCockatrice::new);
-        Registry.register(event.registry, MOD_ID.id("FlyingCow"), EntityFlyingCow::new);
-        Registry.register(event.registry, MOD_ID.id("Mimic"), EntityMimic::new);
-        Registry.register(event.registry, MOD_ID.id("Minicloud"), EntityMiniCloud::new);
-        Registry.register(event.registry, MOD_ID.id("Moa"), EntityMoa::new);
-        Registry.register(event.registry, MOD_ID.id("Slider"), EntitySlider::new);
-        Registry.register(event.registry, MOD_ID.id("Phyg"), EntityPhyg::new);
-        Registry.register(event.registry, MOD_ID.id("Sheepuff"), EntitySheepuff::new);
-        Registry.register(event.registry, MOD_ID.id("Swet"), EntitySwet::new);
-        Registry.register(event.registry, MOD_ID.id("Valkyrie"), EntityValkyrie::new);
-        Registry.register(event.registry, MOD_ID.id("Sentry"), EntitySentry::new);
-
-        Registry.register(event.registry, MOD_ID.id("Whirlwind"), EntityWhirly::new);
-        Registry.register(event.registry, MOD_ID.id("Zephyr"), EntityZephyr::new);
-
-        Registry.register(event.registry, MOD_ID.id("FireMonster"), EntityFireMonster::new);
-        Registry.register(event.registry, MOD_ID.id("FireMinion"), EntityFireMinion::new);
+        projectile("AetherLightning", EntityAetherLightning.class, (World w, double x, double y, double z) -> new EntityAetherLightning(w, x, y, z));
+        projectile("FlamingArrow", EntityFlamingArrow.class, (World w, double x, double y, double z) -> new EntityFlamingArrow(w, x, y, z));
+        projectile("ZephyrSnowball", EntityZephyrSnowball.class, (World w, double x, double y, double z) -> new EntityZephyrSnowball(w, x, y, z));
+        projectile("PoisonNeedle", EntityPoisonNeedle.class, (World w, double x, double y, double z) -> new EntityPoisonNeedle(w, x, y, z));
+        projectile("PoisonDart", EntityDartPoison.class, (World w, double x, double y, double z) -> new EntityDartPoison(w, x, y, z));
+        projectile("GoldenDart", EntityDartGolden.class, (World w, double x, double y, double z) -> new EntityDartGolden(w, x, y, z));
+        projectile("EnchantedDart", EntityDartEnchanted.class, (World w, double x, double y, double z) -> new EntityDartEnchanted(w, x, y, z));
+        projectile("CloudParachute", EntityCloudParachute.class, (World w, double x, double y, double z) -> new EntityCloudParachute(w, x, y, z));
+        projectile("FloatingBlock", EntityFloatingBlock.class, (World w, double x, double y, double z) -> new EntityFloatingBlock(w, x, y, z));
+        projectile("FiroBall", EntityFiroBall.class, (World w, double x, double y, double z) -> new EntityFiroBall(w, x, y, z));
+        projectile("HomeShot", EntityHomeShot.class, (World w, double x, double y, double z) -> {
+            EntityHomeShot e = new EntityHomeShot(w);
+            e.setPosition(x, y, z);
+            return e;
+        });
+        projectile("LightningKnife", EntityLightningKnife.class, (World w, double x, double y, double z) -> new EntityLightningKnife(w, x, y, z));
+        projectile("NotchWave", EntityNotchWave.class, (World w, double x, double y, double z) -> new EntityNotchWave(w, x, y, z));
 
         if (FabricLoader.getInstance().isModLoaded("spc")) {
             AetherSPCSupport.init();
         }
-    }
-
-    @EventListener
-    public void registerEntityHandlers(EntityHandlerRegistryEvent event) {
-        Registry.register(event.registry, MOD_ID.id("AetherLightning"), EntityAetherLightning::new);
-        Registry.register(event.registry, MOD_ID.id("FlamingArrow"), EntityFlamingArrow::new);
-        Registry.register(event.registry, MOD_ID.id("ZephyrSnowball"), EntityZephyrSnowball::new);
-        Registry.register(event.registry, MOD_ID.id("PoisonNeedle"), EntityPoisonNeedle::new);
-        Registry.register(event.registry, MOD_ID.id("PoisonDart"), EntityDartPoison::new);
-        Registry.register(event.registry, MOD_ID.id("GoldenDart"), EntityDartGolden::new);
-        Registry.register(event.registry, MOD_ID.id("EnchantedDart"), EntityDartEnchanted::new);
-        Registry.register(event.registry, MOD_ID.id("CloudParachute"), EntityCloudParachute::new);
-        Registry.register(event.registry, MOD_ID.id("FloatingBlock"), EntityFloatingBlock::new);
-        Registry.register(event.registry, MOD_ID.id("FiroBall"), EntityFiroBall::new);
-        Registry.register(event.registry, MOD_ID.id("LightningKnife"), EntityLightningKnife::new);
-        Registry.register(event.registry, MOD_ID.id("NotchWave"), EntityNotchWave::new);
     }
 }

@@ -1,11 +1,12 @@
 package com.matthewperiut.aether.block;
 
+import com.periut.retroapi.register.block.RetroBlockAccess;
+
 import net.minecraft.world.BlockView;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 public class EnchantedGravititeBlock extends BlockFloating {
-    public EnchantedGravititeBlock(Identifier i, int j, boolean bool) {
-        super(i, j, bool);
+    public EnchantedGravititeBlock(int j, boolean bool) {
+        super(j, bool);
     }
 
     public int getColor(int i) {

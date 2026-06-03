@@ -1,5 +1,9 @@
 package com.matthewperiut.aether.entity.projectile;
 
+import com.periut.retroapi.entity.spawn.RetroEntitySpawnData;
+import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
+import com.matthewperiut.aether.Aether;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -8,17 +12,11 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.server.entity.EntitySpawnDataProvider;
-import net.modificationstation.stationapi.api.server.entity.HasTrackingParameters;
-import net.modificationstation.stationapi.api.util.Identifier;
-import net.modificationstation.stationapi.api.util.TriState;
 
 import java.util.List;
 
-import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
-@HasTrackingParameters(trackingDistance = 50, sendVelocity = TriState.TRUE, updatePeriod = 1)
-public class EntityZephyrSnowball extends Entity implements EntitySpawnDataProvider {
+public class EntityZephyrSnowball extends Entity implements RetroEntitySpawnData {
     private int ticksAlive = 0;
     private int field_9402_e = -1;
     private int field_9401_f = -1;
@@ -240,7 +238,7 @@ public class EntityZephyrSnowball extends Entity implements EntitySpawnDataProvi
     }
 
     @Override
-    public Identifier getHandlerIdentifier() {
-        return MOD_ID.id("ZephyrSnowball");
+    public NamespacedIdentifier getHandlerId() {
+        return Aether.id("ZephyrSnowball");
     }
 }

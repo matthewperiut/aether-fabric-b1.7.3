@@ -1,18 +1,19 @@
 package com.matthewperiut.aether.entity.projectile;
 
+import com.periut.retroapi.entity.spawn.RetroEntitySpawnData;
+import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
+import com.matthewperiut.aether.Aether;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.server.entity.EntitySpawnDataProvider;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.List;
 
-import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
-public class EntityAetherLightning extends LightningEntity implements EntitySpawnDataProvider {
+public class EntityAetherLightning extends LightningEntity implements RetroEntitySpawnData {
     public EntityAetherLightning(World var1) {
         super(var1, 0, 0, 0);
     }
@@ -47,7 +48,7 @@ public class EntityAetherLightning extends LightningEntity implements EntitySpaw
     }
 
     @Override
-    public Identifier getHandlerIdentifier() {
-        return MOD_ID.id("AetherLightning");
+    public NamespacedIdentifier getHandlerId() {
+        return Aether.id("AetherLightning");
     }
 }

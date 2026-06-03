@@ -1,5 +1,8 @@
 package com.matthewperiut.aether.block;
 
+import net.minecraft.block.TranslucentBlock;
+import com.periut.retroapi.register.block.RetroBlockAccess;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -7,19 +10,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stat.Stats;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.template.block.TemplateTranslucentBlock;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-public class AetherLeaves extends TemplateTranslucentBlock {
+public class AetherLeaves extends TranslucentBlock {
     public static int sprSkyroot;
     public static int sprGoldenOak;
     public boolean golden;
     int[] blocks;
 
-    public AetherLeaves(Identifier identifier, boolean golden) {
-        super(identifier, golden ? sprGoldenOak : sprSkyroot, Material.LEAVES, false);
+    public AetherLeaves(boolean golden) {
+        super(RetroBlockAccess.allocateId(), golden ? sprGoldenOak : sprSkyroot, Material.LEAVES, false);
         this.golden = golden;
         this.setTickRandomly(true);
     }
@@ -39,9 +40,9 @@ public class AetherLeaves extends TemplateTranslucentBlock {
 
     public int getDroppedItemId(int i, Random random) {
         if (this.id == AetherBlocks.SkyrootLeaves.id) {
-            return AetherBlocks.SkyrootSapling.asItem().id;
+            return AetherBlocks.SkyrootSapling.id;
         } else {
-            return random.nextInt(10) == 0 ? Item.GOLDEN_APPLE.id : AetherBlocks.GoldenOakSapling.asItem().id;
+            return random.nextInt(10) == 0 ? Item.GOLDEN_APPLE.id : AetherBlocks.GoldenOakSapling.id;
         }
     }
 
@@ -174,7 +175,7 @@ public class AetherLeaves extends TemplateTranslucentBlock {
     public void afterBreak(World world, PlayerEntity entityplayer, int i, int j, int k, int l) {
         if (!world.isRemote && entityplayer.getHand() != null && entityplayer.getHand().itemId == Item.SHEARS.id) {
             //entityplayer.increaseStat(Stats.MINE_BLOCK[this.id], 1);
-            this.dropStack(world, i, j, k, new ItemStack(this.asItem().id, 1, l & 3));
+            this.dropStack(world, i, j, k, new ItemStack(this.id, 1, l & 3));
         } else {
             super.afterBreak(world, entityplayer, i, j, k, l);
         }

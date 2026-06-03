@@ -1,13 +1,14 @@
 package com.matthewperiut.aether.entity.living;
 
+import com.periut.retroapi.entity.spawn.RetroMobSpawnData;
+import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
+import com.matthewperiut.aether.Aether;
+
 import net.minecraft.entity.mob.MonsterEntity;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
-import net.modificationstation.stationapi.api.util.Identifier;
 
-import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
-public class EntityFireMinion extends MonsterEntity implements MobSpawnDataProvider {
+public class EntityFireMinion extends MonsterEntity implements RetroMobSpawnData {
     public EntityFireMinion(World world) {
         super(world);
         this.texture = "aether:stationapi/textures/mobs/firemonster.png";
@@ -34,7 +35,7 @@ public class EntityFireMinion extends MonsterEntity implements MobSpawnDataProvi
     }
 
     @Override
-    public Identifier getHandlerIdentifier() {
-        return MOD_ID.id("FireMinion");
+    public NamespacedIdentifier getHandlerId() {
+        return Aether.id("FireMinion");
     }
 }

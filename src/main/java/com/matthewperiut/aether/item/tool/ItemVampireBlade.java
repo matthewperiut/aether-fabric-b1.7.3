@@ -1,5 +1,8 @@
 package com.matthewperiut.aether.item.tool;
 
+import net.minecraft.item.Item;
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import com.periut.accessoryapi.api.PlayerExtraHP;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -7,17 +10,15 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
-import net.modificationstation.stationapi.api.template.item.TemplateItem;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-public class ItemVampireBlade extends TemplateItem {
+public class ItemVampireBlade extends Item {
     private static final Random random = new Random();
     private final int weaponDamage;
 
-    public ItemVampireBlade(Identifier i) {
-        super(i);
+    public ItemVampireBlade() {
+        super(RetroItemAccess.allocateId());
         this.maxCount = 1;
         this.setMaxDamage(ToolMaterial.DIAMOND.getDurability());
         this.weaponDamage = 4 + ToolMaterial.DIAMOND.getAttackDamage() * 2;

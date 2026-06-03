@@ -1,11 +1,12 @@
 package com.matthewperiut.aether.item.accessory;
 
+import net.minecraft.item.Item;
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import com.periut.accessoryapi.api.Accessory;
 import net.minecraft.item.ItemStack;
-import net.modificationstation.stationapi.api.template.item.TemplateItem;
-import net.modificationstation.stationapi.api.util.Identifier;
 
-public class ItemMoreArmor extends TemplateItem implements Accessory {
+public class ItemMoreArmor extends Item implements Accessory {
     private static final int[] damageReduceAmountArray = new int[]{3, 8, 6, 3, 0, 1, 0, 0, 0, 0, 2, 0};
     private static final int[] maxDamageArray = new int[]{11, 16, 15, 13, 10, 10, 8, 10, 10, 10, 10, 10};
     public final int armorLevel;
@@ -16,8 +17,8 @@ public class ItemMoreArmor extends TemplateItem implements Accessory {
     public String texture;
     public boolean colouriseRender;
 
-    public ItemMoreArmor(Identifier i, int j, int k, int l, int col) {
-        super(i);
+    public ItemMoreArmor(int j, int k, int l, int col) {
+        super(RetroItemAccess.allocateId());
         this.armorLevel = j;
         this.armorType = l;
         this.renderIndex = k;
@@ -28,22 +29,22 @@ public class ItemMoreArmor extends TemplateItem implements Accessory {
         this.colouriseRender = true;
     }
 
-    public ItemMoreArmor(Identifier i, int j, int k, int l) {
-        this(i, j, k, l, 16777215);
+    public ItemMoreArmor(int j, int k, int l) {
+        this(j, k, l, 16777215);
     }
 
-    public ItemMoreArmor(Identifier i, int j, String path, int l) {
-        this(i, j, 0, l);
+    public ItemMoreArmor(int j, String path, int l) {
+        this(j, 0, l);
         this.texture = path;
     }
 
-    public ItemMoreArmor(Identifier i, int j, String path, int l, int m) {
-        this(i, j, 0, l, m);
+    public ItemMoreArmor(int j, String path, int l, int m) {
+        this(j, 0, l, m);
         this.texture = path;
     }
 
-    public ItemMoreArmor(Identifier i, int j, String path, int l, int m, boolean flag) {
-        this(i, j, path, l, m);
+    public ItemMoreArmor(int j, String path, int l, int m, boolean flag) {
+        this(j, path, l, m);
         this.colouriseRender = flag;
     }
 

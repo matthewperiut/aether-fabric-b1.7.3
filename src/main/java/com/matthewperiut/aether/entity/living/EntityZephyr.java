@@ -1,5 +1,9 @@
 package com.matthewperiut.aether.entity.living;
 
+import com.periut.retroapi.entity.spawn.RetroMobSpawnData;
+import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
+import com.matthewperiut.aether.Aether;
+
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.entity.projectile.EntityZephyrSnowball;
 import net.minecraft.entity.Entity;
@@ -9,12 +13,9 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
-import net.modificationstation.stationapi.api.util.Identifier;
 
-import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
-public class EntityZephyr extends FlyingEntity implements Monster, MobSpawnDataProvider {
+public class EntityZephyr extends FlyingEntity implements Monster, RetroMobSpawnData {
     private long checkTime;
     private final long checkTimeInterval = 3000L;
     private double checkX;
@@ -157,7 +158,7 @@ public class EntityZephyr extends FlyingEntity implements Monster, MobSpawnDataP
 
     @Override
     protected int getDroppedItemId() {
-        return AetherBlocks.Aercloud.asItem().id;
+        return AetherBlocks.Aercloud.id;
     }
 
     public boolean method_940() {
@@ -209,7 +210,7 @@ public class EntityZephyr extends FlyingEntity implements Monster, MobSpawnDataP
     }
 
     @Override
-    public Identifier getHandlerIdentifier() {
-        return MOD_ID.id("Zephyr");
+    public NamespacedIdentifier getHandlerId() {
+        return Aether.id("Zephyr");
     }
 }

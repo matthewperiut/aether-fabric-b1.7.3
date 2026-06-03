@@ -1,5 +1,8 @@
 package com.matthewperiut.aether.item.misc;
 
+import net.minecraft.item.Item;
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import com.matthewperiut.aether.client.gui.GuiLore;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -8,13 +11,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.template.item.TemplateItem;
-import net.modificationstation.stationapi.api.util.Identifier;
-import net.modificationstation.stationapi.api.util.SideUtil;
 
-public class ItemLoreBook extends TemplateItem {
-    public ItemLoreBook(Identifier identifier) {
-        super(identifier);
+public class ItemLoreBook extends Item {
+    public ItemLoreBook() {
+        super(RetroItemAccess.allocateId());
         this.maxCount = 1;
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
@@ -41,7 +41,11 @@ public class ItemLoreBook extends TemplateItem {
     }
 
     public ItemStack use(ItemStack item, World world, PlayerEntity player) {
-        SideUtil.run(() -> useLoreClient(player, item), () -> useLoreServer());
+        if (net.fabricmc.loader.api.FabricLoader.getInstance().getEnvironmentType() == net.fabricmc.api.EnvType.CLIENT) {
+            useLoreClient(player, item);
+        } else {
+            useLoreServer();
+        }
         return item;
     }
 

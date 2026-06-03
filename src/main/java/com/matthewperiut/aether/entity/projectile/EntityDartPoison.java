@@ -1,5 +1,8 @@
 package com.matthewperiut.aether.entity.projectile;
 
+import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
+import com.matthewperiut.aether.Aether;
+
 import com.matthewperiut.aether.item.AetherItems;
 import com.matthewperiut.aether.poison.AetherPoison;
 import com.matthewperiut.aether.poison.PoisonControl;
@@ -7,13 +10,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.server.entity.HasTrackingParameters;
-import net.modificationstation.stationapi.api.util.Identifier;
-import net.modificationstation.stationapi.api.util.TriState;
 
-import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
-@HasTrackingParameters(trackingDistance = 50, sendVelocity = TriState.TRUE, updatePeriod = 1)
 public class EntityDartPoison extends EntityDartGolden {
     public static int texfxindex = 94;
     public LivingEntity victim;
@@ -61,7 +59,7 @@ public class EntityDartPoison extends EntityDartGolden {
     }
 
     @Override
-    public Identifier getHandlerIdentifier() {
-        return MOD_ID.id("PoisonDart");
+    public NamespacedIdentifier getHandlerId() {
+        return Aether.id("PoisonDart");
     }
 }

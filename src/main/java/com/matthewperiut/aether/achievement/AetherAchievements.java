@@ -1,24 +1,18 @@
 package com.matthewperiut.aether.achievement;
 
+import com.matthewperiut.aether.Aether;
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.item.AetherItems;
-import net.mine_diver.unsafeevents.listener.EventListener;
+import com.periut.retroapi.achievement.RetroAchievements;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.achievement.Achievement;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.loader.api.FabricLoader;
-import net.modificationstation.stationapi.api.event.achievement.AchievementRegisterEvent;
-import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
-import net.modificationstation.stationapi.api.template.achievement.AchievementTemplate;
-import net.modificationstation.stationapi.api.util.Namespace;
-import net.modificationstation.stationapi.api.util.Null;
 
 public class AetherAchievements {
-    @Entrypoint.Namespace
-    public static Namespace MOD_ID = Null.get();
     public static final int acOff = 800;
     public static Achievement enterAether;
     public static Achievement defeatBronze;
@@ -33,57 +27,22 @@ public class AetherAchievements {
     public static Achievement loreception;
 
     public static void giveAchievement(Achievement achievement, PlayerEntity player) {
-        player.incrementStat(achievement);
+        RetroAchievements.grant(achievement, player);
     }
 
-    @EventListener
-    public void registerAchievements(AchievementRegisterEvent event) {
-        // works sp and mp
-        enterAether = (new Achievement(acOff, "aether:enterAether", 0, 0, Block.GLOWSTONE, null)).addStat();
-        // works sp and mp
-        defeatBronze = (new Achievement(acOff + 1, "aether:defeatBronze", -2, 3, new ItemStack(AetherItems.Key, 1, 0), enterAether)).addStat();
-        // works sp and mp
-        defeatSilver = (new Achievement(acOff + 2, "aether:defeatSilver", 0, 4, new ItemStack(AetherItems.Key, 1, 1), enterAether)).addStat();
-        // works sp and mp
-        defeatGold = (new Achievement(acOff + 3, "aether:defeatGold", 2, 3, new ItemStack(AetherItems.Key, 1, 2), enterAether)).addStat();
-        // works sp and mp
-        enchanter = (new Achievement(acOff + 4, "aether:enchanter", 2, 1, AetherBlocks.Enchanter, enterAether)).addStat();
-        // works sp and mp
-        incubator = (new Achievement(acOff + 5, "aether:incubator", 2, -1, AetherBlocks.Incubator, enterAether)).addStat();
-        // works sp and mp
-        blueCloud = (new Achievement(acOff + 6, "aether:blueCloud", -2, -1, new ItemStack(AetherBlocks.Aercloud, 1, 1), enterAether)).addStat();
-        // works sp and mp
-        flyingPig = (new Achievement(acOff + 7, "aether:flyingPig", -2, 1, Item.SADDLE, enterAether)).addStat();
-        // works sp and mp
-        gravTools = (new Achievement(acOff + 8, "aether:gravTools", -1, -3, AetherItems.PickGravitite, enterAether)).addStat();
-        // works sp
-        lore = (new Achievement(acOff + 9, "aether:lore", 1, -3, Item.BOOK, enterAether)).addStat();
-        // works sp
-        loreception = (new Achievement(acOff + 10, "aether:loreception", 1, -5, Item.BOOK, lore)).addStat();
-        // StationAPI alpha.6+ requires each achievement to be bound into the StatRegistry,
-        // otherwise the registry fails to freeze with "Trying to access unbound value".
-        AchievementTemplate.onConstructor(enterAether, MOD_ID.id("enterAether"));
-        AchievementTemplate.onConstructor(defeatBronze, MOD_ID.id("defeatBronze"));
-        AchievementTemplate.onConstructor(defeatSilver, MOD_ID.id("defeatSilver"));
-        AchievementTemplate.onConstructor(defeatGold, MOD_ID.id("defeatGold"));
-        AchievementTemplate.onConstructor(enchanter, MOD_ID.id("enchanter"));
-        AchievementTemplate.onConstructor(incubator, MOD_ID.id("incubator"));
-        AchievementTemplate.onConstructor(blueCloud, MOD_ID.id("blueCloud"));
-        AchievementTemplate.onConstructor(flyingPig, MOD_ID.id("flyingPig"));
-        AchievementTemplate.onConstructor(gravTools, MOD_ID.id("gravTools"));
-        AchievementTemplate.onConstructor(lore, MOD_ID.id("lore"));
-        AchievementTemplate.onConstructor(loreception, MOD_ID.id("loreception"));
-        event.achievements.add(AetherAchievements.enterAether);/*, "Hostile Paradise", "Ascend to the Aether");*/
-        event.achievements.add(AetherAchievements.defeatBronze);/*, "Like a Bossaru!", "Defeat the bronze boss");*/
-        event.achievements.add(AetherAchievements.defeatSilver);/*, "Dethroned", "Defeat the silver boss");*/
-        event.achievements.add(AetherAchievements.defeatGold);/*, "Extinguished", "Defeat the gold boss");*/
-        event.achievements.add(AetherAchievements.enchanter);/*, "Do you believe in magic?", "Craft an enchanter");*/
-        event.achievements.add(AetherAchievements.incubator);/*, "Now you're family", "Incubate a moa");*/
-        event.achievements.add(AetherAchievements.blueCloud);/*, "To infinity and beyond!", "Bounce on a blue cloud");*/
-        event.achievements.add(AetherAchievements.flyingPig);/*, "When phygs fly!", "Fly on a phyg");*/
-        event.achievements.add(AetherAchievements.gravTools);/*, "Pink is the new blue", "Craft a gravitite tool");*/
-        event.achievements.add(AetherAchievements.lore);/*, "The more you know!", "Read a book of lore");*/
-        event.achievements.add(AetherAchievements.loreception);/*, "Lore-ception", "It's a book in a book in a book in...");*/
+    public static void registerAchievements() {
+        enterAether = RetroAchievements.register(acOff, Aether.id("enterAether"), "aether:enterAether", 0, 0, Block.GLOWSTONE, null);
+        defeatBronze = RetroAchievements.register(acOff + 1, Aether.id("defeatBronze"), "aether:defeatBronze", -2, 3, new ItemStack(AetherItems.Key, 1, 0), enterAether);
+        defeatSilver = RetroAchievements.register(acOff + 2, Aether.id("defeatSilver"), "aether:defeatSilver", 0, 4, new ItemStack(AetherItems.Key, 1, 1), enterAether);
+        defeatGold = RetroAchievements.register(acOff + 3, Aether.id("defeatGold"), "aether:defeatGold", 2, 3, new ItemStack(AetherItems.Key, 1, 2), enterAether);
+        enchanter = RetroAchievements.register(acOff + 4, Aether.id("enchanter"), "aether:enchanter", 2, 1, AetherBlocks.Enchanter, enterAether);
+        incubator = RetroAchievements.register(acOff + 5, Aether.id("incubator"), "aether:incubator", 2, -1, AetherBlocks.Incubator, enterAether);
+        blueCloud = RetroAchievements.register(acOff + 6, Aether.id("blueCloud"), "aether:blueCloud", -2, -1, new ItemStack(AetherBlocks.Aercloud, 1, 1), enterAether);
+        flyingPig = RetroAchievements.register(acOff + 7, Aether.id("flyingPig"), "aether:flyingPig", -2, 1, Item.SADDLE, enterAether);
+        gravTools = RetroAchievements.register(acOff + 8, Aether.id("gravTools"), "aether:gravTools", -1, -3, AetherItems.PickGravitite, enterAether);
+        lore = RetroAchievements.register(acOff + 9, Aether.id("lore"), "aether:lore", 1, -3, Item.BOOK, enterAether);
+        loreception = RetroAchievements.register(acOff + 10, Aether.id("loreception"), "aether:loreception", 1, -5, Item.BOOK, lore);
+
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
             AetherACPage.register(enterAether, defeatBronze, defeatSilver, defeatGold, enchanter, incubator, gravTools, blueCloud, flyingPig, lore, loreception);
         }

@@ -1,12 +1,13 @@
 package com.matthewperiut.aether.item.accessory;
 
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 public class ItemAgilityCape extends ItemCape {
-    public ItemAgilityCape(Identifier i, int j, String path, int l) {
-        super(i, j, path, l);
+    public ItemAgilityCape(int j, String path, int l) {
+        super(j, path, l);
     }
 
 

@@ -12,29 +12,11 @@
   "icon": "assets/aether/icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": [
+    "init": [
       "com.matthewperiut.aether.Aether"
     ],
-    "stationapi:event_bus": [
-      "com.matthewperiut.aether.block.AetherBlocks",
-      "com.matthewperiut.aether.item.AetherItems",
-      "com.matthewperiut.aether.recipe.AetherRecipes",
-      "com.matthewperiut.aether.entity.AetherEntities",
-      "com.matthewperiut.aether.gen.portal.AetherPortalListener",
-      "com.matthewperiut.aether.achievement.AetherAchievements",
-      "com.matthewperiut.aether.blockentity.AetherBlockEntities",
-      "com.matthewperiut.aether.gen.dim.AetherDimensions",
-      "com.matthewperiut.aether.gen.biome.AetherBiomes"
-    ],
-    "stationapi:event_bus_client": [
-      "com.matthewperiut.aether.client.texture.AetherTextures",
-      "com.matthewperiut.aether.client.entity.AetherEntityRenderers",
-      "com.matthewperiut.aether.client.gui.AetherGuis"
-    ],
-    "stationapi:event_bus_server": [
-    ],
-    "bhcreative:event_bus": [
-      "com.matthewperiut.aether.optional.AetherCreativeListener"
+    "client-init": [
+      "com.matthewperiut.aether.client.AetherClient"
     ]
   },
   "mixins": [
@@ -44,6 +26,6 @@
   "depends": {
     "minecraft": "1.0.0-beta.7.3",
     "accessoryapi": ">=0.6.0",
-    "stationapi": [">=2.0-alpha.1", ">=2.0-alpha.1.1"]
+    "retroapi": "*"
   }
 }

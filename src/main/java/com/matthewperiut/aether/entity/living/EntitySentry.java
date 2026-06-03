@@ -1,5 +1,9 @@
 package com.matthewperiut.aether.entity.living;
 
+import com.periut.retroapi.entity.spawn.RetroMobSpawnData;
+import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
+import com.matthewperiut.aether.Aether;
+
 import com.matthewperiut.aether.block.AetherBlocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -7,12 +11,9 @@ import net.minecraft.entity.ai.pathing.Path;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
-import net.modificationstation.stationapi.api.util.Identifier;
 
-import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
-public class EntitySentry extends EntityDungeonMob implements MobSpawnDataProvider {
+public class EntitySentry extends EntityDungeonMob implements RetroMobSpawnData {
     private static final int TRACKED_ACTIVE = 16;
 
     public float field_100021_a;
@@ -254,11 +255,11 @@ public class EntitySentry extends EntityDungeonMob implements MobSpawnDataProvid
     }
 
     protected int getDroppedItemId() {
-        return this.random.nextInt(5) == 0 ? AetherBlocks.LightDungeonStone.asItem().id : AetherBlocks.DungeonStone.asItem().id;
+        return this.random.nextInt(5) == 0 ? AetherBlocks.LightDungeonStone.id : AetherBlocks.DungeonStone.id;
     }
 
     @Override
-    public Identifier getHandlerIdentifier() {
-        return MOD_ID.id("Sentry");
+    public NamespacedIdentifier getHandlerId() {
+        return Aether.id("Sentry");
     }
 }

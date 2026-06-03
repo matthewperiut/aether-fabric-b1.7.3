@@ -1,15 +1,16 @@
 package com.matthewperiut.aether.block;
 
+import net.minecraft.block.Block;
+import com.periut.retroapi.register.block.RetroBlockAccess;
+
 import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.block.material.Material;
-import net.modificationstation.stationapi.api.template.block.TemplateBlock;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-public class ZaniteOre extends TemplateBlock {
-    protected ZaniteOre(Identifier blockID) {
-        super(blockID, Material.STONE);
+public class ZaniteOre extends Block {
+    protected ZaniteOre() {
+        super(RetroBlockAccess.allocateId(), Material.STONE);
     }
 
     public int getDroppedItemId(int i, Random random) {

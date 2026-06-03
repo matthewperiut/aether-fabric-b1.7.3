@@ -1,5 +1,9 @@
 package com.matthewperiut.aether.entity.living;
 
+import com.periut.retroapi.entity.spawn.RetroMobSpawnData;
+import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
+import com.matthewperiut.aether.Aether;
+
 import com.matthewperiut.aether.block.UtilSkyroot;
 import com.matthewperiut.aether.mixin.access.EntityAccessor;
 import com.matthewperiut.aether.mixin.access.LivingEntityAccessor;
@@ -15,14 +19,11 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.EntityVehicleSetS2CPacket;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.List;
 
-import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
-public class EntityAerbunny extends EntityAetherAnimal implements MobSpawnDataProvider {
+public class EntityAerbunny extends EntityAetherAnimal implements RetroMobSpawnData {
     public int age;
     public int mate;
     public boolean grab;
@@ -403,7 +404,7 @@ public class EntityAerbunny extends EntityAetherAnimal implements MobSpawnDataPr
     }
 
     @Override
-    public Identifier getHandlerIdentifier() {
-        return MOD_ID.id("Aerbunny");
+    public NamespacedIdentifier getHandlerId() {
+        return Aether.id("Aerbunny");
     }
 }

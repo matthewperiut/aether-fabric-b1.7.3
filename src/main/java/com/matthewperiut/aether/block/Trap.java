@@ -1,5 +1,8 @@
 package com.matthewperiut.aether.block;
 
+import net.minecraft.block.TranslucentBlock;
+import com.periut.retroapi.register.block.RetroBlockAccess;
+
 import com.matthewperiut.aether.entity.living.EntitySentry;
 import com.matthewperiut.aether.entity.living.EntityValkyrie;
 import net.minecraft.block.material.Material;
@@ -7,14 +10,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.template.block.TemplateTranslucentBlock;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-public class Trap extends TemplateTranslucentBlock {
-    public Trap(Identifier blockID) {
-        super(blockID, DungeonBlock.sprBronze, Material.STONE, false);
+public class Trap extends TranslucentBlock {
+    public Trap() {
+        super(RetroBlockAccess.allocateId(), DungeonBlock.sprBronze, Material.STONE, false);
         this.setTickRandomly(true);
     }
 

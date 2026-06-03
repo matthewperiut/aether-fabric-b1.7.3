@@ -1,14 +1,15 @@
 package com.matthewperiut.aether.item.accessory;
 
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import com.periut.accessoryapi.api.Accessory;
 import com.periut.accessoryapi.api.PlayerVisibility;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 public class ItemInvisibilityCloak extends ItemMoreArmor implements Accessory {
-    public ItemInvisibilityCloak(Identifier i, int j, int k, int l) {
-        super(i, j, k, l);
+    public ItemInvisibilityCloak(int j, int k, int l) {
+        super(RetroItemAccess.allocateId(), j, k, l);
     }
 
     public void onAccessoryAdded(PlayerEntity player, ItemStack accessory) {

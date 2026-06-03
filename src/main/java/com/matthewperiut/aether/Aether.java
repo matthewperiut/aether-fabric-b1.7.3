@@ -1,27 +1,50 @@
 package com.matthewperiut.aether;
 
+import com.matthewperiut.aether.achievement.AetherAchievements;
+import com.matthewperiut.aether.block.AetherBlocks;
+import com.matthewperiut.aether.blockentity.AetherBlockEntities;
+import com.matthewperiut.aether.client.texture.AetherTextures;
+import com.matthewperiut.aether.entity.AetherEntities;
+import com.matthewperiut.aether.gen.biome.AetherBiomes;
+import com.matthewperiut.aether.gen.dim.AetherDimensions;
+import com.matthewperiut.aether.gen.portal.AetherPortalListener;
+import com.matthewperiut.aether.item.AetherItems;
 import com.matthewperiut.aether.network.AerbunnyJumpPacket;
 import com.matthewperiut.aether.network.MountInputPacket;
 import com.matthewperiut.aether.optional.AetherSPCSupport;
-import net.fabricmc.api.ModInitializer;
+import com.matthewperiut.aether.recipe.AetherRecipes;
 import net.fabricmc.loader.api.FabricLoader;
-import net.mine_diver.unsafeevents.listener.EventListener;
-import net.modificationstation.stationapi.api.event.mod.InitEvent;
+import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
+import net.ornithemc.osl.core.api.util.NamespacedIdentifiers;
+import net.ornithemc.osl.entrypoints.api.ModInitializer;
 
 public class Aether implements ModInitializer {
 
-    public static boolean OLDSTAPI = false;
+    public static final String MOD_ID = "aether";
+
+    public static NamespacedIdentifier id(String path) {
+        return NamespacedIdentifiers.from(MOD_ID, path);
+    }
 
     @Override
-    public void onInitialize() {
+    public void init() {
+        // Registration order matters: blocks -> items -> textures (sprite slots) -> recipes ->
+        // entities -> block entities -> achievements -> dimensions -> biomes.
+        AetherBlocks.registerBlocks();
+        AetherItems.registerItems();
+        AetherTextures.registerTextures();
+        AetherRecipes.registerRecipes();
+        AetherEntities.registerEntities();
+        AetherBlockEntities.registerBlockEntities();
+        AetherAchievements.registerAchievements();
+        AetherDimensions.registerDimensions();
+        AetherBiomes.registerBiomes();
+        AetherPortalListener.register();
+
         MountInputPacket.register();
         AerbunnyJumpPacket.register();
         if (FabricLoader.getInstance().isModLoaded("retrocommands")) {
             AetherSPCSupport.init();
-        }
-        String stapi_version = String.valueOf(FabricLoader.getInstance().getModContainer("station-api-base").get().getMetadata().getVersion());
-        if (stapi_version.equals("2.0-alpha.2-1.0.0") || stapi_version.equals("2.0-alpha.1.1-1.0.0") || stapi_version.equals("2.0-alpha.1-1.0.0")) {
-            OLDSTAPI = true;
         }
     }
 }

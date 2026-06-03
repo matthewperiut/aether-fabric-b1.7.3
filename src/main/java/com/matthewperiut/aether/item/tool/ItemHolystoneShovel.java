@@ -1,19 +1,20 @@
 package com.matthewperiut.aether.item.tool;
 
+import net.minecraft.item.ShovelItem;
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
-import net.modificationstation.stationapi.api.template.item.TemplateShovelItem;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-public class ItemHolystoneShovel extends TemplateShovelItem {
+public class ItemHolystoneShovel extends ShovelItem {
     Random random = new Random();
 
-    public ItemHolystoneShovel(Identifier identifier, ToolMaterial material) {
-        super(identifier, material);
+    public ItemHolystoneShovel(ToolMaterial material) {
+        super(RetroItemAccess.allocateId(), material);
     }
 
     @Override

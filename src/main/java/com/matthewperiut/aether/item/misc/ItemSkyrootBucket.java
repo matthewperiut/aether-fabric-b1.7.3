@@ -1,5 +1,8 @@
 package com.matthewperiut.aether.item.misc;
 
+import net.minecraft.item.Item;
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import com.matthewperiut.aether.entity.living.EntityAechorPlant;
 import com.matthewperiut.aether.entity.living.EntityFlyingCow;
 import com.matthewperiut.aether.item.AetherItems;
@@ -16,18 +19,16 @@ import net.minecraft.util.hit.HitResultType;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.template.item.TemplateItem;
-import net.modificationstation.stationapi.api.util.Identifier;
 
-public class ItemSkyrootBucket extends TemplateItem {
+public class ItemSkyrootBucket extends Item {
     public static int sprEmpty;// = ModLoader.addOverride("/gui/items.png", "/aether/items/Bucket.png");
     public static int sprWater;// = ModLoader.addOverride("/gui/items.png", "/aether/items/BucketWater.png");
     public static int sprMilk;// = ModLoader.addOverride("/gui/items.png", "/aether/items/BucketMilk.png");
     public static int sprPoison;// = ModLoader.addOverride("/gui/items.png", "/aether/items/BucketPoison.png");
     public static int sprRemedy;// = ModLoader.addOverride("/gui/items.png", "/aether/items/BucketRemedy.png");
 
-    public ItemSkyrootBucket(Identifier i) {
-        super(i);
+    public ItemSkyrootBucket() {
+        super(RetroItemAccess.allocateId());
         this.setHasSubtypes(true);
         this.maxCount = 1;
     }

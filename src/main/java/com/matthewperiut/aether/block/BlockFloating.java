@@ -1,25 +1,25 @@
 package com.matthewperiut.aether.block;
 
+import com.periut.retroapi.register.block.RetroBlockAccess;
+
 import com.matthewperiut.aether.entity.special.EntityFloatingBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.template.block.TemplateBlock;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-public class BlockFloating extends TemplateBlock {
+public class BlockFloating extends Block {
     public static boolean fallInstantly = false;
     private final boolean enchanted;
 
-    public BlockFloating(Identifier i, int j, boolean bool) {
-        super(i, j, Material.STONE);
+    public BlockFloating(int j, boolean bool) {
+        super(RetroBlockAccess.allocateId(), j, Material.STONE);
         this.enchanted = bool;
     }
 
-    public BlockFloating(Identifier i, boolean bool) {
-        super(i, Material.STONE);
+    public BlockFloating(boolean bool) {
+        super(RetroBlockAccess.allocateId(), Material.STONE);
         this.enchanted = bool;
     }
 

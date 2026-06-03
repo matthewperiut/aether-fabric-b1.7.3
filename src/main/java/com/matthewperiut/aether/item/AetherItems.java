@@ -1,22 +1,16 @@
 package com.matthewperiut.aether.item;
 
-import com.periut.accessoryapi.api.AccessoryRegister;
+import com.matthewperiut.aether.Aether;
 import com.matthewperiut.aether.item.accessory.*;
 import com.matthewperiut.aether.item.misc.*;
 import com.matthewperiut.aether.item.tool.*;
-import net.mine_diver.unsafeevents.listener.EventListener;
+import com.periut.accessoryapi.api.AccessoryRegister;
+import com.periut.retroapi.register.item.RetroItemAccess;
 import net.minecraft.item.Item;
 import net.minecraft.item.ToolMaterial;
-import net.modificationstation.stationapi.api.event.registry.ItemRegistryEvent;
-import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
-import net.modificationstation.stationapi.api.template.item.*;
-import net.modificationstation.stationapi.api.util.Identifier;
-import net.modificationstation.stationapi.api.util.Namespace;
-import net.modificationstation.stationapi.api.util.Null;
 
 public class AetherItems {
-    @Entrypoint.Namespace
-    public static Namespace MOD_ID = Null.get();
+    public static final String MOD_ID = Aether.MOD_ID;
     public static Item VictoryMedal;
     public static Item Key;
     public static Item LoreBook;
@@ -114,8 +108,15 @@ public class AetherItems {
     public static Item IceRing;
     public static Item IcePendant;
 
-    @EventListener
-    public void registerItems(ItemRegistryEvent event) {
+    private static Item reg(Item item, String name) {
+        return RetroItemAccess.of(item).register(Aether.id(name));
+    }
+
+    private static int nid() {
+        return RetroItemAccess.allocateId();
+    }
+
+    public static void registerItems() {
         AccessoryRegister.add("pendant");
         AccessoryRegister.add("cape");
         AccessoryRegister.add("shield");
@@ -125,111 +126,111 @@ public class AetherItems {
         AccessoryRegister.add("ring");
         AccessoryRegister.add("gloves");
 
-        VictoryMedal = (new TemplateItem(Identifier.of(MOD_ID, "victory_medal"))).setMaxCount(10).setTranslationKey(MOD_ID, "victory_medal");
-        Key = (new ItemAetherKey(Identifier.of(MOD_ID, "aether_key"))).setTranslationKey(MOD_ID, "aether_key");
-        LoreBook = (new ItemLoreBook(Identifier.of(MOD_ID, "lore_book"))).setTextureId(59).setTranslationKey(MOD_ID, "lore_book");
-        MoaEgg = (new ItemMoaEgg(Identifier.of(MOD_ID, "moa_egg"))).setTranslationKey(MOD_ID, "moa_egg");
-        AechorPetal = (new TemplateItem(Identifier.of(MOD_ID, "aechor_petal"))).setTranslationKey(MOD_ID, "aechor_petal");
-        GoldenAmber = (new TemplateItem(Identifier.of(MOD_ID, "golden_amber"))).setTranslationKey(MOD_ID, "golden_amber");
-        Stick = (new TemplateItem(Identifier.of(MOD_ID, "skyroot_stick"))).setTranslationKey(MOD_ID, "skyroot_stick");
-        Dart = (new ItemDart(Identifier.of(MOD_ID, "dart"))).setHasSubtypes(true).setTranslationKey(MOD_ID, "dart");
-        DartShooter = (new ItemDartShooter(Identifier.of(MOD_ID,"dart_shooter"))).setTranslationKey(MOD_ID, "dart_shooter");
-        AmbrosiumShard = (new ItemAmbrosium(Identifier.of(MOD_ID, "ambrosium"), 1, false)).setTranslationKey(MOD_ID, "ambrosium");
-        HealingStone = (new ItemAmbrosium(Identifier.of(MOD_ID, "healing_stone"), 4, false)).setTranslationKey(MOD_ID, "healing_stone");
-        Zanite = (new TemplateItem(Identifier.of(MOD_ID, "zanite"))).setTranslationKey(MOD_ID, "zanite");
-        BlueMusicDisk = (new ItemAetherRecord(Identifier.of(MOD_ID, "blue_music_disc"), "aether:aethertune", "Noisestorm - Aethertune")).setTranslationKey(MOD_ID, "blue_music_disc");
-        Bucket = (new ItemSkyrootBucket(Identifier.of(MOD_ID, "skyroot_bucket"))).setTranslationKey(MOD_ID, "skyroot_bucket");
+        VictoryMedal = reg(new Item(nid()).setMaxCount(10), "victory_medal");
+        Key = reg(new ItemAetherKey(), "aether_key");
+        LoreBook = reg(new ItemLoreBook().setTextureId(59), "lore_book");
+        MoaEgg = reg(new ItemMoaEgg(), "moa_egg");
+        AechorPetal = reg(new Item(nid()), "aechor_petal");
+        GoldenAmber = reg(new Item(nid()), "golden_amber");
+        Stick = reg(new Item(nid()), "skyroot_stick");
+        Dart = reg(new ItemDart().setHasSubtypes(true), "dart");
+        DartShooter = reg(new ItemDartShooter(), "dart_shooter");
+        AmbrosiumShard = reg(new ItemAmbrosium(1, false), "ambrosium");
+        HealingStone = reg(new ItemAmbrosium(4, false), "healing_stone");
+        Zanite = reg(new Item(nid()), "zanite");
+        BlueMusicDisk = reg(new ItemAetherRecord("aether:aethertune", "Noisestorm - Aethertune"), "blue_music_disc");
+        Bucket = reg(new ItemSkyrootBucket(), "skyroot_bucket");
 
         ToolMaterial mat = ToolMaterial.WOOD;
-        SwordSkyroot = (new TemplateSwordItem(Identifier.of(MOD_ID, "skyroot_sword"), mat)).setTranslationKey(MOD_ID, "skyroot_sword");
-        PickSkyroot = (new TemplatePickaxeItem(Identifier.of(MOD_ID, "skyroot_pickaxe"), mat)).setTranslationKey(MOD_ID, "skyroot_pickaxe");
-        AxeSkyroot = (new TemplateAxeItem(Identifier.of(MOD_ID, "skyroot_axe"), mat)).setTranslationKey(MOD_ID, "skyroot_axe");
-        ShovelSkyroot = (new TemplateShovelItem(Identifier.of(MOD_ID, "skyroot_shovel"), mat)).setTranslationKey(MOD_ID, "skyroot_shovel");
+        SwordSkyroot = reg(new net.minecraft.item.SwordItem(nid(), mat), "skyroot_sword");
+        PickSkyroot = reg(new net.minecraft.item.PickaxeItem(nid(), mat), "skyroot_pickaxe");
+        AxeSkyroot = reg(new net.minecraft.item.AxeItem(nid(), mat), "skyroot_axe");
+        ShovelSkyroot = reg(new net.minecraft.item.ShovelItem(nid(), mat), "skyroot_shovel");
 
         mat = ToolMaterial.STONE;
-        SwordHolystone = (new ItemSwordHolystone(Identifier.of(MOD_ID, "holystone_sword"), mat)).setTranslationKey(MOD_ID, "holystone_sword");
-        PickHolystone = (new ItemHolystonePickaxe(Identifier.of(MOD_ID, "holystone_pickaxe"), mat)).setTranslationKey(MOD_ID, "holystone_pickaxe");
-        AxeHolystone = (new ItemHolystoneAxe(Identifier.of(MOD_ID, "holystone_axe"), mat)).setTranslationKey(MOD_ID, "holystone_axe");
-        ShovelHolystone = (new ItemHolystoneShovel(Identifier.of(MOD_ID, "holystone_shovel"), mat)).setTranslationKey(MOD_ID, "holystone_shovel");
+        SwordHolystone = reg(new ItemSwordHolystone(mat), "holystone_sword");
+        PickHolystone = reg(new ItemHolystonePickaxe(mat), "holystone_pickaxe");
+        AxeHolystone = reg(new ItemHolystoneAxe(mat), "holystone_axe");
+        ShovelHolystone = reg(new ItemHolystoneShovel(mat), "holystone_shovel");
 
         mat = ToolMaterial.IRON;
-        SwordZanite = (new ItemZaniteSword(Identifier.of(MOD_ID, "zanite_sword"), mat)).setTranslationKey(MOD_ID, "zanite_sword");
-        PickZanite = (new ItemZanitePickaxe(Identifier.of(MOD_ID, "zanite_pickaxe"), mat)).setTranslationKey(MOD_ID, "zanite_pickaxe");
-        AxeZanite = (new ItemZaniteAxe(Identifier.of(MOD_ID, "zanite_axe"), mat)).setTranslationKey(MOD_ID, "zanite_axe");
-        ShovelZanite = (new ItemZaniteShovel(Identifier.of(MOD_ID, "zanite_shovel"), mat)).setTranslationKey(MOD_ID, "zanite_shovel");
+        SwordZanite = reg(new ItemZaniteSword(mat), "zanite_sword");
+        PickZanite = reg(new ItemZanitePickaxe(mat), "zanite_pickaxe");
+        AxeZanite = reg(new ItemZaniteAxe(mat), "zanite_axe");
+        ShovelZanite = reg(new ItemZaniteShovel(mat), "zanite_shovel");
 
         mat = ToolMaterial.DIAMOND;
-        SwordGravitite = (new ItemSwordGravitite(Identifier.of(MOD_ID, "gravitite_sword"), mat)).setTranslationKey(MOD_ID, "gravitite_sword");
-        PickGravitite = (new ItemGravititePickaxe(Identifier.of(MOD_ID, "gravitite_pickaxe"), mat)).setTranslationKey(MOD_ID, "gravitite_pickaxe");
-        AxeGravitite = (new ItemGravititeAxe(Identifier.of(MOD_ID, "gravitite_axe"), mat)).setTranslationKey(MOD_ID, "gravitite_axe");
-        ShovelGravitite = (new ItemGravititeShovel(Identifier.of(MOD_ID, "gravitite_shovel"), mat)).setTranslationKey(MOD_ID, "gravitite_shovel");
+        SwordGravitite = reg(new ItemSwordGravitite(mat), "gravitite_sword");
+        PickGravitite = reg(new ItemGravititePickaxe(mat), "gravitite_pickaxe");
+        AxeGravitite = reg(new ItemGravititeAxe(mat), "gravitite_axe");
+        ShovelGravitite = reg(new ItemGravititeShovel(mat), "gravitite_shovel");
 
-        Lance = (new ItemLance(Identifier.of(MOD_ID, "lance"), mat)).setTranslationKey(MOD_ID, "lance");
-        PickValkyrie = (new ItemValkyriePickaxe(Identifier.of(MOD_ID,"valkyrie_pickaxe"), mat)).setTranslationKey(MOD_ID, "valkyrie_pickaxe");
-        AxeValkyrie = (new ItemValkyrieAxe(Identifier.of(MOD_ID,"valkyrie_axe"), mat)).setTranslationKey(MOD_ID, "valkyrie_axe");
-        ShovelValkyrie = (new ItemValkyrieSpade(Identifier.of(MOD_ID,"valkyrie_shovel"), mat)).setTranslationKey(MOD_ID, "valkyrie_shovel");
+        Lance = reg(new ItemLance(mat), "lance");
+        PickValkyrie = reg(new ItemValkyriePickaxe(mat), "valkyrie_pickaxe");
+        AxeValkyrie = reg(new ItemValkyrieAxe(mat), "valkyrie_axe");
+        ShovelValkyrie = reg(new ItemValkyrieSpade(mat), "valkyrie_shovel");
 
-        PigSlayer = (new ItemPigSlayer(Identifier.of(MOD_ID, "pig_slayer"))).setTranslationKey(MOD_ID, "pig_slayer");
-        VampireBlade = (new ItemVampireBlade(Identifier.of(MOD_ID, "vampire_blade"))).setTranslationKey(MOD_ID, "vampire_blade");
-        NatureStaff = (new TemplateItem(Identifier.of(MOD_ID, "nature_staff"))).setMaxCount(1).setTranslationKey(MOD_ID, "nature_staff");
-        SwordFire = (new ItemSwordElemental(Identifier.of(MOD_ID, "fire_sword"), EnumElement.Fire, -20609)).setTranslationKey(MOD_ID, "fire_sword");
-        SwordHoly = (new ItemSwordElemental(Identifier.of(MOD_ID, "holy_sword"), EnumElement.Holy, -81)).setTranslationKey(MOD_ID, "holy_sword");
-        SwordLightning = (new ItemSwordElemental(Identifier.of(MOD_ID, "lightning_sword"), EnumElement.Lightning, -5242881)).setTranslationKey(MOD_ID, "lightning_sword");
-        LightningKnife = (new ItemLightningKnife(Identifier.of(MOD_ID, "lightning_knife"))).setTranslationKey(MOD_ID, "lightning_knife");
-        GummieSwet = (new ItemGummieSwet(Identifier.of(MOD_ID, "gummie_swet"),20,false)).setTranslationKey(MOD_ID, "gummie_swet");
-        HammerNotch = (new ItemNotchHammer(Identifier.of(MOD_ID, "hammer_notch"))).setTranslationKey(MOD_ID, "hammer_notch");
-        CloudStaff = (new ItemCloudStaff(Identifier.of(MOD_ID, "cloud_staff"))).setTranslationKey(MOD_ID, "cloud_staff");
-        PhoenixBow = (new ItemPhoenixBow(Identifier.of(MOD_ID, "phoenix_bow"))).setTranslationKey(MOD_ID, "phoenix_bow");
-        PhoenixHelm = new ItemPhoenixArmour(Identifier.of(MOD_ID, "item_phoenix_helmet"), 3, "Phoenix", 0, 16742144).setTextureId(1).setTranslationKey(MOD_ID, "item_phoenix_helmet");
-        PhoenixBody = new ItemPhoenixArmour(Identifier.of(MOD_ID, "item_phoenix_body"), 3, "Phoenix", 1, 16742144).setTextureId(17).setTranslationKey(MOD_ID, "item_phoenix_body");
-        PhoenixLegs = new ItemPhoenixArmour(Identifier.of(MOD_ID, "item_phoenix_legs"), 3, "Phoenix", 2, 16742144).setTextureId(33).setTranslationKey(MOD_ID, "item_phoenix_legs");
-        PhoenixBoots = new ItemPhoenixArmour(Identifier.of(MOD_ID, "item_phoenix_boots"), 3, "Phoenix", 3, 16742144).setTextureId(49).setTranslationKey(MOD_ID, "item_phoenix_boots");
-        ObsidianHelm = new ItemColouredArmour(Identifier.of(MOD_ID, "item_obsidian_helmet"), 4, "Obsidian", 0, 1774663).setTextureId(2).setTranslationKey(MOD_ID, "item_obsidian_helmet");
-        ObsidianBody = new ItemColouredArmour(Identifier.of(MOD_ID, "item_obsidian_body"), 4, "Obsidian", 1, 1774663).setTextureId(18).setTranslationKey(MOD_ID, "item_obsidian_body");
-        ObsidianLegs = new ItemColouredArmour(Identifier.of(MOD_ID, "item_obsidian_legs"), 4, "Obsidian", 2, 1774663).setTextureId(34).setTranslationKey(MOD_ID, "item_obsidian_legs");
-        ObsidianBoots = new ItemColouredArmour(Identifier.of(MOD_ID, "item_obsidian_boots"), 4, "Obsidian", 3, 1774663).setTextureId(50).setTranslationKey(MOD_ID, "item_obsidian_boots");
-        GravititeHelmet = new ItemColouredArmour(Identifier.of(MOD_ID, "item_gravitite_helmet"), 3, "Gravitite", 0, 15160027).setTextureId(2).setTranslationKey(MOD_ID, "item_gravitite_helmet");
-        GravititeBodyplate = new ItemColouredArmour(Identifier.of(MOD_ID, "item_gravitite_body"), 3, "Gravitite", 1, 15160027).setTextureId(18).setTranslationKey(MOD_ID, "item_gravitite_body");
-        GravititePlatelegs = new ItemColouredArmour(Identifier.of(MOD_ID, "item_gravitite_legs"), 3, "Gravitite", 2, 15160027).setTextureId(34).setTranslationKey(MOD_ID, "item_gravitite_legs");
-        GravititeBoots = new ItemColouredArmour(Identifier.of(MOD_ID, "item_gravitite_boots"), 3, "Gravitite", 3, 15160027).setTextureId(50).setTranslationKey(MOD_ID, "item_gravitite_boots");
-        ZaniteHelmet = new ItemColouredArmour(Identifier.of(MOD_ID, "item_zanite_helmet"), 2, "Zanite", 0, 7412456).setTextureId(2).setTranslationKey(MOD_ID, "item_zanite_helmet");
-        ZaniteChestplate = new ItemColouredArmour(Identifier.of(MOD_ID, "item_zanite_body"), 2, "Zanite", 1, 7412456).setTextureId(18).setTranslationKey(MOD_ID, "item_zanite_body");
-        ZaniteLeggings = new ItemColouredArmour(Identifier.of(MOD_ID, "item_zanite_legs"), 2, "Zanite", 2, 7412456).setTextureId(34).setTranslationKey(MOD_ID, "item_zanite_legs");
-        ZaniteBoots = new ItemColouredArmour(Identifier.of(MOD_ID, "item_zanite_boots"), 2, "Zanite", 3, 7412456).setTextureId(50).setTranslationKey(MOD_ID, "item_zanite_boots");
-        NeptuneHelmet = new ItemColouredArmour(Identifier.of(MOD_ID, "item_neptune_helmet"), 3, "Neptune", 0, 2512127).setTextureId(1).setTranslationKey(MOD_ID, "item_neptune_helmet");
-        NeptuneChestplate = new ItemColouredArmour(Identifier.of(MOD_ID, "item_neptune_body"), 3, "Neptune", 1, 2512127).setTextureId(17).setTranslationKey(MOD_ID, "item_neptune_body");
-        NeptuneLeggings = new ItemColouredArmour(Identifier.of(MOD_ID, "item_neptune_legs"), 3, "Neptune", 2, 2512127).setTextureId(33).setTranslationKey(MOD_ID, "item_neptune_legs");
-        NeptuneBoots = new ItemColouredArmour(Identifier.of(MOD_ID, "item_neptune_boots"), 3, "Neptune", 3, 2512127).setTextureId(49).setTranslationKey(MOD_ID, "item_neptune_boots");
-        LifeShard = (new ItemLifeShard(Identifier.of(MOD_ID, "life_shard"))).setTranslationKey(MOD_ID, "life_shard");
-        GoldenFeather = (new ItemGoldenFeather(Identifier.of(MOD_ID, "golden_feather"), 0, 0, 7)).setTranslationKey(MOD_ID, "golden_feather");
-        IronBubble = (new ItemIronBubble(Identifier.of(MOD_ID, "iron_bubble"), 0, 0, 7)).setTranslationKey(MOD_ID, "iron_bubble");
-        RegenerationStone = (new ItemRegenerationStone(Identifier.of(MOD_ID, "regeneration_stone"), 0, 0, 7)).setTranslationKey(MOD_ID, "regeneration_stone");
-        RepShield = (new ItemRepShield(Identifier.of(MOD_ID, "repulsion_shield"), 0, 0, 6, 16777215)).setTranslationKey(MOD_ID, "repulsion_shield").setMaxDamage(512);
-        IronRing = (new ItemMoreArmor(Identifier.of(MOD_ID, "iron_ring"), 0, "aether:stationapi/textures/armor/Accessories.png", 8, 16777215)).setTranslationKey(MOD_ID, "iron_ring");
-        GoldRing = (new ItemMoreArmor(Identifier.of(MOD_ID, "gold_ring"), 0, "aether:stationapi/textures/armor/Accessories.png", 8, 16776994)).setTranslationKey(MOD_ID, "gold_ring");
-        ZaniteRing = (new ItemMoreArmor(Identifier.of(MOD_ID, "zanite_ring"), 0, "aether:stationapi/textures/armor/Accessories.png", 8, 7412456)).setTranslationKey(MOD_ID, "zanite_ring");
-        IceRing = (new ItemIceAccessory(Identifier.of(MOD_ID, "ice_ring"), 0, "aether:stationapi/textures/armor/Accessories.png", 8, 9823975)).setTranslationKey(MOD_ID, "ice_ring");
-        IronPendant = (new ItemPendant(Identifier.of(MOD_ID, "iron_pendant"), 0, "aether:stationapi/textures/armor/Accessories.png", 4, 16777215)).setTranslationKey(MOD_ID, "iron_pendant");
-        GoldPendant = (new ItemPendant(Identifier.of(MOD_ID, "gold_pendant"), 0, "aether:stationapi/textures/armor/Accessories.png", 4, 16776994)).setTranslationKey(MOD_ID, "gold_pendant");
-        ZanitePendant = (new ItemPendant(Identifier.of(MOD_ID, "zanite_pendant"), 0, "aether:stationapi/textures/armor/Accessories.png", 4, 7412456)).setTranslationKey(MOD_ID, "zanite_pendant");
-        IcePendant = (new ItemIcePendant(Identifier.of(MOD_ID, "ice_pendant"), 0, "aether:stationapi/textures/armor/Accessories.png", 4, 9823975)).setTranslationKey(MOD_ID, "ice_pendant");
-        AetherCape = (new ItemCape(Identifier.of(MOD_ID, "aether_cape"), 0, "aether:stationapi/textures/other/AetherCape.png", 5)).setTranslationKey(MOD_ID, "aether_cape");
-        InvisibilityCloak = (new ItemInvisibilityCloak(Identifier.of(MOD_ID, "invisibility_cloak"), 0, 0, 5)).setTranslationKey(MOD_ID, "invisibility_cloak");
-        AgilityCape = (new ItemAgilityCape(Identifier.of(MOD_ID, "agility_cape"), 0, "aether:stationapi/textures/other/AgilityCape.png", 5)).setTranslationKey(MOD_ID, "agility_cape");
-        WhiteCape = (new ItemCape(Identifier.of(MOD_ID, "white_cape"), 0, "aether:stationapi/textures/other/WhiteCape.png", 5)).setTranslationKey(MOD_ID, "white_cape");
-        RedCape = (new ItemCape(Identifier.of(MOD_ID, "red_cape"), 0, "aether:stationapi/textures/other/RedCape.png", 5, 15208721)).setTranslationKey(MOD_ID, "red_cape");
-        YellowCape = (new ItemCape(Identifier.of(MOD_ID, "yellow_cape"), 0, "aether:stationapi/textures/other/YellowCape.png", 5, 13486862)).setTranslationKey(MOD_ID, "yellow_cape");
-        BlueCape = (new ItemCape(Identifier.of(MOD_ID, "blue_cape"), 0, "aether:stationapi/textures/other/BlueCape.png", 5, 1277879)).setTranslationKey(MOD_ID, "blue_cape");
-        LeatherGlove = (new ItemGloves(Identifier.of(MOD_ID, "leather_glove"), 0, "aether:stationapi/textures/armor/Accessories.png", 10, 12999733)).setTranslationKey(MOD_ID, "leather_glove");
-        IronGlove = (new ItemGloves(Identifier.of(MOD_ID, "iron_glove"), 2, "aether:stationapi/textures/armor/Accessories.png", 10, 14540253)).setTranslationKey(MOD_ID, "iron_glove");
-        GoldGlove = (new ItemGloves(Identifier.of(MOD_ID, "gold_glove"), 1, "aether:stationapi/textures/armor/Accessories.png", 10, 15396439)).setTranslationKey(MOD_ID, "gold_glove");
-        DiamondGlove = (new ItemGloves(Identifier.of(MOD_ID, "diamond_glove"), 3, "aether:stationapi/textures/armor/Accessories.png", 10, 3402699)).setTranslationKey(MOD_ID, "diamond_glove");
-        ZaniteGlove = (new ItemGloves(Identifier.of(MOD_ID, "zanite_glove"), 2, "aether:stationapi/textures/armor/Accessories.png", 10, 7412456)).setTranslationKey(MOD_ID, "zanite_glove");
-        GravititeGlove = (new ItemGravititeGlove(Identifier.of(MOD_ID, "gravitite_glove"), 3, "aether:stationapi/textures/armor/Accessories.png", 10, 15160027)).setTranslationKey(MOD_ID, "gravitite_glove");
-        PhoenixGlove = (new ItemPhoenixGloves(Identifier.of(MOD_ID, "phoenix_glove"), 3, "aether:stationapi/textures/armor/Phoenix.png", 10, 16742144, false)).setTranslationKey(MOD_ID, "phoenix_glove");
-        ObsidianGlove = (new ItemGloves(Identifier.of(MOD_ID, "obsidian_glove"), 4, "aether:stationapi/textures/armor/Accessories.png", 10, 1774663)).setTranslationKey(MOD_ID, "obsidian_glove");
-        NeptuneGlove = (new ItemGloves(Identifier.of(MOD_ID, "neptune_glove"), 3, "aether:stationapi/textures/armor/Accessories.png", 10, 2512127)).setTranslationKey(MOD_ID, "neptune_glove");
-        CloudParachute = (new ItemCloudParachute(Identifier.of(MOD_ID, "cloud_parachute"), false).setTranslationKey(MOD_ID, "cloud_parachute"));
-        CloudParachuteGold = (new ItemCloudParachute(Identifier.of(MOD_ID, "cloud_parachute_gold"), true).setTranslationKey(MOD_ID, "cloud_parachute_gold"));
+        PigSlayer = reg(new ItemPigSlayer(), "pig_slayer");
+        VampireBlade = reg(new ItemVampireBlade(), "vampire_blade");
+        NatureStaff = reg(new Item(nid()).setMaxCount(1), "nature_staff");
+        SwordFire = reg(new ItemSwordElemental(EnumElement.Fire, -20609), "fire_sword");
+        SwordHoly = reg(new ItemSwordElemental(EnumElement.Holy, -81), "holy_sword");
+        SwordLightning = reg(new ItemSwordElemental(EnumElement.Lightning, -5242881), "lightning_sword");
+        LightningKnife = reg(new ItemLightningKnife(), "lightning_knife");
+        GummieSwet = reg(new ItemGummieSwet(20, false), "gummie_swet");
+        HammerNotch = reg(new ItemNotchHammer(), "hammer_notch");
+        CloudStaff = reg(new ItemCloudStaff(), "cloud_staff");
+        PhoenixBow = reg(new ItemPhoenixBow(), "phoenix_bow");
+        PhoenixHelm = reg(new ItemPhoenixArmour(3, "Phoenix", 0, 16742144).setTextureId(1), "item_phoenix_helmet");
+        PhoenixBody = reg(new ItemPhoenixArmour(3, "Phoenix", 1, 16742144).setTextureId(17), "item_phoenix_body");
+        PhoenixLegs = reg(new ItemPhoenixArmour(3, "Phoenix", 2, 16742144).setTextureId(33), "item_phoenix_legs");
+        PhoenixBoots = reg(new ItemPhoenixArmour(3, "Phoenix", 3, 16742144).setTextureId(49), "item_phoenix_boots");
+        ObsidianHelm = reg(new ItemColouredArmour(4, "Obsidian", 0, 1774663).setTextureId(2), "item_obsidian_helmet");
+        ObsidianBody = reg(new ItemColouredArmour(4, "Obsidian", 1, 1774663).setTextureId(18), "item_obsidian_body");
+        ObsidianLegs = reg(new ItemColouredArmour(4, "Obsidian", 2, 1774663).setTextureId(34), "item_obsidian_legs");
+        ObsidianBoots = reg(new ItemColouredArmour(4, "Obsidian", 3, 1774663).setTextureId(50), "item_obsidian_boots");
+        GravititeHelmet = reg(new ItemColouredArmour(3, "Gravitite", 0, 15160027).setTextureId(2), "item_gravitite_helmet");
+        GravititeBodyplate = reg(new ItemColouredArmour(3, "Gravitite", 1, 15160027).setTextureId(18), "item_gravitite_body");
+        GravititePlatelegs = reg(new ItemColouredArmour(3, "Gravitite", 2, 15160027).setTextureId(34), "item_gravitite_legs");
+        GravititeBoots = reg(new ItemColouredArmour(3, "Gravitite", 3, 15160027).setTextureId(50), "item_gravitite_boots");
+        ZaniteHelmet = reg(new ItemColouredArmour(2, "Zanite", 0, 7412456).setTextureId(2), "item_zanite_helmet");
+        ZaniteChestplate = reg(new ItemColouredArmour(2, "Zanite", 1, 7412456).setTextureId(18), "item_zanite_body");
+        ZaniteLeggings = reg(new ItemColouredArmour(2, "Zanite", 2, 7412456).setTextureId(34), "item_zanite_legs");
+        ZaniteBoots = reg(new ItemColouredArmour(2, "Zanite", 3, 7412456).setTextureId(50), "item_zanite_boots");
+        NeptuneHelmet = reg(new ItemColouredArmour(3, "Neptune", 0, 2512127).setTextureId(1), "item_neptune_helmet");
+        NeptuneChestplate = reg(new ItemColouredArmour(3, "Neptune", 1, 2512127).setTextureId(17), "item_neptune_body");
+        NeptuneLeggings = reg(new ItemColouredArmour(3, "Neptune", 2, 2512127).setTextureId(33), "item_neptune_legs");
+        NeptuneBoots = reg(new ItemColouredArmour(3, "Neptune", 3, 2512127).setTextureId(49), "item_neptune_boots");
+        LifeShard = reg(new ItemLifeShard(), "life_shard");
+        GoldenFeather = reg(new ItemGoldenFeather(0, 0, 7), "golden_feather");
+        IronBubble = reg(new ItemIronBubble(0, 0, 7), "iron_bubble");
+        RegenerationStone = reg(new ItemRegenerationStone(0, 0, 7), "regeneration_stone");
+        RepShield = reg(new ItemRepShield(0, 0, 6, 16777215).setMaxDamage(512), "repulsion_shield");
+        IronRing = reg(new ItemMoreArmor(0, "aether:stationapi/textures/armor/Accessories.png", 8, 16777215), "iron_ring");
+        GoldRing = reg(new ItemMoreArmor(0, "aether:stationapi/textures/armor/Accessories.png", 8, 16776994), "gold_ring");
+        ZaniteRing = reg(new ItemMoreArmor(0, "aether:stationapi/textures/armor/Accessories.png", 8, 7412456), "zanite_ring");
+        IceRing = reg(new ItemIceAccessory(0, "aether:stationapi/textures/armor/Accessories.png", 8, 9823975), "ice_ring");
+        IronPendant = reg(new ItemPendant(0, "aether:stationapi/textures/armor/Accessories.png", 4, 16777215), "iron_pendant");
+        GoldPendant = reg(new ItemPendant(0, "aether:stationapi/textures/armor/Accessories.png", 4, 16776994), "gold_pendant");
+        ZanitePendant = reg(new ItemPendant(0, "aether:stationapi/textures/armor/Accessories.png", 4, 7412456), "zanite_pendant");
+        IcePendant = reg(new ItemIcePendant(0, "aether:stationapi/textures/armor/Accessories.png", 4, 9823975), "ice_pendant");
+        AetherCape = reg(new ItemCape(0, "aether:stationapi/textures/other/AetherCape.png", 5), "aether_cape");
+        InvisibilityCloak = reg(new ItemInvisibilityCloak(0, 0, 5), "invisibility_cloak");
+        AgilityCape = reg(new ItemAgilityCape(0, "aether:stationapi/textures/other/AgilityCape.png", 5), "agility_cape");
+        WhiteCape = reg(new ItemCape(0, "aether:stationapi/textures/other/WhiteCape.png", 5), "white_cape");
+        RedCape = reg(new ItemCape(0, "aether:stationapi/textures/other/RedCape.png", 5, 15208721), "red_cape");
+        YellowCape = reg(new ItemCape(0, "aether:stationapi/textures/other/YellowCape.png", 5, 13486862), "yellow_cape");
+        BlueCape = reg(new ItemCape(0, "aether:stationapi/textures/other/BlueCape.png", 5, 1277879), "blue_cape");
+        LeatherGlove = reg(new ItemGloves(0, "aether:stationapi/textures/armor/Accessories.png", 10, 12999733), "leather_glove");
+        IronGlove = reg(new ItemGloves(2, "aether:stationapi/textures/armor/Accessories.png", 10, 14540253), "iron_glove");
+        GoldGlove = reg(new ItemGloves(1, "aether:stationapi/textures/armor/Accessories.png", 10, 15396439), "gold_glove");
+        DiamondGlove = reg(new ItemGloves(3, "aether:stationapi/textures/armor/Accessories.png", 10, 3402699), "diamond_glove");
+        ZaniteGlove = reg(new ItemGloves(2, "aether:stationapi/textures/armor/Accessories.png", 10, 7412456), "zanite_glove");
+        GravititeGlove = reg(new ItemGravititeGlove(3, "aether:stationapi/textures/armor/Accessories.png", 10, 15160027), "gravitite_glove");
+        PhoenixGlove = reg(new ItemPhoenixGloves(3, "aether:stationapi/textures/armor/Phoenix.png", 10, 16742144, false), "phoenix_glove");
+        ObsidianGlove = reg(new ItemGloves(4, "aether:stationapi/textures/armor/Accessories.png", 10, 1774663), "obsidian_glove");
+        NeptuneGlove = reg(new ItemGloves(3, "aether:stationapi/textures/armor/Accessories.png", 10, 2512127), "neptune_glove");
+        CloudParachute = reg(new ItemCloudParachute(false), "cloud_parachute");
+        CloudParachuteGold = reg(new ItemCloudParachute(true), "cloud_parachute_gold");
     }
 }

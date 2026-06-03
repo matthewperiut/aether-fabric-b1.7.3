@@ -1,10 +1,8 @@
 package com.matthewperiut.aether.gen.dim;
 
-import com.matthewperiut.aether.Aether;
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.gen.biome.AetherBiomes;
 import com.matthewperiut.aether.gen.feature.*;
-import com.matthewperiut.aether.optional.StapiNewCaveImpl;
 import net.minecraft.block.Block;
 import net.minecraft.block.SandBlock;
 import net.minecraft.client.gui.screen.LoadingDisplay;
@@ -17,8 +15,6 @@ import net.minecraft.world.gen.carver.Carver;
 import net.minecraft.world.gen.carver.CaveCarver;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.LakeFeature;
-import net.modificationstation.stationapi.api.block.BlockState;
-import net.modificationstation.stationapi.impl.world.chunk.FlattenedChunk;
 
 import java.util.Random;
 
@@ -53,9 +49,6 @@ public class ChunkProviderAether implements ChunkSource {
 
     public ChunkProviderAether(World world, long seed) {
         this.world = world;
-        if (!Aether.OLDSTAPI) {
-            StapiNewCaveImpl.giveStapiWhatItWants(cave, world);
-        }
         this.random = new Random(seed);
         this.minLimitPerlinNoise = new OctavePerlinNoiseSampler(this.random, 16);
         this.maxLimitPerlinNoise = new OctavePerlinNoiseSampler(this.random, 16);
@@ -67,8 +60,13 @@ public class ChunkProviderAether implements ChunkSource {
         this.forestNoise = new OctavePerlinNoiseSampler(this.random, 8);
     }
 
+    /** Vanilla chunk byte[] layout: index = (x*16 + z)*128 + y. We use an int[] so modded ids >255 fit. */
+    private static int idx(int x, int y, int z) {
+        return (x * 16 + z) * 128 + y;
+    }
+
     // Build the base terrain using noise generation
-    public void buildTerrain(int chunkX, int chunkZ, FlattenedChunk chunk, Biome[] biomes, double[] temperatures) {
+    public void buildTerrain(int chunkX, int chunkZ, int[] blocks, Biome[] biomes, double[] temperatures) {
         byte sizeXZ = 2;  // chunk subdivision size
         int sizeXZPlus1 = sizeXZ + 1;
         byte sizeY = 33;  // vertical size
@@ -106,12 +104,7 @@ public class ChunkProviderAether implements ChunkSource {
                                     int x = xSubChunk + xSection * 8;
                                     int y = yChunk * 4 + ySubChunk;
                                     int z = zSubChunk + zSection * 8;
-
-                                    // Direct section access - work with Block instance directly
-                                    var section = chunk.getOrCreateSection(y, false);
-                                    if (section != null) {
-                                        section.setBlockState(x, y & 15, z, AetherBlocks.Holystone.getDefaultState());
-                                    }
+                                    blocks[idx(x, y, z)] = AetherBlocks.Holystone.id;
                                 }
 
                                 density += zDelta;
@@ -132,7 +125,7 @@ public class ChunkProviderAether implements ChunkSource {
     }
 
     // Build the surface layers (grass, dirt, etc.)
-    public void buildSurfaces(int chunkX, int chunkZ, FlattenedChunk chunk, Biome[] biomes) {
+    public void buildSurfaces(int chunkX, int chunkZ, int[] blocks, Biome[] biomes) {
         double noiseScale = 0.03125;
         this.sandBuffer = this.perlinNoise2.create(this.sandBuffer, chunkX * 16, chunkZ * 16, 0.0, 16, 16, 1, noiseScale, noiseScale, 1.0);
         this.gravelBuffer = this.perlinNoise2.create(this.gravelBuffer, chunkX * 16, 109.0134, chunkZ * 16, 16, 1, 16, noiseScale, 1.0, noiseScale);
@@ -140,46 +133,40 @@ public class ChunkProviderAether implements ChunkSource {
 
         for (int x = 0; x < 16; ++x) {
             for (int z = 0; z < 16; ++z) {
-                Biome biome = AetherBiomes.AETHER;
                 int surfaceDepth = (int) (this.depthBuffer[x + z * 16] / 3.0 + 3.0 + this.random.nextDouble() * 0.25);
                 int runDepth = -1;
 
-                // Work with Block instances directly
-                Block topBlock = AetherBlocks.Grass;
-                Block fillerBlock = AetherBlocks.Dirt;
-                Block stoneBlock = AetherBlocks.Holystone;
+                int topBlock = AetherBlocks.Grass.id;
+                int fillerBlock = AetherBlocks.Dirt.id;
+                int stoneBlock = AetherBlocks.Holystone.id;
 
                 for (int y = 127; y >= 0; --y) {
-                    // Direct section access to get block
-                    var section = chunk.getOrCreateSection(y, false);
-                    if (section == null) continue;
+                    // (z, x) order mirrors the original section access
+                    int current = blocks[idx(z, y, x)];
 
-                    BlockState currentState = section.getBlockState(z, y & 15, x);
-                    Block currentBlock = currentState.getBlock();
-
-                    if (currentBlock == Block.BLOCKS[0]) { // Air
+                    if (current == 0) { // Air
                         runDepth = -1;
-                    } else if (currentBlock == stoneBlock) {
+                    } else if (current == stoneBlock) {
                         if (runDepth == -1) {
                             if (surfaceDepth <= 0) {
-                                topBlock = null; // Air
+                                topBlock = 0; // Air
                                 fillerBlock = stoneBlock;
                             } else {
-                                topBlock = AetherBlocks.Grass;
-                                fillerBlock = AetherBlocks.Dirt;
+                                topBlock = AetherBlocks.Grass.id;
+                                fillerBlock = AetherBlocks.Dirt.id;
                             }
 
                             runDepth = surfaceDepth;
 
                             // Set top block
-                            if (y >= 0 && topBlock != null && topBlock != currentBlock) {
-                                section.setBlockState(z, y & 15, x, topBlock.getDefaultState());
+                            if (y >= 0 && topBlock != 0 && topBlock != current) {
+                                blocks[idx(z, y, x)] = topBlock;
                             }
                         } else if (runDepth > 0) {
                             --runDepth;
                             // Set filler block
-                            if (fillerBlock != currentBlock) {
-                                section.setBlockState(z, y & 15, x, fillerBlock.getDefaultState());
+                            if (fillerBlock != current) {
+                                blocks[idx(z, y, x)] = fillerBlock;
                             }
                         }
                     }
@@ -200,8 +187,8 @@ public class ChunkProviderAether implements ChunkSource {
     public Chunk getChunk(int chunkX, int chunkZ) {
         this.random.setSeed((long) chunkX * 341873128712L + (long) chunkZ * 132897987541L);
 
-        // Create FlattenedChunk directly instead of using byte array
-        FlattenedChunk chunk = new FlattenedChunk(this.world, chunkX, chunkZ);
+        // Generate into an int[] working buffer (vanilla byte[] layout, but holds ids >255)
+        int[] blocks = new int[32768];
 
         // Initialize biome arrays with Aether biome
         if (this.biomes == null || this.biomes.length < 256) {
@@ -218,60 +205,50 @@ public class ChunkProviderAether implements ChunkSource {
             this.temperatures[t] = 0.5; // Default temperature
         }
 
-        // Generate terrain directly into FlattenedChunk
-        this.buildTerrain(chunkX, chunkZ, chunk, this.biomes, this.temperatures);
-        this.buildSurfaces(chunkX, chunkZ, chunk, this.biomes);
+        this.buildTerrain(chunkX, chunkZ, blocks, this.biomes, this.temperatures);
+        this.buildSurfaces(chunkX, chunkZ, blocks, this.biomes);
 
-        // Use the old Generator.place API for cave generation
-        if (!Aether.OLDSTAPI) {
-            // Create a temporary byte array for cave generation compatibility
-            // We still need this because the cave generator expects a byte array
-            byte[] tempBlocks = new byte[32768]; // 16*16*128
-
-            // Copy FlattenedChunk data to byte array using direct section access
-            // For Aether blocks with IDs > 255, we need to map them to temporary IDs
-            for (int x = 0; x < 16; x++) {
-                for (int z = 0; z < 16; z++) {
-                    for (int y = 0; y < 128; y++) {
-                        var section = chunk.getOrCreateSection(y, false);
-                        Block block = Block.BLOCKS[0]; // Default to air
-                        if (section != null) {
-                            block = section.getBlockState(x, y & 15, z).getBlock();
-                        }
-
-                        // Map blocks to byte values for cave algorithm
-                        // Holystone is the only solid block that caves should carve through
-                        byte blockByte = 0; // Air
-                        if (block == AetherBlocks.Holystone) {
-                            blockByte = 1; // Use ID 1 (stone) as placeholder for carveable block
-                        } else if (block != Block.BLOCKS[0]) {
-                            blockByte = 2; // Other blocks (grass, dirt) - don't carve
-                        }
-
-                        tempBlocks[(x * 16 + z) * 128 + y] = blockByte;
-                    }
-                }
+        // Cave carving: the vanilla carver expects a byte array, and Aether blocks have
+        // ids >255 — map them to placeholder bytes, carve, then apply the carve-outs.
+        byte[] tempBlocks = new byte[32768];
+        int holystoneId = AetherBlocks.Holystone.id;
+        for (int i = 0; i < 32768; i++) {
+            int id = blocks[i];
+            if (id == holystoneId) {
+                tempBlocks[i] = 1; // stone placeholder: carveable
+            } else if (id != 0) {
+                tempBlocks[i] = 2; // other blocks (grass, dirt) - don't carve
             }
+        }
 
-            // Generate caves using old API
-            this.cave.carve(this, this.world, chunkX, chunkZ, tempBlocks);
+        this.cave.carve(this, this.world, chunkX, chunkZ, tempBlocks);
 
-            // Copy back to FlattenedChunk using direct section access
-            // Only carve out (set to air) blocks that the cave algorithm cleared
-            for (int x = 0; x < 16; x++) {
-                for (int z = 0; z < 16; z++) {
-                    for (int y = 0; y < 128; y++) {
-                        byte newBlockByte = tempBlocks[(x * 16 + z) * 128 + y];
+        for (int i = 0; i < 32768; i++) {
+            if (tempBlocks[i] == 0 && blocks[i] == holystoneId) {
+                blocks[i] = 0;
+            }
+        }
 
-                        var section = chunk.getOrCreateSection(y, false);
-                        if (section != null) {
-                            Block oldBlock = section.getBlockState(x, y & 15, z).getBlock();
+        // Build the vanilla chunk: ids <256 go in the byte array; extended ids are applied
+        // through Chunk.setBlock, which RetroAPI routes into the extended-block overlay.
+        byte[] vanillaBlocks = new byte[32768];
+        for (int i = 0; i < 32768; i++) {
+            int id = blocks[i];
+            if (id < 256) {
+                vanillaBlocks[i] = (byte) id;
+            }
+        }
 
-                            // If cave carved out this block (changed from 1 to 0), set to air
-                            if (newBlockByte == 0 && oldBlock == AetherBlocks.Holystone) {
-                                section.setBlockState(x, y & 15, z, Block.BLOCKS[0].getDefaultState());
-                            }
-                        }
+        Chunk chunk = new Chunk(this.world, vanillaBlocks, chunkX, chunkZ);
+
+        // Extended (>255) ids go through the generation-safe path: Chunk.setBlock would fire
+        // Block.onPlaced mid-generation and recursively re-generate this chunk.
+        for (int x = 0; x < 16; x++) {
+            for (int z = 0; z < 16; z++) {
+                for (int y = 0; y < 128; y++) {
+                    int id = blocks[idx(x, y, z)];
+                    if (id >= 256) {
+                        com.periut.retroapi.world.RetroWorldGen.setBlockInChunk(chunk, x, y, z, id, 0);
                     }
                 }
             }

@@ -1,28 +1,25 @@
 package com.matthewperiut.aether.item.tool;
 
+import net.minecraft.item.ShovelItem;
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import com.matthewperiut.aether.entity.special.EntityFloatingBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.block.BlockState;
-import net.modificationstation.stationapi.api.tag.TagKey;
-import net.modificationstation.stationapi.api.template.item.TemplateShovelItem;
-import net.modificationstation.stationapi.api.util.Identifier;
 
-public class ItemGravititeShovel extends TemplateShovelItem {
-    public ItemGravititeShovel(Identifier identifier, ToolMaterial material) {
-        super(identifier, material);
+public class ItemGravititeShovel extends ShovelItem {
+    public ItemGravititeShovel(ToolMaterial material) {
+        super(RetroItemAccess.allocateId(), material);
     }
 
     @Override
     public boolean useOnBlock(ItemStack item, PlayerEntity player, World world, int x, int y, int z, int side) {
         if (!world.isRemote) {
-            BlockState b = world.getBlockState(x, y, z);
-
-            TagKey<Block> tag = this.getEffectiveBlocks(item);
-            if (b.isIn(tag)) {
+            Block b = Block.BLOCKS[world.getBlockId(x, y, z)];
+            if (b != null && this.isSuitableFor(b)) {
                 final int blockID = world.getBlockId(x, y, z);
                 final int metadata = world.getBlockMeta(x, y, z);
                 final EntityFloatingBlock floating = new EntityFloatingBlock(world, x + 0.5f, y + 0.5f, z + 0.5f, blockID, metadata);

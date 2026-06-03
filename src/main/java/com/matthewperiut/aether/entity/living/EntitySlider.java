@@ -1,5 +1,9 @@
 package com.matthewperiut.aether.entity.living;
 
+import com.periut.retroapi.entity.spawn.RetroMobSpawnData;
+import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
+import com.matthewperiut.aether.Aether;
+
 import com.matthewperiut.aether.achievement.AetherAchievements;
 import com.matthewperiut.aether.block.AetherBlocks;
 import com.matthewperiut.aether.item.AetherItems;
@@ -18,14 +22,11 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.server.entity.MobSpawnDataProvider;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.List;
 
-import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
 
-public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobSpawnDataProvider {
+public class EntitySlider extends FlyingEntity implements BossLivingEntity, RetroMobSpawnData {
     private static final int TRACKED_TEXTURE_STATE = 16;
     private static final int TRACKED_BOSS_HP = 30;
 
@@ -612,7 +613,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
     }
 
     @Override
-    public Identifier getHandlerIdentifier() {
-        return MOD_ID.id("Slider");
+    public NamespacedIdentifier getHandlerId() {
+        return Aether.id("Slider");
     }
 }

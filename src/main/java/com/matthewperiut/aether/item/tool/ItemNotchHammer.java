@@ -1,5 +1,8 @@
 package com.matthewperiut.aether.item.tool;
 
+import net.minecraft.item.Item;
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import com.matthewperiut.aether.entity.projectile.EntityNotchWave;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -8,14 +11,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.template.item.TemplateItem;
-import net.modificationstation.stationapi.api.util.Identifier;
 
-public class ItemNotchHammer extends TemplateItem {
+public class ItemNotchHammer extends Item {
     private final int weaponDamage;
 
-    public ItemNotchHammer(Identifier i) {
-        super(i);
+    public ItemNotchHammer() {
+        super(RetroItemAccess.allocateId());
         this.maxCount = 1;
         this.setMaxDamage(ToolMaterial.IRON.getDurability());
         this.weaponDamage = 4 + ToolMaterial.IRON.getAttackDamage() * 2;

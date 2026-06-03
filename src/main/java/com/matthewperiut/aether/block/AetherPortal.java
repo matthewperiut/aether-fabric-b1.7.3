@@ -1,5 +1,10 @@
 package com.matthewperiut.aether.block;
 
+import com.periut.retroapi.register.block.RetroBlockAccess;
+import com.periut.retroapi.dimension.CustomPortal;
+import com.periut.retroapi.dimension.TeleportationManager;
+import com.periut.retroapi.dimension.HasTeleportationManager;
+
 import com.matthewperiut.aether.gen.dim.AetherDimensions;
 import com.matthewperiut.aether.gen.dim.AetherTravelAgent;
 import net.fabricmc.api.EnvType;
@@ -13,20 +18,14 @@ import net.minecraft.util.math.Box;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.PortalForcer;
-import net.modificationstation.stationapi.api.block.CustomPortal;
-import net.modificationstation.stationapi.api.entity.HasTeleportationManager;
-import net.modificationstation.stationapi.api.template.block.BlockTemplate;
-import net.modificationstation.stationapi.api.util.Identifier;
-import net.modificationstation.stationapi.api.world.dimension.TeleportationManager;
 
 import java.util.Random;
 
-public class AetherPortal extends TranslucentBlock implements BlockTemplate, CustomPortal, TeleportationManager {
+public class AetherPortal extends TranslucentBlock implements CustomPortal, TeleportationManager {
     public static int spr;
 
-    public AetherPortal(Identifier identifier) {
-        super(BlockTemplate.getNextId(), spr, Material.NETHER_PORTAL, false);
-        BlockTemplate.onConstructor(this, identifier);
+    public AetherPortal() {
+        super(RetroBlockAccess.allocateId(), spr, Material.NETHER_PORTAL, false);
     }
 
     @Override
@@ -214,7 +213,7 @@ public class AetherPortal extends TranslucentBlock implements BlockTemplate, Cus
     }
 
     @Override
-    public Identifier getDimension(PlayerEntity player) {
+    public net.ornithemc.osl.core.api.util.NamespacedIdentifier getDimension(PlayerEntity player) {
         return AetherDimensions.THE_AETHER;
     }
 

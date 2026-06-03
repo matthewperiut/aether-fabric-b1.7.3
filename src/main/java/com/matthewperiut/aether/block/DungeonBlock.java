@@ -1,11 +1,11 @@
 package com.matthewperiut.aether.block;
 
-import net.minecraft.block.material.Material;
-import net.modificationstation.stationapi.api.block.MetaNamedBlockItemProvider;
-import net.modificationstation.stationapi.api.template.block.TemplateBlock;
-import net.modificationstation.stationapi.api.util.Identifier;
+import net.minecraft.block.Block;
+import com.periut.retroapi.register.block.RetroBlockAccess;
 
-public class DungeonBlock extends TemplateBlock implements MetaNamedBlockItemProvider {
+import net.minecraft.block.material.Material;
+
+public class DungeonBlock extends Block {
     public static int sprBronze;
     public static int sprSilver;
     public static int sprGold;
@@ -13,8 +13,8 @@ public class DungeonBlock extends TemplateBlock implements MetaNamedBlockItemPro
     public static int sprSilverLit;
     public static int sprGoldLit;
 
-    protected DungeonBlock(Identifier identifier) {
-        super(identifier, Material.STONE);
+    protected DungeonBlock() {
+        super(RetroBlockAccess.allocateId(), Material.STONE);
     }
 
     public static int func_21034_c(int i) {

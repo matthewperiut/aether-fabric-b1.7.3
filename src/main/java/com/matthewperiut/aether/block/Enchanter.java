@@ -1,5 +1,11 @@
 package com.matthewperiut.aether.block;
 
+import com.periut.retroapi.gui.RetroGuis;
+
+import net.minecraft.block.BlockWithEntity;
+import com.periut.retroapi.register.block.RetroBlockAccess;
+import com.matthewperiut.aether.Aether;
+
 import com.matthewperiut.aether.blockentity.block.BlockEntityEnchanter;
 import com.matthewperiut.aether.blockentity.container.ContainerEnchanter;
 import net.minecraft.block.Block;
@@ -11,20 +17,16 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.gui.screen.container.GuiHelper;
-import net.modificationstation.stationapi.api.template.block.TemplateBlockWithEntity;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-import static com.matthewperiut.aether.blockentity.AetherBlockEntities.MOD_ID;
 
-public class Enchanter extends TemplateBlockWithEntity {
+public class Enchanter extends BlockWithEntity {
     public static int sideTexture;
     private final Random EnchanterRand;
 
-    protected Enchanter(Identifier blockID) {
-        super(blockID, Material.STONE);
+    protected Enchanter() {
+        super(RetroBlockAccess.allocateId(), Material.STONE);
         this.EnchanterRand = new Random();
     }
 
@@ -95,7 +97,7 @@ public class Enchanter extends TemplateBlockWithEntity {
             return true;
         } else {
             BlockEntityEnchanter tileentityEnchanter = (BlockEntityEnchanter) world.getBlockEntity(i, j, k);
-            GuiHelper.openGUI(player, MOD_ID.id("enchanter"), tileentityEnchanter, new ContainerEnchanter(player.inventory, tileentityEnchanter));
+            RetroGuis.openGUI(player, Aether.id("enchanter"), tileentityEnchanter, new ContainerEnchanter(player.inventory, tileentityEnchanter));
             return true;
         }
     }

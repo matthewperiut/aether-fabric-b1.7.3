@@ -10,9 +10,10 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
-import net.modificationstation.stationapi.api.registry.DimensionRegistry;
-import net.modificationstation.stationapi.api.world.dimension.DimensionHelper;
-import net.modificationstation.stationapi.api.world.dimension.VanillaDimensions;
+import com.matthewperiut.aether.gen.dim.AetherDimensions;
+import com.periut.retroapi.dimension.DimensionHelper;
+import com.periut.retroapi.dimension.DimensionRegistration;
+import com.periut.retroapi.dimension.RetroDimensionRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -22,9 +23,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.OptionalInt;
 
-import static com.matthewperiut.aether.gen.dim.AetherDimensions.MOD_ID;
 
 @Mixin(Entity.class)
 public abstract class EntityMixinPoisonFallVoid implements AetherPoison {
@@ -58,18 +57,18 @@ public abstract class EntityMixinPoisonFallVoid implements AetherPoison {
     @Redirect(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;tickInVoid()V"))
     public void modify(Entity instance) {
         if (instance instanceof PlayerEntity player) {
-            @NotNull OptionalInt dimensionId = DimensionRegistry.INSTANCE.getLegacyId(MOD_ID.id("the_aether"));
-            if (dimensionId.isPresent()) {
-                if (player.dimensionId == dimensionId.getAsInt()) {
+            DimensionRegistration aether = RetroDimensionRegistry.getByIdentifier(AetherDimensions.THE_AETHER);
+            if (aether != null) {
+                if (player.dimensionId == aether.getSerialId()) {
                     if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
                         if (!world.isRemote) {
                             // Client executes on client world
-                            DimensionHelper.switchDimension(player, VanillaDimensions.OVERWORLD, 1, new BareAetherTravelAgent());
+                            DimensionHelper.switchDimension(player, AetherDimensions.THE_AETHER, 1, new BareAetherTravelAgent());
                             VoidUtil.teleport(player, player.x, 200, player.z);
                         }
                     } else {
                         // Server executes on server world
-                        DimensionHelper.switchDimension(player, VanillaDimensions.OVERWORLD, 1, new BareAetherTravelAgent());
+                        DimensionHelper.switchDimension(player, AetherDimensions.THE_AETHER, 1, new BareAetherTravelAgent());
                         VoidUtil.teleport(player, player.x, 200, player.z);
                     }
 

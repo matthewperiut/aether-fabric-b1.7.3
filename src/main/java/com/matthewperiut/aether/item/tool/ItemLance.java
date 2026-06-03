@@ -1,5 +1,9 @@
 package com.matthewperiut.aether.item.tool;
 
+import net.minecraft.item.Item;
+import com.matthewperiut.aether.item.util.CustomReach;
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -8,15 +12,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.util.hit.HitResultType;
-import net.modificationstation.stationapi.api.item.CustomReachProvider;
-import net.modificationstation.stationapi.api.template.item.TemplateItem;
-import net.modificationstation.stationapi.api.util.Identifier;
 
-public class ItemLance extends TemplateItem implements CustomReachProvider {
+public class ItemLance extends Item implements CustomReach {
     private final int weaponDamage;
 
-    public ItemLance(Identifier i, ToolMaterial enumtoolmaterial) {
-        super(i);
+    public ItemLance(ToolMaterial enumtoolmaterial) {
+        super(RetroItemAccess.allocateId());
         this.maxCount = 1;
         this.setMaxDamage(enumtoolmaterial.getDurability());
         this.weaponDamage = 4 + enumtoolmaterial.getAttackDamage() * 2;

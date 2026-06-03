@@ -1,19 +1,20 @@
 package com.matthewperiut.aether.item.tool;
 
+import net.minecraft.item.AxeItem;
+import com.periut.retroapi.register.item.RetroItemAccess;
+
 import com.matthewperiut.aether.item.AetherItems;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
-import net.modificationstation.stationapi.api.template.item.TemplateAxeItem;
-import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.util.Random;
 
-public class ItemHolystoneAxe extends TemplateAxeItem {
+public class ItemHolystoneAxe extends AxeItem {
     Random random = new Random();
 
-    public ItemHolystoneAxe(Identifier identifier, ToolMaterial material) {
-        super(identifier, material);
+    public ItemHolystoneAxe(ToolMaterial material) {
+        super(RetroItemAccess.allocateId(), material);
     }
 
     @Override
