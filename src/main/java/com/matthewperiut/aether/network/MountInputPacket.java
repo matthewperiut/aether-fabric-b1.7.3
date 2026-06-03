@@ -5,14 +5,11 @@ import com.matthewperiut.aether.entity.MountInput;
 import com.matthewperiut.aether.mixin.access.LivingEntityAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
 import net.ornithemc.osl.networking.api.ChannelIdentifiers;
 import net.ornithemc.osl.networking.api.ChannelRegistry;
 import net.ornithemc.osl.networking.api.client.ClientPlayNetworking;
-import net.ornithemc.osl.networking.api.server.ServerPlayNetworking;
 
 /**
  * Syncs rider input (forward, strafe, jump) from client to server for Aether mounts.
@@ -22,21 +19,9 @@ public class MountInputPacket {
     public static final NamespacedIdentifier ID =
             ChannelRegistry.register(ChannelIdentifiers.from(Aether.MOD_ID, "mount_input"), false, true);
 
-    public static void register() {
-        ServerPlayNetworking.registerListener(ID, (ctx, buffer) -> {
-            float forward = buffer.readFloat();
-            float strafe = buffer.readFloat();
-            float yaw = buffer.readFloat();
-            float pitch = buffer.readFloat();
-            boolean jump = buffer.readBoolean();
-            ctx.ensureOnMainThread();
-            PlayerEntity player = ctx.player();
-            if (player == null) return;
-            Entity vehicle = player.vehicle;
-            if (vehicle instanceof MountInput mount) {
-                mount.setMountInput(forward, strafe, jump, yaw, pitch);
-            }
-        });
+    /** Forces the static channel registration; the server listener lives in AetherServer
+     * (environment isolation: its handler touches ServerPlayerEntity). */
+    public static void registerChannel() {
     }
 
     @Environment(EnvType.CLIENT)

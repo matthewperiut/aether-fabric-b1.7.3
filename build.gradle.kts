@@ -60,10 +60,12 @@ dependencies {
     "serverNests"("net.glasslauncher:biny-nests:b1.7.3-server+build.2")
     modImplementation("net.fabricmc:fabric-loader:${project.properties["loader_version"]}")
 
-    implementation("org.apache.logging.log4j:log4j-core:2.17.2")
+    implementation("org.apache.logging.log4j:log4j-core:2.20.0")
 
-    implementation("org.slf4j:slf4j-api:1.8.0-beta4")
-    implementation("org.apache.logging.log4j:log4j-slf4j18-impl:2.17.1")
+    // slf4j 2.x binding — mixing the old 1.8-beta provider with a 2.x API on the classpath
+    // throws AbstractMethodError (getRequestedApiVersion) from the network thread in dev.
+    implementation("org.slf4j:slf4j-api:2.0.9")
+    implementation("org.apache.logging.log4j:log4j-slf4j2-impl:2.20.0")
 
     // convenience stuff
     // adds some useful annotations for data classes. does not add any dependencies
@@ -80,7 +82,11 @@ dependencies {
     ploceus.dependOsl(project.properties["osl_version"] as String)
 
     // Optional integrations — compile-only so the classes build without pulling StationAPI into the runtime
-    modCompileOnly("com.periut:retrocommands:${project.properties["retrocommands_version"]}")
+    // (retrocommands' pom also drags StationAPI/GCAPI; its fabric.mod.json only needs minecraft)
+    modImplementation("com.periut:retrocommands:${project.properties["retrocommands_version"]}") {
+        exclude(group = "net.modificationstation")
+        exclude(group = "net.glasslauncher.mods")
+    }
     // accessory-api's pom drags StationAPI + GCAPI into the dev runtime, but its fabric.mod.json
     // doesn't require them — exclude so the run configs are StationAPI-free.
     modImplementation("com.periut:accessory-api:${project.properties["accessory_version"]}") {

@@ -41,8 +41,8 @@ public class Aether implements ModInitializer {
         AetherBiomes.registerBiomes();
         AetherPortalListener.register();
 
-        MountInputPacket.register();
-        AerbunnyJumpPacket.register();
+        MountInputPacket.registerChannel();
+        AerbunnyJumpPacket.registerChannel();
         if (FabricLoader.getInstance().isModLoaded("retrocommands")) {
             AetherSPCSupport.init();
         }

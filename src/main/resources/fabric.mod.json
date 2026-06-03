@@ -17,6 +17,9 @@
     ],
     "client-init": [
       "com.matthewperiut.aether.client.AetherClient"
+    ],
+    "server-init": [
+      "com.matthewperiut.aether.server.AetherServer"
     ]
   },
   "mixins": [
