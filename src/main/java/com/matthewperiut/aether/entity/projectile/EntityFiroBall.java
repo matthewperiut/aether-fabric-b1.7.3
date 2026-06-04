@@ -72,7 +72,7 @@ public class EntityFiroBall extends FlyingEntity {
 
     public EntityFiroBall(World world, double x, double y, double z, boolean flag, boolean flag2) {
         super(world);
-        this.texture = "aether:stationapi/textures/firoball.png";
+        this.texture = "aether:stationapi/textures/mobs/firoball.png";
         this.lifeSpan = 300;
         this.life = this.lifeSpan;
         this.setBoundingBoxSpacing(0.9F, 0.9F);
