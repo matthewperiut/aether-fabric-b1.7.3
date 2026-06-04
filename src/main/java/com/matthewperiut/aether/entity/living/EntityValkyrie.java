@@ -91,6 +91,9 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
     public void initDataTracker() {
         super.initDataTracker();
         this.dataTracker.startTracking(TRACKED_TEXTURE_STATE, (byte) 0);
+        // Boss HP must be REGISTERED before set() — DataTracker.set on an unregistered entry NPEs
+        // the first time the boss is hit (syncBossHP), aborting the damage handler mid-flow.
+        this.dataTracker.startTracking(TRACKED_BOSS_HP, this.health);
     }
 
     private void setTextureState(byte state) {

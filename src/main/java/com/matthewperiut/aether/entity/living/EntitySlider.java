@@ -61,6 +61,9 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, Retr
     public void initDataTracker() {
         super.initDataTracker();
         this.dataTracker.startTracking(TRACKED_TEXTURE_STATE, (byte) 0);
+        // Boss HP must be REGISTERED before set() — DataTracker.set on an unregistered entry NPEs
+        // the first time the boss is hit (syncBossHP), aborting the damage handler mid-flow.
+        this.dataTracker.startTracking(TRACKED_BOSS_HP, this.health);
         this.x = Math.floor(this.x + 0.5);
         this.y = Math.floor(this.y + 0.5);
         this.z = Math.floor(this.z + 0.5);
