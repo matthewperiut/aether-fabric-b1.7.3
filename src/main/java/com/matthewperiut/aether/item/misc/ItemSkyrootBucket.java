@@ -10,7 +10,6 @@ import com.matthewperiut.aether.poison.AetherPoison;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -76,7 +75,9 @@ public class ItemSkyrootBucket extends Item {
         double d3 = 5.0;
         Vec3d vec3d1 = vec3d.add((double)f7 * d3, (double)f8 * d3, (double)f9 * d3);
         HitResult movingobjectposition = world.raycast(vec3d, vec3d1, itemstack.getDamage() == 0);
-        if (((((Minecraft)FabricLoader.getInstance().getGameInstance()).crosshairTarget) == null || (((Minecraft)FabricLoader.getInstance().getGameInstance()).crosshairTarget).entity == null || !((((Minecraft)FabricLoader.getInstance().getGameInstance()).crosshairTarget).entity instanceof EntityAechorPlant))) {
+        net.minecraft.entity.Entity crosshair = net.fabricmc.loader.api.FabricLoader.getInstance().getEnvironmentType() == net.fabricmc.api.EnvType.CLIENT
+                ? com.matthewperiut.aether.client.ClientHelper.crosshairEntity() : null;
+        if (!(crosshair instanceof EntityAechorPlant)) {
             if (itemstack.getDamage() == 2) {
                 if (((AetherPoison) entityplayer).getPoison().afflictPoison()) {
                     itemstack.setDamage(0);
@@ -93,7 +94,7 @@ public class ItemSkyrootBucket extends Item {
         }
 
         if (movingobjectposition == null || movingobjectposition.type != HitResultType.BLOCK || itemstack.getDamage() != 0 && itemstack.getDamage() != Block.FLOWING_WATER.id) {
-            if (itemstack.getDamage() == 0 && (((Minecraft)FabricLoader.getInstance().getGameInstance()).crosshairTarget) != null && (((Minecraft)FabricLoader.getInstance().getGameInstance()).crosshairTarget).entity != null && ((((Minecraft)FabricLoader.getInstance().getGameInstance()).crosshairTarget).entity instanceof CowEntity ||(((Minecraft)FabricLoader.getInstance().getGameInstance()).crosshairTarget).entity instanceof EntityFlyingCow)) {
+            if (itemstack.getDamage() == 0 && (crosshair instanceof CowEntity || crosshair instanceof EntityFlyingCow)) {
                 itemstack.setDamage(1);
                 return itemstack;
             }

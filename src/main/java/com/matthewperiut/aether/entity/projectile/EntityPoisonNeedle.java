@@ -6,7 +6,6 @@ import com.matthewperiut.aether.Aether;
 
 import com.matthewperiut.aether.poison.AetherPoison;
 import com.matthewperiut.aether.poison.PoisonControl;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
@@ -62,7 +61,7 @@ public class EntityPoisonNeedle extends EntityProjectileBase implements RetroEnt
         return super.canBeShot(ent) && this.victim == null;
     }
 
-    public void tick(Minecraft client) {
+    public void tickNeedle() {
         super.tick();
         if (!this.dead) {
             if (this.victim != null) {

@@ -5,7 +5,6 @@ import net.ornithemc.osl.core.api.util.NamespacedIdentifier;
 import com.matthewperiut.aether.Aether;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.particle.Particle;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,7 +20,9 @@ import java.util.List;
 public class EntityWhirly extends EntityAetherAnimal implements RetroMobSpawnData {
     public int entcount = 0;
     public int Life;
-    public List<Particle> fluffies;
+    // Client particles (filled by RenderWhirly); typed Object so this common class never
+    // references the client-only Particle class (production server jar lacks it).
+    public List<Object> fluffies;
     public static final float pie = 3.141593F;
     public static final float pia = 0.01745329F;
     public float Angle;
@@ -147,7 +148,7 @@ public class EntityWhirly extends EntityAetherAnimal implements RetroMobSpawnDat
     public void markDead() {
         if (this.fluffies.size() > 0) {
             for (int i = 0; i < this.fluffies.size(); ++i) {
-                Particle entityfx = (Particle) this.fluffies.get(i);
+                net.minecraft.entity.Entity entityfx = (net.minecraft.entity.Entity) this.fluffies.get(i);
                 entityfx.velocityX *= 0.5;
                 entityfx.velocityY *= 0.75;
                 entityfx.velocityZ *= 0.5;

@@ -13,10 +13,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.pathing.Path;
 import net.minecraft.entity.mob.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.packet.s2c.play.EntityVehicleSetS2CPacket;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
@@ -347,9 +345,8 @@ public class EntityAerbunny extends EntityAetherAnimal implements RetroMobSpawnD
         }
 
         // b1.7.3 doesn't auto-send mount packets — notify clients
-        if (entityplayer instanceof ServerPlayerEntity spe) {
-            EntityVehicleSetS2CPacket mountPacket = new EntityVehicleSetS2CPacket(this, this.vehicle);
-            spe.networkHandler.sendPacket(mountPacket);
+        if (entityplayer.getClass().getName().endsWith("ServerPlayerEntity")) {
+            com.matthewperiut.aether.server.ServerHelper.sendMountPacket(entityplayer, this, this.vehicle);
         }
 
         this.jumping = false;

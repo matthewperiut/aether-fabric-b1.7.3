@@ -15,7 +15,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.pathing.Path;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -296,7 +295,7 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
         if (!this.world.isRemote) {
             List<PlayerEntity> playersNearby = world.collectEntitiesByClass(PlayerEntity.class, Box.create(this.x - areaOfEffect, this.y - areaOfEffect, z - areaOfEffect, this.x + areaOfEffect, this.y + areaOfEffect, z + areaOfEffect));
             for (PlayerEntity player : playersNearby) {
-                ((ServerPlayerEntity) player).sendMessage(s);
+                player.sendMessage(s);
             }
         }
     }

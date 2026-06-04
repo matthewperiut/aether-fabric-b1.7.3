@@ -7,7 +7,6 @@ import com.matthewperiut.aether.item.tool.ItemPhoenixArmour;
 import com.matthewperiut.aether.mixin.access.EntityAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 
@@ -43,7 +42,7 @@ public class ItemPhoenixGloves extends ItemGloves {
             ((EntityAccessor) player).setImmuneToFire(true);
 
             if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
-                boolean local = player.equals(((Minecraft) FabricLoader.getInstance().getGameInstance()).player);
+                boolean local = com.matthewperiut.aether.client.ClientHelper.isLocalPlayer(player);
                 player.world.addParticle("flame", player.x + random.nextGaussian() / 5.0, player.y - (local ? 0.5 : 0) + random.nextGaussian() / 5.0, player.z + random.nextGaussian() / 3.0, 0.0, 0.0, 0.0);
             }
         } else {

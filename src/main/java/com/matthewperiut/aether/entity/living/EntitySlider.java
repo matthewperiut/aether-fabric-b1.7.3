@@ -15,7 +15,6 @@ import net.minecraft.entity.FlyingEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolItem;
 import net.minecraft.nbt.NbtCompound;
@@ -415,7 +414,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, Retr
         if (!this.world.isRemote) {
             List<PlayerEntity> playersNearby = world.collectEntitiesByClass(PlayerEntity.class, Box.create(this.x - areaOfEffect, this.y - areaOfEffect, z - areaOfEffect, this.x + areaOfEffect, this.y + areaOfEffect, z + areaOfEffect));
             for (PlayerEntity player : playersNearby) {
-                ((ServerPlayerEntity) player).sendMessage(s);
+                player.sendMessage(s);
             }
         }
     }

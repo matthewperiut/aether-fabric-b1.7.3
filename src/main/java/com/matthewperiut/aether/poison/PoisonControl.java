@@ -10,8 +10,6 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 
 public class PoisonControl {
     Entity parent;
@@ -110,10 +108,11 @@ public class PoisonControl {
         }
     }
 
-    @Environment(EnvType.SERVER)
     private static void informClientMovement(PlayerEntity player) {
-        if (player instanceof ServerPlayerEntity serverPlayer) {
-            serverPlayer.networkHandler.sendPacket(new EntityVelocityUpdateS2CPacket(serverPlayer.id, serverPlayer.velocityX, serverPlayer.velocityY, serverPlayer.velocityZ));
+        // Class-name guard keeps ServerHelper (and ServerPlayerEntity) from ever loading on a
+        // production client - referencing server classes here crashes class verification.
+        if (player.getClass().getName().endsWith("ServerPlayerEntity")) {
+            com.matthewperiut.aether.server.ServerHelper.sendVelocity(player);
         }
     }
 }

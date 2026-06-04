@@ -17,7 +17,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.FlyingEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Box;
@@ -328,7 +327,7 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
         if (!this.world.isRemote) {
             List<PlayerEntity> playersNearby = world.collectEntitiesByClass(PlayerEntity.class, Box.create(this.x - areaOfEffect, this.y - areaOfEffect, z - areaOfEffect, this.x + areaOfEffect, this.y + areaOfEffect, z + areaOfEffect));
             for (PlayerEntity player : playersNearby) {
-                ((ServerPlayerEntity) player).sendMessage(s);
+                player.sendMessage(s);
             }
         }
     }

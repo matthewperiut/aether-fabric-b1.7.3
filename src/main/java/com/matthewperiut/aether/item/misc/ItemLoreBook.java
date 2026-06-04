@@ -7,7 +7,6 @@ import com.matthewperiut.aether.client.gui.GuiLore;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -27,9 +26,7 @@ public class ItemLoreBook extends Item {
 
     @Environment(EnvType.CLIENT)
     private static void useLoreClient(final PlayerEntity player, final ItemStack item) {
-        //noinspection deprecation
-        if (FabricLoader.getInstance().getGameInstance() instanceof Minecraft mc)
-            mc.setScreen(new GuiLore(player.inventory, item.getDamage2()));
+        com.matthewperiut.aether.client.ClientHelper.openLoreScreen(player, item.getDamage2());
     }
 
     public int getColorMultiplier(int i) {
