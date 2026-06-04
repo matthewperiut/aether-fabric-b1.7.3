@@ -70,7 +70,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, Retr
         this.dataTracker.set(TRACKED_TEXTURE_STATE, state);
     }
 
-    private byte getTextureState() {
+    public byte getTextureState() {
         return this.dataTracker.getByte(TRACKED_TEXTURE_STATE);
     }
 

@@ -120,25 +120,30 @@ public class EntitySheepuff extends EntityAetherAnimal implements RetroMobSpawnD
             }
         }
 
-        if (this.random.nextInt(100) == 0) {
-            int x = MathHelper.floor(this.x);
-            int y = MathHelper.floor(this.y);
-            int z = MathHelper.floor(this.z);
-            if (this.world.getBlockId(x, y - 1, z) == AetherBlocks.Grass.id) {
-                this.world.setBlock(x, y - 1, z, AetherBlocks.Dirt.id);
-                ++this.amountEaten;
+        // Server-side only: eating and the puff/unshear state transitions write the DataTracker,
+        // which is server-authoritative. Without this gate the CLIENT also ran its own RNG eating
+        // and set its own tracker bit — desyncing from the server (sheepuff stuck looking puffed).
+        if (!this.world.isRemote) {
+            if (this.random.nextInt(100) == 0) {
+                int x = MathHelper.floor(this.x);
+                int y = MathHelper.floor(this.y);
+                int z = MathHelper.floor(this.z);
+                if (this.world.getBlockId(x, y - 1, z) == AetherBlocks.Grass.id) {
+                    this.world.setBlock(x, y - 1, z, AetherBlocks.Dirt.id);
+                    ++this.amountEaten;
+                }
             }
-        }
 
-        if (this.amountEaten == 5 && !this.getSheared() && !this.getPuffed()) {
-            this.setPuffed(true);
-            this.amountEaten = 0;
-        }
+            if (this.amountEaten == 5 && !this.getSheared() && !this.getPuffed()) {
+                this.setPuffed(true);
+                this.amountEaten = 0;
+            }
 
-        if (this.amountEaten == 10 && this.getSheared() && !this.getPuffed()) {
-            this.setSheared(false);
-            this.setFleeceColor(0);
-            this.amountEaten = 0;
+            if (this.amountEaten == 10 && this.getSheared() && !this.getPuffed()) {
+                this.setSheared(false);
+                this.setFleeceColor(0);
+                this.amountEaten = 0;
+            }
         }
 
     }
