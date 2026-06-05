@@ -26,9 +26,8 @@ import net.minecraft.world.World;
 import java.util.List;
 
 
-public class EntityFireMonster extends FlyingEntity implements BossLivingEntity, RetroMobSpawnData {
+public class EntityFireMonster extends FlyingEntity implements RetroMobSpawnData {
     private static final int TRACKED_TEXTURE_STATE = 16;
-    private static final int TRACKED_BOSS_HP = 30;
 
     public int wideness;
     public int orgX;
@@ -87,9 +86,7 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
     public void initDataTracker() {
         super.initDataTracker();
         this.dataTracker.startTracking(TRACKED_TEXTURE_STATE, (byte) 0);
-        // Boss HP must be REGISTERED before set() — DataTracker.set on an unregistered entry NPEs
-        // the first time the boss is hit (syncBossHP), aborting the damage handler mid-flow.
-        this.dataTracker.startTracking(TRACKED_BOSS_HP, this.health);
+        // Boss HP tracking (id 30) is owned by accessory-api's LivingEntity mixin.
     }
 
     private void setTextureState(byte state) {
@@ -107,8 +104,9 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
         }
     }
 
-    private void syncBossHP() {
-        this.dataTracker.set(TRACKED_BOSS_HP, this.health);
+    // accessory-api's BossLivingEntity mixin on LivingEntity owns boss HP tracking/sync.
+    private BossLivingEntity bossApi() {
+        return (BossLivingEntity) (Object) this;
     }
 
     public boolean canDespawn() {
@@ -147,9 +145,8 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
             --this.chatCount;
         }
 
-        if (this.world.isRemote) {
-            updateTextureFromState();
-        }
+        // Both sides: in singleplayer isRemote is false and the texture would never update.
+        updateTextureFromState();
     }
 
     protected Entity findPlayerToAttack() {
@@ -228,7 +225,7 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
                 this.target = null;
                 this.chatLine("§cSuch is the fate of a being who opposes the might of the sun.");
                 this.setDoor(0);
-                setBoss(false);
+                bossApi().setBoss(false);
                 this.gotTarget = false;
             }
         }
@@ -303,7 +300,7 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
         nbttagcompound.putFloat("Rotary", (float) this.rotary);
         this.gotTarget = this.target != null;
         nbttagcompound.putBoolean("GotTarget", this.gotTarget);
-        nbttagcompound.putBoolean("IsCurrentBoss", this.isBoss());
+        nbttagcompound.putBoolean("IsCurrentBoss", bossApi().isBoss());
         nbttagcompound.putString("BossName", this.bossName);
     }
 
@@ -320,7 +317,7 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
         this.gotTarget = nbttagcompound.getBoolean("GotTarget");
         this.speedness = 0.5 - (double) this.health / 70.0 * 0.2;
         if (nbttagcompound.getBoolean("IsCurrentBoss")) {
-            setBoss(true);
+            bossApi().setBoss(true);
         }
 
         this.bossName = nbttagcompound.getString("BossName");
@@ -380,7 +377,7 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
                 if (this.chatLog == 9) {
                     this.chatLine("§6As you wish, your death will be slow and agonizing.");
                     this.chatLog = 10;
-                    setBoss(true);
+                    bossApi().setBoss(true);
                     return true;
                 }
 
@@ -419,7 +416,7 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
             this.speedness = 0.5 - (double) this.health / 70.0 * 0.2;
             boolean flag = super.damage(e, i);
             if (flag) {
-                syncBossHP();
+                // boss HP sync handled by accessory-api's tick mixin
                 this.hurtness = 15;
                 setTextureState((byte) 1);
 
@@ -432,7 +429,7 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
                 }
 
                 if (this.health <= 0) {
-                    setBoss(false);
+                    bossApi().setBoss(false);
                     this.chatLine("§bSuch bitter cold... is this the feeling... of pain?");
                     if (!this.world.isRemote) {
                         this.setDoor(0);
@@ -509,34 +506,14 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
         }
     }
 
-    @Override
-    public void setBoss(boolean boss) {
-        this.setFlag(6, boss);
-        if (boss) {
-            syncBossHP();
-        }
-    }
-
-    @Override
-    public boolean isBoss() {
-        return this.getFlag(6);
-    }
-
-    public int getHP() {
-        return this.dataTracker.getInt(TRACKED_BOSS_HP);
-    }
-
+    // setBoss/isBoss/getHP come from accessory-api's LivingEntity mixin at runtime.
+    // getMaxHP/getName below override the mixin's defaults via virtual dispatch.
     public int getMaxHP() {
         return 50;
     }
 
     public String getName() {
         return this.bossName + ", the Sun Spirit";
-    }
-
-    @Override
-    public String getCustomTitle() {
-        return BossLivingEntity.super.getCustomTitle();
     }
 
     @Override

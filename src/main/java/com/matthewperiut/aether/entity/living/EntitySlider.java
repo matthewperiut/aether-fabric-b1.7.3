@@ -25,14 +25,14 @@ import net.minecraft.world.World;
 import java.util.List;
 
 
-public class EntitySlider extends FlyingEntity implements BossLivingEntity, RetroMobSpawnData {
+public class EntitySlider extends FlyingEntity implements RetroMobSpawnData {
     private static final int TRACKED_TEXTURE_STATE = 16;
-    private static final int TRACKED_BOSS_HP = 30;
 
     public int moveTimer;
     public int dennis;
     public int rennis;
     public int chatTime;
+    private int sleepCheckTimer;
     public Entity target;
     public boolean awake;
     public boolean gotMovement;
@@ -61,9 +61,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, Retr
     public void initDataTracker() {
         super.initDataTracker();
         this.dataTracker.startTracking(TRACKED_TEXTURE_STATE, (byte) 0);
-        // Boss HP must be REGISTERED before set() — DataTracker.set on an unregistered entry NPEs
-        // the first time the boss is hit (syncBossHP), aborting the damage handler mid-flow.
-        this.dataTracker.startTracking(TRACKED_BOSS_HP, this.health);
+        // Boss HP tracking (id 30) is owned by accessory-api's LivingEntity mixin.
         this.x = Math.floor(this.x + 0.5);
         this.y = Math.floor(this.y + 0.5);
         this.z = Math.floor(this.z + 0.5);
@@ -91,8 +89,9 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, Retr
         }
     }
 
-    private void syncBossHP() {
-        this.dataTracker.set(TRACKED_BOSS_HP, this.health);
+    // accessory-api's BossLivingEntity mixin on LivingEntity owns boss HP tracking/sync.
+    private BossLivingEntity bossApi() {
+        return (BossLivingEntity) (Object) this;
     }
 
     public boolean canDespawn() {
@@ -121,7 +120,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, Retr
         nbttagcompound.putInt("DungeonX", this.dungeonX);
         nbttagcompound.putInt("DungeonY", this.dungeonY);
         nbttagcompound.putInt("DungeonZ", this.dungeonZ);
-        nbttagcompound.putBoolean("IsCurrentBoss", isBoss());
+        nbttagcompound.putBoolean("IsCurrentBoss", bossApi().isBoss());
         nbttagcompound.putString("BossName", this.bossName);
     }
 
@@ -136,7 +135,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, Retr
         this.dungeonY = nbttagcompound.getInt("DungeonY");
         this.dungeonZ = nbttagcompound.getInt("DungeonZ");
         if (nbttagcompound.getBoolean("IsCurrentBoss")) {
-            setBoss(true);
+            bossApi().setBoss(true);
         }
 
         this.bossName = nbttagcompound.getString("BossName");
@@ -157,14 +156,38 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, Retr
         super.tick();
         this.bodyYaw = this.pitch = this.yaw = 0.0F;
 
+        // Sync texture from DataTracker on BOTH sides: in singleplayer isRemote is false,
+        // so a client-only call would leave the texture stuck on sliderSleep forever.
+        // (At the top because the server branch below has early returns.)
+        updateTextureFromState();
+
         if (!this.world.isRemote) {
             // Server-side AI
             if (this.awake) {
+                // Every 20 ticks: if no player is within a 100x100x100 box (xyz ±50),
+                // go back to sleep and fully restore health.
+                if (++this.sleepCheckTimer >= 20) {
+                    this.sleepCheckTimer = 0;
+                    List<PlayerEntity> playersInRange = this.world.collectEntitiesByClass(PlayerEntity.class,
+                            Box.create(this.x - 50, this.y - 50, this.z - 50, this.x + 50, this.y + 50, this.z + 50));
+                    if (playersInRange.isEmpty()) {
+                        this.awake = false;
+                        bossApi().setBoss(false);
+                        this.target = null;
+                        this.health = getMaxHP();
+                        setTextureState((byte) 0);
+                        this.stop();
+                        this.openDoor();
+                        this.moveTimer = 0;
+                        return;
+                    }
+                }
+
                 if (this.target != null && this.target instanceof LivingEntity) {
                     LivingEntity e1 = (LivingEntity) this.target;
                     if (e1.health <= 0) {
                         this.awake = false;
-                        setBoss(false);
+                        bossApi().setBoss(false);
                         this.target = null;
                         setTextureState((byte) 0);
                         this.stop();
@@ -175,7 +198,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, Retr
                 } else {
                     if (this.target != null && this.target.dead) {
                         this.awake = false;
-                        setBoss(false);
+                        bossApi().setBoss(false);
                         this.target = null;
                         setTextureState((byte) 0);
                         this.stop();
@@ -188,7 +211,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, Retr
                         this.target = this.world.getClosestPlayer(this, -1.0);
                         if (this.target == null) {
                             this.awake = false;
-                            setBoss(false);
+                            bossApi().setBoss(false);
                             this.target = null;
                             setTextureState((byte) 0);
                             this.stop();
@@ -435,7 +458,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, Retr
                     } else {
                         boolean flag = super.damage(e1, Math.max(0, i));
                         if (flag) {
-                            syncBossHP();
+                            // boss HP sync handled by accessory-api's tick mixin
                             int x;
                             for (x = 0; x < (this.health <= 0 ? 16 : 48); ++x) {
                                 double a = this.x + (double) (this.random.nextFloat() - this.random.nextFloat()) * 1.5;
@@ -462,7 +485,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, Retr
                                     }
                                 }
 
-                                setBoss(false);
+                                bossApi().setBoss(false);
                             } else if (this.awake) {
                                 if (this.gotMovement) {
                                     this.speedy *= 0.75F;
@@ -479,7 +502,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, Retr
 
                                     while (true) {
                                         if (y >= this.dungeonY + 8) {
-                                            setBoss(true);
+                                            bossApi().setBoss(true);
                                             break;
                                         }
 
@@ -586,30 +609,12 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, Retr
         this.dungeonZ = k;
     }
 
-    @Override
-    public void setBoss(boolean boss) {
-        this.setFlag(6, boss);
-        if (boss) {
-            syncBossHP();
-        }
-    }
-
-    @Override
-    public boolean isBoss() {
-        return this.getFlag(6);
-    }
-
-    @Override
-    public int getHP() {
-        return this.dataTracker.getInt(TRACKED_BOSS_HP);
-    }
-
-    @Override
+    // setBoss/isBoss/getHP come from accessory-api's LivingEntity mixin at runtime.
+    // getMaxHP/getName below override the mixin's defaults via virtual dispatch.
     public int getMaxHP() {
         return 500;
     }
 
-    @Override
     public String getName() {
         return this.bossName + ", the Slider";
     }

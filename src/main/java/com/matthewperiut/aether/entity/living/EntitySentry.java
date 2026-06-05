@@ -172,8 +172,9 @@ public class EntitySentry extends EntityDungeonMob implements RetroMobSpawnData 
     }
 
     protected void tickLiving() {
+        // Both sides: in singleplayer isRemote is false and the texture would never update.
+        updateTextureFromState();
         if (this.world.isRemote) {
-            updateTextureFromState();
             return;
         }
 

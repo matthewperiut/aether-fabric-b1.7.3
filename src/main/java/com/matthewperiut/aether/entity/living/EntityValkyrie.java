@@ -27,9 +27,8 @@ import net.minecraft.world.World;
 import java.util.List;
 
 
-public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity, RetroMobSpawnData {
+public class EntityValkyrie extends EntityDungeonMob implements RetroMobSpawnData {
     private static final int TRACKED_TEXTURE_STATE = 16;
-    private static final int TRACKED_BOSS_HP = 30;
 
     public boolean isSwinging;
     public boolean boss;
@@ -91,9 +90,7 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
     public void initDataTracker() {
         super.initDataTracker();
         this.dataTracker.startTracking(TRACKED_TEXTURE_STATE, (byte) 0);
-        // Boss HP must be REGISTERED before set() — DataTracker.set on an unregistered entry NPEs
-        // the first time the boss is hit (syncBossHP), aborting the damage handler mid-flow.
-        this.dataTracker.startTracking(TRACKED_BOSS_HP, this.health);
+        // Boss HP tracking (id 30) is owned by accessory-api's LivingEntity mixin.
     }
 
     private void setTextureState(byte state) {
@@ -111,8 +108,9 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
         }
     }
 
-    private void syncBossHP() {
-        this.dataTracker.set(TRACKED_BOSS_HP, this.health);
+    // accessory-api's BossLivingEntity mixin on LivingEntity owns boss HP tracking/sync.
+    private BossLivingEntity bossApi() {
+        return (BossLivingEntity) (Object) this;
     }
 
     public void onLanding(float f) {
@@ -174,9 +172,8 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
             }
         }
 
-        if (this.world.isRemote) {
-            updateTextureFromState();
-        }
+        // Both sides: in singleplayer isRemote is false and the texture would never update.
+        updateTextureFromState();
     }
 
     public boolean otherDimension() {
@@ -356,7 +353,7 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
                 this.target = null;
                 if (this.boss) {
                     this.unlockDoor();
-                    setBoss(false);
+                    bossApi().setBoss(false);
                 }
 
                 this.angerLevel = 0;
@@ -402,8 +399,8 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
         nbttagcompound.putInt("DungeonZ", this.dungeonZ);
         nbttagcompound.putInt("DungeonEntranceZ", this.dungeonEntranceZ);
         nbttagcompound.put("SafePos", this.toNbtList(new double[]{this.safeX, this.safeY, this.safeZ}));
-        nbttagcompound.putBoolean("IsCurrentBoss", isBoss());
-        if (isBoss()) {
+        nbttagcompound.putBoolean("IsCurrentBoss", bossApi().isBoss());
+        if (bossApi().isBoss()) {
             if (bossName != null) {
                 if (!bossName.isEmpty()) {
                     nbttagcompound.putString("BossName", this.bossName);
@@ -432,9 +429,9 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
         this.safeY = ((NbtDouble) nbttaglist.get(1)).value;
         this.safeZ = ((NbtDouble) nbttaglist.get(2)).value;
         if (nbttagcompound.getBoolean("IsCurrentBoss")) {
-            setBoss(true);
+            bossApi().setBoss(true);
         }
-        if (isBoss()) {
+        if (bossApi().isBoss()) {
             this.bossName = nbttagcompound.getString("BossName");
             if (bossName == null) {
                 bossName = NameGen.gen();
@@ -462,7 +459,7 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
             } else {
                 if (this.boss) {
                     if (this.target == null) {
-                        setBoss(true);
+                        bossApi().setBoss(true);
                         this.chatTime = 0;
                         this.chatItUp("This will be your final battle!");
                     } else {
@@ -485,7 +482,7 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
                 this.becomeAngryAt(entity);
                 boolean flag = super.damage(entity, i);
                 if (flag) {
-                    syncBossHP();
+                    // boss HP sync handled by accessory-api's tick mixin
                     if (this.health <= 0) {
                         pokey = this.random.nextInt(3);
                         this.dead = true;
@@ -496,7 +493,7 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
                                 this.unlockTreasure();
                             }
                             this.chatItUp("You are truly... a mighty warrior...");
-                            setBoss(false);
+                            bossApi().setBoss(false);
                         } else if (pokey == 2) {
                             this.chatItUp("Alright, alright! You win!");
                         } else if (pokey == 1) {
@@ -535,7 +532,7 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
                         if (!this.world.isRemote) {
                             this.unlockDoor();
                         }
-                        setBoss(false);
+                        bossApi().setBoss(false);
                     } else if (pokey == 2) {
                         this.chatItUp("You want a medallion? Try being less pathetic.");
                     } else if (pokey == 1 && e1 instanceof PlayerEntity) {
@@ -614,30 +611,12 @@ public class EntityValkyrie extends EntityDungeonMob implements BossLivingEntity
         this.dungeonZ = k;
     }
 
-    @Override
-    public void setBoss(boolean boss) {
-        this.setFlag(6, boss);
-        if (boss) {
-            syncBossHP();
-        }
-    }
-
-    @Override
-    public boolean isBoss() {
-        return this.getFlag(6);
-    }
-
-    @Override
-    public int getHP() {
-        return this.dataTracker.getInt(TRACKED_BOSS_HP);
-    }
-
-    @Override
+    // setBoss/isBoss/getHP come from accessory-api's LivingEntity mixin at runtime.
+    // getMaxHP/getName below override the mixin's defaults via virtual dispatch.
     public int getMaxHP() {
         return 500;
     }
 
-    @Override
     public String getName() {
         return this.bossName + ", the Valkyrie Queen";
     }
