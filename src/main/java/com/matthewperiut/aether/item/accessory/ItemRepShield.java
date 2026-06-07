@@ -214,7 +214,7 @@ public class ItemRepShield extends ItemMoreArmor implements HasCustomRenderer {
             GL11.glDisable(3008);
             GL11.glEnable(2977);
             GL11.glEnable(3042);
-            GL11.glBindTexture(3553, minecraft.textureManager.getTextureId("aether:stationapi/textures/other/shieldEffect.png"));
+            GL11.glBindTexture(3553, minecraft.textureManager.getTextureId("aether:textures/other/shieldEffect.png"));
             final Tessellator tessellator = Tessellator.INSTANCE;
             tessellator.startQuads();
             tessellator.vertex(0.0, scaledHeight, -90.0, 0.0, 1.0);
@@ -280,7 +280,7 @@ public class ItemRepShield extends ItemMoreArmor implements HasCustomRenderer {
 
                 if (prev.shouldRender) {
                     ((Minecraft) FabricLoader.getInstance().getGameInstance()).textureManager.bindTexture(
-                            ((Minecraft) FabricLoader.getInstance().getGameInstance()).textureManager.getTextureId("aether:stationapi/textures/mobs/energyGlow.png"));
+                            ((Minecraft) FabricLoader.getInstance().getGameInstance()).textureManager.getTextureId("aether:textures/mobs/energyGlow.png"));
                     GL11.glEnable(2977);
                     GL11.glEnable(3042);
                     GL11.glBlendFunc(770, 771);
@@ -290,7 +290,7 @@ public class ItemRepShield extends ItemMoreArmor implements HasCustomRenderer {
                     GL11.glEnable(3042);
                     GL11.glBlendFunc(770, 771);
                     ((Minecraft) FabricLoader.getInstance().getGameInstance()).textureManager.bindTexture(
-                            ((Minecraft) FabricLoader.getInstance().getGameInstance()).textureManager.getTextureId("aether:stationapi/textures/mobs/energyNotGlow.png"));
+                            ((Minecraft) FabricLoader.getInstance().getGameInstance()).textureManager.getTextureId("aether:textures/mobs/energyNotGlow.png"));
                 }
                 return true;
             } else {

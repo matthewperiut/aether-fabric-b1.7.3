@@ -27,7 +27,7 @@ public class EntityFiroBall extends FlyingEntity {
 
     public EntityFiroBall(World world) {
         super(world);
-        this.texture = "aether:stationapi/textures/mobs/firoball.png";
+        this.texture = "aether:textures/mobs/firoball.png";
         this.lifeSpan = 300;
         this.life = this.lifeSpan;
         this.setBoundingBoxSpacing(0.9F, 0.9F);
@@ -41,7 +41,7 @@ public class EntityFiroBall extends FlyingEntity {
 
     public EntityFiroBall(World world, double x, double y, double z, boolean flag) {
         super(world);
-        this.texture = "aether:stationapi/textures/mobs/firoball.png";
+        this.texture = "aether:textures/mobs/firoball.png";
         this.lifeSpan = 300;
         this.life = this.lifeSpan;
         this.setBoundingBoxSpacing(0.9F, 0.9F);
@@ -58,7 +58,7 @@ public class EntityFiroBall extends FlyingEntity {
         this.smotionZ = (0.2 + (double) this.random.nextFloat() * 0.15) * (this.random.nextInt(2) == 0 ? 1.0 : -1.0);
         if (flag) {
             this.frosty = true;
-            this.texture = "aether:stationapi/textures/mobs/iceyball.png";
+            this.texture = "aether:textures/mobs/iceyball.png";
             this.smotionX /= 3.0;
             this.smotionY = 0.0;
             this.smotionZ /= 3.0;
@@ -72,7 +72,7 @@ public class EntityFiroBall extends FlyingEntity {
 
     public EntityFiroBall(World world, double x, double y, double z, boolean flag, boolean flag2) {
         super(world);
-        this.texture = "aether:stationapi/textures/mobs/firoball.png";
+        this.texture = "aether:textures/mobs/firoball.png";
         this.lifeSpan = 300;
         this.life = this.lifeSpan;
         this.setBoundingBoxSpacing(0.9F, 0.9F);
@@ -89,7 +89,7 @@ public class EntityFiroBall extends FlyingEntity {
         this.smotionZ = (0.2 + (double) this.random.nextFloat() * 0.15) * (this.random.nextInt(2) == 0 ? 1.0 : -1.0);
         if (flag) {
             this.frosty = true;
-            this.texture = "aether:stationapi/textures/mobs/iceyball.png";
+            this.texture = "aether:textures/mobs/iceyball.png";
             this.smotionX /= 3.0;
             this.smotionY = 0.0;
             this.smotionZ /= 3.0;
@@ -214,7 +214,7 @@ public class EntityFiroBall extends FlyingEntity {
         this.frosty = nbttagcompound.getBoolean("Frosty");
         this.fromCloud = nbttagcompound.getBoolean("FromCloud");
         if (this.frosty) {
-            this.texture = "aether:stationapi/textures/mobs/iceyball.png";
+            this.texture = "aether:textures/mobs/iceyball.png";
         }
 
         this.smacked = nbttagcompound.getBoolean("Smacked");

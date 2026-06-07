@@ -35,7 +35,7 @@ public class EntityPhyg extends EntityAetherAnimal implements RetroMobSpawnData,
 
     public EntityPhyg(World world) {
         super(world);
-        this.texture = "aether:stationapi/textures/mobs/Mob_FlyingPigBase.png";
+        this.texture = "aether:textures/mobs/Mob_FlyingPigBase.png";
         this.setBoundingBoxSpacing(0.9F, 1.3F);
         this.jrem = 0;
         this.jumps = 1;
@@ -88,8 +88,8 @@ public class EntityPhyg extends EntityAetherAnimal implements RetroMobSpawnData,
     private void updateFromState() {
         byte state = this.dataTracker.getByte(16);
         this.texture = (state & 1) != 0
-                ? "aether:stationapi/textures/mobs/Mob_FlyingPigSaddle.png"
-                : "aether:stationapi/textures/mobs/Mob_FlyingPigBase.png";
+                ? "aether:textures/mobs/Mob_FlyingPigSaddle.png"
+                : "aether:textures/mobs/Mob_FlyingPigBase.png";
     }
 
     protected void jump() {

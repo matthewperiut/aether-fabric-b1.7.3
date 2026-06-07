@@ -17,7 +17,7 @@ public class EntityMimic extends EntityDungeonMob implements RetroMobSpawnData {
 
     public EntityMimic(World world) {
         super(world);
-        this.texture = "aether:stationapi/textures/mobs/Mimic.png";
+        this.texture = "aether:textures/mobs/Mimic.png";
         this.standingEyeHeight = 0.0F;
         this.setBoundingBoxSpacing(1.0F, 2.0F);
         this.health = 40;

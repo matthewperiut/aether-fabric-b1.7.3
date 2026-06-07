@@ -57,7 +57,19 @@ public class AetherPortal extends TranslucentBlock implements CustomPortal, Tele
         return false;
     }
 
+    /** Air and water all count as portal interior, so water can light a partially filled frame. */
+    private static boolean isInterior(int blockId) {
+        return blockId == 0 || blockId == Block.FLOWING_WATER.id || blockId == Block.WATER.id;
+    }
+
     public boolean create(World world, int i, int j, int k) {
+        // Walk down to the bottom of the interior so the trigger works from any
+        // of the six 2x3 interior cells (matches the original Aether), not just
+        // the bottom row. The interior is 3 tall, so at most 2 steps.
+        for (int down = 0; down < 2 && isInterior(world.getBlockId(i, j - 1, k)); ++down) {
+            --j;
+        }
+
         int l = 0;
         int i1 = 0;
         if (world.getBlockId(i - 1, j, k) == Block.GLOWSTONE.id || world.getBlockId(i + 1, j, k) == Block.GLOWSTONE.id) {
@@ -71,7 +83,7 @@ public class AetherPortal extends TranslucentBlock implements CustomPortal, Tele
         if (l == i1) {
             return false;
         } else {
-            if (world.getBlockId(i - l, j, k - i1) == 0) {
+            if (isInterior(world.getBlockId(i - l, j, k - i1))) {
                 i -= l;
                 k -= i1;
             }
@@ -87,7 +99,7 @@ public class AetherPortal extends TranslucentBlock implements CustomPortal, Tele
                             if (j2 != Block.GLOWSTONE.id) {
                                 return false;
                             }
-                        } else if (j2 != 0 && j2 != Block.FLOWING_WATER.id) {
+                        } else if (!isInterior(j2)) {
                             return false;
                         }
                     }

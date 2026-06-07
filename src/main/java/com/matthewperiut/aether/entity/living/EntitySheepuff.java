@@ -25,7 +25,7 @@ public class EntitySheepuff extends EntityAetherAnimal implements RetroMobSpawnD
 
     public EntitySheepuff(World world) {
         super(world);
-        this.texture = "aether:stationapi/textures/mobs/sheepuff.png";
+        this.texture = "aether:textures/mobs/sheepuff.png";
         this.setBoundingBoxSpacing(0.9F, 1.3F);
         this.setFleeceColor(getRandomFleeceColor(this.random));
         this.amountEaten = 0;
@@ -33,7 +33,7 @@ public class EntitySheepuff extends EntityAetherAnimal implements RetroMobSpawnD
 
     public EntitySheepuff(World world, int color) {
         super(world);
-        this.texture = "aether:stationapi/textures/mobs/sheepuff.png";
+        this.texture = "aether:textures/mobs/sheepuff.png";
         this.setBoundingBoxSpacing(0.9F, 1.3F);
         this.setFleeceColor(color);
         this.amountEaten = 0;

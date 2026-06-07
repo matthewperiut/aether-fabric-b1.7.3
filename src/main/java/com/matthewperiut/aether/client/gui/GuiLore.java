@@ -386,7 +386,7 @@ public class GuiLore extends HandledScreen {
     protected void drawBackground(final float tickDelta) {
         this.backgroundWidth = 256;
         this.backgroundHeight = 195;
-        final int i = minecraft.textureManager.getTextureId("/assets/aether/stationapi/textures/gui/lore.png");
+        final int i = minecraft.textureManager.getTextureId("/assets/aether/textures/gui/lore.png");
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         minecraft.textureManager.bindTexture(i);
         final int j = (this.width - this.backgroundWidth) / 2;

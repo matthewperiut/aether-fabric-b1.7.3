@@ -51,7 +51,7 @@ public class EntityFireMonster extends FlyingEntity implements RetroMobSpawnData
 
     public EntityFireMonster(World world) {
         super(world);
-        this.texture = "aether:stationapi/textures/mobs/firemonster.png";
+        this.texture = "aether:textures/mobs/firemonster.png";
         this.setBoundingBoxSpacing(2.25F, 2.5F);
         this.noClip = true;
         this.orgX = MathHelper.floor(this.x);
@@ -67,7 +67,7 @@ public class EntityFireMonster extends FlyingEntity implements RetroMobSpawnData
 
     public EntityFireMonster(World world, int x, int y, int z, int rad, int dir) {
         super(world);
-        this.texture = "aether:stationapi/textures/mobs/firemonster.png";
+        this.texture = "aether:textures/mobs/firemonster.png";
         this.setBoundingBoxSpacing(2.25F, 2.5F);
         this.setPosition((double) x + 0.5, (double) y, (double) z + 0.5);
         this.wideness = rad - 2;
@@ -96,10 +96,10 @@ public class EntityFireMonster extends FlyingEntity implements RetroMobSpawnData
     private void updateTextureFromState() {
         switch (this.dataTracker.getByte(TRACKED_TEXTURE_STATE)) {
             case 1:
-                this.texture = "aether:stationapi/textures/mobs/firemonsterHurt.png";
+                this.texture = "aether:textures/mobs/firemonsterHurt.png";
                 break;
             default:
-                this.texture = "aether:stationapi/textures/mobs/firemonster.png";
+                this.texture = "aether:textures/mobs/firemonster.png";
                 break;
         }
     }

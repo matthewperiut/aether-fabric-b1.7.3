@@ -23,7 +23,7 @@ public class RenderSentry extends LivingEntityRenderer {
         } else if (i != 0) {
             return false;
         } else if (sentry.active) {
-            this.bindTexture("aether:stationapi/textures/mobs/SentryEye.png");
+            this.bindTexture("aether:textures/mobs/SentryEye.png");
             float f1 = (1.0F - sentry.getBrightnessAtEyes(1.0F)) * 0.75F;
             GL11.glEnable(3042);
             GL11.glDisable(3008);

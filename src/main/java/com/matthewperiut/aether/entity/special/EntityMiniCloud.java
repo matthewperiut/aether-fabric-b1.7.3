@@ -26,7 +26,7 @@ public class EntityMiniCloud extends FlyingEntity implements RetroMobSpawnData {
 
     public EntityMiniCloud(World world) {
         super(world);
-        this.texture = "aether:stationapi/textures/mobs/minicloud.png";
+        this.texture = "aether:textures/mobs/minicloud.png";
         this.setBoundingBoxSpacing(0.0F, 0.0F);
         this.noClip = true;
         this.pushSpeedReduction = 1.75F;
@@ -34,7 +34,7 @@ public class EntityMiniCloud extends FlyingEntity implements RetroMobSpawnData {
 
     public EntityMiniCloud(World world, PlayerEntity ep, boolean flag) {
         super(world);
-        this.texture = "aether:stationapi/textures/mobs/minicloud.png";
+        this.texture = "aether:textures/mobs/minicloud.png";
         this.setBoundingBoxSpacing(0.5F, 0.45F);
         this.dude = ep;
         this.toLeft = flag;

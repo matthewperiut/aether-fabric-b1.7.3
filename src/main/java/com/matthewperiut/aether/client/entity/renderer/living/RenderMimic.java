@@ -17,9 +17,9 @@ public class RenderMimic extends EntityRenderer {
         GL11.glTranslatef((float) d, (float) d1, (float) d2);
         GL11.glRotatef(180.0F - f, 0.0F, 1.0F, 0.0F);
         GL11.glScalef(-1.0F, -1.0F, 1.0F);
-        this.bindTexture("aether:stationapi/textures/mobs/Mimic1.png");
+        this.bindTexture("aether:textures/mobs/Mimic1.png");
         this.model.render1(0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F, entityMimic);
-        this.bindTexture("aether:stationapi/textures/mobs/Mimic2.png");
+        this.bindTexture("aether:textures/mobs/Mimic2.png");
         this.model.render2(0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F, entityMimic);
         GL11.glPopMatrix();
     }

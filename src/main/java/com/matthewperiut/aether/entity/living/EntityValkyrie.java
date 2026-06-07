@@ -53,7 +53,7 @@ public class EntityValkyrie extends EntityDungeonMob implements RetroMobSpawnDat
     public EntityValkyrie(World world) {
         super(world);
         this.setBoundingBoxSpacing(0.8F, 1.6F);
-        this.texture = "aether:stationapi/textures/mobs/valkyrie.png";
+        this.texture = "aether:textures/mobs/valkyrie.png";
         this.teleTimer = this.random.nextInt(250);
         this.health = 50;
         this.movementSpeed = 0.5F;
@@ -68,9 +68,9 @@ public class EntityValkyrie extends EntityDungeonMob implements RetroMobSpawnDat
         super(world);
         this.setBoundingBoxSpacing(0.8F, 1.6F);
         this.bossName = NameGen.gen();
-        this.texture = "aether:stationapi/textures/mobs/valkyrie.png";
+        this.texture = "aether:textures/mobs/valkyrie.png";
         if (flag) {
-            this.texture = "aether:stationapi/textures/mobs/valkyrie2.png";
+            this.texture = "aether:textures/mobs/valkyrie2.png";
             this.health = 500;
             this.boss = true;
         } else {
@@ -100,10 +100,10 @@ public class EntityValkyrie extends EntityDungeonMob implements RetroMobSpawnDat
     private void updateTextureFromState() {
         switch (this.dataTracker.getByte(TRACKED_TEXTURE_STATE)) {
             case 1:
-                this.texture = "aether:stationapi/textures/mobs/valkyrie2.png";
+                this.texture = "aether:textures/mobs/valkyrie2.png";
                 break;
             default:
-                this.texture = "aether:stationapi/textures/mobs/valkyrie.png";
+                this.texture = "aether:textures/mobs/valkyrie.png";
                 break;
         }
     }

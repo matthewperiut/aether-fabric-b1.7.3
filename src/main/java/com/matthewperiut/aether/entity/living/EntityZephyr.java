@@ -44,7 +44,7 @@ public class EntityZephyr extends FlyingEntity implements Monster, RetroMobSpawn
         this.aggroCooldown = 0;
         this.prevAttackCounter = 0;
         this.attackCounter = 0;
-        this.texture = "aether:stationapi/textures/mobs/Zephyr.png";
+        this.texture = "aether:textures/mobs/Zephyr.png";
         this.setBoundingBoxSpacing(4.0f, 4.0f);
     }
 
@@ -118,7 +118,7 @@ public class EntityZephyr extends FlyingEntity implements Monster, RetroMobSpawn
                 --this.attackCounter;
             }
         }
-        this.texture = "aether:stationapi/textures/mobs/Zephyr.png";
+        this.texture = "aether:textures/mobs/Zephyr.png";
         //if (!this.world.isServerSide && this.world.difficulty == 0) {
         //this.remove();
         //}

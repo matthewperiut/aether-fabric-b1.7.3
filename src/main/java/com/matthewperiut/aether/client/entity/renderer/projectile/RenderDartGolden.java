@@ -13,7 +13,7 @@ public class RenderDartGolden extends EntityRenderer {
 
     public void renderDartGolden(EntityDartGolden entitygolden, double d, double d1, double d2, float f, float f1) {
         if (entitygolden.victim == null) {
-            this.bindTexture("aether:stationapi/textures/mobs/entitygoldendart.png");
+            this.bindTexture("aether:textures/mobs/entitygoldendart.png");
             GL11.glPushMatrix();
             GL11.glTranslatef((float) d, (float) d1, (float) d2);
             GL11.glRotatef(entitygolden.prevYaw + (entitygolden.yaw - entitygolden.prevYaw) * f1 - 90.0F, 0.0F, 1.0F, 0.0F);

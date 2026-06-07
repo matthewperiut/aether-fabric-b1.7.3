@@ -38,7 +38,7 @@ public class EntityCockatrice extends MonsterEntity implements RetroMobSpawnData
         this.stepHeight = 1.0F;
         this.jrem = 0;
         this.jumps = 3;
-        this.texture = "aether:stationapi/textures/mobs/Cockatrice.png";
+        this.texture = "aether:textures/mobs/Cockatrice.png";
         this.setBoundingBoxSpacing(1.0F, 2.0F);
         this.health = 20;
         this.timeUntilNextEgg = this.random.nextInt(6000) + 6000;

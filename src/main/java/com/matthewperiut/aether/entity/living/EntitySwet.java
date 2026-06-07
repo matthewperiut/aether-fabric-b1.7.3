@@ -45,10 +45,10 @@ public class EntitySwet extends EntityAetherAnimal implements RetroMobSpawnData 
         }
 
         if (this.textureNum == 1) {
-            this.texture = "aether:stationapi/textures/mobs/swets.png";
+            this.texture = "aether:textures/mobs/swets.png";
             this.movementSpeed = 1.5F;
         } else {
-            this.texture = "aether:stationapi/textures/mobs/goldswets.png";
+            this.texture = "aether:textures/mobs/goldswets.png";
             this.movementSpeed = 3.0F;
         }
 
@@ -74,10 +74,10 @@ public class EntitySwet extends EntityAetherAnimal implements RetroMobSpawnData 
         }
 
         if (this.textureNum == 1) {
-            this.texture = "aether:stationapi/textures/mobs/swets.png";
+            this.texture = "aether:textures/mobs/swets.png";
             this.movementSpeed = 1.5F;
         } else {
-            this.texture = "aether:stationapi/textures/mobs/goldswets.png";
+            this.texture = "aether:textures/mobs/goldswets.png";
             this.movementSpeed = 3.0F;
         }
 
@@ -437,10 +437,10 @@ public class EntitySwet extends EntityAetherAnimal implements RetroMobSpawnData 
         this.textureSet = nbttagcompound.getBoolean("textureSet");
         this.textureNum = nbttagcompound.getShort("textureNum");
         if (this.textureNum == 1) {
-            this.texture = "aether:stationapi/textures/mobs/swets.png";
+            this.texture = "aether:textures/mobs/swets.png";
             this.movementSpeed = 1.5F;
         } else {
-            this.texture = "aether:stationapi/textures/mobs/goldswets.png";
+            this.texture = "aether:textures/mobs/goldswets.png";
             this.movementSpeed = 3.0F;
         }
 

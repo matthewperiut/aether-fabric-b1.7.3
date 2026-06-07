@@ -13,7 +13,7 @@ public class RenderPoisonNeedle extends EntityRenderer {
 
     public void renderPoisonNeedle(EntityPoisonNeedle entityarrow, double d, double d1, double d2, float f, float f1) {
         if (entityarrow.victim == null) {
-            this.bindTexture("aether:stationapi/textures/mobs/entitypoisonneedle.png");
+            this.bindTexture("aether:textures/mobs/entitypoisonneedle.png");
             GL11.glPushMatrix();
             GL11.glTranslatef((float) d, (float) d1, (float) d2);
             GL11.glRotatef(entityarrow.prevYaw + (entityarrow.yaw - entityarrow.prevYaw) * f1 - 90.0F, 0.0F, 1.0F, 0.0F);

@@ -24,7 +24,7 @@ public class EntityHomeShot extends FlyingEntity implements RetroMobSpawnData {
 
     public EntityHomeShot(World world) {
         super(world);
-        this.texture = "aether:stationapi/textures/mobs/electroball.png";
+        this.texture = "aether:textures/mobs/electroball.png";
         this.lifeSpan = 200;
         this.life = this.lifeSpan;
         this.setBoundingBoxSpacing(0.7F, 0.7F);
@@ -40,7 +40,7 @@ public class EntityHomeShot extends FlyingEntity implements RetroMobSpawnData {
 
     public EntityHomeShot(World world, double x, double y, double z, LivingEntity ep) {
         super(world);
-        this.texture = "aether:stationapi/textures/mobs/electroball.png";
+        this.texture = "aether:textures/mobs/electroball.png";
         this.lifeSpan = 200;
         this.life = this.lifeSpan;
         this.setBoundingBoxSpacing(0.7F, 0.7F);

@@ -1,14 +1,12 @@
 package com.matthewperiut.aether.item.accessory;
 
-import com.periut.retroapi.register.item.RetroItemAccess;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 
 public class ItemIronBubble extends ItemMoreArmor {
     public ItemIronBubble(int j, int k, int l) {
-        super(RetroItemAccess.allocateId(), j, k, l);
+        super(j, k, l);
     }
 
     @Override

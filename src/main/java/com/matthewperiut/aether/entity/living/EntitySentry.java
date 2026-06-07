@@ -26,7 +26,7 @@ public class EntitySentry extends EntityDungeonMob implements RetroMobSpawnData 
 
     public EntitySentry(World world) {
         super(world);
-        this.texture = "aether:stationapi/textures/mobs/Sentry.png";
+        this.texture = "aether:textures/mobs/Sentry.png";
         this.size = 2;
         this.standingEyeHeight = 0.0F;
         this.movementSpeed = 1.0F;
@@ -38,7 +38,7 @@ public class EntitySentry extends EntityDungeonMob implements RetroMobSpawnData 
 
     public EntitySentry(World world, double x, double y, double z) {
         super(world);
-        this.texture = "aether:stationapi/textures/mobs/Sentry.png";
+        this.texture = "aether:textures/mobs/Sentry.png";
         this.size = 2;
         this.standingEyeHeight = 0.0F;
         this.movementSpeed = 1.0F;
@@ -58,13 +58,13 @@ public class EntitySentry extends EntityDungeonMob implements RetroMobSpawnData 
     private void setActiveState(boolean active) {
         this.active = active;
         this.dataTracker.set(TRACKED_ACTIVE, (byte) (active ? 1 : 0));
-        this.texture = active ? "aether:stationapi/textures/mobs/SentryLit.png" : "aether:stationapi/textures/mobs/Sentry.png";
+        this.texture = active ? "aether:textures/mobs/SentryLit.png" : "aether:textures/mobs/Sentry.png";
     }
 
     private void updateTextureFromState() {
         this.texture = this.dataTracker.getByte(TRACKED_ACTIVE) == 1
-                ? "aether:stationapi/textures/mobs/SentryLit.png"
-                : "aether:stationapi/textures/mobs/Sentry.png";
+                ? "aether:textures/mobs/SentryLit.png"
+                : "aether:textures/mobs/Sentry.png";
     }
 
     public void func_100019_e(int i) {

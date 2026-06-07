@@ -41,7 +41,7 @@ public class EntityAerwhale extends FlyingEntity implements Monster, RetroMobSpa
         this.aggroCooldown = 0;
         this.prevAttackCounter = 0;
         this.attackCounter = 0;
-        this.texture = "aether:stationapi/textures/mobs/Mob_Aerwhale.png";
+        this.texture = "aether:textures/mobs/Mob_Aerwhale.png";
         this.setBoundingBoxSpacing(4.0F, 4.0F);
         this.movementSpeed = 0.5F;
         this.health = 20;
@@ -60,7 +60,7 @@ public class EntityAerwhale extends FlyingEntity implements Monster, RetroMobSpa
 
     public void tick() {
         byte byte0 = this.dataTracker.getByte(16);
-        this.texture = byte0 != 1 ? "aether:stationapi/textures/mobs/Mob_Aerwhale.png" : "aether:stationapi/textures/mobs/Mob_Aerwhale.png";
+        this.texture = byte0 != 1 ? "aether:textures/mobs/Mob_Aerwhale.png" : "aether:textures/mobs/Mob_Aerwhale.png";
         double[] distances = new double[]{this.openSpace(0.0F, 0.0F), this.openSpace(45.0F, 0.0F), this.openSpace(0.0F, 45.0F), this.openSpace(-45.0F, 0.0F), this.openSpace(0.0F, -45.0F)};
         int longest = 0;
 

@@ -13,7 +13,7 @@ public class RenderFlamingArrow extends EntityRenderer {
 
     public void func_154_a(EntityFlamingArrow entityarrow, double d, double d1, double d2, float f, float f1) {
         if (entityarrow.prevYaw != 0.0F || entityarrow.prevPitch != 0.0F) {
-            this.bindTexture("aether:stationapi/textures/other/FlamingArrows.png");
+            this.bindTexture("aether:textures/other/FlamingArrows.png");
             GL11.glPushMatrix();
             GL11.glTranslatef((float) d, (float) d1, (float) d2);
             GL11.glRotatef(entityarrow.prevYaw + (entityarrow.yaw - entityarrow.prevYaw) * f1 - 90.0F, 0.0F, 1.0F, 0.0F);

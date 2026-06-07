@@ -34,7 +34,7 @@ public class EntityFlyingCow extends EntityAetherAnimal implements RetroMobSpawn
 
     public EntityFlyingCow(World world) {
         super(world);
-        this.texture = "aether:stationapi/textures/mobs/Mob_FlyingCowBase.png";
+        this.texture = "aether:textures/mobs/Mob_FlyingCowBase.png";
         this.setBoundingBoxSpacing(0.9F, 1.3F);
         this.jrem = 0;
         this.jumps = 1;
@@ -87,8 +87,8 @@ public class EntityFlyingCow extends EntityAetherAnimal implements RetroMobSpawn
     private void updateFromState() {
         byte state = this.dataTracker.getByte(16);
         this.texture = (state & 1) != 0
-                ? "aether:stationapi/textures/mobs/Mob_FlyingCowSaddle.png"
-                : "aether:stationapi/textures/mobs/Mob_FlyingCowBase.png";
+                ? "aether:textures/mobs/Mob_FlyingCowSaddle.png"
+                : "aether:textures/mobs/Mob_FlyingCowBase.png";
     }
 
     protected void jump() {

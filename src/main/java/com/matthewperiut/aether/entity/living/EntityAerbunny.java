@@ -34,7 +34,7 @@ public class EntityAerbunny extends EntityAetherAnimal implements RetroMobSpawnD
     public EntityAerbunny(World world) {
         super(world);
         this.movementSpeed = 2.5F;
-        this.texture = "aether:stationapi/textures/mobs/aerbunny.png";
+        this.texture = "aether:textures/mobs/aerbunny.png";
         this.standingEyeHeight = -0.16F;
         this.setBoundingBoxSpacing(0.4F, 0.4F);
         this.health = 6;

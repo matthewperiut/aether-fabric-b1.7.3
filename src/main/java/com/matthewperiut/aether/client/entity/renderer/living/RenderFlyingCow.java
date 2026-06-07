@@ -17,7 +17,7 @@ public class RenderFlyingCow extends LivingEntityRenderer {
 
     protected boolean setWoolColorAndRender(EntityFlyingCow flyingcow, int i, float f) {
         if (i == 0) {
-            this.bindTexture("aether:stationapi/textures/mobs/Mob_FlyingPigWings.png");
+            this.bindTexture("aether:textures/mobs/Mob_FlyingPigWings.png");
             ModelFlyingCow2.flyingcow = flyingcow;
             return true;
         } else {

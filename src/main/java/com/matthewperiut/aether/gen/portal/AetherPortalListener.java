@@ -6,16 +6,17 @@ import com.periut.retroapi.world.event.BlockSetCallback;
 import net.minecraft.block.Block;
 
 public class AetherPortalListener {
-    /** Water placed on glowstone becomes an Aether portal. Registered from Aether.init(). */
+    /**
+     * A water source block set anywhere inside a glowstone frame becomes an Aether portal.
+     * Sources have meta 0; spreading/falling water (meta != 0) must not light the portal.
+     * Registered from Aether.init().
+     */
     public static void register() {
         BlockSetCallback.EVENT.register((world, x, y, z, blockId, meta) -> {
-            if ((blockId == Block.WATER.id || blockId == Block.FLOWING_WATER.id)
-                    && world.getBlockId(x, y - 1, z) == Block.GLOWSTONE.id
-                    && ((AetherPortal) AetherBlocks.Portal).create(world, x, y, z)) {
-                world.setBlock(x, y, z, AetherBlocks.Portal.id);
-                return true;
-            }
-            return false;
+            // create() fills the whole interior with portal blocks; returning true
+            // cancels the water placement itself.
+            return (blockId == Block.WATER.id || blockId == Block.FLOWING_WATER.id) && meta == 0
+                    && ((AetherPortal) AetherBlocks.Portal).create(world, x, y, z);
         });
     }
 }

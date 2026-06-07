@@ -29,11 +29,11 @@ public class RenderSlider extends LivingEntityRenderer {
             // closed-eye sleep texture while the slider was actively chasing.
             byte state = slider.getTextureState();
             if (state == 2) {
-                this.bindTexture("aether:stationapi/textures/mobs/sliderAwakeGlow_red.png");
+                this.bindTexture("aether:textures/mobs/sliderAwakeGlow_red.png");
             } else if (state == 1) {
-                this.bindTexture("aether:stationapi/textures/mobs/sliderAwakeGlow.png");
+                this.bindTexture("aether:textures/mobs/sliderAwakeGlow.png");
             } else {
-                this.bindTexture("aether:stationapi/textures/mobs/sliderSleepGlow.png");
+                this.bindTexture("aether:textures/mobs/sliderSleepGlow.png");
             }
 
             float f1 = (1.0F - slider.getBrightnessAtEyes(1.0F)) * 0.5F;

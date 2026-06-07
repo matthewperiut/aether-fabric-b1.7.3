@@ -22,10 +22,10 @@ public class RenderSheepuff extends LivingEntityRenderer {
         if (i == 0 && !entitysheep.getSheared()) {
             if (entitysheep.getPuffed()) {
                 this.setDecorationModel(this.puffed);
-                this.bindTexture("aether:stationapi/textures/mobs/sheepuff_fur.png");
+                this.bindTexture("aether:textures/mobs/sheepuff_fur.png");
             } else {
                 this.setDecorationModel(this.wool);
-                this.bindTexture("aether:stationapi/textures/mobs/sheepuff_fur.png");
+                this.bindTexture("aether:textures/mobs/sheepuff_fur.png");
             }
 
             float f1 = entitysheep.getBrightnessAtEyes(f);

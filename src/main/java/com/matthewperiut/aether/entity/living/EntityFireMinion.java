@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 public class EntityFireMinion extends MonsterEntity implements RetroMobSpawnData {
     public EntityFireMinion(World world) {
         super(world);
-        this.texture = "aether:stationapi/textures/mobs/firemonster.png";
+        this.texture = "aether:textures/mobs/firemonster.png";
         this.movementSpeed = 1.5F;
         this.attackDamage = 5;
         this.health = 40;

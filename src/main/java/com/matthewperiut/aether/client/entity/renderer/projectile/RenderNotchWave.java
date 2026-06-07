@@ -14,7 +14,7 @@ public class RenderNotchWave extends EntityRenderer {
         GL11.glPushMatrix();
         GL11.glTranslatef((float) d, (float) d1, (float) d2);
         GL11.glEnable(32826);
-        this.bindTexture("aether:stationapi/textures/other/NotchWave.png");
+        this.bindTexture("aether:textures/other/NotchWave.png");
         Tessellator tessellator = Tessellator.INSTANCE;
         float f7 = 1.0F;
         float f8 = 0.5F;

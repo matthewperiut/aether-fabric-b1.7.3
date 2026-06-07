@@ -30,7 +30,7 @@ public class JumpsDisplay {
             return;
         }
 
-        GL11.glBindTexture(3553, client.textureManager.getTextureId("aether:stationapi/textures/gui/jumps.png"));
+        GL11.glBindTexture(3553, client.textureManager.getTextureId("aether:textures/gui/jumps.png"));
 
         int armorValue = client.player.getTotalArmorDurability();
         int offset = 1;

@@ -20,7 +20,7 @@ public class GuiEnchanter extends HandledScreen {
     }
 
     protected void drawBackground(float f) {
-        int i = this.minecraft.textureManager.getTextureId("/assets/aether/stationapi/textures/gui/enchanter.png");
+        int i = this.minecraft.textureManager.getTextureId("/assets/aether/textures/gui/enchanter.png");
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.minecraft.textureManager.bindTexture(i);
         int j = (this.width - this.backgroundWidth) / 2;

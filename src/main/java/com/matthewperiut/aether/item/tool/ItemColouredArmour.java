@@ -22,6 +22,6 @@ public class ItemColouredArmour extends ArmorItem implements CustomArmorTexture 
 
     @Override
     public String getArmorTexture(ArmorItem item, int layer) {
-        return "/assets/" + Aether.MOD_ID + "/stationapi/textures/armor/" + name + "_" + (layer == 2 ? 2 : 1) + ".png";
+        return "/assets/" + Aether.MOD_ID + "/textures/armor/" + name + "_" + (layer == 2 ? 2 : 1) + ".png";
     }
 }

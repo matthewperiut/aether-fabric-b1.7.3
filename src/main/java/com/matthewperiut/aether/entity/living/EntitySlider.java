@@ -53,7 +53,7 @@ public class EntitySlider extends FlyingEntity implements RetroMobSpawnData {
         this.setBoundingBoxSpacing(2.0F, 2.0F);
         this.health = 500;
         this.dennis = 1;
-        this.texture = "aether:stationapi/textures/mobs/sliderSleep.png";
+        this.texture = "aether:textures/mobs/sliderSleep.png";
         this.chatTime = 60;
         this.bossName = NameGen.gen();
     }
@@ -78,13 +78,13 @@ public class EntitySlider extends FlyingEntity implements RetroMobSpawnData {
     private void updateTextureFromState() {
         switch (getTextureState()) {
             case 1:
-                this.texture = "aether:stationapi/textures/mobs/sliderAwake.png";
+                this.texture = "aether:textures/mobs/sliderAwake.png";
                 break;
             case 2:
-                this.texture = "aether:stationapi/textures/mobs/sliderAwake_red.png";
+                this.texture = "aether:textures/mobs/sliderAwake_red.png";
                 break;
             default:
-                this.texture = "aether:stationapi/textures/mobs/sliderSleep.png";
+                this.texture = "aether:textures/mobs/sliderSleep.png";
                 break;
         }
     }

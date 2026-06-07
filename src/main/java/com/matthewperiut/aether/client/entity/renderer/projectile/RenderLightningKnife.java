@@ -25,7 +25,7 @@ public class RenderLightningKnife extends EntityRenderer {
         GL11.glRotatef(-(entity.prevPitch + (entity.pitch - entity.prevPitch) * time), 1.0F, 0.0F, 0.0F);
         GL11.glRotatef(45F, 0.0F, 1.0F, 0.0F);
 
-        this.bindTexture("aether:stationapi/textures/item/LightningKnife.png");
+        this.bindTexture("aether:textures/item/LightningKnife.png");
         Tessellator tessellator = Tessellator.INSTANCE;
         float f4 = 1.0F;
         GL11.glEnable(32826);

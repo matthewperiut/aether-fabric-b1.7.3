@@ -33,7 +33,7 @@ public class EntityAechorPlant extends EntityAetherAnimal implements RetroMobSpa
 
     public EntityAechorPlant(World world1) {
         super(world1);
-        this.texture = "aether:stationapi/textures/mobs/aechorplant.png";
+        this.texture = "aether:textures/mobs/aechorplant.png";
         this.size = this.random.nextInt(4) + 1;
         this.health = 10 + this.size * 2;
         this.sinage = this.random.nextFloat() * 6.0F;
