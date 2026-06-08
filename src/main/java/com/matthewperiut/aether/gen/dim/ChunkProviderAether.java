@@ -239,7 +239,7 @@ public class ChunkProviderAether implements ChunkSource {
             }
         }
 
-        Chunk chunk = new Chunk(this.world, vanillaBlocks, chunkX, chunkZ);
+        Chunk chunk = com.periut.retroapi.world.RetroWorldGen.createChunk(this.world, vanillaBlocks, chunkX, chunkZ);
 
         // Extended (>255) ids go through the generation-safe path: Chunk.setBlock would fire
         // Block.onPlaced mid-generation and recursively re-generate this chunk.
