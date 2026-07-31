@@ -5,7 +5,7 @@ import com.matthewperiut.aether.entity.living.EntitySheepuff;
 import com.matthewperiut.aether.entity.living.EntitySwet;
 import com.matthewperiut.aether.entity.living.EntityValkyrie;
 import com.matthewperiut.aether.util.MoaColor;
-import com.matthewperiut.retrocommands.api.SummonRegistry;
+import com.periut.retrocommands.api.SummonRegistry;
 
 public class AetherSummonEntities {
     public static void register() {

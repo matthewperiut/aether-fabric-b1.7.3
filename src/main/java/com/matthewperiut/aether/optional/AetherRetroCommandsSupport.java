@@ -1,13 +1,12 @@
 package com.matthewperiut.aether.optional;
 
 import com.matthewperiut.aether.entity.living.EntityFireMonster;
-import com.matthewperiut.retrocommands.api.Command;
-import com.matthewperiut.retrocommands.util.RetroChatUtil;
-import com.matthewperiut.retrocommands.util.SharedCommandSource;
-import net.minecraft.entity.Entity;
+import com.periut.retrocommands.api.Command;
+import com.periut.retrocommands.util.RetroChatUtil;
+import com.periut.retrocommands.util.SharedCommandSource;
 import net.minecraft.entity.player.PlayerEntity;
 
-public class AetherSPCSupport {
+public class AetherRetroCommandsSupport {
     public static void init() {
         AetherSummonEntities.register();
 
