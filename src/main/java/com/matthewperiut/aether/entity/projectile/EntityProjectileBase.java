@@ -122,7 +122,6 @@ public abstract class EntityProjectileBase extends ArrowEntity {
     }
 
     public void tick() {
-        super.tick();
         if (this.prevPitch == 0.0F && this.prevYaw == 0.0F) {
             float f = MathHelper.sqrt(this.velocityX * this.velocityX + this.velocityZ * this.velocityZ);
             this.prevYaw = this.yaw = (float) (Math.atan2(this.velocityX, this.velocityZ) * 180.0 / 3.1415927410125732);
