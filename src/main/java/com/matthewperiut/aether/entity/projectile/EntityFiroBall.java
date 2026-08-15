@@ -153,17 +153,14 @@ public class EntityFiroBall extends FlyingEntity {
     }
 
     public void updateAnims() {
-        if (!this.frosty) {
-            for (int i = 0; i < 3; ++i) {
-                float[] var10000 = this.sinage;
-                var10000[i] += 0.3F + (float) i * 0.13F;
-                if (this.sinage[i] > 6.283186F) {
-                    var10000 = this.sinage;
-                    var10000[i] -= 6.283186F;
-                }
+        for (int i = 0; i < 3; ++i) {
+            float[] var10000 = this.sinage;
+            var10000[i] += 0.3F + (float) i * 0.13F;
+            if (this.sinage[i] > 6.283186F) {
+                var10000 = this.sinage;
+                var10000[i] -= 6.283186F;
             }
         }
-
     }
 
     public void tickLiving() {
@@ -232,7 +229,7 @@ public class EntityFiroBall extends FlyingEntity {
         boolean flag = false;
         if (entity != null && entity instanceof LivingEntity && !(entity instanceof EntityFiroBall)) {
             if (this.frosty && (!(entity instanceof EntityFireMonster) || this.smacked && !this.fromCloud) && !(entity instanceof EntityFireMinion)) {
-                flag = entity.damage(this, 20);
+                flag = entity.damage(this, 5);
             } else if (!this.frosty && !(entity instanceof EntityFireMonster) && !(entity instanceof EntityFireMinion)) {
                 flag = entity.damage(this, 20);
                 if (flag) {

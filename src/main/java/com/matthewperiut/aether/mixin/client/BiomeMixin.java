@@ -1,4 +1,4 @@
-package com.matthewperiut.aether.mixin;
+package com.matthewperiut.aether.mixin.client;
 
 import com.matthewperiut.aether.gen.biome.AetherBiomes;
 import net.minecraft.world.biome.Biome;

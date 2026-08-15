@@ -328,7 +328,7 @@ public class GuiLore extends HandledScreen {
         GuiLore.lores.add(new Lore(new ItemStack(AetherItems.LoreBook, 1, 2), "Lore Book : Vol 3", "Contains information", "about blocks and", "items from the", "Aether", "", "", 2));
     }
 
-    private final int type;
+    public int type;
 
     public GuiLore(PlayerInventory inv, int i) {
         super(new ContainerLore(inv));
@@ -439,7 +439,7 @@ public class GuiLore extends HandledScreen {
         }
     }
 
-    static class Lore {
+    public static class Lore {
         public ItemStack stack;
         public String name;
         public String line1;

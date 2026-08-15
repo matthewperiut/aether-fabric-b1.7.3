@@ -20,8 +20,8 @@
   "server": [
   ],
   "client": [
-    "BiomeMixin",
-    "ClientPlayHandlerMixin",
+    "client.BiomeMixin",
+    "client.ClientPlayHandlerMixin",
     "client.ClientPlayerMountMixin",
     "client.InGameHudMixinJumps",
     "client.InGameHudPoison",

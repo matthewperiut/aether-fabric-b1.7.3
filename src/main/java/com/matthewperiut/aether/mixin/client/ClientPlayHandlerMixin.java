@@ -1,4 +1,4 @@
-package com.matthewperiut.aether.mixin;
+package com.matthewperiut.aether.mixin.client;
 
 import com.matthewperiut.aether.achievement.AetherAchievements;
 import net.minecraft.achievement.Achievement;

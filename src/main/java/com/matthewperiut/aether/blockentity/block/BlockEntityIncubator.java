@@ -15,7 +15,7 @@ import net.minecraft.nbt.NbtList;
 public class BlockEntityIncubator extends BlockEntity implements Inventory {
     public int torchPower;
     public int progress = 0;
-    private ItemStack[] IncubatorItemStacks = new ItemStack[2];
+    public ItemStack[] IncubatorItemStacks = new ItemStack[2];
 
     public BlockEntityIncubator() {
     }
