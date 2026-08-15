@@ -188,7 +188,7 @@ public class TreasureChest extends TemplateChestBlock {
     }
 
     private ItemStack getBronzeLoot(final Random random) {
-        final int item = random.nextInt(7);
+        final int item = random.nextInt(8);
         switch (item) {
             case 0: {
                 return new ItemStack(AetherItems.GummieSwet, random.nextInt(8), random.nextInt(2));
@@ -210,6 +210,9 @@ public class TreasureChest extends TemplateChestBlock {
             }
             case 6: {
                 return new ItemStack(AetherItems.AgilityCape);
+            }
+            case 7: {
+                return new ItemStack(AetherItems.CloudStaff);
             }
             default: {
                 return new ItemStack(AetherItems.Stick);
