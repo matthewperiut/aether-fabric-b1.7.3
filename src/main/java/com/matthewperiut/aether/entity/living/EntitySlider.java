@@ -70,7 +70,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
         this.dataTracker.set(TRACKED_TEXTURE_STATE, state);
     }
 
-    private byte getTextureState() {
+    public byte getTextureState() {
         return this.dataTracker.getByte(TRACKED_TEXTURE_STATE);
     }
 
@@ -153,6 +153,11 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
     public void tick() {
         super.tick();
         this.bodyYaw = this.pitch = this.yaw = 0.0F;
+
+        // Sync texture from DataTracker on BOTH sides: in singleplayer isRemote is false,
+        // so a client-only call would leave the texture stuck on sliderSleep forever.
+        // (At the top because the server branch below has early returns.)
+        updateTextureFromState();
 
         if (!this.world.isRemote) {
             // Server-side AI
@@ -336,9 +341,6 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
                     this.gotMovement = true;
                 }
             }
-        } else {
-            // Client-side: sync texture from DataTracker
-            updateTextureFromState();
         }
 
         if (this.harvey > 0.01F) {

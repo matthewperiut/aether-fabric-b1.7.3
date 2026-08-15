@@ -24,12 +24,11 @@ public class RenderSlider extends LivingEntityRenderer {
         if (i != 0) {
             return false;
         } else {
-            if (slider.awake) {
-                if (slider.criticalCondition()) {
-                    this.bindTexture("aether:stationapi/textures/mobs/sliderAwakeGlow_red.png");
-                } else {
-                    this.bindTexture("aether:stationapi/textures/mobs/sliderAwakeGlow.png");
-                }
+            byte state = slider.getTextureState();
+            if (state == 2) {
+                this.bindTexture("aether:stationapi/textures/mobs/sliderAwakeGlow_red.png");
+            } else if (state == 1) {
+                this.bindTexture("aether:stationapi/textures/mobs/sliderAwakeGlow.png");
             } else {
                 this.bindTexture("aether:stationapi/textures/mobs/sliderSleepGlow.png");
             }
