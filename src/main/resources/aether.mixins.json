@@ -14,7 +14,8 @@
     "access.LivingEntityAccessor",
     "access.PlayerEntityAccessor",
     "FlintAndSteelMixin",
-    "MountRidingMixin"
+    "MountRidingMixin",
+    "UpdateLightMixin"
   ],
   "server": [
   ],

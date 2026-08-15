@@ -13,6 +13,7 @@ import net.modificationstation.stationapi.api.client.world.dimension.TravelMessa
 import net.modificationstation.stationapi.api.util.Identifier;
 
 import static com.matthewperiut.aether.gen.dim.AetherDimensions.MOD_ID;
+import static net.modificationstation.stationapi.api.util.math.MathHelper.lerp;
 
 @EnvironmentInterface(value = EnvType.CLIENT, itf = TravelMessageProvider.class)
 public class AetherDimension extends Dimension implements TravelMessageProvider {
@@ -132,5 +133,13 @@ public class AetherDimension extends Dimension implements TravelMessageProvider 
     @Override
     public String getLeavingTranslationKey() {
         return LEAVING_MESSAGE;
+    }
+
+    @Override
+    protected void initBrightnessTable() {
+        for (byte i = 0; i < 16; i++) {
+            float delta = i / 15F;
+            this.lightLevelToLuminance[i] = lerp(delta, 0.3F, 1.0F);
+        }
     }
 }
