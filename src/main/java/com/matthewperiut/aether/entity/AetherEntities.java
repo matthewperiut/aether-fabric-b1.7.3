@@ -27,39 +27,39 @@ public class AetherEntities {
 
     @EventListener
     public void registerEntities(EntityRegisterEvent event) {
-        event.register(id("AechorPlant"), EntityAechorPlant.class);
-        event.register(id("Aerbunny"), EntityAerbunny.class);
-        event.register(id("Aerwhale"), EntityAerwhale.class);
-        event.register(id("Cockatrice"), EntityCockatrice.class);
-        event.register(id("FlyingCow"), EntityFlyingCow.class);
-        event.register(id("Mimic"), EntityMimic.class);
-        event.register(id("Minicloud"), EntityMiniCloud.class);
-        event.register(id("Moa"), EntityMoa.class);
-        event.register(id("Slider"), EntitySlider.class);
-        event.register(id("Phyg"), EntityPhyg.class);
-        event.register(id("Sheepuff"), EntitySheepuff.class);
-        event.register(id("Swet"), EntitySwet.class);
-        event.register(id("Valkyrie"), EntityValkyrie.class);
-        event.register(id("Sentry"), EntitySentry.class);
-        event.register(id("Whirlwind"), EntityWhirly.class);
-        event.register(id("Zephyr"), EntityZephyr.class);
+        event.register(MOD_ID.id("AechorPlant"), EntityAechorPlant.class);
+        event.register(MOD_ID.id("Aerbunny"), EntityAerbunny.class);
+        event.register(MOD_ID.id("Aerwhale"), EntityAerwhale.class);
+        event.register(MOD_ID.id("Cockatrice"), EntityCockatrice.class);
+        event.register(MOD_ID.id("FlyingCow"), EntityFlyingCow.class);
+        event.register(MOD_ID.id("Mimic"), EntityMimic.class);
+        event.register(MOD_ID.id("Minicloud"), EntityMiniCloud.class);
+        event.register(MOD_ID.id("Moa"), EntityMoa.class);
+        event.register(MOD_ID.id("Slider"), EntitySlider.class);
+        event.register(MOD_ID.id("Phyg"), EntityPhyg.class);
+        event.register(MOD_ID.id("Sheepuff"), EntitySheepuff.class);
+        event.register(MOD_ID.id("Swet"), EntitySwet.class);
+        event.register(MOD_ID.id("Valkyrie"), EntityValkyrie.class);
+        event.register(MOD_ID.id("Sentry"), EntitySentry.class);
+        event.register(MOD_ID.id("Whirlwind"), EntityWhirly.class);
+        event.register(MOD_ID.id("Zephyr"), EntityZephyr.class);
 
-        event.register(id("FireMonster"), EntityFireMonster.class);
-        event.register(id("FireMinion"), EntityFireMinion.class);
+        event.register(MOD_ID.id("FireMonster"), EntityFireMonster.class);
+        event.register(MOD_ID.id("FireMinion"), EntityFireMinion.class);
 
-        event.register(id("AetherLightning"), EntityAetherLightning.class);
-        event.register(id("FlamingArrow"), EntityFlamingArrow.class);
-        event.register(id("ZephyrSnowball"), EntityZephyrSnowball.class);
-        event.register(id("PoisonNeedle"), EntityPoisonNeedle.class);
-        event.register(id("PoisonDart"), EntityDartPoison.class);
-        event.register(id("GoldenDart"), EntityDartGolden.class);
-        event.register(id("EnchantedDart"), EntityDartEnchanted.class);
-        event.register(id("CloudParachute"), EntityCloudParachute.class);
-        event.register(id("FloatingBlock"), EntityFloatingBlock.class);
-        event.register(id("FiroBall"), EntityFiroBall.class);
-        event.register(id("HomeShot"), EntityHomeShot.class);
-        event.register(id("LightningKnife"), EntityLightningKnife.class);
-        event.register(id("NotchWave"), EntityNotchWave.class);
+        event.register(MOD_ID.id("AetherLightning"), EntityAetherLightning.class);
+        event.register(MOD_ID.id("FlamingArrow"), EntityFlamingArrow.class);
+        event.register(MOD_ID.id("ZephyrSnowball"), EntityZephyrSnowball.class);
+        event.register(MOD_ID.id("PoisonNeedle"), EntityPoisonNeedle.class);
+        event.register(MOD_ID.id("PoisonDart"), EntityDartPoison.class);
+        event.register(MOD_ID.id("GoldenDart"), EntityDartGolden.class);
+        event.register(MOD_ID.id("EnchantedDart"), EntityDartEnchanted.class);
+        event.register(MOD_ID.id("CloudParachute"), EntityCloudParachute.class);
+        event.register(MOD_ID.id("FloatingBlock"), EntityFloatingBlock.class);
+        event.register(MOD_ID.id("FiroBall"), EntityFiroBall.class);
+        event.register(MOD_ID.id("HomeShot"), EntityHomeShot.class);
+        event.register(MOD_ID.id("LightningKnife"), EntityLightningKnife.class);
+        event.register(MOD_ID.id("NotchWave"), EntityNotchWave.class);
     }
 
     /*

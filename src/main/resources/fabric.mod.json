@@ -29,7 +29,8 @@
     "stationapi:event_bus_client": [
       "com.matthewperiut.aether.client.texture.AetherTextures",
       "com.matthewperiut.aether.client.entity.AetherEntityRenderers",
-      "com.matthewperiut.aether.client.gui.AetherGuis"
+      "com.matthewperiut.aether.client.gui.AetherGuis",
+      "com.matthewperiut.aether.client.AetherKeybinds"
     ],
     "stationapi:event_bus_server": [
     ],
