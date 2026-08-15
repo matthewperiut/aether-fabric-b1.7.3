@@ -380,7 +380,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
 
     protected void dropItems() {
         for (int i = 0; i < 7 + this.random.nextInt(3); ++i) {
-            this.dropItem(AetherBlocks.DungeonStone.id, 1);
+            this.dropItem(AetherBlocks.DungeonStone.asItem().id, 1);
         }
 
         this.dropItem(new ItemStack(AetherItems.Key, 1, 0), 0.0F);
@@ -615,4 +615,7 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
     public Identifier getHandlerIdentifier() {
         return MOD_ID.id("Slider");
     }
+
+    @Override
+    public boolean checkWaterCollisions() { return false; }
 }
