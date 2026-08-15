@@ -24,6 +24,7 @@ import net.modificationstation.stationapi.api.util.Identifier;
 import java.util.List;
 
 import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
+import static com.matthewperiut.aether.util.ChatUtil.chatLine;
 
 public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobSpawnDataProvider {
     private static final int TRACKED_TEXTURE_STATE = 16;
@@ -409,15 +410,6 @@ public class EntitySlider extends FlyingEntity implements BossLivingEntity, MobS
         if (this.chatTime <= 0) {
             chatLine(s);
             this.chatTime = 60;
-        }
-    }
-
-    public void chatLine(String s) {
-        if (!this.world.isRemote) {
-            List<PlayerEntity> playersNearby = world.collectEntitiesByClass(PlayerEntity.class, Box.create(this.x - areaOfEffect, this.y - areaOfEffect, z - areaOfEffect, this.x + areaOfEffect, this.y + areaOfEffect, z + areaOfEffect));
-            for (PlayerEntity player : playersNearby) {
-                ((ServerPlayerEntity) player).sendMessage(s);
-            }
         }
     }
 

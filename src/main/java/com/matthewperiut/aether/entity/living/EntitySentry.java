@@ -171,8 +171,8 @@ public class EntitySentry extends EntityDungeonMob implements MobSpawnDataProvid
     }
 
     protected void tickLiving() {
+        updateTextureFromState();
         if (this.world.isRemote) {
-            updateTextureFromState();
             return;
         }
 

@@ -13,7 +13,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.FlyingEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Box;
@@ -25,6 +24,7 @@ import net.modificationstation.stationapi.api.util.Identifier;
 import java.util.List;
 
 import static com.matthewperiut.aether.entity.AetherEntities.MOD_ID;
+import static com.matthewperiut.aether.util.ChatUtil.chatLine;
 
 public class EntityFireMonster extends FlyingEntity implements BossLivingEntity, MobSpawnDataProvider {
     private static final int TRACKED_TEXTURE_STATE = 16;
@@ -144,9 +144,7 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
             --this.chatCount;
         }
 
-        if (this.world.isRemote) {
-            updateTextureFromState();
-        }
+        updateTextureFromState();
     }
 
     protected Entity findPlayerToAttack() {
@@ -223,7 +221,7 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
                 this.velocityY = 0.0;
                 this.velocityZ = 0.0;
                 this.target = null;
-                this.chatLine("§cSuch is the fate of a being who opposes the might of the sun.");
+                chatLine("§cSuch is the fate of a being who opposes the might of the sun.");
                 this.setDoor(0);
                 setBoss(false);
                 this.gotTarget = false;
@@ -323,66 +321,57 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
         this.bossName = nbttagcompound.getString("BossName");
     }
 
-    public void chatLine(String s) {
-        if (!this.world.isRemote) {
-            List<PlayerEntity> playersNearby = world.collectEntitiesByClass(PlayerEntity.class, Box.create(this.x - areaOfEffect, this.y - areaOfEffect, z - areaOfEffect, this.x + areaOfEffect, this.y + areaOfEffect, z + areaOfEffect));
-            for (PlayerEntity player : playersNearby) {
-                ((ServerPlayerEntity) player).sendMessage(s);
-            }
-        }
-    }
-
     public boolean chatWithMe() {
         if (this.chatCount <= 0) {
             if (this.chatLog == 0) {
-                this.chatLine("§cYou are certainly a brave soul to have entered this chamber.");
+                chatLine("§cYou are certainly a brave soul to have entered this chamber.");
                 this.chatLog = 1;
                 this.chatCount = 100;
             } else if (this.chatLog == 1) {
-                this.chatLine("§cBegone human, you serve no purpose here.");
+                chatLine("§cBegone human, you serve no purpose here.");
                 this.chatLog = 2;
                 this.chatCount = 100;
             } else if (this.chatLog == 2) {
-                this.chatLine("§cYour presence annoys me. Do you not fear my burning aura?");
+                chatLine("§cYour presence annoys me. Do you not fear my burning aura?");
                 this.chatLog = 3;
                 this.chatCount = 100;
             } else if (this.chatLog == 3) {
-                this.chatLine("§cI have nothing to offer you, fool. Leave me at peace.");
+                chatLine("§cI have nothing to offer you, fool. Leave me at peace.");
                 this.chatLog = 4;
                 this.chatCount = 100;
             } else if (this.chatLog == 4) {
-                this.chatLine("§cPerhaps you are ignorant. Do you wish to know who I am?");
+                chatLine("§cPerhaps you are ignorant. Do you wish to know who I am?");
                 this.chatLog = 5;
                 this.chatCount = 100;
             } else if (this.chatLog == 5) {
-                this.chatLine("§cI am a sun spirit, embodiment of Aether's eternal daylight.");
-                this.chatLine("§cAs long as I am alive, the sun will never set on this world.");
+                chatLine("§cI am a sun spirit, embodiment of Aether's eternal daylight.");
+                chatLine("§cAs long as I am alive, the sun will never set on this world.");
                 this.chatLog = 6;
                 this.chatCount = 100;
             } else if (this.chatLog == 6) {
-                this.chatLine("§cMy body burns with the anger of a thousand beasts.");
-                this.chatLine("§cNo man, hero, or villain can harm me. You are no exception.");
+                chatLine("§cMy body burns with the anger of a thousand beasts.");
+                chatLine("§cNo man, hero, or villain can harm me. You are no exception.");
                 this.chatLog = 7;
                 this.chatCount = 100;
             } else if (this.chatLog == 7) {
-                this.chatLine("§cYou wish to challenge the might of the sun? You are mad.");
-                this.chatLine("§cDo not further insult me or you will feel my wrath.");
+                chatLine("§cYou wish to challenge the might of the sun? You are mad.");
+                chatLine("§cDo not further insult me or you will feel my wrath.");
                 this.chatLog = 8;
                 this.chatCount = 100;
             } else if (this.chatLog == 8) {
-                this.chatLine("§cThis is your final warning. Leave now, or prepare to burn.");
+                chatLine("§cThis is your final warning. Leave now, or prepare to burn.");
                 this.chatLog = 9;
                 this.chatCount = 100;
             } else {
                 if (this.chatLog == 9) {
-                    this.chatLine("§6As you wish, your death will be slow and agonizing.");
+                    chatLine("§6As you wish, your death will be slow and agonizing.");
                     this.chatLog = 10;
                     setBoss(true);
                     return true;
                 }
 
                 if (this.chatLog == 10 && this.target == null) {
-                    this.chatLine("§cDid your previous death not satisfy your curiosity, human?");
+                    chatLine("§cDid your previous death not satisfy your curiosity, human?");
                     this.chatLog = 9;
                     this.chatCount = 100;
                 }
@@ -430,7 +419,7 @@ public class EntityFireMonster extends FlyingEntity implements BossLivingEntity,
 
                 if (this.health <= 0) {
                     setBoss(false);
-                    this.chatLine("§bSuch bitter cold... is this the feeling... of pain?");
+                    chatLine("§bSuch bitter cold... is this the feeling... of pain?");
                     if (!this.world.isRemote) {
                         this.setDoor(0);
                         this.unlockTreasure();
