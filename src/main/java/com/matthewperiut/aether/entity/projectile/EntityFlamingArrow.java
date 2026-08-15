@@ -193,20 +193,7 @@ public class EntityFlamingArrow extends Entity implements EntitySpawnDataProvide
                         x = MathHelper.floor(movingobjectposition.entity.boundingBox.minX);
                         y = MathHelper.floor(movingobjectposition.entity.boundingBox.minY);
                         z = MathHelper.floor(movingobjectposition.entity.boundingBox.minZ);
-                        if (world.dimension instanceof AetherDimension) {
-                            for (i = 0; i < 8; ++i) {
-                                this.world.addParticle(
-                                        "largesmoke",
-                                        this.x + Math.random(),
-                                        this.y + Math.random(),
-                                        this.z + Math.random(),
-                                        0.0D, 0.0D, 0.0D
-                                );
-                            }
-                        }
-                        else {
-                            this.world.setBlock(x, y, z, 51);
-                        }
+                        this.world.setBlock(x, y, z, Block.FIRE.id);
                         this.markDead();
                     } else {
                         this.velocityX *= -0.10000000149011612;
@@ -233,20 +220,7 @@ public class EntityFlamingArrow extends Entity implements EntitySpawnDataProvide
                     y = MathHelper.floor(this.x);
                     z = MathHelper.floor(this.y);
                     i1 = MathHelper.floor(this.z);
-                    if (world.dimension instanceof AetherDimension) {
-                        for (i = 0; i < 8; ++i) {
-                            this.world.addParticle(
-                                    "largesmoke",
-                                    this.x + Math.random(),
-                                    this.y + Math.random(),
-                                    this.z + Math.random(),
-                                    0.0D, 0.0D, 0.0D
-                            );
-                        }
-                    }
-                    else {
-                        this.world.setBlock(y, z, i1, 51);
-                    }
+                    this.world.setBlock(y, z, i1, Block.FIRE.id);
                     this.inGround = true;
                     this.arrowShake = 7;
                 }

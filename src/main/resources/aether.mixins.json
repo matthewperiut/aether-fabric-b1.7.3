@@ -13,7 +13,7 @@
     "access.EntityAccessor",
     "access.LivingEntityAccessor",
     "access.PlayerEntityAccessor",
-    "FlintAndSteelMixin",
+    "FireBlockMixin",
     "MountRidingMixin",
     "UpdateLightMixin"
   ],
