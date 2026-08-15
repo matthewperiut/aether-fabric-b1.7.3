@@ -14,6 +14,7 @@
     "access.LivingEntityAccessor",
     "access.PlayerEntityAccessor",
     "FireBlockMixin",
+    "LavaBlockMixin",
     "MountRidingMixin",
     "UpdateLightMixin"
   ],
