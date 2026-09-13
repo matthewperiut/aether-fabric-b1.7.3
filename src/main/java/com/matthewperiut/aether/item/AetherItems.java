@@ -170,7 +170,7 @@ public class AetherItems {
         ShovelValkyrie = (new ItemValkyrieSpade(Identifier.of(MOD_ID,"valkyrie_shovel"), mat)).setTranslationKey(MOD_ID, "valkyrie_shovel");
 
         PigSlayer = (new ItemPigSlayer(Identifier.of(MOD_ID, "pig_slayer"))).setTranslationKey(MOD_ID, "pig_slayer");
-        VampireBlade = (new ItemVampireBlade(Identifier.of(MOD_ID, "vampire_blade"))).setTranslationKey(MOD_ID, "vampire_blade");
+        VampireBlade = (new ItemVampireBlade(Identifier.of(MOD_ID, "vampire_blade"), mat)).setTranslationKey(MOD_ID, "vampire_blade");
         NatureStaff = (new TemplateItem(Identifier.of(MOD_ID, "nature_staff"))).setMaxCount(1).setTranslationKey(MOD_ID, "nature_staff");
         SwordFire = (new ItemSwordElemental(Identifier.of(MOD_ID, "fire_sword"), EnumElement.Fire, -20609)).setTranslationKey(MOD_ID, "fire_sword");
         SwordHoly = (new ItemSwordElemental(Identifier.of(MOD_ID, "holy_sword"), EnumElement.Holy, -81)).setTranslationKey(MOD_ID, "holy_sword");
