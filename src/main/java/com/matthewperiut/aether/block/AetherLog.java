@@ -51,7 +51,7 @@ public class AetherLog extends TemplateBlock implements MetaNamedBlockItemProvid
 
                 if (heldItem != null && (heldItem.itemId == AetherItems.AxeZanite.id || heldItem.itemId == AetherItems.AxeGravitite.id)) {
                     if (meta > 1) {
-                        ItemStack stack = new ItemStack(AetherItems.GoldenAmber.id, rand.nextInt(4), 0);
+                        ItemStack stack = new ItemStack(AetherItems.GoldenAmber.id, rand.nextInt(1,4), 0);
                         world.spawnEntity(new ItemEntity(world, x, y, z, stack));
                     }
                 }
